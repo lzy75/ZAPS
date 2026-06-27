@@ -1,0 +1,19 @@
+# 深度学习基础框架
+torch>=2.0.0
+torchvision>=0.15.0
+
+# OpenAI guided-diffusion（ADM 模型架构，FFHQ 和 ImageNet 权重所需）
+# 安装命令：pip install git+https://github.com/openai/guided-diffusion
+guided-diffusion @ git+https://github.com/openai/guided-diffusion
+
+# ZAPS 核心算法依赖
+PyWavelets==1.4.1      # 用于实现海森矩阵的离散小波变换(DWT)对角化近似 
+
+# 论文定量评估指标依赖 
+lpips==0.1.4           
+scikit-image           
+
+# 基础辅助库
+numpy
+Pillow
+tqdm                  

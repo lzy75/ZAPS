@@ -1,0 +1,1 @@
+#a batch size of pictures one time run the whole program
