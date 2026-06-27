@@ -49,8 +49,13 @@ class ExperimentLogger:
         try:
             commit = _run(["git", "rev-parse", "--short", "HEAD"])
             branch = _run(["git", "rev-parse", "--abbrev-ref", "HEAD"])
-            dirty  = bool(_run(["git", "status", "--porcelain"]))
-            return {"commit": commit, "branch": branch, "dirty": dirty}
+            # dirty 只反映“代码”是否干净，排除 experiments/ 自身产物，避免历次实验互相污染
+            porcelain = _run(["git", "status", "--porcelain"])
+            code_dirty = any(
+                line and "experiments/" not in line.replace("\\", "/")
+                for line in porcelain.splitlines()
+            )
+            return {"commit": commit, "branch": branch, "dirty": code_dirty}
         except Exception:
             return {"commit": "nogit", "branch": "nogit", "dirty": False}
 
