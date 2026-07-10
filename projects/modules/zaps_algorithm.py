@@ -21,6 +21,8 @@ from modules.wavelet import OrthogonalDWT2D
 # ═══════════════════════════════════════════════════════
 NUM_SAMPLING_STEPS  = 30            # ← 可调：总采样步数，论文值 30
 TIMESTEP_SCHEDULE   = (15, 10, 5)   # ← 可调：低/中/高噪声区间步数分配（论文 "15,10,5"）
+TIMESTEP_SPACING    = "linear"      # ← 可调：linear | quadratic
+SCHEDULE_POWER      = 2.0           # ← 可调：quadratic/power 非线性取点指数
 NUM_EPOCHS          = 10            # ← 可调：零样本优化轮数，论文值 10
 LEARNING_RATE       = 5e-3          # ← 可调：Adam 学习率
 ZETA_INIT           = 0.2           # ← 可调：ζ 初始值（论文：高斯/运动模糊 0.2，inpaint/SR 0.1）
@@ -34,9 +36,31 @@ TOTAL_DIFFUSION_STEPS = 1000        # 扩散模型总步数（与预训练模型
 # 辅助：不规则时间步构建
 # ───────────────────────────────────────────────────────
 
+def _segment_timesteps(start: int, end: int, count: int,
+                       spacing: str, power: float,
+                       include_left: bool, include_right: bool) -> torch.Tensor:
+    """按指定 spacing 在闭区间内取点，再按端点开闭裁剪。"""
+    raw_count = count + int(not include_left) + int(not include_right)
+    u = torch.linspace(0.0, 1.0, raw_count)
+    if spacing == "linear":
+        warped = u
+    elif spacing in ("quadratic", "power"):
+        warped = u.pow(power)
+    else:
+        raise ValueError(f"未知 timestep spacing: {spacing}")
+    vals = (start + (end - start) * warped).long()
+    if not include_left:
+        vals = vals[1:]
+    if not include_right:
+        vals = vals[:-1]
+    return vals
+
+
 def build_irregular_timesteps(
     total_steps: int = TOTAL_DIFFUSION_STEPS,
     schedule: tuple = TIMESTEP_SCHEDULE,
+    spacing: str = TIMESTEP_SPACING,
+    schedule_power: float = SCHEDULE_POWER,
 ) -> torch.Tensor:
     """
     构建不规则时间步子集 τ ⊂ {0,...,T-1}
@@ -45,6 +69,8 @@ def build_irregular_timesteps(
     参数:
         total_steps : 扩散模型总步数（T=1000）
         schedule    : (n_low, n_mid, n_high) 各区间步数，论文值 (15,10,5)
+        spacing     : linear 保持原始线性分段；quadratic/power 用非线性取点
+        schedule_power : 非线性指数，>1 时每段更密集靠近较低噪声边界
     返回:
         tau : [S] 升序整数张量，S = sum(schedule)
     """
@@ -55,9 +81,9 @@ def build_irregular_timesteps(
     boundary_low  = T // 3        # 333
     boundary_mid  = 2 * T // 3   # 666
 
-    t_low  = torch.linspace(0,            boundary_low,  n_low ).long()
-    t_mid  = torch.linspace(boundary_low, boundary_mid,  n_mid + 2)[1:-1].long()  # 不含端点
-    t_high = torch.linspace(boundary_mid, T,             n_high + 1)[1:].long()   # 不含左端点
+    t_low  = _segment_timesteps(0, boundary_low, n_low, spacing, schedule_power, True, True)
+    t_mid  = _segment_timesteps(boundary_low, boundary_mid, n_mid, spacing, schedule_power, False, False)
+    t_high = _segment_timesteps(boundary_mid, T, n_high, spacing, schedule_power, False, True)
 
     tau = torch.cat([t_low, t_mid, t_high])
     tau = tau.unique().sort().values   # 去重 + 排序
@@ -144,6 +170,8 @@ class ZAPS(nn.Module):
         forward_operator:  nn.Module,
         num_steps:   int   = NUM_SAMPLING_STEPS,
         schedule:    tuple = TIMESTEP_SCHEDULE,
+        timestep_spacing: str = TIMESTEP_SPACING,
+        schedule_power: float = SCHEDULE_POWER,
         num_epochs:  int   = NUM_EPOCHS,
         lr:          float = LEARNING_RATE,
         zeta_init:   float = ZETA_INIT,
@@ -159,6 +187,8 @@ class ZAPS(nn.Module):
         self.dm     = diffusion_model       # 扩散模型（权重冻结）
         self.A      = forward_operator.to(self.device)
         self.eta    = eta
+        self.channels = channels
+        self.img_size = img_size
 
         # ── 固定正交 db4 DWT（W），用于 Hessian 对角化近似（论文 Eq.22）──
         self.dwt = OrthogonalDWT2D(wave=wave, level=level).to(self.device)
@@ -167,6 +197,8 @@ class ZAPS(nn.Module):
         self.tau = build_irregular_timesteps(
             total_steps=self.dm.num_steps,
             schedule=schedule,
+            spacing=timestep_spacing,
+            schedule_power=schedule_power,
         ).to(self.device)                   # [S] 升序
         S = len(self.tau)
 
@@ -185,19 +217,27 @@ class ZAPS(nn.Module):
 
     def _reverse_diffusion(self, y: torch.Tensor,
                            nfe_counter: list = None,
-                           eta_override: float = None) -> torch.Tensor:
+                           eta_override: float = None,
+                           init_noise: torch.Tensor = None) -> torch.Tensor:
         """
         执行一次完整反向扩散，返回 x_0 估计
         ε_θ 在 no_grad 下调用（冻结），x 保持计算图以供反传
 
         参数:
-            y           : [B, C, H, W] 观测图像
+            y           : [B, C, H, W] 观测图像；超分任务中 H/W 可小于图像空间
             nfe_counter : 可选，传入 [0] 列表，函数会累加本次调用的 NFE 次数
+            init_noise  : 可选固定初始噪声，用于优化阶段保持 unroll 轨迹可复现
         返回:
             x : [B, C, H, W] 最终重建图像（仍在计算图中）
         """
-        B, C, Hh, W = y.shape
-        x = torch.randn(B, C, Hh, W, device=self.device)
+        B = y.shape[0]
+        sample_shape = (B, self.channels, self.img_size, self.img_size)
+        if init_noise is None:
+            x = torch.randn(sample_shape, device=self.device)
+        else:
+            x = init_noise.to(self.device)
+            if tuple(x.shape) != sample_shape:
+                raise ValueError(f"init_noise 形状应为 {sample_shape}，实际为 {tuple(x.shape)}")
 
         tau = self.tau
         S   = len(tau)
@@ -266,12 +306,20 @@ class ZAPS(nn.Module):
         nfe_counter  = [0]
         loss_history = []
         t_start      = time.time()
+        fixed_noise  = torch.randn(
+            y.shape[0], self.channels, self.img_size, self.img_size,
+            device=self.device,
+        )
+        self._last_opt_x0 = None
+        self._last_opt_noise = fixed_noise.detach()
 
         for epoch in range(self.num_epochs):
             optimizer.zero_grad()
 
             # 优化阶段用确定性轨迹（eta=0），消除随机噪声对梯度的干扰
-            x0_est = self._reverse_diffusion(y, nfe_counter=nfe_counter, eta_override=0.0)
+            x0_est = self._reverse_diffusion(
+                y, nfe_counter=nfe_counter, eta_override=0.0, init_noise=fixed_noise
+            )
 
             # 物理引导损失
             loss = F.mse_loss(self.A.H(x0_est), y)
@@ -284,6 +332,7 @@ class ZAPS(nn.Module):
             with torch.no_grad():
                 self.zeta.data.clamp_(min=1e-6)
 
+            self._last_opt_x0 = x0_est.detach()
             loss_val = loss.item()
             loss_history.append(loss_val)
             elapsed  = time.time() - t_start
@@ -313,18 +362,24 @@ class ZAPS(nn.Module):
     # ── 推断采样（优化后调用）──────────────────────────────
 
     @torch.no_grad()
-    def sample(self, y: torch.Tensor) -> tuple:
+    def sample(self, y: torch.Tensor, eta_override: float = None,
+               init_noise: torch.Tensor = None) -> tuple:
         """
         用已优化的 ζ、d 执行一次无梯度最终采样，统计 NFE 和耗时
 
         参数:
             y : [B, C, H, W] 观测图像
+            eta_override : 可选最终采样 eta；None 时使用 self.eta
+            init_noise   : 可选初始噪声；用于复用优化轨迹噪声做对照
         返回:
             (x0_est, nfe, elapsed_sec)
         """
         nfe_counter = [0]
         t0 = time.time()
-        x0 = self._reverse_diffusion(y.to(self.device), nfe_counter=nfe_counter)
+        x0 = self._reverse_diffusion(
+            y.to(self.device), nfe_counter=nfe_counter,
+            eta_override=eta_override, init_noise=init_noise,
+        )
         return x0, nfe_counter[0], time.time() - t0
 
     # ── 主接口：optimize → sample ──────────────────────────
@@ -348,7 +403,21 @@ class ZAPS(nn.Module):
               time_total_s  - 全程耗时（秒）
         """
         loss_hist = self.optimize(y, verbose=verbose, x0_gt=kwargs.get("x0_gt"))
-        x0_final, nfe_s, t_s = self.sample(y)
+        final_mode = kwargs.get("final_mode", "sample")
+        sample_eta = kwargs.get("sample_eta", None)
+        sample_init = kwargs.get("sample_init", "random")
+
+        if final_mode == "last_opt":
+            if self._last_opt_x0 is None:
+                raise RuntimeError("last_opt 输出不可用，请先执行 optimize")
+            x0_final, nfe_s, t_s = self._last_opt_x0, 0, 0.0
+        elif final_mode == "sample":
+            init_noise = self._last_opt_noise if sample_init == "opt_noise" else None
+            x0_final, nfe_s, t_s = self.sample(
+                y, eta_override=sample_eta, init_noise=init_noise,
+            )
+        else:
+            raise ValueError(f"未知 final_mode: {final_mode}，可选 'sample' 或 'last_opt'")
 
         return dict(
             x0_final      = x0_final,

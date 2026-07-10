@@ -66,6 +66,11 @@ def run_zaps_single(
     device:     str = None,
     save_dir:   str = RESULTS_DIR,
     verbose:    bool = True,
+    final_mode: str = "sample",
+    sample_eta: float = None,
+    sample_init: str = "random",
+    timestep_spacing: str = None,
+    schedule_power: float = None,
 ) -> dict:
     """
     单张图像 ZAPS 完整流程
@@ -77,6 +82,11 @@ def run_zaps_single(
         device     : 运行设备；None 自动选择
         save_dir   : 结果保存目录
         verbose    : 是否打印过程信息
+        final_mode : 最终输出策略，sample 或 last_opt
+        sample_eta : 最终采样 eta，None 表示使用配置 eta
+        sample_init: random 或 opt_noise，用于最终采样初始噪声对照
+        timestep_spacing : 时间步取点方式，None 时使用配置值
+        schedule_power   : 非线性取点指数，None 时使用配置值
     返回:
         dict: {"psnr", "ssim", "lpips", "x0_gt", "y_obs", "x0_recon"}
     """
@@ -107,13 +117,20 @@ def run_zaps_single(
     print("[5/5] 执行 ZAPS 重建...")
     zaps_cfg = {**ZAPS_CONFIG,
                 "zeta_init": ZETA_INIT_BY_TASK.get(task, ZAPS_CONFIG["zeta_init"])}
+    if timestep_spacing is not None:
+        zaps_cfg["timestep_spacing"] = timestep_spacing
+    if schedule_power is not None:
+        zaps_cfg["schedule_power"] = schedule_power
     zaps = ZAPS(
         diffusion_model=diffusion_model,
         forward_operator=operator,
         img_size=IMG_SIZE[0],
         **zaps_cfg,
     )
-    result = zaps.run(y_obs, verbose=verbose, x0_gt=x0_gt)
+    result = zaps.run(
+        y_obs, verbose=verbose, x0_gt=x0_gt,
+        final_mode=final_mode, sample_eta=sample_eta, sample_init=sample_init,
+    )
     x0_recon  = result["x0_final"]
     loss_hist = result["loss_history"]
 
@@ -144,9 +161,14 @@ def run_zaps_single(
     # ── 归档实验（CSV 索引 + 独立目录：图像 + run.json + conclusion.md）──
     log_config = {
         "num_steps": zaps_cfg["num_steps"], "schedule": zaps_cfg["schedule"],
+        "timestep_spacing": zaps_cfg.get("timestep_spacing"),
+        "schedule_power": zaps_cfg.get("schedule_power"),
         "num_epochs": zaps_cfg["num_epochs"], "lr": zaps_cfg["lr"],
         "zeta_init": zaps_cfg["zeta_init"], "d_init": zaps_cfg["d_init"],
         "wave": zaps_cfg["wave"], "level": zaps_cfg["level"], "eta": zaps_cfg["eta"],
+        "final_mode": final_mode,
+        "sample_eta": zaps_cfg["eta"] if sample_eta is None else sample_eta,
+        "sample_init": sample_init,
         "noise_sigma": task_cfg.get("noise_sigma"),
     }
     exp_id = ExperimentLogger(EXPERIMENTS_DIR).log(
@@ -196,6 +218,19 @@ if __name__ == "__main__":
                         help="结果保存目录")
     parser.add_argument("--quiet",   action="store_true",
                         help="不打印优化过程")
+    parser.add_argument("--final_mode", type=str, default="sample",
+                        choices=["sample", "last_opt"],
+                        help="最终输出策略：sample 为默认采样，last_opt 为最后一轮优化轨迹")
+    parser.add_argument("--sample_eta", type=float, default=None,
+                        help="最终采样 eta；默认使用配置 eta")
+    parser.add_argument("--sample_init", type=str, default="random",
+                        choices=["random", "opt_noise"],
+                        help="最终采样初始噪声：random 或复用优化噪声 opt_noise")
+    parser.add_argument("--timestep_spacing", type=str, default=None,
+                        choices=["linear", "quadratic", "power"],
+                        help="时间步取点方式；默认使用配置值")
+    parser.add_argument("--schedule_power", type=float, default=None,
+                        help="非线性时间步取点指数；默认使用配置值")
     args = parser.parse_args()
 
     run_zaps_single(
@@ -205,4 +240,9 @@ if __name__ == "__main__":
         device=args.device,
         save_dir=args.save_dir,
         verbose=not args.quiet,
+        final_mode=args.final_mode,
+        sample_eta=args.sample_eta,
+        sample_init=args.sample_init,
+        timestep_spacing=args.timestep_spacing,
+        schedule_power=args.schedule_power,
     )

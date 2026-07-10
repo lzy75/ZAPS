@@ -29,7 +29,9 @@ INPAINT_BOX_SIZE     = 128      # ← 可调：方形掩码边长（像素），
 
 # 运动模糊
 MOTION_KERNEL_SIZE   = 61       # ← 可调：运动核尺寸（奇数）
-MOTION_ANGLE_DEG     = 0.0      # ← 可调：运动方向角度（度），0 = 水平
+MOTION_INTENSITY     = 0.5      # ← 可调：论文/DPS 使用 motionblur intensity=0.5
+MOTION_SEED          = 0        # ← 可调：固定核，保证复现实验可比
+MOTION_ANGLE_DEG     = None     # ← 可调：设为角度时退回线性核；None 使用随机方向核
 
 # 超分辨率
 SR_SCALE_FACTOR      = 4        # ← 可调：下采样倍率，论文通常为 4
@@ -200,30 +202,45 @@ class InpaintingOperator(nn.Module):
 # 3. 运动模糊
 # ───────────────────────────────────────────────────────
 
-def _motion_kernel_2d(kernel_size: int, angle_deg: float) -> torch.Tensor:
+def _motion_kernel_2d(
+    kernel_size: int,
+    intensity: float = MOTION_INTENSITY,
+    seed: int = MOTION_SEED,
+    angle_deg: float = MOTION_ANGLE_DEG,
+) -> torch.Tensor:
     """
-    生成归一化线性运动模糊核 [1, 1, K, K]
-
-    参数:
-        kernel_size : 核尺寸（奇数）
-        angle_deg   : 运动方向角度（度），0=水平，90=垂直，45=对角
+    生成归一化运动模糊核 [1, 1, K, K]。
+    默认使用固定随机方向核，对齐论文/DPS 的 motionblur intensity 设置；
+    若显式传入 angle_deg，则使用可控线性核便于消融。
     """
     kernel = np.zeros((kernel_size, kernel_size), dtype=np.float32)
-    center = kernel_size // 2
-    angle_rad = np.deg2rad(angle_deg)
-    cos_a, sin_a = np.cos(angle_rad), np.sin(angle_rad)
+    center = (kernel_size - 1) / 2.0
+    intensity = float(np.clip(intensity, 1e-3, 1.0))
 
-    for i in range(-(center), center + 1):
+    if angle_deg is None:
+        rng = np.random.default_rng(seed)
+        angle_rad = rng.uniform(0.0, np.pi)
+    else:
+        angle_rad = np.deg2rad(angle_deg)
+
+    length = max(3, int(round(kernel_size * intensity)))
+    if length % 2 == 0:
+        length += 1
+
+    cos_a, sin_a = np.cos(angle_rad), np.sin(angle_rad)
+    half = (length - 1) / 2.0
+    for i in np.linspace(-half, half, length):
         x = int(round(center + i * cos_a))
         y = int(round(center + i * sin_a))
         if 0 <= x < kernel_size and 0 <= y < kernel_size:
             kernel[y, x] = 1.0
 
-    total = kernel.sum()
-    if total > 0:
-        kernel /= total
-
-    return torch.from_numpy(kernel).view(1, 1, kernel_size, kernel_size)
+    # 轻微扩散离散线条，避免极稀疏核造成方向栅格化过强。
+    kernel_t = torch.from_numpy(kernel).view(1, 1, kernel_size, kernel_size)
+    if angle_deg is None:
+        kernel_t = F.avg_pool2d(kernel_t, kernel_size=3, stride=1, padding=1)
+    kernel_t = kernel_t / kernel_t.sum().clamp(min=1e-8)
+    return kernel_t
 
 
 class MotionBlurOperator(nn.Module):
@@ -231,22 +248,28 @@ class MotionBlurOperator(nn.Module):
     线性运动模糊  H(x) = x * k_motion
 
     可调参数:
-        kernel_size (int)  : 运动核尺寸（奇数），默认 61
-        angle_deg   (float): 运动方向角度（度），0=水平，90=垂直  ← 可调
+        kernel_size (int)  : 运动核尺寸（奇数），论文/DPS 值 61
+        intensity   (float): 运动强度，论文/DPS 值 0.5
+        seed        (int)  : 固定核随机种子，保证同一批实验可复现
+        angle_deg   (float): 可选线性核角度；None 时使用随机方向核
         noise_sigma (float): 叠加观测噪声标准差，论文值 0.05
     """
     def __init__(
         self,
         kernel_size: int   = MOTION_KERNEL_SIZE,
+        intensity:   float = MOTION_INTENSITY,
+        seed:        int   = MOTION_SEED,
         angle_deg:   float = MOTION_ANGLE_DEG,
         noise_sigma: float = NOISE_SIGMA,
     ):
         super().__init__()
         self.kernel_size = kernel_size  # ← 可调
+        self.intensity   = intensity    # ← 可调
+        self.seed        = seed         # ← 可调
         self.angle_deg   = angle_deg    # ← 可调
         self.noise       = GaussianNoise(noise_sigma)
 
-        kernel = _motion_kernel_2d(kernel_size, angle_deg)
+        kernel = _motion_kernel_2d(kernel_size, intensity=intensity, seed=seed, angle_deg=angle_deg)
         self.register_buffer("kernel", kernel)
 
     def H(self, x: torch.Tensor) -> torch.Tensor:

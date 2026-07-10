@@ -31,6 +31,8 @@ IMG_SIZE = (256, 256)   # ← 可调：输入图像尺寸
 ZAPS_CONFIG = dict(
     num_steps    = 30,          # ← 可调：总采样步数，论文值 30
     schedule     = (15, 10, 5), # ← 可调：低/中/高噪声区步数，论文 "15,10,5"
+    timestep_spacing = "linear", # ← 可调：linear | quadratic
+    schedule_power   = 2.0,      # ← 可调：非线性取点指数
     num_epochs   = 10,          # ← 可调：零样本优化轮数，论文值 10
     lr           = 1e-3,        # ← 可调：Adam 学习率（论文用 Adam 默认 1e-3）
     zeta_init    = 0.2,         # ← 可调：ζ 初始值（缺省 0.2，按任务见下表覆盖）
@@ -65,8 +67,10 @@ TASK_CONFIGS = {
         noise_sigma  = 0.05,
     ),
     "motion_deblur": dict(
-        kernel_size  = 61,      # ← 可调
-        angle_deg    = 0.0,     # ← 可调：运动方向（度）
+        kernel_size  = 61,      # ← 可调：论文/DPS 值 61
+        intensity    = 0.5,     # ← 可调：论文/DPS motionblur intensity
+        seed         = 0,       # ← 可调：固定 motion kernel，便于复现
+        angle_deg    = None,    # ← 可调：None 使用随机方向核；设角度时为线性核
         noise_sigma  = 0.05,
     ),
     "super_resolution": dict(
