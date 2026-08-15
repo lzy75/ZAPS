@@ -249,7 +249,9 @@ class ZAPS(nn.Module):
 
         if record_indicators:
             self._indicator_log = []
-            prev_delta = None
+            prev_delta = None          # 含噪 x 的上一步增量(原始形式)
+            prev_x0 = None             # 上一步 x̂_0(用于算 Δx̂_0)
+            prev_delta_x0 = None       # 上一步 Δx̂_0(用于算相邻余弦)
 
         for i in range(S - 1, -1, -1):
             t_curr = tau[i].item()
@@ -291,20 +293,36 @@ class ZAPS(nn.Module):
             if record_indicators:
                 # 外在物理一致性：残差范数 ‖y − H(x̂_0)‖
                 resid_norm = residual.detach().flatten().norm().item()
-                # 内在轨迹稳定性：相邻更新方向 Δx 的余弦相似度
+
+                # 内在稳定性(原始形式)：含噪迭代 x 的相邻更新方向余弦
                 delta = (x - x_before).detach()
                 if prev_delta is None:
-                    cos_sim = float("nan")   # 首步无上一步方向
+                    cos_sim = float("nan")
                 else:
                     cos_sim = F.cosine_similarity(
                         delta.flatten(), prev_delta.flatten(), dim=0
                     ).item()
                 prev_delta = delta
+
+                # 内在稳定性(x̂_0 稳定版)：干净估计轨迹 Δx̂_0 的相邻余弦
+                # 无注入噪声,反映重建"逐步成形"的平滑度(实验003 机制修正)
+                x0_now = x0_pred.detach()
+                cos_sim_x0 = float("nan")
+                if prev_x0 is not None:
+                    delta_x0 = x0_now - prev_x0
+                    if prev_delta_x0 is not None:
+                        cos_sim_x0 = F.cosine_similarity(
+                            delta_x0.flatten(), prev_delta_x0.flatten(), dim=0
+                        ).item()
+                    prev_delta_x0 = delta_x0
+                prev_x0 = x0_now
+
                 self._indicator_log.append({
                     "step": int(S - 1 - i),          # 采样进度序号（0 起）
                     "t": int(t_curr),                # 对应扩散时间步
                     "residual_norm": resid_norm,
-                    "cosine_sim": cos_sim,
+                    "cosine_sim": cos_sim,           # 原始:含噪 x 轨迹
+                    "cosine_sim_x0": cos_sim_x0,     # 新:x̂_0 稳定版轨迹
                 })
 
         return x

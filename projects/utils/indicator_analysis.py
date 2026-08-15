@@ -36,14 +36,17 @@ def _load_runs(root: str) -> list:
 
 def _aggregate(indicators: list) -> dict:
     """把一条采样轨迹的逐步指标聚合成标量特征。"""
-    cos = [s["cosine_sim"] for s in indicators
-           if s.get("cosine_sim") is not None and not math.isnan(s["cosine_sim"])]
+    _ok = lambda v: v is not None and not math.isnan(v)
+    cos = [s["cosine_sim"] for s in indicators if _ok(s.get("cosine_sim"))]
+    cx0 = [s["cosine_sim_x0"] for s in indicators if _ok(s.get("cosine_sim_x0"))]
     res = [s["residual_norm"] for s in indicators
            if s.get("residual_norm") is not None]
     mean = lambda v: sum(v) / len(v) if v else float("nan")
     return {
         "cos_mean": mean(cos),
         "cos_last": cos[-1] if cos else float("nan"),
+        "cosx0_mean": mean(cx0),
+        "cosx0_last": cx0[-1] if cx0 else float("nan"),
         "res_mean": mean(res),
         "res_last": res[-1] if res else float("nan"),
     }
@@ -95,7 +98,7 @@ def main(root: str):
               f"{r['cos_mean']:>10.4f}{r['res_mean']:>11.2f}")
 
     # 相关性分析：指标特征 vs 重建质量（按 sample_eta 分组，避免辛普森悖论混批）
-    feats = ["cos_mean", "cos_last", "res_mean", "res_last"]
+    feats = ["cos_mean", "cos_last", "cosx0_mean", "cosx0_last", "res_mean", "res_last"]
 
     def _corr_table(sub, label):
         print(f"\n=== 指标有效性:Pearson 相关系数  [{label}] n={len(sub)} ===")
