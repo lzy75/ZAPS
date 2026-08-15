@@ -77,8 +77,10 @@ def main(root: str):
     for d in runs:
         agg = _aggregate(d["indicators"])
         m = d.get("metrics", {})
+        cfg = d.get("config", {})
         rows.append({
             "exp_id": d.get("exp_id", "?"),
+            "eta": cfg.get("sample_eta", cfg.get("eta", None)),
             "psnr": m.get("psnr", float("nan")),
             "lpips": m.get("lpips", float("nan")),
             **agg,
@@ -92,22 +94,34 @@ def main(root: str):
         print(f"{r['exp_id']:<44}{r['psnr']:>7.2f}{r['lpips']:>8.4f}"
               f"{r['cos_mean']:>10.4f}{r['res_mean']:>11.2f}")
 
-    # 相关性分析：指标特征 vs 重建质量
-    print("\n=== 指标有效性:Pearson 相关系数 ===")
-    print("(|r|>0.5 中等相关, |r|>0.7 强相关；样本少时仅供参考)\n")
+    # 相关性分析：指标特征 vs 重建质量（按 sample_eta 分组，避免辛普森悖论混批）
     feats = ["cos_mean", "cos_last", "res_mean", "res_last"]
-    print(f"{'指标特征':<12}{'vs PSNR':>10}{'vs LPIPS':>11}")
-    print("-" * 33)
-    for fkey in feats:
-        xs = [r[fkey] for r in rows]
-        rp = _pearson(xs, [r["psnr"] for r in rows])
-        rl = _pearson(xs, [r["lpips"] for r in rows])
-        print(f"{fkey:<12}{rp:>10.3f}{rl:>11.3f}")
+
+    def _corr_table(sub, label):
+        print(f"\n=== 指标有效性:Pearson 相关系数  [{label}] n={len(sub)} ===")
+        if len(sub) < 3:
+            print("  样本 <3,跳过"); return
+        print(f"{'指标特征':<12}{'vs PSNR':>10}{'vs LPIPS':>11}")
+        print("-" * 33)
+        for fkey in feats:
+            xs = [r[fkey] for r in sub]
+            rp = _pearson(xs, [r["psnr"] for r in sub])
+            rl = _pearson(xs, [r["lpips"] for r in sub])
+            print(f"{fkey:<12}{rp:>10.3f}{rl:>11.3f}")
+
+    # 按 eta 分组
+    etas = sorted({r["eta"] for r in rows}, key=lambda e: (e is None, e))
+    if len(etas) > 1:
+        print("\n⚠️ 检测到多个 sample_eta,分组单独分析(混批相关系数无效):")
+        for e in etas:
+            _corr_table([r for r in rows if r["eta"] == e], f"eta={e}")
+    else:
+        _corr_table(rows, f"eta={etas[0] if etas else '?'}")
 
     print("\n判读:")
-    print("  · 若 res_* 与 PSNR 负相关、与 LPIPS 正相关 → 残差指标有效(残差大→质量差)")
-    print("  · 若 cos_* 与质量显著相关 → 轨迹稳定性指标有效,可支撑创新点①")
-    print("  · 若均接近 0 → 指标与质量无关,需回头重新设计指标(及早暴露风险)")
+    print("  · 同一 eta 组内:res_* 与 PSNR 负相关、与 LPIPS 正相关 → 残差指标有效")
+    print("  · cos_* 与质量显著相关(且 cos_mean/cos_last 同号自洽)→ 稳定性指标有效")
+    print("  · 跨 eta 不可直接比较相关系数(采样模式不同,质量信号会在 PSNR/LPIPS 间迁移)")
 
     # 可选画图
     try:
