@@ -131,6 +131,7 @@ def run_batch(args) -> None:
                 num_epochs=args.num_epochs,
                 num_steps=args.num_steps,
                 schedule=args.schedule,
+                purpose=args.purpose,
             )
             rows.append({
                 "batch_id": batch_id,
@@ -185,6 +186,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--schedule", type=int, nargs=3, default=None,
                         metavar=("N_LOW", "N_MID", "N_HIGH"),
                         help="低/中/高噪声区步数分配，例如 --schedule 10 7 3；三者之和应等于 num_steps")
+    parser.add_argument("--purpose", type=str, default="",
+                        help="本次实验目的，写入每个实验的 conclusion.md，例如 --purpose 'ZAPS Table8 epochs-steps 权衡复现'")
     parser.add_argument("--run", action="store_true",
                         help="真正执行；不加此参数只预览任务")
     return parser

@@ -62,7 +62,7 @@ class ExperimentLogger:
     # ── 主接口 ────────────────────────────────────────────
     def log(self, task: str, dataset: str, image: str,
             config: dict, metrics: dict, obs_psnr: float,
-            nfe: dict, times: dict, images: dict) -> str:
+            nfe: dict, times: dict, images: dict, purpose: str = "") -> str:
         """
         参数:
             task/dataset/image : 实验标识
@@ -72,6 +72,7 @@ class ExperimentLogger:
             nfe     : {"opt","sample","total"}
             times   : {"opt_s","sample_s","total_s"}
             images  : {"gt","observed","recon"} 张量 [1,C,H,W]，值域[-1,1]
+            purpose : 本次实验目的（人工标注，写入 conclusion.md）
         返回:
             exp_id
         """
@@ -118,17 +119,18 @@ class ExperimentLogger:
 
         # run.json（完整机器可读）
         with open(os.path.join(exp_dir, "run.json"), "w", encoding="utf-8") as f:
-            json.dump({"exp_id": exp_id, "git": git, "config": config,
+            json.dump({"exp_id": exp_id, "purpose": purpose, "git": git, "config": config,
                        "metrics": metrics, "obs_psnr": obs_psnr,
                        "nfe": nfe, "times": times}, f, ensure_ascii=False, indent=2)
 
         # conclusion.md（预填指标，留空结论）
         self._write_conclusion(exp_dir, exp_id, git, task, dataset, image,
-                               config, metrics, obs_psnr, nfe, times)
+                               config, metrics, obs_psnr, nfe, times, purpose)
         return exp_id
 
     def _write_conclusion(self, exp_dir, exp_id, git, task, dataset, image,
-                          config, metrics, obs_psnr, nfe, times):
+                          config, metrics, obs_psnr, nfe, times, purpose=""):
+        purpose_line = purpose.strip() if purpose and purpose.strip() else "（待填写）"
         md = f"""# 实验 {exp_id}
 
 - 代码版本: `{git['commit']}` (branch={git['branch']}, dirty={git['dirty']})
@@ -136,9 +138,15 @@ class ExperimentLogger:
 - 关键参数: steps={config['num_steps']} schedule={config['schedule']} epochs={config['num_epochs']} \
 lr={config['lr']} zeta_init={config['zeta_init']} d_init={config['d_init']} wave={config['wave']} level={config['level']}
 - 指标: **PSNR={metrics['psnr']:.2f}** / SSIM={metrics['ssim']:.4f} / LPIPS={metrics['lpips']:.4f}（观测基线 PSNR={obs_psnr:.2f}）
-- NFE={nfe['total']}（优化{nfe['opt']}+采样{nfe['sample']}）  耗时={times['total_s']/60:.1f} min
+- NFE={nfe['total']}（优化{nfe['opt']}+采样{nfe['sample']}）
+- 耗时: 优化={times['opt_s']:.2f}s + 采样={times['sample_s']:.2f}s = 合计 **{times['total_s']:.2f}s**
 
 ![recon](recon.png)
+
+## 本次实验任务与目的
+
+- 任务: **{task}**（{dataset}）
+- 目的: {purpose_line}
 
 ## 结论 / 观察
 （待填写）

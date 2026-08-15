@@ -74,6 +74,7 @@ def run_zaps_single(
     num_epochs: int = None,
     num_steps: int = None,
     schedule: tuple = None,
+    purpose: str = "",
 ) -> dict:
     """
     单张图像 ZAPS 完整流程
@@ -191,6 +192,7 @@ def run_zaps_single(
         times={"opt_s": result["time_opt_s"], "sample_s": result["time_sample_s"],
                "total_s": result["time_total_s"]},
         images={"gt": x0_gt, "observed": y_obs, "recon": x0_recon},
+        purpose=purpose,
     )
     print(f"\n  实验归档 → {os.path.join(EXPERIMENTS_DIR, exp_id)}  (exp_id={exp_id})")
 
@@ -243,6 +245,8 @@ if __name__ == "__main__":
                         help="时间步取点方式；默认使用配置值")
     parser.add_argument("--schedule_power", type=float, default=None,
                         help="非线性时间步取点指数；默认使用配置值")
+    parser.add_argument("--purpose", type=str, default="",
+                        help="本次实验目的，写入 conclusion.md")
     args = parser.parse_args()
 
     run_zaps_single(
@@ -257,4 +261,5 @@ if __name__ == "__main__":
         sample_init=args.sample_init,
         timestep_spacing=args.timestep_spacing,
         schedule_power=args.schedule_power,
+        purpose=args.purpose,
     )
