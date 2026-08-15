@@ -218,7 +218,8 @@ class ZAPS(nn.Module):
     def _reverse_diffusion(self, y: torch.Tensor,
                            nfe_counter: list = None,
                            eta_override: float = None,
-                           init_noise: torch.Tensor = None) -> torch.Tensor:
+                           init_noise: torch.Tensor = None,
+                           record_indicators: bool = False) -> torch.Tensor:
         """
         执行一次完整反向扩散，返回 x_0 估计
         ε_θ 在 no_grad 下调用（冻结），x 保持计算图以供反传
@@ -227,6 +228,8 @@ class ZAPS(nn.Module):
             y           : [B, C, H, W] 观测图像；超分任务中 H/W 可小于图像空间
             nfe_counter : 可选，传入 [0] 列表，函数会累加本次调用的 NFE 次数
             init_noise  : 可选固定初始噪声，用于优化阶段保持 unroll 轨迹可复现
+            record_indicators : 是否记录双重状态感知指标（创新点①诊断，仅采样阶段用）
+                          被动记录，不改变采样行为；结果写入 self._indicator_log
         返回:
             x : [B, C, H, W] 最终重建图像（仍在计算图中）
         """
@@ -243,6 +246,10 @@ class ZAPS(nn.Module):
         S   = len(tau)
         ab  = self.dm.alphas_cumprod
         eta = self.eta if eta_override is None else eta_override
+
+        if record_indicators:
+            self._indicator_log = []
+            prev_delta = None
 
         for i in range(S - 1, -1, -1):
             t_curr = tau[i].item()
@@ -277,8 +284,28 @@ class ZAPS(nn.Module):
             guided   = (v + (1.0 - ab_t) * Hv) / sqrt_ab_t.clamp(min=1e-8)
             correction = self.zeta[i] * guided
 
+            x_before = x
             x = x_uncond + correction
 
+            # ── 创新点①：双重状态感知指标（被动记录，不影响上面的采样）──
+            if record_indicators:
+                # 外在物理一致性：残差范数 ‖y − H(x̂_0)‖
+                resid_norm = residual.detach().flatten().norm().item()
+                # 内在轨迹稳定性：相邻更新方向 Δx 的余弦相似度
+                delta = (x - x_before).detach()
+                if prev_delta is None:
+                    cos_sim = float("nan")   # 首步无上一步方向
+                else:
+                    cos_sim = F.cosine_similarity(
+                        delta.flatten(), prev_delta.flatten(), dim=0
+                    ).item()
+                prev_delta = delta
+                self._indicator_log.append({
+                    "step": int(S - 1 - i),          # 采样进度序号（0 起）
+                    "t": int(t_curr),                # 对应扩散时间步
+                    "residual_norm": resid_norm,
+                    "cosine_sim": cos_sim,
+                })
 
         return x
 
@@ -379,6 +406,7 @@ class ZAPS(nn.Module):
         x0 = self._reverse_diffusion(
             y.to(self.device), nfe_counter=nfe_counter,
             eta_override=eta_override, init_noise=init_noise,
+            record_indicators=True,
         )
         return x0, nfe_counter[0], time.time() - t0
 
@@ -428,4 +456,5 @@ class ZAPS(nn.Module):
             time_opt_s    = self._last_opt_sec,
             time_sample_s = t_s,
             time_total_s  = self._last_opt_sec + t_s,
+            indicators    = getattr(self, "_indicator_log", []),
         )

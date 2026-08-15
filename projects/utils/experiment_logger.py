@@ -62,7 +62,8 @@ class ExperimentLogger:
     # ── 主接口 ────────────────────────────────────────────
     def log(self, task: str, dataset: str, image: str,
             config: dict, metrics: dict, obs_psnr: float,
-            nfe: dict, times: dict, images: dict, purpose: str = "") -> str:
+            nfe: dict, times: dict, images: dict, purpose: str = "",
+            indicators: list = None) -> str:
         """
         参数:
             task/dataset/image : 实验标识
@@ -121,7 +122,8 @@ class ExperimentLogger:
         with open(os.path.join(exp_dir, "run.json"), "w", encoding="utf-8") as f:
             json.dump({"exp_id": exp_id, "purpose": purpose, "git": git, "config": config,
                        "metrics": metrics, "obs_psnr": obs_psnr,
-                       "nfe": nfe, "times": times}, f, ensure_ascii=False, indent=2)
+                       "nfe": nfe, "times": times,
+                       "indicators": indicators or []}, f, ensure_ascii=False, indent=2)
 
         # conclusion.md（预填指标，留空结论）
         self._write_conclusion(exp_dir, exp_id, git, task, dataset, image,

@@ -193,6 +193,7 @@ def run_zaps_single(
                "total_s": result["time_total_s"]},
         images={"gt": x0_gt, "observed": y_obs, "recon": x0_recon},
         purpose=purpose,
+        indicators=result.get("indicators", []),
     )
     print(f"\n  实验归档 → {os.path.join(EXPERIMENTS_DIR, exp_id)}  (exp_id={exp_id})")
 
