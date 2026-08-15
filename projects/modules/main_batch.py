@@ -128,6 +128,9 @@ def run_batch(args) -> None:
                 sample_init=args.sample_init,
                 timestep_spacing=args.timestep_spacing,
                 schedule_power=args.schedule_power,
+                num_epochs=args.num_epochs,
+                num_steps=args.num_steps,
+                schedule=args.schedule,
             )
             rows.append({
                 "batch_id": batch_id,
@@ -175,6 +178,13 @@ def build_parser() -> argparse.ArgumentParser:
                         help="时间步取点方式；默认使用配置值")
     parser.add_argument("--schedule_power", type=float, default=None,
                         help="非线性时间步取点指数；默认使用配置值")
+    parser.add_argument("--num_epochs", type=int, default=None,
+                        help="零样本优化轮数；默认使用配置值。NFE_opt = num_epochs × num_steps")
+    parser.add_argument("--num_steps", type=int, default=None,
+                        help="每轮采样步数 S；默认使用配置值")
+    parser.add_argument("--schedule", type=int, nargs=3, default=None,
+                        metavar=("N_LOW", "N_MID", "N_HIGH"),
+                        help="低/中/高噪声区步数分配，例如 --schedule 10 7 3；三者之和应等于 num_steps")
     parser.add_argument("--run", action="store_true",
                         help="真正执行；不加此参数只预览任务")
     return parser

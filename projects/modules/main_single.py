@@ -71,6 +71,9 @@ def run_zaps_single(
     sample_init: str = "random",
     timestep_spacing: str = None,
     schedule_power: float = None,
+    num_epochs: int = None,
+    num_steps: int = None,
+    schedule: tuple = None,
 ) -> dict:
     """
     单张图像 ZAPS 完整流程
@@ -87,6 +90,9 @@ def run_zaps_single(
         sample_init: random 或 opt_noise，用于最终采样初始噪声对照
         timestep_spacing : 时间步取点方式，None 时使用配置值
         schedule_power   : 非线性取点指数，None 时使用配置值
+        num_epochs : 零样本优化轮数，None 时使用配置值
+        num_steps  : 每轮采样步数 S，None 时使用配置值（NFE_opt = num_epochs × num_steps）
+        schedule   : 低/中/高噪声区步数分配 (n_low,n_mid,n_high)，None 时使用配置值
     返回:
         dict: {"psnr", "ssim", "lpips", "x0_gt", "y_obs", "x0_recon"}
     """
@@ -121,6 +127,12 @@ def run_zaps_single(
         zaps_cfg["timestep_spacing"] = timestep_spacing
     if schedule_power is not None:
         zaps_cfg["schedule_power"] = schedule_power
+    if num_epochs is not None:
+        zaps_cfg["num_epochs"] = num_epochs
+    if num_steps is not None:
+        zaps_cfg["num_steps"] = num_steps
+    if schedule is not None:
+        zaps_cfg["schedule"] = schedule
     zaps = ZAPS(
         diffusion_model=diffusion_model,
         forward_operator=operator,
