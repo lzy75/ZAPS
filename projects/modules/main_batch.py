@@ -15,6 +15,7 @@ from typing import Iterable, List
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _REPO_ROOT = os.path.dirname(_ROOT)
 sys.path.insert(0, _ROOT)
+sys.path.insert(0, _REPO_ROOT)   # 仓库根:本地 guided_diffusion/ 包在此,不依赖 cwd
 
 from configs.config import EXPERIMENTS_DIR, TASK_CONFIGS
 

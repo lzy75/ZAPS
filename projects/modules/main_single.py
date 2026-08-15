@@ -14,6 +14,7 @@ from PIL import Image
 # 把 projects 根目录加入路径，保证各模块可找到
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, _ROOT)
+sys.path.insert(0, os.path.dirname(_ROOT))   # 仓库根:本地 guided_diffusion/ 包在此,不依赖 cwd
 
 from configs.config         import (ZAPS_CONFIG, ZETA_INIT_BY_TASK, TASK_CONFIGS,
                                     METRICS_CONFIG, DATASET_MODEL_MAP, DEFAULT_DATASET,
