@@ -29,14 +29,15 @@ def default_data_dir() -> str:
 
 
 def dataset_dir(data_dir: str, dataset: str) -> str:
-    """返回当前复现使用的数据集目录，兼容 datasets/FFHQ 和 datasets/ffhq/256x256。"""
-    if dataset != "ffhq":
-        raise ValueError(f"当前批量入口只聚焦 FFHQ，收到: {dataset}")
-    candidates = [
-        os.path.join(data_dir, "ffhq", "256x256"),
-        os.path.join(data_dir, "ffhq"),
-        os.path.join(data_dir, "FFHQ"),
-    ]
+    """返回复现使用的数据集目录，兼容常见大小写/子目录布局。"""
+    layouts = {
+        "ffhq": [("ffhq", "256x256"), ("ffhq",), ("FFHQ",)],
+        "imagenet": [("imagenet", "256x256"), ("imagenet", "val"),
+                     ("imagenet",), ("ImageNet",), ("IMAGENET",)],
+    }
+    if dataset not in layouts:
+        raise ValueError(f"未知 dataset: {dataset}，可选 {list(layouts)}")
+    candidates = [os.path.join(data_dir, *parts) for parts in layouts[dataset]]
     for root in candidates:
         if os.path.isdir(root):
             return root
@@ -152,8 +153,8 @@ def run_batch(args) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="FFHQ ZAPS 批量复现实验")
-    parser.add_argument("--dataset", default="ffhq", choices=["ffhq"],
-                        help="当前聚焦 FFHQ 复现")
+    parser.add_argument("--dataset", default="ffhq", choices=["ffhq", "imagenet"],
+                        help="复现使用的数据集 (ffhq | imagenet)")
     parser.add_argument("--data_dir", default=default_data_dir(),
                         help="数据集根目录，默认使用仓库根目录下 datasets")
     parser.add_argument("--tasks", nargs="+", default=["all"],
