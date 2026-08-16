@@ -327,6 +327,88 @@ class ZAPS(nn.Module):
 
         return x
 
+    # ── 最近邻:自适应时把访问的 t 映射到固定网格,取对应 ζ/D ──
+    def _nearest_zd_index(self, t_val: int) -> int:
+        return int((self.tau - t_val).abs().argmin().item())
+
+    # ── 自适应调度采样(创新点②③,v1)────────────────────────
+    @torch.no_grad()
+    def _reverse_diffusion_adaptive(self, y: torch.Tensor, scheduler,
+                                    nfe_counter: list = None,
+                                    eta_override: float = None,
+                                    init_noise: torch.Tensor = None,
+                                    record_indicators: bool = False) -> torch.Tensor:
+        """
+        用 StateAwareScheduler 在线选时间步的采样(仅最终采样用,无梯度)。
+        优化阶段仍用固定 _reverse_diffusion 学 ζ/D;此处 ζ/D 按访问 t 最近邻取。
+        残差为主信号、余弦(x̂₀ 轨迹)为辅信号(权重 scheduler.cfg.w_cos 可调)。
+        """
+        B = y.shape[0]
+        sample_shape = (B, self.channels, self.img_size, self.img_size)
+        x = torch.randn(sample_shape, device=self.device) if init_noise is None \
+            else init_noise.to(self.device)
+        ab  = self.dm.alphas_cumprod
+        eta = self.eta if eta_override is None else eta_override
+
+        scheduler.reset()
+        if record_indicators:
+            self._indicator_log = []
+        prev_x0 = None
+        prev_delta_x0 = None
+        t = int(self.tau.max().item())          # 从最高噪声步起
+
+        while not scheduler.done() and t > 0:
+            zd = self._nearest_zd_index(t)       # 固定网格最近邻,取 ζ/D
+            t_batch = torch.full((B,), t, device=self.device, dtype=torch.long)
+            eps = self.dm._predict_eps(x, t_batch)
+            if nfe_counter is not None:
+                nfe_counter[0] += 1
+
+            ab_t = ab[t]; sqrt_ab_t = ab_t.sqrt(); sqrt_1mab = (1.0 - ab_t).sqrt()
+            x0_pred = ((x - sqrt_1mab * eps) / sqrt_ab_t.clamp(min=1e-8)).clamp(-1.0, 1.0)
+            residual = y - self.A.H(x0_pred)
+            resid_norm = residual.flatten().norm().item()
+
+            # 辅助信号:x̂₀ 轨迹的相邻余弦
+            cos_x0 = float("nan")
+            if prev_x0 is not None:
+                delta_x0 = x0_pred - prev_x0
+                if prev_delta_x0 is not None:
+                    cos_x0 = F.cosine_similarity(
+                        delta_x0.flatten(), prev_delta_x0.flatten(), dim=0).item()
+                prev_delta_x0 = delta_x0
+            prev_x0 = x0_pred
+
+            # 喂指标 → 贪心选步长
+            scheduler.update_state(resid_norm=resid_norm, cos_x0=cos_x0)
+            h = scheduler.select_step(t)
+            t_prev = t - h
+            if scheduler.done() or t_prev <= 0:
+                t_prev = -1                      # 末步:落到 x̂₀
+
+            # 采样步 + 状态自适应权重(创新点③)
+            x_uncond = ddpm_posterior_step(x, x0_pred, t, t_prev, ab, eta=eta)
+            zeta_k = scheduler.adapt_weight(float(self.zeta[zd].item()))
+            v      = self.A.transpose(residual)
+            Hv     = self.dwt.synthesis(self.D[zd] * self.dwt.analysis(v))
+            guided = (v + (1.0 - ab_t) * Hv) / sqrt_ab_t.clamp(min=1e-8)
+            x = x_uncond + zeta_k * guided
+
+            if record_indicators:
+                self._indicator_log.append({
+                    "step": scheduler.used - 1,
+                    "t": int(t),
+                    "h": int(h),
+                    "residual_norm": resid_norm,
+                    "cosine_sim": float("nan"),      # 自适应路径不算含噪版
+                    "cosine_sim_x0": cos_x0,
+                })
+
+            if t_prev < 0:
+                break
+            t = t_prev
+        return x
+
     # ── 零样本优化（论文 Section 3.1）──────────────────────
 
     def optimize(self, y: torch.Tensor, verbose: bool = True,
@@ -408,7 +490,7 @@ class ZAPS(nn.Module):
 
     @torch.no_grad()
     def sample(self, y: torch.Tensor, eta_override: float = None,
-               init_noise: torch.Tensor = None) -> tuple:
+               init_noise: torch.Tensor = None, scheduler=None) -> tuple:
         """
         用已优化的 ζ、d 执行一次无梯度最终采样，统计 NFE 和耗时
 
@@ -416,16 +498,25 @@ class ZAPS(nn.Module):
             y : [B, C, H, W] 观测图像
             eta_override : 可选最终采样 eta；None 时使用 self.eta
             init_noise   : 可选初始噪声；用于复用优化轨迹噪声做对照
+            scheduler    : 传入 StateAwareScheduler 则走自适应调度(创新点②③);
+                           None 则用固定调度(基线)
         返回:
             (x0_est, nfe, elapsed_sec)
         """
         nfe_counter = [0]
         t0 = time.time()
-        x0 = self._reverse_diffusion(
-            y.to(self.device), nfe_counter=nfe_counter,
-            eta_override=eta_override, init_noise=init_noise,
-            record_indicators=True,
-        )
+        if scheduler is not None:
+            x0 = self._reverse_diffusion_adaptive(
+                y.to(self.device), scheduler, nfe_counter=nfe_counter,
+                eta_override=eta_override, init_noise=init_noise,
+                record_indicators=True,
+            )
+        else:
+            x0 = self._reverse_diffusion(
+                y.to(self.device), nfe_counter=nfe_counter,
+                eta_override=eta_override, init_noise=init_noise,
+                record_indicators=True,
+            )
         return x0, nfe_counter[0], time.time() - t0
 
     # ── 主接口：optimize → sample ──────────────────────────
@@ -459,8 +550,10 @@ class ZAPS(nn.Module):
             x0_final, nfe_s, t_s = self._last_opt_x0, 0, 0.0
         elif final_mode == "sample":
             init_noise = self._last_opt_noise if sample_init == "opt_noise" else None
+            scheduler = kwargs.get("scheduler", None)   # 传入则走自适应调度(创新点②③)
             x0_final, nfe_s, t_s = self.sample(
                 y, eta_override=sample_eta, init_noise=init_noise,
+                scheduler=scheduler,
             )
         else:
             raise ValueError(f"未知 final_mode: {final_mode}，可选 'sample' 或 'last_opt'")

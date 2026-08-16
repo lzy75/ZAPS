@@ -76,6 +76,8 @@ def run_zaps_single(
     num_steps: int = None,
     schedule: tuple = None,
     purpose: str = "",
+    adaptive: bool = False,
+    w_cos: float = 0.3,
 ) -> dict:
     """
     单张图像 ZAPS 完整流程
@@ -141,10 +143,19 @@ def run_zaps_single(
         img_size=IMG_SIZE[0],
         **zaps_cfg,
     )
-    result = zaps.run(
-        y_obs, verbose=verbose, x0_gt=x0_gt,
+    run_kwargs = dict(
+        verbose=verbose, x0_gt=x0_gt,
         final_mode=final_mode, sample_eta=sample_eta, sample_init=sample_init,
     )
+    if adaptive:
+        from modules.adaptive_scheduler import StateAwareScheduler, SchedulerConfig
+        budget = zaps_cfg["num_steps"]
+        t_start = int(zaps.tau.max().item())
+        run_kwargs["scheduler"] = StateAwareScheduler(
+            total_budget=budget, t_start=t_start,
+            cfg=SchedulerConfig(w_cos=w_cos),
+        )
+    result = zaps.run(y_obs, **run_kwargs)
     x0_recon  = result["x0_final"]
     loss_hist = result["loss_history"]
 
@@ -184,6 +195,8 @@ def run_zaps_single(
         "sample_eta": zaps_cfg["eta"] if sample_eta is None else sample_eta,
         "sample_init": sample_init,
         "noise_sigma": task_cfg.get("noise_sigma"),
+        "adaptive": adaptive,
+        "w_cos": w_cos if adaptive else None,
     }
     exp_id = ExperimentLogger(EXPERIMENTS_DIR).log(
         task=task, dataset=dataset, image=image_path,
@@ -249,6 +262,10 @@ if __name__ == "__main__":
                         help="非线性时间步取点指数；默认使用配置值")
     parser.add_argument("--purpose", type=str, default="",
                         help="本次实验目的，写入 conclusion.md")
+    parser.add_argument("--adaptive", action="store_true",
+                        help="启用状态感知自适应调度(创新点②③);不加则用固定调度基线")
+    parser.add_argument("--w_cos", type=float, default=0.3,
+                        help="余弦(稳定性)辅助信号权重∈[0,1];0=纯残差,越大余弦影响越强")
     args = parser.parse_args()
 
     run_zaps_single(
@@ -264,4 +281,6 @@ if __name__ == "__main__":
         timestep_spacing=args.timestep_spacing,
         schedule_power=args.schedule_power,
         purpose=args.purpose,
+        adaptive=args.adaptive,
+        w_cos=args.w_cos,
     )

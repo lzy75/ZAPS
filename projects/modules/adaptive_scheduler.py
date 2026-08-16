@@ -20,7 +20,9 @@ class SchedulerConfig:
     h_max: float = 120.0         # 最大步长
     s_min: float = 0.05          # 稳定因子下限(避免完全停步)
     f_min: float = 0.1           # 保真因子下限
-    beta: float = 1.0            # 残差对步长的抑制强度
+    beta: float = 1.0            # 残差对步长的抑制强度(主信号)
+    w_cos: float = 0.3           # 余弦(稳定性)信号权重∈[0,1];0=纯残差,1=全余弦。
+                                 # 实验005:余弦仅辅助(cosx0_last r≈−0.5),故默认小
     delta_max: float = 60.0      # 相邻步步长最大变化率(故障恢复,HSO 教训)
     gamma_r: float = 0.5         # 权重-残差耦合(残差大→升 ζ)
     gamma_s: float = 0.3         # 权重-稳定性耦合(轨迹弯→降 ζ)
@@ -55,45 +57,37 @@ class StateAwareScheduler:
         self.used = 0
         self.h_prev = None
         self.r0 = None            # 首步残差,用于归一化
-        self.s = float("nan")     # 当前稳定性 cos
+        self.s = float("nan")     # 当前稳定性 cos(x̂₀ 轨迹,采样侧算好传入)
         self.r_tilde = 1.0        # 相对残差 r_k / r0
         self.dr = 0.0             # 残差降速
-        self._prev_delta = None   # 上一步 x̂₀ 增量(用于 cos)
-        self._prev_x0 = None
         self._prev_r = None
 
-    # ── 指标更新:传入当前 x̂₀(展平)与残差范数(标量)──
-    def update_state(self, x0_flat, resid_norm: float):
+    # ── 指标更新:采样侧算好标量后传入(torch 侧算余弦,避免展平成 list)──
+    def update_state(self, resid_norm: float, cos_x0: float = float("nan")):
         """
-        x0_flat : 可迭代的一维序列(当前步 x̂₀ 展平);用于算相邻增量的余弦。
-                  采样侧传 .detach().flatten().tolist() 或 numpy;此处 torch-free。
-        resid_norm : ‖y − H(x̂₀)‖ 标量。
+        resid_norm : ‖y − H(x̂₀)‖ 标量(主信号)。
+        cos_x0     : 相邻 Δx̂₀ 的余弦(辅助信号),首步/无前向量时传 nan。
         """
-        # 外在物理一致性
+        # 外在物理一致性(主)
         if self.r0 is None:
             self.r0 = resid_norm if resid_norm > 1e-12 else 1.0
         self.r_tilde = resid_norm / self.r0
         self.dr = 0.0 if self._prev_r is None else (self._prev_r - resid_norm)
         self._prev_r = resid_norm
-
-        # 内在轨迹稳定性:相邻 x̂₀ 增量的余弦(x̂₀ 轨迹,无注入噪声)
-        if self._prev_x0 is not None:
-            delta = [a - b for a, b in zip(x0_flat, self._prev_x0)]
-            if self._prev_delta is not None:
-                self.s = _cosine(delta, self._prev_delta)
-            self._prev_delta = delta
-        self._prev_x0 = list(x0_flat)
+        # 内在轨迹稳定性(辅,采样侧已算好)
+        self.s = cos_x0
 
     # ── 贪心选步长 ──
     def select_step(self, t: int) -> int:
         """在当前时间步 t、剩余预算下,贪心选下一步长 h(整数时间步)。"""
         c = self.cfg
         remaining = self.N - self.used          # 含当前步在内的剩余步数
-        # 稳定因子:s 高→接近 1→大步(首步 s=nan 时取中性 1.0)
-        s_use = self.s if self.s == self.s else 1.0   # nan 检测
-        stab = _clip((s_use + 1.0) / 2.0, c.s_min, 1.0)
-        # 保真因子:残差大→小步
+        # 保真因子(主信号):残差大→小步
         fid = _clip(1.0 - c.beta * self.r_tilde, c.f_min, 1.0)
+        # 稳定因子(辅信号):s 高→大步;经 w_cos 加权融入(w_cos=0 则完全不影响)
+        s_use = self.s if self.s == self.s else 1.0   # nan→中性
+        stab_pure = _clip((s_use + 1.0) / 2.0, c.s_min, 1.0)
+        stab = (1.0 - c.w_cos) * 1.0 + c.w_cos * stab_pure   # 残差主、余弦辅的凸组合
         h_raw = c.h_max * stab * fid
         # 变化率限制(故障恢复)
         if self.h_prev is not None:
@@ -121,12 +115,3 @@ class StateAwareScheduler:
 
     def done(self) -> bool:
         return self.used >= self.N
-
-
-def _cosine(a, b) -> float:
-    dot = sum(x * y for x, y in zip(a, b))
-    na = sum(x * x for x in a) ** 0.5
-    nb = sum(y * y for y in b) ** 0.5
-    if na < 1e-12 or nb < 1e-12:
-        return float("nan")
-    return dot / (na * nb)

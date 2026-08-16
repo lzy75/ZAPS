@@ -134,6 +134,8 @@ def run_batch(args) -> None:
                 num_steps=args.num_steps,
                 schedule=args.schedule,
                 purpose=args.purpose,
+                adaptive=args.adaptive,
+                w_cos=args.w_cos,
             )
             rows.append({
                 "batch_id": batch_id,
@@ -190,6 +192,10 @@ def build_parser() -> argparse.ArgumentParser:
                         help="低/中/高噪声区步数分配，例如 --schedule 10 7 3；三者之和应等于 num_steps")
     parser.add_argument("--purpose", type=str, default="",
                         help="本次实验目的，写入每个实验的 conclusion.md，例如 --purpose 'ZAPS Table8 epochs-steps 权衡复现'")
+    parser.add_argument("--adaptive", action="store_true",
+                        help="启用状态感知自适应调度(创新点②③);不加则固定调度基线")
+    parser.add_argument("--w_cos", type=float, default=0.3,
+                        help="余弦(稳定性)辅助信号权重∈[0,1];0=纯残差,越大余弦影响越强")
     parser.add_argument("--run", action="store_true",
                         help="真正执行；不加此参数只预览任务")
     return parser
