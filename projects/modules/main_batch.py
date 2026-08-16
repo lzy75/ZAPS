@@ -136,6 +136,9 @@ def run_batch(args) -> None:
                 purpose=args.purpose,
                 adaptive=args.adaptive,
                 w_cos=args.w_cos,
+                beta=args.beta,
+                mod_max=args.mod_max,
+                p_schedule=args.p_schedule,
             )
             rows.append({
                 "batch_id": batch_id,
@@ -196,6 +199,12 @@ def build_parser() -> argparse.ArgumentParser:
                         help="启用状态感知自适应调度(创新点②③);不加则固定调度基线")
     parser.add_argument("--w_cos", type=float, default=0.3,
                         help="余弦(稳定性)辅助信号权重∈[0,1];0=纯残差,越大余弦影响越强")
+    parser.add_argument("--beta", type=float, default=0.5,
+                        help="残差降速调制强度;越大自适应对残差变化越敏感")
+    parser.add_argument("--mod_max", type=float, default=1.5,
+                        help="步长调制上限;越大自适应可迈越大步(放开自适应空间)")
+    parser.add_argument("--p_schedule", type=float, default=2.0,
+                        help="幂律基础调度指数>1;越大低噪声区越密")
     parser.add_argument("--run", action="store_true",
                         help="真正执行；不加此参数只预览任务")
     return parser

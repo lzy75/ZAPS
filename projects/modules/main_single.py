@@ -78,6 +78,9 @@ def run_zaps_single(
     purpose: str = "",
     adaptive: bool = False,
     w_cos: float = 0.3,
+    beta: float = 0.5,
+    mod_max: float = 1.5,
+    p_schedule: float = 2.0,
 ) -> dict:
     """
     单张图像 ZAPS 完整流程
@@ -153,7 +156,8 @@ def run_zaps_single(
         t_start = int(zaps.tau.max().item())
         run_kwargs["scheduler"] = StateAwareScheduler(
             total_budget=budget, t_start=t_start,
-            cfg=SchedulerConfig(w_cos=w_cos),
+            cfg=SchedulerConfig(w_cos=w_cos, beta=beta,
+                                mod_max=mod_max, p_schedule=p_schedule),
         )
     result = zaps.run(y_obs, **run_kwargs)
     x0_recon  = result["x0_final"]
@@ -197,6 +201,9 @@ def run_zaps_single(
         "noise_sigma": task_cfg.get("noise_sigma"),
         "adaptive": adaptive,
         "w_cos": w_cos if adaptive else None,
+        "beta": beta if adaptive else None,
+        "mod_max": mod_max if adaptive else None,
+        "p_schedule": p_schedule if adaptive else None,
     }
     exp_id = ExperimentLogger(EXPERIMENTS_DIR).log(
         task=task, dataset=dataset, image=image_path,
@@ -266,6 +273,12 @@ if __name__ == "__main__":
                         help="启用状态感知自适应调度(创新点②③);不加则用固定调度基线")
     parser.add_argument("--w_cos", type=float, default=0.3,
                         help="余弦(稳定性)辅助信号权重∈[0,1];0=纯残差,越大余弦影响越强")
+    parser.add_argument("--beta", type=float, default=0.5,
+                        help="残差降速调制强度;越大自适应对残差变化越敏感")
+    parser.add_argument("--mod_max", type=float, default=1.5,
+                        help="步长调制上限;越大自适应可迈越大步(放开自适应空间)")
+    parser.add_argument("--p_schedule", type=float, default=2.0,
+                        help="幂律基础调度指数>1;越大低噪声区越密")
     args = parser.parse_args()
 
     run_zaps_single(
@@ -283,4 +296,7 @@ if __name__ == "__main__":
         purpose=args.purpose,
         adaptive=args.adaptive,
         w_cos=args.w_cos,
+        beta=args.beta,
+        mod_max=args.mod_max,
+        p_schedule=args.p_schedule,
     )

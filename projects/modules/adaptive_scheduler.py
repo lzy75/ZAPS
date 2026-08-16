@@ -63,6 +63,7 @@ class StateAwareScheduler:
         self.r_tilde = 1.0        # 相对残差 r_k / r0
         self.dr_rel = 0.0         # 残差相对下降速率 (r_{k-1}-r_k)/r_{k-1}
         self._prev_r = None
+        self._dr_ema = None       # dr_rel 运行均值(自归一化基准,让调制对"偏离典型降速"响应)
 
     # ── 指标更新:采样侧算好标量后传入(torch 侧算余弦,避免展平成 list)──
     def update_state(self, resid_norm: float, cos_x0: float = float("nan")):
@@ -105,8 +106,13 @@ class StateAwareScheduler:
         base = base * (c.p_schedule * frac + (1.0 - frac) * 1.0 / c.p_schedule)
 
         # ── 2) 有界自适应调制 ──
-        # 残差降得快 → 轨迹顺,可迈大步;降得慢/反弹 → 迈小步。用相对降速,无关噪声绝对量
-        mod_r = 1.0 + c.beta * (self.dr_rel - 0.0)   # dr_rel>0 加速,<0 减速
+        # 残差降得比"近期典型速度"快 → 轨迹顺,迈大步;慢/反弹 → 迈小步。
+        # 用相对降速与其运行均值的偏差,再乘增益放大,使 beta 有实际杠杆(自检项3)。
+        if self._dr_ema is None:
+            self._dr_ema = self.dr_rel
+        dev = self.dr_rel - self._dr_ema           # 偏离近期典型降速
+        self._dr_ema = 0.7 * self._dr_ema + 0.3 * self.dr_rel   # 更新运行均值
+        mod_r = 1.0 + c.beta * _clip(dev / 0.05, -3.0, 3.0)     # /0.05 归一化到 O(1),×beta 放大
         # 余弦:s 高(平滑)→大步;经 w_cos 融入
         s_use = self.s if self.s == self.s else None
         if s_use is None:
