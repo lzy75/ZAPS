@@ -139,6 +139,9 @@ def run_batch(args) -> None:
                 beta=args.beta,
                 mod_max=args.mod_max,
                 p_schedule=args.p_schedule,
+                schedule_mode=args.schedule_mode,
+                omega=args.omega,
+                theta=args.theta,
             )
             rows.append({
                 "batch_id": batch_id,
@@ -205,6 +208,12 @@ def build_parser() -> argparse.ArgumentParser:
                         help="步长调制上限;越大自适应可迈越大步(放开自适应空间)")
     parser.add_argument("--p_schedule", type=float, default=2.0,
                         help="幂律基础调度指数>1;越大低噪声区越密")
+    parser.add_argument("--schedule_mode", type=str, default="v2", choices=["v2", "v3"],
+                        help="v2=幂律基础+有界调制(回退用);v3=统一代价评价函数")
+    parser.add_argument("--omega", type=float, default=0.5,
+                        help="v3:曲率误差vs停滞误差权衡∈[0,1];0纯残差,1纯曲率")
+    parser.add_argument("--theta", type=float, default=0.5,
+                        help="v3:容忍度,越大越激进(步长调制幅度越大)")
     parser.add_argument("--run", action="store_true",
                         help="真正执行；不加此参数只预览任务")
     return parser

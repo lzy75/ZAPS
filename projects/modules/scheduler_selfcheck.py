@@ -104,6 +104,32 @@ def main():
               for N in (1, 2, 3, 5))
     allok &= check("N∈{1,2,3,5} 均到 t=0", okN)
 
+    # ── 6. v3 统一代价函数专项 ──
+    print("6. v3 统一代价评价函数")
+    def cfg_v3(**kw): return SchedulerConfig(schedule_mode="v3", **kw)
+    # 6a. 预算可行性(多 omega/theta/N)
+    bad3 = 0; tot3 = 0
+    for N in (10, 20, 30, 50):
+        for om in (0.0, 0.5, 1.0):
+            for th in (0.3, 0.5, 1.0):
+                tot3 += 1
+                if simulate(N, T, cfg_v3(omega=om, theta=th), resid_real, cos_mid)[0] != 0:
+                    bad3 += 1
+    allok &= check(f"v3 预算可行性 {tot3} 组终点全=0", bad3 == 0, f"失败 {bad3}")
+    # 6b. 低噪声区更密
+    _, p3, _ = simulate(30, T, cfg_v3(), resid_real, cos_mid)
+    hi3 = [h for t, h in p3 if t > 666]; lo3 = [h for t, h in p3 if t <= 333]
+    allok &= check("v3 低噪声区步长 < 高噪声区",
+                   (st.mean(lo3) if lo3 else 9) < (st.mean(hi3) if hi3 else 0),
+                   f"高噪={st.mean(hi3):.1f} 低噪={st.mean(lo3):.1f}")
+    # 6c. E 大→小步:平滑快降(低 E) vs 弯曲停滞(高 E)
+    def h_at(cos, dr):
+        s = StateAwareScheduler(30, T - 1, cfg_v3()); s.used = 5; s.s = cos; s.dr_rel = dr
+        return s._select_step_v3(500, 25)
+    allok &= check("v3 低误差(平滑快降)步长 > 高误差(弯曲停滞)",
+                   h_at(0.9, 0.3) > h_at(-0.9, 0.0),
+                   f"低E={h_at(0.9,0.3)} 高E={h_at(-0.9,0.0)}")
+
     print("\n" + ("=" * 40))
     print("总体:", "✅ 全部通过,可进入参数扫描" if allok else "❌ 有 FAIL,先修逻辑再扫参")
     print("=" * 40)

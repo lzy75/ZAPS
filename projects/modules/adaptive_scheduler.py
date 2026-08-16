@@ -18,6 +18,7 @@ from dataclasses import dataclass
 class SchedulerConfig:
     h_min: float = 1.0            # 最小步长(时间步单位)
     h_max: float = 120.0         # 最大步长(仅作安全上限)
+    schedule_mode: str = "v2"    # "v2"=幂律基础+有界调制(现版,回退用);"v3"=统一代价函数
     # ── v2:幂律基础调度(dense in low-noise,复刻 ZAPS/OSS 先验)──
     p_schedule: float = 2.0      # 幂指数>1:低噪声区步长更小(密采),=1 退化为线性
     # ── 自适应调制(围绕基础调度做有界扰动,信号无效时退化为纯基础调度)──
@@ -26,6 +27,10 @@ class SchedulerConfig:
     mod_min: float = 0.5         # 调制因子下限(防某步被压过小)
     mod_max: float = 1.5         # 调制因子上限(防某步冲过大)
     s_min: float = 0.05          # 余弦稳定因子下限
+    # ── v3:统一代价评价函数(开题"统一误差空间")──
+    # E = omega·E_c + (1-omega)·E_r; h = base · theta/(theta+E); base=15/10/5 名义步长
+    omega: float = 0.5           # 曲率误差 vs 停滞误差 的权衡∈[0,1];0=纯残差,1=纯曲率
+    theta: float = 0.5           # 容忍度:越大越激进(E 对步长压缩越弱)
     # ── 创新点③ 权重协同 ──
     gamma_r: float = 0.5         # 权重-残差耦合(残差大→升 ζ)
     gamma_s: float = 0.3         # 权重-稳定性耦合(轨迹弯→降 ζ)
@@ -64,6 +69,20 @@ class StateAwareScheduler:
         self.dr_rel = 0.0         # 残差相对下降速率 (r_{k-1}-r_k)/r_{k-1}
         self._prev_r = None
         self._dr_ema = None       # dr_rel 运行均值(自归一化基准,让调制对"偏离典型降速"响应)
+        # v3:预计算固定名义调度(低噪声密采先验,不随 t 漂),按步位置索引
+        self._nominal = self._precompute_nominal()
+
+    def _precompute_nominal(self):
+        """
+        预计算 N 步名义时间步序列(降序,从 t_start 到 0),体现低噪声区密采(15/10/5 先验)。
+        用幂律 warp:t_k = t_start·(1 − k/N)^p,p>1 使靠近 0(低噪声)处相邻间距更小。
+        返回每步名义步长 nominal_h[k] = t_k − t_{k+1}(k=0..N-1),和为 t_start。
+        """
+        c = self.cfg
+        p = max(1.0, c.p_schedule)
+        pts = [self.t_start * (1.0 - k / self.N) ** p for k in range(self.N + 1)]
+        pts[-1] = 0.0
+        return [pts[k] - pts[k + 1] for k in range(self.N)]   # 名义步长(降序,低噪端更小)
 
     # ── 指标更新:采样侧算好标量后传入(torch 侧算余弦,避免展平成 list)──
     def update_state(self, resid_norm: float, cos_x0: float = float("nan")):
@@ -98,6 +117,12 @@ class StateAwareScheduler:
             self.used += 1
             return int(max(c.h_min, h))
 
+        # ══ v3:统一代价评价函数(开题"统一误差空间")══
+        if c.schedule_mode == "v3":
+            h = self._select_step_v3(t, b)
+            self.used += 1
+            return h
+
         # ── 1) 幂律基础步长:把 [0,t] 分成 b 段,取第一段长度 ──
         # 线性分段 t/b;幂律让"靠近 0 的段更短" → 用当前占比的幂律权重
         base = t / b                        # 线性基准
@@ -130,6 +155,46 @@ class StateAwareScheduler:
         h = int(round(_clip(h, c.h_min, max(c.h_min, t))))
         self.used += 1
         return h
+
+    # ── v3 核心:统一代价评价函数选步长 ──
+    def _select_step_v3(self, t: int, b: int) -> int:
+        """
+        统一误差空间(开题设计):
+          E_c = (1 − cos)/2                     曲率误差∈[0,1],轨迹弯→大
+          E_r = 1 − clip(dr_rel, 0, 1)          停滞误差∈[0,1],残差降得快→小(信赖域)
+          E   = omega·E_c + (1−omega)·E_r        统一代价∈[0,1]
+          h   = base · theta/(theta+E)           误差大→小步(Gotta-Go-Fast 式容忍度-误差比)
+        base = 15/10/5 名义步长(以 ZAPS 基线分布为先验,最差退回基线);
+        首步(信号未就绪)用 base;硬预算可行性保证落 t=0。
+        """
+        c = self.cfg
+        # base:名义步长 = 该噪声区的均匀分配(15/10/5 三段:低噪声区步更小)
+        base = self._nominal_base(t, b)
+        # 统一代价 E(首步 dr_rel=0、cos=nan → E≈0.5 中性,h≈base)
+        e_c = (1.0 - self.s) / 2.0 if self.s == self.s else 0.5
+        e_r = 1.0 - _clip(self.dr_rel, 0.0, 1.0)
+        E = c.omega * _clip(e_c, 0.0, 1.0) + (1.0 - c.omega) * _clip(e_r, 0.0, 1.0)
+        # 双向调制:E<0.5(误差低于中位)放大步、E>0.5 缩小步,以 base 为中心
+        # → 平均调制≈1,保住 nominal 分布,不会像单向压缩那样末段爆步(自检项②)
+        mod = 1.0 + c.theta * (0.5 - E) * 2.0        # E∈[0,1] → mod∈[1−θ, 1+θ]
+        h_raw = base * mod
+        # 硬预算可行性:剩余 b 步每步∈[h_min,h_max],须能恰好到 0
+        lo = t - (b - 1) * c.h_max
+        hi = t - (b - 1) * c.h_min
+        h = _clip(h_raw, max(c.h_min, lo), min(hi, t))
+        return int(round(_clip(h, c.h_min, max(c.h_min, t))))
+
+    def _nominal_base(self, t: int, b: int) -> float:
+        """
+        名义步长(自校正):把剩余时间 t 按"剩余名义步长的形状比例"分配给本步。
+        base = t · nominal[used] / sum(nominal[used:])
+        → 无论前面自适应如何偏离,剩余 t 总按名义形状(低噪密采)重新分摊,末段不爆步。
+        """
+        if self._nominal is not None and self.used < len(self._nominal):
+            rem = sum(self._nominal[self.used:])
+            if rem > 1e-9:
+                return max(self.cfg.h_min, t * self._nominal[self.used] / rem)
+        return t / b
 
     # ── 创新点③:权重协同 ──
     def adapt_weight(self, zeta_base: float) -> float:

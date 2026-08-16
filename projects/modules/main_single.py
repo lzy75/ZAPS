@@ -81,6 +81,9 @@ def run_zaps_single(
     beta: float = 0.5,
     mod_max: float = 1.5,
     p_schedule: float = 2.0,
+    schedule_mode: str = "v2",
+    omega: float = 0.5,
+    theta: float = 0.5,
 ) -> dict:
     """
     单张图像 ZAPS 完整流程
@@ -156,8 +159,10 @@ def run_zaps_single(
         t_start = int(zaps.tau.max().item())
         run_kwargs["scheduler"] = StateAwareScheduler(
             total_budget=budget, t_start=t_start,
-            cfg=SchedulerConfig(w_cos=w_cos, beta=beta,
-                                mod_max=mod_max, p_schedule=p_schedule),
+            cfg=SchedulerConfig(schedule_mode=schedule_mode,
+                                w_cos=w_cos, beta=beta,
+                                mod_max=mod_max, p_schedule=p_schedule,
+                                omega=omega, theta=theta),
         )
     result = zaps.run(y_obs, **run_kwargs)
     x0_recon  = result["x0_final"]
@@ -204,6 +209,9 @@ def run_zaps_single(
         "beta": beta if adaptive else None,
         "mod_max": mod_max if adaptive else None,
         "p_schedule": p_schedule if adaptive else None,
+        "schedule_mode": schedule_mode if adaptive else None,
+        "omega": omega if (adaptive and schedule_mode == "v3") else None,
+        "theta": theta if (adaptive and schedule_mode == "v3") else None,
     }
     exp_id = ExperimentLogger(EXPERIMENTS_DIR).log(
         task=task, dataset=dataset, image=image_path,
@@ -279,6 +287,12 @@ if __name__ == "__main__":
                         help="步长调制上限;越大自适应可迈越大步(放开自适应空间)")
     parser.add_argument("--p_schedule", type=float, default=2.0,
                         help="幂律基础调度指数>1;越大低噪声区越密")
+    parser.add_argument("--schedule_mode", type=str, default="v2", choices=["v2", "v3"],
+                        help="v2=幂律基础+有界调制(回退用);v3=统一代价评价函数")
+    parser.add_argument("--omega", type=float, default=0.5,
+                        help="v3:曲率误差vs停滞误差权衡∈[0,1];0纯残差,1纯曲率")
+    parser.add_argument("--theta", type=float, default=0.5,
+                        help="v3:容忍度,越大越激进(步长调制幅度越大)")
     args = parser.parse_args()
 
     run_zaps_single(
@@ -299,4 +313,7 @@ if __name__ == "__main__":
         beta=args.beta,
         mod_max=args.mod_max,
         p_schedule=args.p_schedule,
+        schedule_mode=args.schedule_mode,
+        omega=args.omega,
+        theta=args.theta,
     )
