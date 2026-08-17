@@ -1,0 +1,56 @@
+{
+  "exp_id": "20260818_011741_inpainting_ffhq_00013",
+  "purpose": "方案1 baseline 四任务 eta1 last_opt NFE300",
+  "git": {
+    "commit": "d5d65fc",
+    "branch": "master",
+    "dirty": true
+  },
+  "config": {
+    "num_steps": 30,
+    "schedule": [
+      15,
+      10,
+      5
+    ],
+    "timestep_spacing": "linear",
+    "schedule_power": 2.0,
+    "num_epochs": 10,
+    "lr": 0.001,
+    "zeta_init": 0.1,
+    "d_init": 0.2,
+    "wave": "db4",
+    "level": 3,
+    "eta": 1.0,
+    "final_mode": "last_opt",
+    "sample_eta": 1.0,
+    "sample_init": "random",
+    "noise_sigma": 0.05,
+    "adaptive": false,
+    "w_cos": null,
+    "beta": null,
+    "mod_max": null,
+    "p_schedule": null,
+    "schedule_mode": null,
+    "omega": null,
+    "theta": null,
+    "seed": 1013
+  },
+  "metrics": {
+    "psnr": 24.071834252069017,
+    "ssim": 0.8129403591156006,
+    "lpips": 0.1025032252073288
+  },
+  "obs_psnr": 12.645275115966797,
+  "nfe": {
+    "opt": 300,
+    "sample": 0,
+    "total": 300
+  },
+  "times": {
+    "opt_s": 32.55116391181946,
+    "sample_s": 0.0,
+    "total_s": 32.55116391181946
+  },
+  "indicators": []
+}

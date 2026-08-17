@@ -1,0 +1,56 @@
+{
+  "exp_id": "20260818_004609_motion_deblur_ffhq_00000",
+  "purpose": "方案1 baseline 四任务 eta1 last_opt NFE300",
+  "git": {
+    "commit": "d5d65fc",
+    "branch": "master",
+    "dirty": true
+  },
+  "config": {
+    "num_steps": 30,
+    "schedule": [
+      15,
+      10,
+      5
+    ],
+    "timestep_spacing": "linear",
+    "schedule_power": 2.0,
+    "num_epochs": 10,
+    "lr": 0.001,
+    "zeta_init": 0.2,
+    "d_init": 0.2,
+    "wave": "db4",
+    "level": 3,
+    "eta": 1.0,
+    "final_mode": "last_opt",
+    "sample_eta": 1.0,
+    "sample_init": "random",
+    "noise_sigma": 0.05,
+    "adaptive": false,
+    "w_cos": null,
+    "beta": null,
+    "mod_max": null,
+    "p_schedule": null,
+    "schedule_mode": null,
+    "omega": null,
+    "theta": null,
+    "seed": 1000
+  },
+  "metrics": {
+    "psnr": 24.47265235102796,
+    "ssim": 0.7351774573326111,
+    "lpips": 0.19536438584327698
+  },
+  "obs_psnr": 20.61166763305664,
+  "nfe": {
+    "opt": 300,
+    "sample": 0,
+    "total": 300
+  },
+  "times": {
+    "opt_s": 30.15994095802307,
+    "sample_s": 0.0,
+    "total_s": 30.15994095802307
+  },
+  "indicators": []
+}
