@@ -84,6 +84,7 @@ def run_zaps_single(
     schedule_mode: str = "v2",
     omega: float = 0.5,
     theta: float = 0.5,
+    seed: int = None,
 ) -> dict:
     """
     单张图像 ZAPS 完整流程
@@ -122,6 +123,14 @@ def run_zaps_single(
 
     # ── 3. 生成观测 y = H(x_0) + noise ──
     print("[3/5] 生成观测图像...")
+    # 固定种子:同一张图,基线与自适应共用完全相同的测量噪声/采样噪声,
+    # 使 ΔPSNR 纯反映调度差异(消除随机性对比污染)。所有实验统一开启。
+    if seed is not None:
+        import numpy as _np
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+        _np.random.seed(seed)
     with torch.no_grad():
         y_obs = operator(x0_gt)                            # [1,3,H',W']
 
@@ -212,6 +221,7 @@ def run_zaps_single(
         "schedule_mode": schedule_mode if adaptive else None,
         "omega": omega if (adaptive and schedule_mode == "v3") else None,
         "theta": theta if (adaptive and schedule_mode == "v3") else None,
+        "seed": seed,
     }
     exp_id = ExperimentLogger(EXPERIMENTS_DIR).log(
         task=task, dataset=dataset, image=image_path,

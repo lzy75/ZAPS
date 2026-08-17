@@ -118,6 +118,11 @@ def run_batch(args) -> None:
     batch_id = time.strftime("%Y%m%d_%H%M%S_ffhq_batch")
     rows = []
     for image_path in images:
+        # 按图名数字派生固定 seed:同一张图,基线与 v3 用同一 seed(测量噪声/采样噪声一致),
+        # 不同图 seed 不同(保多样性)。使 ΔPSNR 纯反映调度差异。
+        _stem = os.path.splitext(os.path.basename(image_path))[0]
+        _digits = "".join(ch for ch in _stem if ch.isdigit())
+        img_seed = args.seed_base + (int(_digits) if _digits else 0)
         for task in tasks:
             result = run_zaps_single(
                 image_path=image_path,
@@ -142,6 +147,7 @@ def run_batch(args) -> None:
                 schedule_mode=args.schedule_mode,
                 omega=args.omega,
                 theta=args.theta,
+                seed=img_seed,
             )
             rows.append({
                 "batch_id": batch_id,
@@ -214,6 +220,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help="v3:曲率误差vs停滞误差权衡∈[0,1];0纯残差,1纯曲率")
     parser.add_argument("--theta", type=float, default=0.5,
                         help="v3:容忍度,越大越激进(步长调制幅度越大)")
+    parser.add_argument("--seed_base", type=int, default=1000,
+                        help="固定种子基值;每图 seed=seed_base+图号,同图基线/v3 共用同一噪声(默认开启,保证可对比)")
     parser.add_argument("--run", action="store_true",
                         help="真正执行；不加此参数只预览任务")
     return parser
