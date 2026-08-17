@@ -69,6 +69,9 @@ class StateAwareScheduler:
         self.dr_rel = 0.0         # 残差相对下降速率 (r_{k-1}-r_k)/r_{k-1}
         self._prev_r = None
         self._dr_ema = None       # dr_rel 运行均值(自归一化基准,让调制对"偏离典型降速"响应)
+        # v3 去趋势:曲率/残差降速的运行均值,评价函数只对"偏离常态的异常"响应
+        self._ec_ema = None       # 曲率误差 E_c 的运行均值(该噪声水平的常态)
+        self._er_ema = None       # 停滞误差 E_r 的运行均值
         # v3:预计算固定名义调度(低噪声密采先验,不随 t 漂),按步位置索引
         self._nominal = self._precompute_nominal()
 
@@ -156,29 +159,38 @@ class StateAwareScheduler:
         self.used += 1
         return h
 
-    # ── v3 核心:统一代价评价函数选步长 ──
+    # ── v3 核心:统一代价评价函数选步长(去趋势版)──
     def _select_step_v3(self, t: int, b: int) -> int:
         """
-        统一误差空间(开题设计):
-          E_c = (1 − cos)/2                     曲率误差∈[0,1],轨迹弯→大
-          E_r = 1 − clip(dr_rel, 0, 1)          停滞误差∈[0,1],残差降得快→小(信赖域)
-          E   = omega·E_c + (1−omega)·E_r        统一代价∈[0,1]
-          h   = base · theta/(theta+E)           误差大→小步(Gotta-Go-Fast 式容忍度-误差比)
-        base = 15/10/5 名义步长(以 ZAPS 基线分布为先验,最差退回基线);
-        首步(信号未就绪)用 base;硬预算可行性保证落 t=0。
+        统一误差空间(开题设计)+ 去趋势:
+          原始 e_c=(1−cos)/2 曲率误差, e_r=1−dr_rel 停滞误差 ∈[0,1]
+          去趋势:各减去自身运行均值(该噪声水平的常态)→ 只对"偏离常态的异常"响应
+          E = 0.5 + omega·dev_c + (1−omega)·dev_r    (dev 为去趋势偏差,E 中心 0.5)
+          h = base · [1 + theta·(0.5 − E)·2]         E>0.5(异常高)→小步密采;E<0.5→大步
+        base = 15/10/5 名义步长(低噪密采先验);去趋势使高噪声区正常大波动不再误判密采。
         """
         c = self.cfg
-        # base:名义步长 = 该噪声区的均匀分配(15/10/5 三段:低噪声区步更小)
         base = self._nominal_base(t, b)
-        # 统一代价 E(首步 dr_rel=0、cos=nan → E≈0.5 中性,h≈base)
-        e_c = (1.0 - self.s) / 2.0 if self.s == self.s else 0.5
-        e_r = 1.0 - _clip(self.dr_rel, 0.0, 1.0)
-        E = c.omega * _clip(e_c, 0.0, 1.0) + (1.0 - c.omega) * _clip(e_r, 0.0, 1.0)
-        # 双向调制:E<0.5(误差低于中位)放大步、E>0.5 缩小步,以 base 为中心
-        # → 平均调制≈1,保住 nominal 分布,不会像单向压缩那样末段爆步(自检项②)
-        mod = 1.0 + c.theta * (0.5 - E) * 2.0        # E∈[0,1] → mod∈[1−θ, 1+θ]
+        # 原始误差
+        e_c = (1.0 - self.s) / 2.0 if self.s == self.s else None    # 曲率误差(nan→跳过)
+        e_r = 1.0 - _clip(self.dr_rel, 0.0, 1.0)                    # 停滞误差
+        # 去趋势:减运行均值,得"偏离常态"的异常量 dev∈[-0.5,0.5]
+        a = 0.3   # EMA 系数
+        if e_c is not None:
+            if self._ec_ema is None: self._ec_ema = e_c
+            dev_c = _clip(e_c - self._ec_ema, -0.5, 0.5)
+            self._ec_ema = (1 - a) * self._ec_ema + a * e_c
+        else:
+            dev_c = 0.0
+        if self._er_ema is None: self._er_ema = e_r
+        dev_r = _clip(e_r - self._er_ema, -0.5, 0.5)
+        self._er_ema = (1 - a) * self._er_ema + a * e_r
+        # 统一代价:以 0.5 为中心,异常偏高→E>0.5→密采
+        E = 0.5 + c.omega * dev_c + (1.0 - c.omega) * dev_r
+        E = _clip(E, 0.0, 1.0)
+        mod = 1.0 + c.theta * (0.5 - E) * 2.0        # mod∈[1−θ,1+θ],均值≈1 保住 base 分布
         h_raw = base * mod
-        # 硬预算可行性:剩余 b 步每步∈[h_min,h_max],须能恰好到 0
+        # 硬预算可行性
         lo = t - (b - 1) * c.h_max
         hi = t - (b - 1) * c.h_min
         h = _clip(h_raw, max(c.h_min, lo), min(hi, t))
