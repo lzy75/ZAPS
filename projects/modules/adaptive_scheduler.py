@@ -197,12 +197,17 @@ class StateAwareScheduler:
         return t / b
 
     # ── 创新点③:权重协同 ──
-    def adapt_weight(self, zeta_base: float) -> float:
+    def adapt_weight(self, zeta_base):
+        """
+        按状态调制似然权重。zeta_base 可为 float 或 torch 张量:
+        传张量时保留计算图(factor_r/factor_s 是常量标量,不断梯度),
+        使优化阶段 ζ 的梯度能正常回传。
+        """
         c = self.cfg
         s_use = self.s if self.s == self.s else 1.0
         factor_r = 1.0 + c.gamma_r * self.r_tilde
-        factor_s = 1.0 - c.gamma_s * (1.0 - s_use) / 2.0
-        return zeta_base * factor_r * max(0.0, factor_s)
+        factor_s = max(0.0, 1.0 - c.gamma_s * (1.0 - s_use) / 2.0)
+        return zeta_base * factor_r * factor_s
 
     def done(self) -> bool:
         return self.used >= self.N

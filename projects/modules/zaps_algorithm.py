@@ -331,17 +331,17 @@ class ZAPS(nn.Module):
     def _nearest_zd_index(self, t_val: int) -> int:
         return int((self.tau - t_val).abs().argmin().item())
 
-    # ── 自适应调度采样(创新点②③,v1)────────────────────────
-    @torch.no_grad()
+    # ── 自适应调度采样(创新点②③;优化与采样共用,ζ/D 按步位置索引)──
     def _reverse_diffusion_adaptive(self, y: torch.Tensor, scheduler,
                                     nfe_counter: list = None,
                                     eta_override: float = None,
                                     init_noise: torch.Tensor = None,
                                     record_indicators: bool = False) -> torch.Tensor:
         """
-        用 StateAwareScheduler 在线选时间步的采样(仅最终采样用,无梯度)。
-        优化阶段仍用固定 _reverse_diffusion 学 ζ/D;此处 ζ/D 按访问 t 最近邻取。
-        残差为主信号、余弦(x̂₀ 轨迹)为辅信号(权重 scheduler.cfg.w_cos 可调)。
+        用 StateAwareScheduler 在线选时间步。优化与最终采样共用此路径,
+        ζ/D 按【步位置 k】索引(非时间步最近邻)→ 优化学 ζ[k]、采样用 ζ[k],
+        无论第 k 步落在哪个 t 都完全同步(修复 ζ 错配)。
+        eps 在 no_grad 下取(score 冻结),ζ/D 保留计算图供优化反传。
         """
         B = y.shape[0]
         sample_shape = (B, self.channels, self.img_size, self.img_size)
@@ -349,6 +349,7 @@ class ZAPS(nn.Module):
             else init_noise.to(self.device)
         ab  = self.dm.alphas_cumprod
         eta = self.eta if eta_override is None else eta_override
+        S = self.zeta.shape[0]
 
         scheduler.reset()
         if record_indicators:
@@ -356,63 +357,65 @@ class ZAPS(nn.Module):
         prev_x0 = None
         prev_delta_x0 = None
         t = int(self.tau.max().item())          # 从最高噪声步起
+        k = 0                                    # 步位置:ζ/D 索引
 
         while not scheduler.done() and t > 0:
-            zd = self._nearest_zd_index(t)       # 固定网格最近邻,取 ζ/D
+            kd = min(k, S - 1)                   # 步位置索引 ζ/D(越界钳到末位)
             t_batch = torch.full((B,), t, device=self.device, dtype=torch.long)
-            eps = self.dm._predict_eps(x, t_batch)
+            with torch.no_grad():
+                eps = self.dm._predict_eps(x, t_batch)
             if nfe_counter is not None:
                 nfe_counter[0] += 1
 
             ab_t = ab[t]; sqrt_ab_t = ab_t.sqrt(); sqrt_1mab = (1.0 - ab_t).sqrt()
-            x0_pred = ((x - sqrt_1mab * eps) / sqrt_ab_t.clamp(min=1e-8)).clamp(-1.0, 1.0)
-            residual = y - self.A.H(x0_pred)
-            resid_norm = residual.flatten().norm().item()
+            x0_pred = ((x - sqrt_1mab * eps.detach()) / sqrt_ab_t.clamp(min=1e-8)).clamp(-1.0, 1.0)
+            residual = y - self.A.H(x0_pred)     # 保留计算图(供 ζ/D 反传)
+            resid_norm = residual.detach().flatten().norm().item()
 
-            # 辅助信号:x̂₀ 轨迹的相邻余弦
+            # 辅助信号:x̂₀ 轨迹的相邻余弦(仅用于选步长,detach)
             cos_x0 = float("nan")
+            x0d = x0_pred.detach()
             if prev_x0 is not None:
-                delta_x0 = x0_pred - prev_x0
+                delta_x0 = x0d - prev_x0
                 if prev_delta_x0 is not None:
                     cos_x0 = F.cosine_similarity(
                         delta_x0.flatten(), prev_delta_x0.flatten(), dim=0).item()
                 prev_delta_x0 = delta_x0
-            prev_x0 = x0_pred
+            prev_x0 = x0d
 
-            # 喂指标 → 贪心选步长
+            # 喂指标 → 选步长
             scheduler.update_state(resid_norm=resid_norm, cos_x0=cos_x0)
             h = scheduler.select_step(t)
             t_prev = t - h
             if scheduler.done() or t_prev <= 0:
                 t_prev = -1                      # 末步:落到 x̂₀
 
-            # 采样步 + 状态自适应权重(创新点③)
+            # 采样步 + 状态自适应权重(创新点③);ζ/D 按步位置 kd,传张量保留梯度
             x_uncond = ddpm_posterior_step(x, x0_pred, t, t_prev, ab, eta=eta)
-            zeta_k = scheduler.adapt_weight(float(self.zeta[zd].item()))
+            zeta_k = scheduler.adapt_weight(self.zeta[kd])       # 张量,梯度可回传
             v      = self.A.transpose(residual)
-            Hv     = self.dwt.synthesis(self.D[zd] * self.dwt.analysis(v))
+            Hv     = self.dwt.synthesis(self.D[kd] * self.dwt.analysis(v))
             guided = (v + (1.0 - ab_t) * Hv) / sqrt_ab_t.clamp(min=1e-8)
             x = x_uncond + zeta_k * guided
 
             if record_indicators:
                 self._indicator_log.append({
-                    "step": scheduler.used - 1,
-                    "t": int(t),
-                    "h": int(h),
+                    "step": k, "t": int(t), "h": int(h),
                     "residual_norm": resid_norm,
-                    "cosine_sim": float("nan"),      # 自适应路径不算含噪版
+                    "cosine_sim": float("nan"),
                     "cosine_sim_x0": cos_x0,
                 })
 
             if t_prev < 0:
                 break
             t = t_prev
+            k += 1
         return x
 
     # ── 零样本优化（论文 Section 3.1）──────────────────────
 
     def optimize(self, y: torch.Tensor, verbose: bool = True,
-                 x0_gt: torch.Tensor = None) -> list:
+                 x0_gt: torch.Tensor = None, scheduler=None) -> list:
         """
         零样本训练：以单张观测 y 为监督，最小化物理引导损失
         L(y, x̂_0) = ‖y − H(x̂_0)‖²
@@ -422,6 +425,8 @@ class ZAPS(nn.Module):
         参数:
             y       : [B, C, H, W] 观测图像，值域 [-1, 1]
             verbose : 是否打印每轮 loss
+            scheduler: 传入则优化也走自适应调度(ζ 按步位置学,与采样同步);
+                       None 则用固定调度(原 ZAPS 行为)
         返回:
             loss_history : 每轮 loss 列表
         """
@@ -444,9 +449,16 @@ class ZAPS(nn.Module):
             optimizer.zero_grad()
 
             # 优化阶段用确定性轨迹（eta=0），消除随机噪声对梯度的干扰
-            x0_est = self._reverse_diffusion(
-                y, nfe_counter=nfe_counter, eta_override=0.0, init_noise=fixed_noise
-            )
+            if scheduler is not None:
+                # 自适应调度:ζ 按步位置学,与最终采样同一路径(修复 ζ 错配)
+                x0_est = self._reverse_diffusion_adaptive(
+                    y, scheduler, nfe_counter=nfe_counter,
+                    eta_override=0.0, init_noise=fixed_noise,
+                )
+            else:
+                x0_est = self._reverse_diffusion(
+                    y, nfe_counter=nfe_counter, eta_override=0.0, init_noise=fixed_noise
+                )
 
             # 物理引导损失
             loss = F.mse_loss(self.A.H(x0_est), y)
@@ -539,7 +551,9 @@ class ZAPS(nn.Module):
               time_sample_s - 最终采样耗时（秒）
               time_total_s  - 全程耗时（秒）
         """
-        loss_hist = self.optimize(y, verbose=verbose, x0_gt=kwargs.get("x0_gt"))
+        scheduler = kwargs.get("scheduler", None)   # 传入则优化+采样共用自适应调度
+        loss_hist = self.optimize(y, verbose=verbose, x0_gt=kwargs.get("x0_gt"),
+                                  scheduler=scheduler)
         final_mode = kwargs.get("final_mode", "sample")
         sample_eta = kwargs.get("sample_eta", None)
         sample_init = kwargs.get("sample_init", "random")
@@ -550,7 +564,6 @@ class ZAPS(nn.Module):
             x0_final, nfe_s, t_s = self._last_opt_x0, 0, 0.0
         elif final_mode == "sample":
             init_noise = self._last_opt_noise if sample_init == "opt_noise" else None
-            scheduler = kwargs.get("scheduler", None)   # 传入则走自适应调度(创新点②③)
             x0_final, nfe_s, t_s = self.sample(
                 y, eta_override=sample_eta, init_noise=init_noise,
                 scheduler=scheduler,
