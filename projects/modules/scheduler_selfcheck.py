@@ -122,13 +122,20 @@ def main():
     allok &= check("v3 低噪声区步长 < 高噪声区",
                    (st.mean(lo3) if lo3 else 9) < (st.mean(hi3) if hi3 else 0),
                    f"高噪={st.mean(hi3):.1f} 低噪={st.mean(lo3):.1f}")
-    # 6c. E 大→小步:平滑快降(低 E) vs 弯曲停滞(高 E)
-    def h_at(cos, dr):
-        s = StateAwareScheduler(30, T - 1, cfg_v3()); s.used = 5; s.s = cos; s.dr_rel = dr
-        return s._select_step_v3(500, 25)
-    allok &= check("v3 低误差(平滑快降)步长 > 高误差(弯曲停滞)",
-                   h_at(0.9, 0.3) > h_at(-0.9, 0.0),
-                   f"低E={h_at(0.9,0.3)} 高E={h_at(-0.9,0.0)}")
+    # 6c. 去趋势:预热常态 EMA 后,异常偏离(骤弯+骤停)应比延续常态迈更小步(密采)
+    def h_probe(anomaly):
+        s = StateAwareScheduler(30, T - 1, cfg_v3())
+        t = 800
+        for _ in range(5):                       # 预热 5 步常态,建立 EMA 趋势基准
+            s.update_state(resid_norm=50.0, cos_x0=-0.3); s.select_step(t); t -= 30
+        if anomaly:                              # 异常:轨迹骤弯 + 残差骤停 → 应密采(小步)
+            s.update_state(resid_norm=49.9, cos_x0=-0.9)
+        else:                                    # 延续常态 → 跟随 base
+            s.update_state(resid_norm=45.0, cos_x0=-0.3)
+        return s._select_step_v3(t, 24)
+    allok &= check("v3 去趋势:异常(骤弯骤停)步长 < 延续常态(异常处密采)",
+                   h_probe(True) < h_probe(False),
+                   f"异常={h_probe(True)} 常态={h_probe(False)}")
 
     print("\n" + ("=" * 40))
     print("总体:", "✅ 全部通过,可进入参数扫描" if allok else "❌ 有 FAIL,先修逻辑再扫参")
