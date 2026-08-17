@@ -447,17 +447,19 @@ class ZAPS(nn.Module):
 
         for epoch in range(self.num_epochs):
             optimizer.zero_grad()
+            is_last = (epoch == self.num_epochs - 1)
 
-            # 优化阶段用确定性轨迹（eta=0），消除随机噪声对梯度的干扰
+            # 方案1:优化用 eta=self.eta(=1,对齐 ZAPS Algorithm 1,优化即采样,消除eta割裂)
+            # 最后一轮记录调度分布(indicators),其 x0 作为最终输出(last_opt)
             if scheduler is not None:
-                # 自适应调度:ζ 按步位置学,与最终采样同一路径(修复 ζ 错配)
                 x0_est = self._reverse_diffusion_adaptive(
                     y, scheduler, nfe_counter=nfe_counter,
-                    eta_override=0.0, init_noise=fixed_noise,
+                    eta_override=self.eta, init_noise=fixed_noise,
+                    record_indicators=is_last,
                 )
             else:
                 x0_est = self._reverse_diffusion(
-                    y, nfe_counter=nfe_counter, eta_override=0.0, init_noise=fixed_noise
+                    y, nfe_counter=nfe_counter, eta_override=self.eta, init_noise=fixed_noise
                 )
 
             # 物理引导损失

@@ -158,9 +158,11 @@ def run_zaps_single(
         img_size=IMG_SIZE[0],
         **zaps_cfg,
     )
+    # 方案1:自适应默认用 last_opt(优化最后一轮即最终输出,对齐 ZAPS,消除重跑割裂)
+    eff_final_mode = "last_opt" if (adaptive and final_mode == "sample") else final_mode
     run_kwargs = dict(
         verbose=verbose, x0_gt=x0_gt,
-        final_mode=final_mode, sample_eta=sample_eta, sample_init=sample_init,
+        final_mode=eff_final_mode, sample_eta=sample_eta, sample_init=sample_init,
     )
     if adaptive:
         from modules.adaptive_scheduler import StateAwareScheduler, SchedulerConfig
@@ -303,6 +305,8 @@ if __name__ == "__main__":
                         help="v3:曲率误差vs停滞误差权衡∈[0,1];0纯残差,1纯曲率")
     parser.add_argument("--theta", type=float, default=0.5,
                         help="v3:容忍度,越大越激进(步长调制幅度越大)")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="随机种子;固定后 baseline 与 v3 共享同一初始噪声,结果可配对对比(方案1核心)")
     args = parser.parse_args()
 
     run_zaps_single(
@@ -326,4 +330,5 @@ if __name__ == "__main__":
         schedule_mode=args.schedule_mode,
         omega=args.omega,
         theta=args.theta,
+        seed=args.seed,
     )
