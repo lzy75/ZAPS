@@ -1,0 +1,266 @@
+{
+  "exp_id": "20260817_114524_gaussian_deblur_ffhq_00001",
+  "purpose": "固定基线 三任务random 15-10-5 补齐",
+  "git": {
+    "commit": "97ea328",
+    "branch": "master",
+    "dirty": true
+  },
+  "config": {
+    "num_steps": 30,
+    "schedule": [
+      15,
+      10,
+      5
+    ],
+    "timestep_spacing": "linear",
+    "schedule_power": 2.0,
+    "num_epochs": 10,
+    "lr": 0.001,
+    "zeta_init": 0.2,
+    "d_init": 0.2,
+    "wave": "db4",
+    "level": 3,
+    "eta": 1.0,
+    "final_mode": "sample",
+    "sample_eta": 1.0,
+    "sample_init": "random",
+    "noise_sigma": 0.05,
+    "adaptive": false,
+    "w_cos": null,
+    "beta": null,
+    "mod_max": null,
+    "p_schedule": null,
+    "schedule_mode": null,
+    "omega": null,
+    "theta": null
+  },
+  "metrics": {
+    "psnr": 26.53293084337924,
+    "ssim": 0.777374267578125,
+    "lpips": 0.1435597687959671
+  },
+  "obs_psnr": 24.347248077392578,
+  "nfe": {
+    "opt": 300,
+    "sample": 30,
+    "total": 330
+  },
+  "times": {
+    "opt_s": 19.21343159675598,
+    "sample_s": 1.7077953815460205,
+    "total_s": 20.921226978302002
+  },
+  "indicators": [
+    {
+      "step": 0,
+      "t": 999,
+      "residual_norm": 414.8152160644531,
+      "cosine_sim": NaN,
+      "cosine_sim_x0": NaN
+    },
+    {
+      "step": 1,
+      "t": 932,
+      "residual_norm": 318.8636474609375,
+      "cosine_sim": -0.8852311372756958,
+      "cosine_sim_x0": NaN
+    },
+    {
+      "step": 2,
+      "t": 865,
+      "residual_norm": 242.91744995117188,
+      "cosine_sim": 0.06688565015792847,
+      "cosine_sim_x0": -0.590028703212738
+    },
+    {
+      "step": 3,
+      "t": 799,
+      "residual_norm": 246.06625366210938,
+      "cosine_sim": 0.13892871141433716,
+      "cosine_sim_x0": -0.6444585919380188
+    },
+    {
+      "step": 4,
+      "t": 732,
+      "residual_norm": 247.24688720703125,
+      "cosine_sim": 0.01739923283457756,
+      "cosine_sim_x0": -0.7609895467758179
+    },
+    {
+      "step": 5,
+      "t": 635,
+      "residual_norm": 269.7454528808594,
+      "cosine_sim": -0.2751757502555847,
+      "cosine_sim_x0": -0.723991870880127
+    },
+    {
+      "step": 6,
+      "t": 605,
+      "residual_norm": 219.07791137695312,
+      "cosine_sim": -0.18590518832206726,
+      "cosine_sim_x0": -0.6781885623931885
+    },
+    {
+      "step": 7,
+      "t": 575,
+      "residual_norm": 252.07447814941406,
+      "cosine_sim": -0.34048259258270264,
+      "cosine_sim_x0": -0.6701096296310425
+    },
+    {
+      "step": 8,
+      "t": 544,
+      "residual_norm": 235.4474639892578,
+      "cosine_sim": -0.4211975932121277,
+      "cosine_sim_x0": -0.8167991042137146
+    },
+    {
+      "step": 9,
+      "t": 514,
+      "residual_norm": 212.2191925048828,
+      "cosine_sim": -0.32481566071510315,
+      "cosine_sim_x0": -0.7872124910354614
+    },
+    {
+      "step": 10,
+      "t": 484,
+      "residual_norm": 174.44529724121094,
+      "cosine_sim": -0.27834296226501465,
+      "cosine_sim_x0": -0.8556231260299683
+    },
+    {
+      "step": 11,
+      "t": 454,
+      "residual_norm": 136.97567749023438,
+      "cosine_sim": -0.18989422917366028,
+      "cosine_sim_x0": -0.8903539776802063
+    },
+    {
+      "step": 12,
+      "t": 423,
+      "residual_norm": 80.01109313964844,
+      "cosine_sim": -0.11236221343278885,
+      "cosine_sim_x0": -0.906753659248352
+    },
+    {
+      "step": 13,
+      "t": 393,
+      "residual_norm": 39.793922424316406,
+      "cosine_sim": -0.06230003014206886,
+      "cosine_sim_x0": -0.9107082486152649
+    },
+    {
+      "step": 14,
+      "t": 363,
+      "residual_norm": 30.08651351928711,
+      "cosine_sim": -0.05737227201461792,
+      "cosine_sim_x0": -0.7054786682128906
+    },
+    {
+      "step": 15,
+      "t": 333,
+      "residual_norm": 29.325281143188477,
+      "cosine_sim": -0.048900485038757324,
+      "cosine_sim_x0": -0.07252784073352814
+    },
+    {
+      "step": 16,
+      "t": 309,
+      "residual_norm": 28.60252571105957,
+      "cosine_sim": -0.04150998592376709,
+      "cosine_sim_x0": -0.09267573058605194
+    },
+    {
+      "step": 17,
+      "t": 285,
+      "residual_norm": 28.073070526123047,
+      "cosine_sim": -0.04472414404153824,
+      "cosine_sim_x0": -0.05667082220315933
+    },
+    {
+      "step": 18,
+      "t": 261,
+      "residual_norm": 27.468582153320312,
+      "cosine_sim": -0.04165957123041153,
+      "cosine_sim_x0": -0.017928164452314377
+    },
+    {
+      "step": 19,
+      "t": 237,
+      "residual_norm": 27.059125900268555,
+      "cosine_sim": -0.03966871649026871,
+      "cosine_sim_x0": 0.005442456342279911
+    },
+    {
+      "step": 20,
+      "t": 214,
+      "residual_norm": 26.75067138671875,
+      "cosine_sim": -0.03158744052052498,
+      "cosine_sim_x0": -0.0187101811170578
+    },
+    {
+      "step": 21,
+      "t": 190,
+      "residual_norm": 26.29907989501953,
+      "cosine_sim": -0.03232719376683235,
+      "cosine_sim_x0": -0.03584885969758034
+    },
+    {
+      "step": 22,
+      "t": 166,
+      "residual_norm": 26.03113555908203,
+      "cosine_sim": -0.02417232096195221,
+      "cosine_sim_x0": -0.006998057942837477
+    },
+    {
+      "step": 23,
+      "t": 142,
+      "residual_norm": 25.76548194885254,
+      "cosine_sim": -0.021705014631152153,
+      "cosine_sim_x0": -0.05912192910909653
+    },
+    {
+      "step": 24,
+      "t": 118,
+      "residual_norm": 25.5042724609375,
+      "cosine_sim": -0.012117958627641201,
+      "cosine_sim_x0": -0.014512510970234871
+    },
+    {
+      "step": 25,
+      "t": 95,
+      "residual_norm": 25.188528060913086,
+      "cosine_sim": -0.011820627376437187,
+      "cosine_sim_x0": -0.055177513509988785
+    },
+    {
+      "step": 26,
+      "t": 71,
+      "residual_norm": 24.926036834716797,
+      "cosine_sim": -0.006006829906255007,
+      "cosine_sim_x0": -0.03603694587945938
+    },
+    {
+      "step": 27,
+      "t": 47,
+      "residual_norm": 24.59062957763672,
+      "cosine_sim": 0.005811038892716169,
+      "cosine_sim_x0": -0.025808369740843773
+    },
+    {
+      "step": 28,
+      "t": 23,
+      "residual_norm": 24.23597526550293,
+      "cosine_sim": 0.028499525040388107,
+      "cosine_sim_x0": -0.028172573074698448
+    },
+    {
+      "step": 29,
+      "t": 0,
+      "residual_norm": 23.85959815979004,
+      "cosine_sim": 0.14260514080524445,
+      "cosine_sim_x0": 0.05552976205945015
+    }
+  ]
+}
