@@ -19,8 +19,8 @@ class SchedulerConfig:
     h_min: float = 1.0            # 最小步长(时间步单位)
     h_max: float = 120.0         # 最大步长(仅作安全上限)
     schedule_mode: str = "v2"    # "v2"=幂律基础+有界调制(现版,回退用);"v3"=统一代价函数
-    # ── v2:幂律基础调度(dense in low-noise,复刻 ZAPS/OSS 先验)──
-    p_schedule: float = 2.0      # 幂指数>1:低噪声区步长更小(密采),=1 退化为线性
+    # ── base 名义调度:EDM(Karras)ρ 幂律,低噪密采,按 N 自动生成(可跨 NFE)──
+    p_schedule: float = 2.0      # EDM ρ:越大越偏低噪密采;逆问题用温和值(2≈ZAPS 5/10/15),=1 近均匀
     # ── 自适应调制(围绕基础调度做有界扰动,信号无效时退化为纯基础调度)──
     beta: float = 0.5            # 残差"下降速率"对步长的调制强度(相对量,非绝对残差)
     w_cos: float = 0.3           # 余弦(稳定性)辅助信号权重∈[0,1];0=纯基础+残差
@@ -77,15 +77,22 @@ class StateAwareScheduler:
 
     def _precompute_nominal(self):
         """
-        预计算 N 步名义时间步序列(降序,从 t_start 到 0),体现低噪声区密采(15/10/5 先验)。
-        用幂律 warp:t_k = t_start·(1 − k/N)^p,p>1 使靠近 0(低噪声)处相邻间距更小。
-        返回每步名义步长 nominal_h[k] = t_k − t_{k+1}(k=0..N-1),和为 t_start。
+        预计算 N 步名义步长序列(降序,和为 t_start),用 EDM(Karras 2022)ρ 调度形状。
+        EDM σ 域:σ_i = (σmax^(1/ρ) + i/(N-1)·(σmin^(1/ρ) − σmax^(1/ρ)))^ρ,i=0..N-1
+        再线性映射到 t 域 [0, t_start](σ 大=高噪=t 大)。
+        依据:EDM ρ 幂律是扩散采样主流调度,ρ 控低噪密采程度,且【按 N 自动生成】→ 可跨 NFE 迁移
+             (相比 ZAPS 15/10/5 只对固定 NFE 手调)。ρ=p_schedule,逆问题用温和值(默认 2)。
         """
         c = self.cfg
-        p = max(1.0, c.p_schedule)
-        pts = [self.t_start * (1.0 - k / self.N) ** p for k in range(self.N + 1)]
-        pts[-1] = 0.0
-        return [pts[k] - pts[k + 1] for k in range(self.N)]   # 名义步长(降序,低噪端更小)
+        rho = max(1.0, c.p_schedule)   # 复用 p_schedule 承载 ρ
+        smin, smax = 0.002, 80.0
+        a, bmax = smin ** (1.0 / rho), smax ** (1.0 / rho)
+        sig = [(bmax + i / (self.N - 1) * (a - bmax)) ** rho for i in range(self.N)] if self.N > 1 else [smax]
+        lo_s, hi_s = min(sig), max(sig)
+        rng = (hi_s - lo_s) or 1.0
+        pts = [self.t_start * (s - lo_s) / rng for s in sig]   # 降序:σmax→t_start, σmin→0
+        pts.append(0.0)
+        return [max(0.0, pts[k] - pts[k + 1]) for k in range(self.N)]
 
     # ── 指标更新:采样侧算好标量后传入(torch 侧算余弦,避免展平成 list)──
     def update_state(self, resid_norm: float, cos_x0: float = float("nan")):
