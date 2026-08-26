@@ -38,7 +38,7 @@ ZAPS_CONFIG = dict(
     zeta_init    = 0.2,         # ← 可调：ζ 初始值（缺省 0.2，按任务见下表覆盖）
     d_init       = 0.2,         # ← 可调：D_t 对角初值，论文统一 0.2
     eta          = 1.0,         # ← 可调：采样随机性（1.0=DDPM，0.0=DDIM）
-    use_learned_var = True,     # ← 可调：注噪用模型学出的方差(LEARNED_RANGE,对齐原文);False=固定β̃
+    use_learned_var = False,    # 原文用固定β̃(Eq.10),learned variance验证更差,默认关
     wave         = "db4",       # ← 可调：正交小波，论文用 db4
     level        = 3,           # ← 可调：DWT 分解级数
 )
