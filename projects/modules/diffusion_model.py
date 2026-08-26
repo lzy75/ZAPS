@@ -122,7 +122,7 @@ class BaseDiffusionModel(ABC):
     def _predict_eps(self, x_t: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
         """
         调用 guided-diffusion 模型，返回 ε 预测。
-        learn_sigma=True 时输出通道翻倍，前半为 ε，后半为 log_variance。
+        learn_sigma=True 时输出通道翻倍，前半为 ε，后半为方差参数。
         """
         out = self.model(x_t, t)                 # [B, 2C, H, W] 或 [B, C, H, W]
         C = x_t.shape[1]
@@ -131,6 +131,21 @@ class BaseDiffusionModel(ABC):
         else:
             eps = out
         return eps
+
+    def _predict_eps_var(self, x_t: torch.Tensor, t: torch.Tensor):
+        """
+        同 _predict_eps，但额外返回学出的方差参数（后半通道）。
+        learn_sigma=True（LEARNED_RANGE）时后半是 v∈[-1,1]，供采样步按
+        model_log_var = frac·log β + (1-frac)·log β̃（frac=(v+1)/2）插值出真实方差。
+
+        返回:
+            (eps, var_values)  var_values 为 None 表示模型非 learn_sigma。
+        """
+        out = self.model(x_t, t)
+        C = x_t.shape[1]
+        if out.shape[1] == 2 * C:
+            return out[:, :C], out[:, C:]
+        return out, None
 
 # ─────────────────────────────────────────────
 # FFHQ 模型封装

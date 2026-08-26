@@ -100,6 +100,7 @@ def ddpm_posterior_step(
     t_prev:         int,
     alphas_cumprod: torch.Tensor,
     eta:            float = 1.0,
+    learned_log_var: torch.Tensor = None,
 ) -> torch.Tensor:
     """
     DDPM 后验采样：q(x_{t_prev} | x_t, x̂_0)
@@ -117,6 +118,9 @@ def ddpm_posterior_step(
         t_prev         : 目标时间步整数索引（-1 表示 t=0，直接返回 x̂_0）
         alphas_cumprod : [T] 预计算 ᾱ 序列
         eta            : ← 可调，DDIM 噪声系数，1.0=DDPM，0.0=DDIM 确定性
+        learned_log_var: 可选，模型学出的 log 方差 [B,C,H,W]（LEARNED_RANGE）。
+                         提供时噪声尺度用 exp(0.5·log_var)（对齐 guided-diffusion
+                         p_sample），而非固定 β̃；None 时退回固定 β̃（向后兼容）。
     返回:
         x_{t_prev} : [B, C, H, W]
     """
@@ -135,11 +139,19 @@ def ddpm_posterior_step(
     c2 = (ab_t / ab_prev).sqrt() * (1.0 - ab_prev) / (1.0 - ab_t).clamp(min=1e-8)
     mean = c1 * x0_pred + c2 * x_t
 
-    # 后验方差 β̃
+    if eta <= 0:
+        return mean                                # 确定性（DDIM eta=0）
+
+    if learned_log_var is not None:
+        # 用模型学出的方差注入噪声（对齐原文 p_sample: exp(0.5·log_var)·z）
+        noise = torch.randn_like(x_t)
+        return mean + eta * torch.exp(0.5 * learned_log_var) * noise
+
+    # 后验方差 β̃（固定方差，向后兼容路径）
     beta_tilde = (1.0 - ab_prev) / (1.0 - ab_t).clamp(min=1e-8) * (1.0 - ab_t / ab_prev)
     beta_tilde = beta_tilde.clamp(min=0.0)
 
-    noise = torch.randn_like(x_t) if eta > 0 else torch.zeros_like(x_t)
+    noise = torch.randn_like(x_t)
     return mean + eta * beta_tilde.sqrt() * noise
 
 
@@ -162,6 +174,7 @@ class ZAPS(nn.Module):
         d_init           : ← 可调，D_t 对角初值（论文 0.2）
         wave / level     : ← 可调，正交小波类型与 DWT 级数（论文 db4）
         eta              : ← 可调，采样随机性（1.0=DDPM，0.0=DDIM）
+        use_learned_var  : ← 可调，注噪用模型学出的方差(LEARNED_RANGE,对齐原文);False=固定β̃
     """
 
     def __init__(
@@ -181,6 +194,7 @@ class ZAPS(nn.Module):
         img_size:    int   = 256,               # ← 可调：图像边长
         wave:        str   = WAVELET,           # ← 可调：小波类型
         level:       int   = WAVELET_LEVEL,     # ← 可调：DWT 级数
+        use_learned_var: bool = True,           # ← 可调：注噪用模型学出的方差(对齐原文)
     ):
         super().__init__()
         self.device = diffusion_model.device
@@ -189,6 +203,7 @@ class ZAPS(nn.Module):
         self.eta    = eta
         self.channels = channels
         self.img_size = img_size
+        self.use_learned_var = use_learned_var
 
         # ── 固定正交 db4 DWT（W），用于 Hessian 对角化近似（论文 Eq.22）──
         self.dwt = OrthogonalDWT2D(wave=wave, level=level).to(self.device)
@@ -212,6 +227,25 @@ class ZAPS(nn.Module):
 
         self.num_epochs = num_epochs
         self.lr         = lr
+
+    # ── 内部：把模型学出的 var_values 转成 log 方差（LEARNED_RANGE 插值）──
+    def _learned_log_var(self, var_values: torch.Tensor,
+                         t_curr: int, t_prev: int) -> torch.Tensor:
+        """
+        对齐 guided-diffusion p_mean_variance（LEARNED_RANGE）：
+            frac = (v + 1) / 2
+            log_var = frac · log(β_skip) + (1 − frac) · log(β̃_skip)
+        跳步下 β_skip = 1 − ᾱ_t/ᾱ_prev，β̃_skip = (1−ᾱ_prev)/(1−ᾱ_t)·β_skip
+        （与 ddpm_posterior_step 里的 beta_tilde 一致）。仅用于噪声尺度，detach。
+        """
+        ab = self.dm.alphas_cumprod
+        ab_t = ab[t_curr]; ab_prev = ab[t_prev]
+        beta_skip = (1.0 - ab_t / ab_prev).clamp(min=1e-8, max=0.999)
+        beta_tilde = ((1.0 - ab_prev) / (1.0 - ab_t).clamp(min=1e-8) * beta_skip).clamp(min=1e-20)
+        min_log = torch.log(beta_tilde)              # 下界 β̃
+        max_log = torch.log(beta_skip)               # 上界 β
+        frac = (var_values.detach() + 1.0) / 2.0     # v∈[-1,1] → [0,1]
+        return frac * max_log + (1.0 - frac) * min_log
 
     # ── 内部：单次反向扩散（可微分，梯度流经 ζ 和 d）──────────
 
@@ -261,7 +295,10 @@ class ZAPS(nn.Module):
 
             # ── 步骤 1：score 模型推断（每次调用计 1 NFE）──
             with torch.no_grad():
-                eps = self.dm._predict_eps(x, t_batch)
+                if self.use_learned_var:
+                    eps, var_values = self.dm._predict_eps_var(x, t_batch)
+                else:
+                    eps, var_values = self.dm._predict_eps(x, t_batch), None
             if nfe_counter is not None:
                 nfe_counter[0] += 1
 
@@ -274,8 +311,10 @@ class ZAPS(nn.Module):
 
             # ── 步骤 3：无条件 DDPM 后验步（论文 Eq.10）──
             # 保留 x0_pred 梯度路径（c1 系数），使 ζ/d 的梯度能流经完整轨迹
+            llv = self._learned_log_var(var_values, t_curr, t_prev) \
+                if (var_values is not None and t_prev >= 0) else None
             x_uncond = ddpm_posterior_step(
-                x, x0_pred, t_curr, t_prev, ab, eta=eta,
+                x, x0_pred, t_curr, t_prev, ab, eta=eta, learned_log_var=llv,
             )
 
             # ── 步骤 4：ZAPS 引导修正（论文 Algorithm 1 line 9, Eq.20/22）──
@@ -363,7 +402,10 @@ class ZAPS(nn.Module):
             kd = min(k, S - 1)                   # 步位置索引 ζ/D(越界钳到末位)
             t_batch = torch.full((B,), t, device=self.device, dtype=torch.long)
             with torch.no_grad():
-                eps = self.dm._predict_eps(x, t_batch)
+                if self.use_learned_var:
+                    eps, var_values = self.dm._predict_eps_var(x, t_batch)
+                else:
+                    eps, var_values = self.dm._predict_eps(x, t_batch), None
             if nfe_counter is not None:
                 nfe_counter[0] += 1
 
@@ -391,7 +433,10 @@ class ZAPS(nn.Module):
                 t_prev = -1                      # 末步:落到 x̂₀
 
             # 采样步 + 状态自适应权重(创新点③);ζ/D 按步位置 kd,传张量保留梯度
-            x_uncond = ddpm_posterior_step(x, x0_pred, t, t_prev, ab, eta=eta)
+            llv = self._learned_log_var(var_values, t, t_prev) \
+                if (var_values is not None and t_prev >= 0) else None
+            x_uncond = ddpm_posterior_step(x, x0_pred, t, t_prev, ab, eta=eta,
+                                           learned_log_var=llv)
             zeta_k = scheduler.adapt_weight(self.zeta[kd])       # 张量,梯度可回传
             v      = self.A.transpose(residual)
             Hv     = self.dwt.synthesis(self.D[kd] * self.dwt.analysis(v))
