@@ -39,6 +39,7 @@ ZAPS_CONFIG = dict(
     d_init       = 0.2,         # ← 可调：D_t 对角初值，论文统一 0.2
     eta          = 1.0,         # ← 可调：采样随机性（1.0=DDPM，0.0=DDIM）
     use_learned_var = False,    # 原文用固定β̃(Eq.10),learned variance验证更差,默认关
+    sampler_mode = "ddim",      # ← 可调：采样更新式 ddim(原文Eq.25,重注入ε) | ddpm(后验均值,用x_t)
     wave         = "db4",       # ← 可调：正交小波，论文用 db4
     level        = 3,           # ← 可调：DWT 分解级数
 )

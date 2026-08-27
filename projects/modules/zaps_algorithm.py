@@ -101,26 +101,31 @@ def ddpm_posterior_step(
     alphas_cumprod: torch.Tensor,
     eta:            float = 1.0,
     learned_log_var: torch.Tensor = None,
+    mode:           str = "ddpm",
 ) -> torch.Tensor:
     """
-    DDPM 后验采样：q(x_{t_prev} | x_t, x̂_0)
-    支持任意跳步（t_curr → t_prev，不要求 t_prev = t_curr - 1）
+    反向扩散单步：从 x_t 采样 x_{t_prev}，支持任意跳步。
 
-    公式（DDPM 论文 Eq.7 推广到跳步）：
-        μ̃ = c1 · x̂_0 + c2 · x_t
-        β̃ = (1 − ᾱ_{t_prev}) / (1 − ᾱ_t) · (1 − ᾱ_t / ᾱ_{t_prev})
-        x_{t_prev} = μ̃ + √β̃ · z，z ~ N(0,I)
+    两种更新形式（mode）：
+    - "ddpm"（后验均值，向后兼容）：
+        μ̃ = c1·x̂_0 + c2·x_t，β̃ = (1−ᾱ_prev)/(1−ᾱ_t)·(1−ᾱ_t/ᾱ_prev)
+        x_{t_prev} = μ̃ + √β̃·z
+    - "ddim"（原文 Eq.25 / guided-diffusion ddim_sample，对齐 ZAPS 原文）：
+        σ = eta·√((1−ᾱ_prev)/(1−ᾱ_t))·√(1−ᾱ_t/ᾱ_prev)
+        ε = (x_t − √ᾱ_t·x̂_0)/√(1−ᾱ_t)          # 由 clamp 后 x̂_0 反推
+        x_{t_prev} = √ᾱ_prev·x̂_0 + √(1−ᾱ_prev−σ²)·ε + σ·z
+      重注入的是去噪方向 ε（而非含噪 x_t 的线性组合），宽分布 ImageNet 下
+      不会把 x̂_0 的高频误差反复带入，先验得以接管重建。
 
     参数:
         x_t            : [B, C, H, W] 当前噪声图
-        x0_pred        : [B, C, H, W] Tweedie 估计的干净图
+        x0_pred        : [B, C, H, W] Tweedie 估计的干净图（已 clamp[-1,1]）
         t_curr         : 当前时间步整数索引
         t_prev         : 目标时间步整数索引（-1 表示 t=0，直接返回 x̂_0）
         alphas_cumprod : [T] 预计算 ᾱ 序列
-        eta            : ← 可调，DDIM 噪声系数，1.0=DDPM，0.0=DDIM 确定性
-        learned_log_var: 可选，模型学出的 log 方差 [B,C,H,W]（LEARNED_RANGE）。
-                         提供时噪声尺度用 exp(0.5·log_var)（对齐 guided-diffusion
-                         p_sample），而非固定 β̃；None 时退回固定 β̃（向后兼容）。
+        eta            : ← 可调，噪声系数，1.0=DDPM，0.0=确定性
+        learned_log_var: 仅 ddpm 模式用；提供则噪声尺度用 exp(0.5·log_var)，否则固定 β̃
+        mode           : "ddpm" | "ddim"（默认 ddpm；ddim=对齐原文 Eq.25）
     返回:
         x_{t_prev} : [B, C, H, W]
     """
@@ -133,21 +138,33 @@ def ddpm_posterior_step(
     ab_t    = alphas_cumprod[t_curr].to(device)   # ᾱ_t
     ab_prev = alphas_cumprod[t_prev].to(device)   # ᾱ_{t_prev}
 
-    # 后验均值系数
-    # c1 对应 x̂_0 的系数，c2 对应 x_t 的系数
+    if mode == "ddim":
+        # 原文 Eq.25：ε 由 clamp 后 x̂_0 反推（guided-diffusion ddim_sample 做法）
+        sqrt_ab_t = ab_t.sqrt()
+        eps = (x_t - sqrt_ab_t * x0_pred) / (1.0 - ab_t).sqrt().clamp(min=1e-8)
+        sigma = eta * ((1.0 - ab_prev) / (1.0 - ab_t).clamp(min=1e-8)).sqrt() \
+                    * (1.0 - ab_t / ab_prev).clamp(min=0.0).sqrt()
+        coef_eps = (1.0 - ab_prev - sigma ** 2).clamp(min=0.0).sqrt()
+        mean = ab_prev.sqrt() * x0_pred + coef_eps * eps
+        if eta <= 0:
+            return mean
+        return mean + sigma * torch.randn_like(x_t)
+
+    # ── 以下为 ddpm 后验均值形式（向后兼容）──
+    # 后验均值系数：c1 对应 x̂_0，c2 对应 x_t
     c1 = ab_prev.sqrt() * (1.0 - ab_t / ab_prev) / (1.0 - ab_t).clamp(min=1e-8)
     c2 = (ab_t / ab_prev).sqrt() * (1.0 - ab_prev) / (1.0 - ab_t).clamp(min=1e-8)
     mean = c1 * x0_pred + c2 * x_t
 
     if eta <= 0:
-        return mean                                # 确定性（DDIM eta=0）
+        return mean                                # 确定性（eta=0）
 
     if learned_log_var is not None:
-        # 用模型学出的方差注入噪声（对齐原文 p_sample: exp(0.5·log_var)·z）
+        # 用模型学出的方差注入噪声（对齐 guided-diffusion p_sample: exp(0.5·log_var)·z）
         noise = torch.randn_like(x_t)
         return mean + eta * torch.exp(0.5 * learned_log_var) * noise
 
-    # 后验方差 β̃（固定方差，向后兼容路径）
+    # 后验方差 β̃（固定方差）
     beta_tilde = (1.0 - ab_prev) / (1.0 - ab_t).clamp(min=1e-8) * (1.0 - ab_t / ab_prev)
     beta_tilde = beta_tilde.clamp(min=0.0)
 
@@ -175,6 +192,7 @@ class ZAPS(nn.Module):
         wave / level     : ← 可调，正交小波类型与 DWT 级数（论文 db4）
         eta              : ← 可调，采样随机性（1.0=DDPM，0.0=DDIM）
         use_learned_var  : ← 可调，注噪用模型学出的方差(LEARNED_RANGE,对齐原文);False=固定β̃
+        sampler_mode     : ← 可调，采样更新式 ddim(原文Eq.25) | ddpm(后验均值)
     """
 
     def __init__(
@@ -195,6 +213,7 @@ class ZAPS(nn.Module):
         wave:        str   = WAVELET,           # ← 可调：小波类型
         level:       int   = WAVELET_LEVEL,     # ← 可调：DWT 级数
         use_learned_var: bool = True,           # ← 可调：注噪用模型学出的方差(对齐原文)
+        sampler_mode: str = "ddim",             # ← 可调：ddim(原文Eq.25) | ddpm(后验均值)
     ):
         super().__init__()
         self.device = diffusion_model.device
@@ -204,6 +223,7 @@ class ZAPS(nn.Module):
         self.channels = channels
         self.img_size = img_size
         self.use_learned_var = use_learned_var
+        self.sampler_mode = sampler_mode
 
         # ── 固定正交 db4 DWT（W），用于 Hessian 对角化近似（论文 Eq.22）──
         self.dwt = OrthogonalDWT2D(wave=wave, level=level).to(self.device)
@@ -315,6 +335,7 @@ class ZAPS(nn.Module):
                 if (var_values is not None and t_prev >= 0) else None
             x_uncond = ddpm_posterior_step(
                 x, x0_pred, t_curr, t_prev, ab, eta=eta, learned_log_var=llv,
+                mode=self.sampler_mode,
             )
 
             # ── 步骤 4：ZAPS 引导修正（论文 Algorithm 1 line 9, Eq.20/22）──
@@ -436,7 +457,7 @@ class ZAPS(nn.Module):
             llv = self._learned_log_var(var_values, t, t_prev) \
                 if (var_values is not None and t_prev >= 0) else None
             x_uncond = ddpm_posterior_step(x, x0_pred, t, t_prev, ab, eta=eta,
-                                           learned_log_var=llv)
+                                           learned_log_var=llv, mode=self.sampler_mode)
             zeta_k = scheduler.adapt_weight(self.zeta[kd])       # 张量,梯度可回传
             v      = self.A.transpose(residual)
             Hv     = self.dwt.synthesis(self.D[kd] * self.dwt.analysis(v))
