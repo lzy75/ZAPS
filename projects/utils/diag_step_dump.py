@@ -45,7 +45,8 @@ def to_psnr(mse):
 
 @torch.no_grad()
 def dump_traj(dataset, device):
-    print(f"\n{'='*78}\n  {dataset}  逐步采样 dump (eta=1, 固定β̃, 优化后的ζ/D)\n{'='*78}", flush=True)
+    print(f"\n{'='*78}\n  {dataset}  逐步采样 dump (eta=1, 固定β̃, 初始ζ=0.1/D=0.2)\n{'='*78}", flush=True)
+    print("  (diag_optim_curve已证ζ/D优化几乎不动、epoch1即崩,故直接用初始参数dump)", flush=True)
     x0_gt = load_image_as_tensor(IMAGES[dataset]).to(device)
     operator = get_operator(TASK, device=device, **TASK_CONFIGS[TASK])
     torch.manual_seed(SEED)
@@ -61,8 +62,7 @@ def dump_traj(dataset, device):
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(SEED)
     zaps = ZAPS(diffusion_model=dm, forward_operator=operator, img_size=IMG_SIZE[0], **cfg)
-    # 先优化(拿到学好的 ζ/D), 但这里只关心采样轨迹, 用优化后的参数复刻一遍采样
-    zaps.optimize(y_obs, verbose=False, x0_gt=x0_gt)
+    # 用初始 ζ/D 直接 dump 采样轨迹(不 optimize,因已证优化不改善且会触发 backward)
 
     ab = dm.alphas_cumprod
     tau = zaps.tau
