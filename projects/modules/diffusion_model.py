@@ -225,7 +225,7 @@ class ImageNetDiffusionModel(BaseDiffusionModel):
     模型参数（与 guided-diffusion 官方 256x256_diffusion_uncond.pt 一致）:
         image_size=256, num_channels=256, num_res_blocks=2,
         attention_resolutions="32,16,8", num_heads=4, num_head_channels=64,
-        learn_sigma=True, use_fp16=True, dropout=0.0
+        learn_sigma=True, use_fp16=False, dropout=0.0
     """
 
     MODEL_CONFIG = dict(
@@ -240,7 +240,9 @@ class ImageNetDiffusionModel(BaseDiffusionModel):
         use_scale_shift_norm=True,
         dropout=0.0,
         resblock_updown=True,
-        use_fp16=True,
+        # 与 DPS/configs/imagenet_model_config.yaml 保持一致。高噪声时间步的
+        # Tweedie 估计会放大 epsilon 误差，不在此处强制把模型转换成 fp16。
+        use_fp16=False,
         use_new_attention_order=False,
         learn_sigma=True,
         class_cond=False,
@@ -279,7 +281,9 @@ class ImageNetDiffusionModel(BaseDiffusionModel):
         # fp16 推理
         if cfg["use_fp16"]:
             model.convert_to_fp16()
-        print(f"[ImageNet] 模型加载成功: {self.ckpt_path}  device={self.device}")
+        precision = "fp16" if cfg["use_fp16"] else "fp32"
+        print(f"[ImageNet] 模型加载成功: {self.ckpt_path}  "
+              f"device={self.device}  precision={precision}")
         return model
 
 def load_ffhq_model(model_dir: str = "modules/models", device: str = None) -> FFHQDiffusionModel:

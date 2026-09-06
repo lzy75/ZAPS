@@ -227,6 +227,8 @@ def run_zaps_single(
         "omega": omega if (adaptive and schedule_mode == "v3") else None,
         "theta": theta if (adaptive and schedule_mode == "v3") else None,
         "seed": seed,
+        "model_precision": "fp16" if diffusion_model.MODEL_CONFIG.get("use_fp16", False)
+                           else "fp32",
     }
     exp_id = ExperimentLogger(EXPERIMENTS_DIR).log(
         task=task, dataset=dataset, image=image_path,
