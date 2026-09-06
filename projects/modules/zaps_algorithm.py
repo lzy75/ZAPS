@@ -213,6 +213,8 @@ class ZAPS(nn.Module):
         eta              : ← 可调，采样随机性（1.0=DDPM，0.0=DDIM）
         use_learned_var  : ← 可调，注噪用模型学出的方差(LEARNED_RANGE,对齐原文);False=固定β̃
         sampler_mode     : ← 可调，采样更新式 ddpm(论文采用) | ddim(补充消融)
+        surrogate_score_jacobian : 诊断开关；True 时在 unroll 反传中用 Eq.21
+                                   的 W D W^T 代替被冻结 score 的 Jacobian
     """
 
     def __init__(
@@ -234,6 +236,7 @@ class ZAPS(nn.Module):
         level:       int   = WAVELET_LEVEL,     # ← 可调：DWT 级数
         use_learned_var: bool = True,           # ← 可调：注噪用模型学出的方差(对齐原文)
         sampler_mode: str = "ddpm",             # ← 可调：ddpm(论文采用) | ddim(补充消融)
+        surrogate_score_jacobian: bool = False, # 诊断：unroll反传使用Eq.21近似Jacobian
     ):
         super().__init__()
         self.device = diffusion_model.device
@@ -244,6 +247,7 @@ class ZAPS(nn.Module):
         self.img_size = img_size
         self.use_learned_var = use_learned_var
         self.sampler_mode = sampler_mode
+        self.surrogate_score_jacobian = surrogate_score_jacobian
 
         if num_steps != sum(schedule):
             raise ValueError(
@@ -273,6 +277,40 @@ class ZAPS(nn.Module):
 
         self.num_epochs = num_epochs
         self.lr         = lr
+
+    def _tweedie_estimate(
+        self,
+        x: torch.Tensor,
+        eps: torch.Tensor,
+        ab_t: torch.Tensor,
+        d_index: int,
+    ) -> torch.Tensor:
+        """Tweedie estimate with an optional Eq.21 surrogate backward path.
+
+        The score value is still the frozen pre-trained model output.  When the
+        diagnostic flag is enabled, ``hessian_x - hessian_x.detach()`` is zero
+        in the forward pass but supplies ``W D W^T`` as the score Jacobian in
+        the unrolled backward pass.  D is detached on this auxiliary path: D
+        remains learnable through the explicit likelihood update in Eq.20,
+        while this branch only replaces the missing derivative with respect to
+        x caused by evaluating the score under ``no_grad``.
+        """
+        sqrt_ab_t = ab_t.sqrt()
+        x0_pred = (
+            x - (1.0 - ab_t).sqrt() * eps.detach()
+        ) / sqrt_ab_t.clamp(min=1e-8)
+
+        if self.surrogate_score_jacobian and torch.is_grad_enabled():
+            hessian_x = self.dwt.synthesis(
+                self.D[d_index].detach() * self.dwt.analysis(x)
+            )
+            x0_pred = x0_pred + (
+                (1.0 - ab_t)
+                * (hessian_x - hessian_x.detach())
+                / sqrt_ab_t.clamp(min=1e-8)
+            )
+
+        return x0_pred.clamp(-1.0, 1.0)
 
     # ── 内部：把模型学出的 var_values 转成 log 方差（LEARNED_RANGE 插值）──
     def _learned_log_var(self, var_values: torch.Tensor,
@@ -351,9 +389,7 @@ class ZAPS(nn.Module):
             # ── 步骤 2：Tweedie 估计 x̂_0（论文 Eq.9）──
             ab_t      = ab[t_curr]
             sqrt_ab_t = ab_t.sqrt()
-            sqrt_1mab = (1.0 - ab_t).sqrt()
-            x0_pred   = (x - sqrt_1mab * eps.detach()) / sqrt_ab_t.clamp(min=1e-8)
-            x0_pred   = x0_pred.clamp(-1.0, 1.0)
+            x0_pred = self._tweedie_estimate(x, eps, ab_t, i)
 
             # ── 步骤 3：无条件 DDPM 后验步（论文 Eq.10）──
             # 保留 x0_pred 梯度路径（c1 系数），使 ζ/d 的梯度能流经完整轨迹
@@ -456,8 +492,8 @@ class ZAPS(nn.Module):
             if nfe_counter is not None:
                 nfe_counter[0] += 1
 
-            ab_t = ab[t]; sqrt_ab_t = ab_t.sqrt(); sqrt_1mab = (1.0 - ab_t).sqrt()
-            x0_pred = ((x - sqrt_1mab * eps.detach()) / sqrt_ab_t.clamp(min=1e-8)).clamp(-1.0, 1.0)
+            ab_t = ab[t]; sqrt_ab_t = ab_t.sqrt()
+            x0_pred = self._tweedie_estimate(x, eps, ab_t, kd)
             residual = y - self.A.H(x0_pred)     # 保留计算图(供 ζ/D 反传)
             resid_norm = residual.detach().flatten().norm().item()
 
