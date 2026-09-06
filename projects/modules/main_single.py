@@ -160,6 +160,8 @@ def run_zaps_single(
     )
     actual_timesteps = [int(t) for t in zaps.tau.detach().cpu().tolist()]
     print(f"  实际时间步（升序）: {actual_timesteps}")
+    print(f"  采样更新式: {zaps.sampler_mode}  eta={zaps.eta}  "
+          f"learned_var={zaps.use_learned_var}")
     # 方案1:自适应默认用 last_opt(优化最后一轮即最终输出,对齐 ZAPS,消除重跑割裂)
     eff_final_mode = "last_opt" if (adaptive and final_mode == "sample") else final_mode
     run_kwargs = dict(
@@ -214,6 +216,8 @@ def run_zaps_single(
         "num_epochs": zaps_cfg["num_epochs"], "lr": zaps_cfg["lr"],
         "zeta_init": zaps_cfg["zeta_init"], "d_init": zaps_cfg["d_init"],
         "wave": zaps_cfg["wave"], "level": zaps_cfg["level"], "eta": zaps_cfg["eta"],
+        "sampler_mode": zaps_cfg["sampler_mode"],
+        "use_learned_var": zaps_cfg["use_learned_var"],
         "final_mode": final_mode,
         "sample_eta": zaps_cfg["eta"] if sample_eta is None else sample_eta,
         "sample_init": sample_init,

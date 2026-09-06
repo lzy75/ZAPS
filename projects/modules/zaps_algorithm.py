@@ -130,7 +130,7 @@ def ddpm_posterior_step(
     - "ddpm"（后验均值，向后兼容）：
         μ̃ = c1·x̂_0 + c2·x_t，β̃ = (1−ᾱ_prev)/(1−ᾱ_t)·(1−ᾱ_t/ᾱ_prev)
         x_{t_prev} = μ̃ + √β̃·z
-    - "ddim"（原文 Eq.25 / guided-diffusion ddim_sample，对齐 ZAPS 原文）：
+    - "ddim"（可选消融，guided-diffusion ddim_sample / 论文 Eq.25）：
         σ = eta·√((1−ᾱ_prev)/(1−ᾱ_t))·√(1−ᾱ_t/ᾱ_prev)
         ε = (x_t − √ᾱ_t·x̂_0)/√(1−ᾱ_t)          # 由 clamp 后 x̂_0 反推
         x_{t_prev} = √ᾱ_prev·x̂_0 + √(1−ᾱ_prev−σ²)·ε + σ·z
@@ -145,7 +145,7 @@ def ddpm_posterior_step(
         alphas_cumprod : [T] 预计算 ᾱ 序列
         eta            : ← 可调，噪声系数，1.0=DDPM，0.0=确定性
         learned_log_var: 仅 ddpm 模式用；提供则噪声尺度用 exp(0.5·log_var)，否则固定 β̃
-        mode           : "ddpm" | "ddim"（默认 ddpm；ddim=对齐原文 Eq.25）
+        mode           : "ddpm" | "ddim"（论文最终使用 ddpm；ddim 为可选消融）
     返回:
         x_{t_prev} : [B, C, H, W]
     """
@@ -159,7 +159,7 @@ def ddpm_posterior_step(
     ab_prev = alphas_cumprod[t_prev].to(device)   # ᾱ_{t_prev}
 
     if mode == "ddim":
-        # 原文 Eq.25：ε 由 clamp 后 x̂_0 反推（guided-diffusion ddim_sample 做法）
+        # DDIM Eq.25：ε 由 clamp 后 x̂_0 反推（guided-diffusion ddim_sample 做法）
         sqrt_ab_t = ab_t.sqrt()
         eps = (x_t - sqrt_ab_t * x0_pred) / (1.0 - ab_t).sqrt().clamp(min=1e-8)
         sigma = eta * ((1.0 - ab_prev) / (1.0 - ab_t).clamp(min=1e-8)).sqrt() \
@@ -212,7 +212,7 @@ class ZAPS(nn.Module):
         wave / level     : ← 可调，正交小波类型与 DWT 级数（论文 db4）
         eta              : ← 可调，采样随机性（1.0=DDPM，0.0=DDIM）
         use_learned_var  : ← 可调，注噪用模型学出的方差(LEARNED_RANGE,对齐原文);False=固定β̃
-        sampler_mode     : ← 可调，采样更新式 ddim(原文Eq.25) | ddpm(后验均值)
+        sampler_mode     : ← 可调，采样更新式 ddpm(论文采用) | ddim(补充消融)
     """
 
     def __init__(
@@ -233,7 +233,7 @@ class ZAPS(nn.Module):
         wave:        str   = WAVELET,           # ← 可调：小波类型
         level:       int   = WAVELET_LEVEL,     # ← 可调：DWT 级数
         use_learned_var: bool = True,           # ← 可调：注噪用模型学出的方差(对齐原文)
-        sampler_mode: str = "ddim",             # ← 可调：ddim(原文Eq.25) | ddpm(后验均值)
+        sampler_mode: str = "ddpm",             # ← 可调：ddpm(论文采用) | ddim(补充消融)
     ):
         super().__init__()
         self.device = diffusion_model.device
