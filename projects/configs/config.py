@@ -38,7 +38,8 @@ ZAPS_CONFIG = dict(
     zeta_init    = 0.2,         # ← 可调：ζ 初始值（缺省 0.2，按任务见下表覆盖）
     d_init       = 0.2,         # ← 可调：D_t 对角初值，论文统一 0.2
     eta          = 1.0,         # ← 可调：采样随机性（1.0=DDPM，0.0=DDIM）
-    use_learned_var = False,    # 原文用固定β̃(Eq.10),learned variance验证更差,默认关
+    # 消融：ImageNet/DPS 的标准采样使用 LEARNED_RANGE；与固定 β̃ 分开验证。
+    use_learned_var = True,
     sampler_mode = "ddpm",      # ← 论文最终采用 DDPM；DDIM 仅作为补充材料中的对照实验
     wave         = "db4",       # ← 可调：正交小波，论文用 db4
     level        = 3,           # ← 可调：DWT 分解级数
