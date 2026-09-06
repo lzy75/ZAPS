@@ -10,6 +10,7 @@ if PROJECT_DIR not in sys.path:
 import torch
 
 from modules.degradations import SuperResolutionOperator
+from DPS.util.resizer import Resizer
 
 
 def main():
@@ -18,6 +19,12 @@ def main():
     operator = SuperResolutionOperator(scale_factor=4, noise_sigma=0.0).to(device)
     x = torch.randn(1, 3, 256, 256, device=device)
     y = torch.randn_like(operator.H(x))
+
+    dps_resizer = Resizer((1, 3, 256, 256), 0.25).to(device)
+    dps_hx = dps_resizer(x)
+    forward_relative_error = (
+        (operator.H(x) - dps_hx).norm() / dps_hx.norm().clamp_min(1e-12)
+    )
 
     lhs = torch.sum(operator.H(x) * y)
     rhs = torch.sum(x * operator.transpose(y))
@@ -29,13 +36,16 @@ def main():
     gradient_ok = y_grad.grad is not None and torch.isfinite(y_grad.grad).all().item()
 
     print(f"device: {device}")
+    print(f"与 DPS Resizer 的前向相对误差: {forward_relative_error.item():.9e}")
     print(f"<Hx,y>: {lhs.item():.9f}")
     print(f"<x,H^Ty>: {rhs.item():.9f}")
     print(f"内积伴随相对误差: {relative_error.item():.9e}")
     print(f"H^T 梯度链可用: {gradient_ok}")
+    if forward_relative_error.item() >= 1e-7:
+        raise SystemExit("FAIL：ZAPS 与 DPS 的超分前向算子不一致")
     if relative_error.item() >= 1e-5 or not gradient_ok:
         raise SystemExit("FAIL：超分算子的精确伴随检查未通过")
-    print("PASS：transpose 是 H 的精确伴随，且支持 ZAPS 展开反向传播")
+    print("PASS：H 与 DPS 一致；transpose 是其精确伴随且支持展开反向传播")
 
 
 if __name__ == "__main__":

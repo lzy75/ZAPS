@@ -10,10 +10,19 @@
   - 伴随算子     : transpose(y) = H^T(y)
 """
 
+import os
+import sys
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+
+# 复用仓库内 DPS 的官方 SR measurement backend，确保两条基线使用同一个 H。
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if _REPO_ROOT not in sys.path:
+    sys.path.insert(0, _REPO_ROOT)
+from DPS.util.resizer import Resizer
 
 
 # ═══════════════════════════════════════════════════════
@@ -295,32 +304,25 @@ class MotionBlurOperator(nn.Module):
 # 4. 超分辨率
 # ───────────────────────────────────────────────────────
 
-class _BicubicDownsampleAdjoint(torch.autograd.Function):
-    """带可用反向传播的 antialiased bicubic 下采样精确伴随。"""
+class _LinearMapAdjoint(torch.autograd.Function):
+    """用 VJP 实现任意可微线性下采样算子的精确伴随。"""
 
     @staticmethod
-    def forward(ctx, y, scale_factor, output_height, output_width):
-        scale_factor = int(scale_factor)
+    def forward(ctx, y, linear_map, output_height, output_width):
         output_height = int(output_height)
         output_width = int(output_width)
-        ctx.scale_factor = scale_factor
+        ctx.linear_map = linear_map
         ctx.low_resolution_size = tuple(y.shape[-2:])
 
-        # autograd 给出的 VJP 正是当前 F.interpolate 下采样矩阵的转置。
-        # 自定义 backward 避免依赖 interpolate 的二阶导数，同时保证 ZAPS
-        # 展开优化时梯度仍能通过 H^T 回传到 residual。
+        # autograd 给出的 VJP 正是当前线性下采样矩阵的转置。自定义
+        # backward 避免依赖算子的二阶导数，同时保证 ZAPS 展开优化时
+        # 梯度仍能通过 H^T 回传到 residual。
         with torch.enable_grad():
             probe = torch.zeros(
                 y.shape[0], y.shape[1], output_height, output_width,
                 device=y.device, dtype=y.dtype, requires_grad=True,
             )
-            downsampled = F.interpolate(
-                probe,
-                scale_factor=1.0 / scale_factor,
-                mode="bicubic",
-                align_corners=False,
-                antialias=True,
-            )
+            downsampled = linear_map(probe)
             if tuple(downsampled.shape[-2:]) != tuple(y.shape[-2:]):
                 raise ValueError(
                     "H^T 输入尺寸与 H 输出尺寸不匹配："
@@ -337,13 +339,7 @@ class _BicubicDownsampleAdjoint(torch.autograd.Function):
     @staticmethod
     def backward(ctx, grad_output):
         # (H^T)^T = H，因此对 y 的梯度就是完全相同的前向下采样。
-        grad_y = F.interpolate(
-            grad_output,
-            scale_factor=1.0 / ctx.scale_factor,
-            mode="bicubic",
-            align_corners=False,
-            antialias=True,
-        )
+        grad_y = ctx.linear_map(grad_output)
         if tuple(grad_y.shape[-2:]) != ctx.low_resolution_size:
             raise RuntimeError(
                 f"H^T backward 尺寸异常：期望 {ctx.low_resolution_size}，"
@@ -353,7 +349,7 @@ class _BicubicDownsampleAdjoint(torch.autograd.Function):
 
 class SuperResolutionOperator(nn.Module):
     """
-    双三次下采样超分辨率退化  H(x) = downsample(x, scale)
+    DPS Resizer 下采样超分辨率退化  H(x) = downsample(x, scale)
 
     可调参数:
         scale_factor (int) : 下采样倍率，论文值 4  ← 可调
@@ -363,31 +359,28 @@ class SuperResolutionOperator(nn.Module):
         self,
         scale_factor: int   = SR_SCALE_FACTOR,
         noise_sigma:  float = NOISE_SIGMA,
+        in_shape: tuple = (1, 3, 256, 256),
     ):
         super().__init__()
         self.scale_factor = scale_factor    # ← 可调
         self.noise        = GaussianNoise(noise_sigma)
+        # 与 DPS/guided_diffusion/measurements.py 完全相同的 Resizer。
+        self.down_sample = Resizer(in_shape, 1.0 / scale_factor)
 
     def H(self, x: torch.Tensor) -> torch.Tensor:
-        """纯双三次下采样，无噪声（供 ZAPS 梯度计算使用）"""
-        return F.interpolate(
-            x,
-            scale_factor=1.0 / self.scale_factor,
-            mode="bicubic",
-            align_corners=False,
-            antialias=True,
-        )
+        """DPS Resizer 的纯下采样，无噪声（供 ZAPS 梯度计算使用）。"""
+        return self.down_sample(x)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """H(x) + 噪声，用于生成观测 y"""
         return self.noise(self.H(x))
 
     def transpose(self, y: torch.Tensor, output_size=None) -> torch.Tensor:
-        """H^T：当前 antialiased bicubic 下采样的精确线性伴随。"""
+        """H^T：当前 DPS Resizer 下采样的精确线性伴随。"""
         scale = self.scale_factor
         H_out = y.shape[2] * scale if output_size is None else output_size[0]
         W_out = y.shape[3] * scale if output_size is None else output_size[1]
-        return _BicubicDownsampleAdjoint.apply(y, scale, H_out, W_out)
+        return _LinearMapAdjoint.apply(y, self.down_sample, H_out, W_out)
 
 
 # ───────────────────────────────────────────────────────
