@@ -295,6 +295,62 @@ class MotionBlurOperator(nn.Module):
 # 4. 超分辨率
 # ───────────────────────────────────────────────────────
 
+class _BicubicDownsampleAdjoint(torch.autograd.Function):
+    """带可用反向传播的 antialiased bicubic 下采样精确伴随。"""
+
+    @staticmethod
+    def forward(ctx, y, scale_factor, output_height, output_width):
+        scale_factor = int(scale_factor)
+        output_height = int(output_height)
+        output_width = int(output_width)
+        ctx.scale_factor = scale_factor
+        ctx.low_resolution_size = tuple(y.shape[-2:])
+
+        # autograd 给出的 VJP 正是当前 F.interpolate 下采样矩阵的转置。
+        # 自定义 backward 避免依赖 interpolate 的二阶导数，同时保证 ZAPS
+        # 展开优化时梯度仍能通过 H^T 回传到 residual。
+        with torch.enable_grad():
+            probe = torch.zeros(
+                y.shape[0], y.shape[1], output_height, output_width,
+                device=y.device, dtype=y.dtype, requires_grad=True,
+            )
+            downsampled = F.interpolate(
+                probe,
+                scale_factor=1.0 / scale_factor,
+                mode="bicubic",
+                align_corners=False,
+                antialias=True,
+            )
+            if tuple(downsampled.shape[-2:]) != tuple(y.shape[-2:]):
+                raise ValueError(
+                    "H^T 输入尺寸与 H 输出尺寸不匹配："
+                    f"H 输出 {tuple(downsampled.shape[-2:])}，输入 y 为 {tuple(y.shape[-2:])}"
+                )
+            (adjoint,) = torch.autograd.grad(
+                outputs=downsampled,
+                inputs=probe,
+                grad_outputs=y,
+                create_graph=False,
+            )
+        return adjoint
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        # (H^T)^T = H，因此对 y 的梯度就是完全相同的前向下采样。
+        grad_y = F.interpolate(
+            grad_output,
+            scale_factor=1.0 / ctx.scale_factor,
+            mode="bicubic",
+            align_corners=False,
+            antialias=True,
+        )
+        if tuple(grad_y.shape[-2:]) != ctx.low_resolution_size:
+            raise RuntimeError(
+                f"H^T backward 尺寸异常：期望 {ctx.low_resolution_size}，"
+                f"实际 {tuple(grad_y.shape[-2:])}"
+            )
+        return grad_y, None, None, None
+
 class SuperResolutionOperator(nn.Module):
     """
     双三次下采样超分辨率退化  H(x) = downsample(x, scale)
@@ -327,11 +383,11 @@ class SuperResolutionOperator(nn.Module):
         return self.noise(self.H(x))
 
     def transpose(self, y: torch.Tensor, output_size=None) -> torch.Tensor:
-        """H^T：双三次上采样（伪逆近似）"""
+        """H^T：当前 antialiased bicubic 下采样的精确线性伴随。"""
         scale = self.scale_factor
         H_out = y.shape[2] * scale if output_size is None else output_size[0]
         W_out = y.shape[3] * scale if output_size is None else output_size[1]
-        return F.interpolate(y, size=(H_out, W_out), mode="bicubic", align_corners=False)
+        return _BicubicDownsampleAdjoint.apply(y, scale, H_out, W_out)
 
 
 # ───────────────────────────────────────────────────────
