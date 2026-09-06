@@ -158,6 +158,8 @@ def run_zaps_single(
         img_size=IMG_SIZE[0],
         **zaps_cfg,
     )
+    actual_timesteps = [int(t) for t in zaps.tau.detach().cpu().tolist()]
+    print(f"  实际时间步（升序）: {actual_timesteps}")
     # 方案1:自适应默认用 last_opt(优化最后一轮即最终输出,对齐 ZAPS,消除重跑割裂)
     eff_final_mode = "last_opt" if (adaptive and final_mode == "sample") else final_mode
     run_kwargs = dict(
@@ -206,6 +208,7 @@ def run_zaps_single(
     # ── 归档实验（CSV 索引 + 独立目录：图像 + run.json + conclusion.md）──
     log_config = {
         "num_steps": zaps_cfg["num_steps"], "schedule": zaps_cfg["schedule"],
+        "timesteps": actual_timesteps,
         "timestep_spacing": zaps_cfg.get("timestep_spacing"),
         "schedule_power": zaps_cfg.get("schedule_power"),
         "num_epochs": zaps_cfg["num_epochs"], "lr": zaps_cfg["lr"],

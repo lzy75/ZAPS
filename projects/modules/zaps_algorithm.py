@@ -36,24 +36,32 @@ TOTAL_DIFFUSION_STEPS = 1000        # 扩散模型总步数（与预训练模型
 # 辅助：不规则时间步构建
 # ───────────────────────────────────────────────────────
 
-def _segment_timesteps(start: int, end: int, count: int,
-                       spacing: str, power: float,
-                       include_left: bool, include_right: bool) -> torch.Tensor:
-    """按指定 spacing 在闭区间内取点，再按端点开闭裁剪。"""
-    raw_count = count + int(not include_left) + int(not include_right)
-    u = torch.linspace(0.0, 1.0, raw_count)
-    if spacing == "linear":
-        warped = u
+def _segment_timesteps(start: int, size: int, count: int,
+                       spacing: str, power: float) -> torch.Tensor:
+    """在一个互不重叠的 diffusion section 内取 ``count`` 个时间步。"""
+    if count <= 0:
+        raise ValueError(f"每个 timestep section 至少需要 1 个点，收到 {count}")
+    if count > size:
+        raise ValueError(f"section 只有 {size} 个时间步，无法取 {count} 个点")
+
+    if count == 1:
+        offsets = [0]
+    elif spacing == "linear":
+        # 严格复现 OpenAI guided-diffusion.respace.space_timesteps：
+        # 浮点累加，并在每一步使用 Python round，而不是直接截断为整数。
+        fractional_stride = (size - 1) / (count - 1)
+        current = 0.0
+        offsets = []
+        for _ in range(count):
+            offsets.append(round(current))
+            current += fractional_stride
     elif spacing in ("quadratic", "power"):
-        warped = u.pow(power)
+        u = torch.linspace(0.0, 1.0, count, dtype=torch.float64)
+        offsets = torch.round((size - 1) * u.pow(power)).to(torch.long).tolist()
     else:
         raise ValueError(f"未知 timestep spacing: {spacing}")
-    vals = (start + (end - start) * warped).long()
-    if not include_left:
-        vals = vals[1:]
-    if not include_right:
-        vals = vals[:-1]
-    return vals
+
+    return torch.tensor([start + offset for offset in offsets], dtype=torch.long)
 
 
 def build_irregular_timesteps(
@@ -74,19 +82,31 @@ def build_irregular_timesteps(
     返回:
         tau : [S] 升序整数张量，S = sum(schedule)
     """
-    n_low, n_mid, n_high = schedule
-    T = total_steps - 1  # 999
+    if total_steps <= 0:
+        raise ValueError(f"total_steps 必须为正数，收到 {total_steps}")
+    if len(schedule) != 3:
+        raise ValueError(f"ZAPS schedule 应为低/中/高噪声三段，收到 {schedule}")
 
-    # 三个区间：[0, T/3], [T/3, 2T/3], [2T/3, T]
-    boundary_low  = T // 3        # 333
-    boundary_mid  = 2 * T // 3   # 666
+    # 与 guided-diffusion space_timesteps(total_steps, schedule) 完全相同：
+    # 先把 [0, total_steps) 划分为三个互不重叠的整数 section，再在各
+    # section 内含首尾等距取点。1000 步会划为 [0,333]、[334,666]、
+    # [667,999]，不会在 333/666 边界附近产生论文之外的大跳步。
+    size_per = total_steps // len(schedule)
+    extra = total_steps % len(schedule)
+    start = 0
+    sections = []
+    for section_idx, count in enumerate(schedule):
+        size = size_per + (1 if section_idx < extra else 0)
+        sections.append(
+            _segment_timesteps(start, size, count, spacing, schedule_power)
+        )
+        start += size
 
-    t_low  = _segment_timesteps(0, boundary_low, n_low, spacing, schedule_power, True, True)
-    t_mid  = _segment_timesteps(boundary_low, boundary_mid, n_mid, spacing, schedule_power, False, False)
-    t_high = _segment_timesteps(boundary_mid, T, n_high, spacing, schedule_power, False, True)
-
-    tau = torch.cat([t_low, t_mid, t_high])
-    tau = tau.unique().sort().values   # 去重 + 排序
+    tau = torch.cat(sections)
+    if tau.unique().numel() != sum(schedule):
+        raise ValueError(
+            f"时间步取整后发生重复：期望 {sum(schedule)} 个，实际 {tau.unique().numel()} 个"
+        )
     return tau
 
 # ───────────────────────────────────────────────────────
@@ -224,6 +244,12 @@ class ZAPS(nn.Module):
         self.img_size = img_size
         self.use_learned_var = use_learned_var
         self.sampler_mode = sampler_mode
+
+        if num_steps != sum(schedule):
+            raise ValueError(
+                f"num_steps={num_steps} 与 schedule={schedule} 的总和 "
+                f"{sum(schedule)} 不一致；请同时修改两者。"
+            )
 
         # ── 固定正交 db4 DWT（W），用于 Hessian 对角化近似（论文 Eq.22）──
         self.dwt = OrthogonalDWT2D(wave=wave, level=level).to(self.device)
