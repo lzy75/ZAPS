@@ -17,7 +17,7 @@ accumulates parameter gradients nor changes model weights.
 Run from ``projects``:
 
     python utils/diag_dps_zaps_gradient.py \
-      --image ../DPS/data/samples/00000.png --device cuda
+      --dataset imagenet --image ../DPS/data/samples/00000.png --device cuda
 """
 
 import argparse
@@ -64,6 +64,9 @@ def main() -> None:
         description="Compare exact DPS and approximate ZAPS likelihood gradients."
     )
     parser.add_argument("--image", required=True)
+    parser.add_argument(
+        "--dataset", choices=("imagenet", "ffhq"), default="imagenet"
+    )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--seed", type=int, default=1000)
     parser.add_argument("--zeta", type=float, default=0.1)
@@ -85,7 +88,7 @@ def main() -> None:
     with torch.no_grad():
         measurement = operator(x0_gt)
 
-    diffusion_model = load_diffusion_model("imagenet", device)
+    diffusion_model = load_diffusion_model(args.dataset, device)
     diffusion_model.model.eval()
     if not all(parameter.requires_grad for parameter in diffusion_model.model.parameters()):
         raise RuntimeError(
@@ -128,11 +131,11 @@ def main() -> None:
             f"check steps must be in [0, {number_of_steps - 1}], got {invalid_steps}"
         )
 
-    print("\n=== DPS exact gradient vs ZAPS approximate gradient ===")
+    print(f"\n=== {args.dataset}: exact gradient vs ZAPS approximation ===")
     print(f"timesteps (ascending): {[int(t) for t in timesteps.tolist()]}")
     print(
-        f"{'step':>4} {'t':>4} {'cos(ZAPS,DPS)':>15} "
-        f"{'norm(approx)/norm(exact)':>25} "
+        f"{'step':>4} {'t':>4} {'cos(I,exact)':>14} {'cos(ZAPS,exact)':>17} "
+        f"{'norm(I)/exact':>14} {'norm(ZAPS)/exact':>18} "
         f"{'norm(ZAPS correction)/norm(DPS correction)':>42} "
         f"{'norm(correction)/norm(uncond increment)':>39}"
     )
@@ -178,12 +181,19 @@ def main() -> None:
                     adjoint_residual
                     + (1.0 - alpha_bar) * hessian_term
                 ) / alpha_bar.sqrt().clamp_min(1e-8)
+                identity_raw_direction = (
+                    adjoint_residual / alpha_bar.sqrt().clamp_min(1e-8)
+                )
 
                 # DPS differentiates an L2 norm, whereas the ZAPS equation uses
                 # the raw residual. Divide by ||r|| for a direction/scale
                 # comparison independent of that objective convention.
                 zaps_l2_direction = (
                     zaps_raw_direction / residual_l2.detach().clamp_min(1e-8)
+                )
+                identity_l2_direction = (
+                    identity_raw_direction
+                    / residual_l2.detach().clamp_min(1e-8)
                 )
                 unconditional = ddpm_posterior_step(
                     x_t,
@@ -197,10 +207,16 @@ def main() -> None:
                 correction = args.zeta * zaps_raw_direction
                 unconditional_increment = unconditional - x_t
 
-                direction_cosine = cosine_similarity(
+                identity_cosine = cosine_similarity(
+                    identity_l2_direction, exact_dps_direction
+                )
+                zaps_cosine = cosine_similarity(
                     zaps_l2_direction, exact_dps_direction
                 )
-                normalized_norm_ratio = tensor_norm(zaps_l2_direction) / (
+                identity_norm_ratio = tensor_norm(identity_l2_direction) / (
+                    tensor_norm(exact_dps_direction) + 1e-12
+                )
+                zaps_norm_ratio = tensor_norm(zaps_l2_direction) / (
                     tensor_norm(exact_dps_direction) + 1e-12
                 )
                 applied_norm_ratio = tensor_norm(correction) / (
@@ -212,8 +228,8 @@ def main() -> None:
 
                 print(
                     f"{reverse_step:4d} {t_current:4d} "
-                    f"{direction_cosine:15.6f} "
-                    f"{normalized_norm_ratio:25.4f} "
+                    f"{identity_cosine:14.6f} {zaps_cosine:17.6f} "
+                    f"{identity_norm_ratio:14.4f} {zaps_norm_ratio:18.4f} "
                     f"{applied_norm_ratio:42.4f} "
                     f"{increment_ratio:39.4f}"
                 )
@@ -256,9 +272,10 @@ def main() -> None:
                 x_t = unconditional + args.zeta * zaps_raw_direction
 
     print("\nInterpretation:")
-    print("  cosine < 0.5 or negative: the approximate Jacobian direction is the primary suspect")
-    print("  cosine > 0.9 but a large norm mismatch: guidance scaling/objective normalization is suspect")
-    print("  correction/unconditional-increment > 1 at high noise: high-noise guidance is dominating")
+    print("  ZAPS cosine > identity cosine: the Hessian branch improves the local Jacobian approximation")
+    print("  ImageNet ZAPS cosine much lower than FFHQ: the approximation failure is dataset/model-specific")
+    print("  both datasets similarly inaccurate: the Eq.21 implementation is a shared baseline issue")
+    print("  cosine is high but norm ratio is far from 1: normalization, rather than direction, is suspect")
 
 
 if __name__ == "__main__":
