@@ -37,12 +37,12 @@ NUM_STEPS = 30
 def rounded_spacing(total_steps: int, count: int, power: float) -> torch.Tensor:
     """Return strictly increasing global linear/power-law timestep indices."""
     u = torch.linspace(0.0, 1.0, count, dtype=torch.float64)
-    indices = torch.round((total_steps - 1) * u.pow(power)).to(torch.long)
-    if indices.unique().numel() != count:
-        raise ValueError(
-            f"power={power:g} produced duplicate timesteps; choose a milder power"
-        )
-    return indices
+    targets = (total_steps - 1) * u.pow(power)
+    training_indices = torch.arange(total_steps, dtype=torch.float64)
+    # Strong powers can map several low-noise targets to the same integer.
+    # Resolve those collisions by choosing the nearest available index while
+    # preserving both endpoints and a strictly increasing sequence.
+    return nearest_strict_indices(training_indices, targets)
 
 
 def nearest_strict_indices(
