@@ -25,6 +25,7 @@ from configs.config import IMG_SIZE, TASK_CONFIGS, ZAPS_CONFIG, ZETA_INIT_BY_TAS
 from modules.degradations import get_operator
 from modules.main_single import load_diffusion_model, load_image_as_tensor
 from modules.zaps_algorithm import ZAPS
+from utils.diag_ffhq_regression import TransposeMode
 
 
 TASK = "super_resolution"
@@ -48,12 +49,13 @@ def run_learning_rate(
     measurement: torch.Tensor,
     ground_truth: torch.Tensor,
     seed: int,
+    use_learned_var: bool,
 ) -> dict:
     cfg = {
         **ZAPS_CONFIG,
         "lr": learning_rate,
         "zeta_init": ZETA_INIT_BY_TASK[TASK],
-        "use_learned_var": False,
+        "use_learned_var": use_learned_var,
         "sampler_mode": "ddpm",
         "surrogate_score_jacobian": False,
     }
@@ -107,8 +109,22 @@ def main() -> None:
         description="Compare ZAPS zero-shot optimization learning rates."
     )
     parser.add_argument("--image", required=True)
+    parser.add_argument(
+        "--dataset", choices=("ffhq", "imagenet"), default="imagenet"
+    )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--seed", type=int, default=1000)
+    parser.add_argument(
+        "--transpose-mode",
+        choices=("exact", "legacy_bicubic"),
+        default="exact",
+        help="map used as A.transpose while keeping the current forward H fixed",
+    )
+    parser.add_argument(
+        "--use-learned-var",
+        action="store_true",
+        help="use model learned-range variance; omitted means fixed skip variance",
+    )
     parser.add_argument(
         "--learning-rates",
         type=float,
@@ -122,12 +138,17 @@ def main() -> None:
 
     set_seed(args.seed)
     ground_truth = load_image_as_tensor(args.image).to(args.device)
-    operator = get_operator(TASK, device=args.device, **TASK_CONFIGS[TASK])
+    base_operator = get_operator(TASK, device=args.device, **TASK_CONFIGS[TASK])
+    operator = TransposeMode(base_operator, args.transpose_mode).to(args.device)
     with torch.no_grad():
         measurement = operator(ground_truth)
-    diffusion_model = load_diffusion_model("imagenet", args.device)
+    diffusion_model = load_diffusion_model(args.dataset, args.device)
 
-    print("\n=== Paired ZAPS learning-rate ablation ===")
+    print(f"\n=== Paired ZAPS learning-rate ablation ({args.dataset}) ===")
+    print(
+        f"transpose={args.transpose_mode}; "
+        f"variance={'learned' if args.use_learned_var else 'fixed'}"
+    )
     print("All runs share y, x_T, and every DDPM transition-noise draw.")
     results = []
     for learning_rate in args.learning_rates:
@@ -140,6 +161,7 @@ def main() -> None:
                 measurement,
                 ground_truth,
                 args.seed,
+                args.use_learned_var,
             )
         )
 

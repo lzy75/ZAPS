@@ -55,7 +55,7 @@ class TransposeMode(nn.Module):
         return self.base.H(x)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.H(x)
+        return self.base(x)
 
     def transpose(self, y: torch.Tensor, output_size=None) -> torch.Tensor:
         if self.mode == "exact":
