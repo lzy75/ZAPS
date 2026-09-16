@@ -50,6 +50,7 @@ def run_learning_rate(
     ground_truth: torch.Tensor,
     seed: int,
     use_learned_var: bool,
+    verbose: bool = True,
 ) -> dict:
     cfg = {
         **ZAPS_CONFIG,
@@ -68,7 +69,7 @@ def run_learning_rate(
     )
 
     started = time.time()
-    losses = zaps.optimize(measurement, verbose=True, x0_gt=ground_truth)
+    losses = zaps.optimize(measurement, verbose=verbose, x0_gt=ground_truth)
     elapsed = time.time() - started
     reconstruction = zaps._last_opt_x0
 
