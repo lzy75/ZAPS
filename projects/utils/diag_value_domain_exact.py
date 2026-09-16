@@ -219,7 +219,10 @@ def main() -> None:
     for variant in VARIANTS:
         subset = [row for row in rows if row["variant"] == variant]
         summaries[variant] = {}
-        for metric in ("psnr", "ssim", "lpips", "observed_psnr"):
+        for metric in (
+            "psnr", "ssim", "lpips", "observed_psnr", "final_mse",
+            "final_residual", "zeta_min", "zeta_max", "d_delta_rms",
+        ):
             values = [float(row[metric]) for row in subset]
             average, std = mean_std(values)
             summaries[variant][metric] = average
