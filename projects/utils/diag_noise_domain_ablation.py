@@ -113,9 +113,9 @@ def main() -> None:
     with torch.no_grad():
         clean_measurement = operator.H(ground_truth)
 
-    # Use a separate deterministic stream for the observation noise.  The
-    # same standard-normal tensor is scaled in both variants.
-    set_seed(args.seed + 1)
+    # Match the earlier branch ablation's observation-noise realization.  The
+    # same standard-normal tensor is then scaled in both variants.
+    set_seed(args.seed)
     standard_noise = torch.randn_like(clean_measurement)
     diffusion_model = load_diffusion_model("imagenet", args.device)
 
