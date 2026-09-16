@@ -51,15 +51,21 @@ def run_learning_rate(
     seed: int,
     use_learned_var: bool,
     verbose: bool = True,
+    zeta_init: float = None,
+    d_init: float = None,
 ) -> dict:
     cfg = {
         **ZAPS_CONFIG,
         "lr": learning_rate,
-        "zeta_init": ZETA_INIT_BY_TASK[TASK],
+        "zeta_init": (
+            ZETA_INIT_BY_TASK[TASK] if zeta_init is None else zeta_init
+        ),
         "use_learned_var": use_learned_var,
         "sampler_mode": "ddpm",
         "surrogate_score_jacobian": False,
     }
+    if d_init is not None:
+        cfg["d_init"] = d_init
     set_seed(seed)
     zaps = ZAPS(
         diffusion_model=diffusion_model,
