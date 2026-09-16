@@ -4,7 +4,7 @@ This is a validation run, not a hyper-parameter sweep. It keeps the ZAPS
 parameterization described in the paper:
 
 * 30 irregular DDPM steps x 10 epochs (300 NFE)
-* learned-range DDPM variance from the ImageNet checkpoint
+* fixed DDPM posterior variance as written in the ZAPS sampling equations
 * sigma=0.05 in the model's [-1, 1] value domain
 * jointly learn per-step zeta and the wavelet Hessian branch D
 * Adam's default learning rate 1e-3
@@ -94,7 +94,7 @@ def main() -> None:
         **ZAPS_CONFIG,
         "lr": args.learning_rate,
         "zeta_init": 0.1,
-        "use_learned_var": True,
+        "use_learned_var": False,
         "sampler_mode": "ddpm",
         "surrogate_score_jacobian": False,
     }
@@ -109,7 +109,7 @@ def main() -> None:
     print("\n=== ImageNet multi-image validation ===", flush=True)
     print(
         f"images={len(images)}; lr={args.learning_rate:g}; sigma=0.05; "
-        "DDPM; learned-range variance; joint zeta+D",
+        "DDPM; fixed posterior variance; joint zeta+D",
         flush=True,
     )
     print(f"CSV: {csv_path}", flush=True)
