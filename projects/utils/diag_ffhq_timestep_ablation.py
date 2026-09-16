@@ -7,8 +7,9 @@ The tuned fixed-schedule ZAPS configuration is held constant:
 * 30 DDPM steps x 10 epochs (300 NFE).
 
 Only the set of 30 diffusion timesteps changes.  The variants are the paper's
-15-10-5 schedule, global uniform spacing, global power-law spacing, and a
-Karras/EDM sigma schedule mapped to the pretrained DDPM's discrete timesteps.
+15-10-5 schedule, global uniform spacing, uniform grids in sigma/log-sigma/
+log-SNR coordinates, optional global power-law spacing, and multiple
+Karras/EDM sigma schedules mapped to the pretrained DDPM's discrete timesteps.
 """
 
 import argparse
@@ -22,12 +23,13 @@ import torch
 PROJECTS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECTS_ROOT)
 
-from configs.config import IMG_SIZE, TASK_CONFIGS, ZAPS_CONFIG
+from configs.config import IMG_SIZE, METRICS_CONFIG, TASK_CONFIGS, ZAPS_CONFIG
 from modules.degradations import get_operator
 from modules.main_single import load_diffusion_model, load_image_as_tensor
 from modules.zaps_algorithm import ZAPS, build_irregular_timesteps
-from utils.diag_ffhq_regression import TransposeMode, tensor_psnr
+from utils.diag_ffhq_regression import TransposeMode
 from utils.diag_learning_rate_ablation import set_seed
+from utils.metrics import compute_all_metrics
 
 
 TASK = "super_resolution"
@@ -88,8 +90,42 @@ def karras_timesteps(
     return nearest_strict_indices(training_sigma, targets)
 
 
-def schedule_variants(diffusion_model, powers: list[float], rho: float):
+def noise_coordinate_timesteps(
+    alphas_cumprod: torch.Tensor,
+    count: int,
+    coordinate: str,
+) -> torch.Tensor:
+    """Return a grid uniform in a monotone diffusion-noise coordinate."""
+    alpha_bar = alphas_cumprod.detach().double().cpu().clamp(1e-30, 1.0 - 1e-15)
+    sigma = torch.sqrt((1.0 - alpha_bar) / alpha_bar)
+    if coordinate == "sigma":
+        training_values = sigma
+    elif coordinate == "log_sigma":
+        training_values = sigma.clamp_min(1e-30).log()
+    elif coordinate == "negative_log_snr":
+        # log-SNR decreases with training timestep, so negate it to obtain the
+        # ascending coordinate expected by nearest_strict_indices().
+        training_values = -(alpha_bar.log() - torch.log1p(-alpha_bar))
+    else:
+        raise ValueError(f"unknown noise coordinate: {coordinate}")
+    targets = torch.linspace(
+        float(training_values[0]),
+        float(training_values[-1]),
+        count,
+        dtype=torch.float64,
+    )
+    return nearest_strict_indices(training_values, targets)
+
+
+def schedule_variants(
+    diffusion_model,
+    powers: list[float],
+    rho: float | list[float],
+    *,
+    include_noise_grids: bool = False,
+):
     total_steps = int(diffusion_model.alphas_cumprod.numel())
+    alpha_bar = diffusion_model.alphas_cumprod
     variants = [
         (
             "paper_15_10_5",
@@ -101,6 +137,25 @@ def schedule_variants(diffusion_model, powers: list[float], rho: float):
         ),
         ("uniform_30", rounded_spacing(total_steps, NUM_STEPS, 1.0)),
     ]
+    if include_noise_grids:
+        variants.extend(
+            [
+                (
+                    "uniform_sigma",
+                    noise_coordinate_timesteps(alpha_bar, NUM_STEPS, "sigma"),
+                ),
+                (
+                    "uniform_logsigma",
+                    noise_coordinate_timesteps(alpha_bar, NUM_STEPS, "log_sigma"),
+                ),
+                (
+                    "uniform_logsnr",
+                    noise_coordinate_timesteps(
+                        alpha_bar, NUM_STEPS, "negative_log_snr"
+                    ),
+                ),
+            ]
+        )
     variants.extend(
         (
             f"power_{power:g}",
@@ -108,11 +163,13 @@ def schedule_variants(diffusion_model, powers: list[float], rho: float):
         )
         for power in powers
     )
-    variants.append(
+    rhos = [rho] if isinstance(rho, (int, float)) else list(rho)
+    variants.extend(
         (
-            f"karras_rho_{rho:g}",
-            karras_timesteps(diffusion_model.alphas_cumprod, NUM_STEPS, rho),
+            f"karras_rho_{value:g}",
+            karras_timesteps(alpha_bar, NUM_STEPS, value),
         )
+        for value in rhos
     )
     return variants
 
@@ -124,14 +181,33 @@ def main() -> None:
     parser.add_argument("--image", required=True)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--seed", type=int, default=1000)
-    parser.add_argument("--powers", type=float, nargs="+", default=[2.0, 3.0])
-    parser.add_argument("--karras-rho", type=float, default=7.0)
+    parser.add_argument(
+        "--powers",
+        type=float,
+        nargs="*",
+        default=[],
+        help="Optional global-t power grids (power 2 and 3 were already rejected).",
+    )
+    parser.add_argument(
+        "--karras-rhos",
+        type=float,
+        nargs="+",
+        default=[3.0, 5.0, 7.0],
+        help="Karras rho values to screen (default: 3 5 7).",
+    )
+    parser.add_argument(
+        "--karras-rho",
+        type=float,
+        default=None,
+        help="Deprecated single-rho override retained for old commands.",
+    )
     args = parser.parse_args()
 
     if any(power <= 0 for power in args.powers):
         raise ValueError("power values must be positive")
-    if args.karras_rho <= 0:
-        raise ValueError("Karras rho must be positive")
+    karras_rhos = [args.karras_rho] if args.karras_rho is not None else args.karras_rhos
+    if any(rho <= 0 for rho in karras_rhos):
+        raise ValueError("Karras rho values must be positive")
 
     set_seed(args.seed)
     ground_truth = load_image_as_tensor(args.image).to(args.device)
@@ -141,7 +217,12 @@ def main() -> None:
         measurement = operator(ground_truth)
 
     diffusion_model = load_diffusion_model("ffhq", args.device)
-    variants = schedule_variants(diffusion_model, args.powers, args.karras_rho)
+    variants = schedule_variants(
+        diffusion_model,
+        args.powers,
+        karras_rhos,
+        include_noise_grids=True,
+    )
     config = {
         **ZAPS_CONFIG,
         "lr": 0.01,
@@ -178,6 +259,11 @@ def main() -> None:
         losses = zaps.optimize(measurement, verbose=True, x0_gt=ground_truth)
         elapsed = time.time() - started
         reconstruction = zaps._last_opt_x0
+        metrics = compute_all_metrics(
+            reconstruction,
+            ground_truth,
+            lpips_net=METRICS_CONFIG["lpips_net"],
+        )
         with torch.no_grad():
             residual = (
                 measurement - operator.H(reconstruction)
@@ -186,7 +272,9 @@ def main() -> None:
             results.append(
                 {
                     "name": name,
-                    "psnr": tensor_psnr(ground_truth, reconstruction),
+                    "psnr": metrics["psnr"],
+                    "ssim": metrics["ssim"],
+                    "lpips": metrics["lpips"],
                     "mse": losses[-1],
                     "residual": residual,
                     "zeta_min": zaps.zeta.detach().min().item(),
@@ -201,7 +289,7 @@ def main() -> None:
 
     print("\n=== Summary ===", flush=True)
     print(
-        f"{'schedule':>20} {'PSNR':>10} {'final MSE':>12} "
+        f"{'schedule':>20} {'PSNR':>10} {'SSIM':>9} {'LPIPS':>9} {'final MSE':>12} "
         f"{'final ||r||':>14} {'zeta min':>11} {'zeta max':>11} "
         f"{'D dRMS':>10} {'seconds':>10}",
         flush=True,
@@ -209,12 +297,17 @@ def main() -> None:
     for result in results:
         print(
             f"{result['name']:>20} {result['psnr']:10.4f} "
+            f"{result['ssim']:9.4f} {result['lpips']:9.4f} "
             f"{result['mse']:12.6f} {result['residual']:14.4f} "
             f"{result['zeta_min']:11.5f} {result['zeta_max']:11.5f} "
             f"{result['d_delta_rms']:10.6f} {result['seconds']:10.1f}",
             flush=True,
         )
-    print("\nSelect by PSNR first; lower measurement MSE alone is not sufficient.", flush=True)
+    print(
+        "\nSelect by the PSNR/SSIM/LPIPS trade-off; lower measurement MSE alone "
+        "is not sufficient.",
+        flush=True,
+    )
 
 
 if __name__ == "__main__":
