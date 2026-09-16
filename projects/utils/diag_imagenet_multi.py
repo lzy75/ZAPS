@@ -1,100 +1,214 @@
+"""Evaluate the paper-faithful ImageNet ZAPS baseline on a small subset.
+
+This is a validation run, not a hyper-parameter sweep. It keeps the ZAPS
+parameterization described in the paper:
+
+* 30 irregular DDPM steps x 10 epochs (300 NFE)
+* learned-range DDPM variance from the ImageNet checkpoint
+* sigma=0.05 in the model's [-1, 1] value domain
+* jointly learn per-step zeta and the wavelet Hessian branch D
+* Adam's default learning rate 1e-3
+
+Each image gets a deterministic, distinct seed. Results are appended to CSV
+after every image so a partially completed run remains usable.
 """
-诊断15: ImageNet 多图 recon 方差——单张 vs 整集平均是否可比。
 
-背景(采样侧+引导算子侧均排除):
-  · eta/方差/D/ddim 全没救; 伴随性A虽坏(178%误差)但C修transpose没用(16.38→16.47);
-    B ζ=0关引导后ImageNet 7.31/FFHQ 10.79 两者都暴跌 → 引导在"帮忙拉升"非"带崩",
-    对两数据集都正常工作。ImageNet被拉到16就到头, FFHQ能到29。
-  · 结论转向: 不是某个bug, 是"无条件ImageNet先验+这个引导 对【这张图】的上限就是16"。
-  · 一直只测 00000.png 单张! 原文23.82是整验证集【平均】。若这张是复杂多物体图,
-    无条件先验本就难, 单张难图 vs 整集平均不可比。
-
-本脚本: 跑 /home/lzy/imagenet/256x256/ 下前N张(有几张跑几张,最多10)超分ZAPS,
-  打印每张 recon PSNR + bicubic + TV, 给出均值/中位/范围。判据:
-   · 均值接近原文23.82、方差大(某些图20+某些12) ⇒ 之前16.4只是碰上难图, 复现其实成立!
-   · 所有图都卡~16 ⇒ 系统性问题, 与图无关, 需继续查(先验适配/引导强度上限)
-  顺带打印每张图的 GT TV(高=复杂高频图, 无条件先验更难)。
-
-用法(服务器): /home/lzy/anaconda3/bin/python3 projects/utils/diag_imagenet_multi.py
-"""
-import os, sys, glob
-_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, _ROOT)
+import argparse
+import csv
+import glob
+import os
+import statistics
+import sys
+import time
 
 import torch
 import torch.nn.functional as F
-from configs.config import ZAPS_CONFIG, ZETA_INIT_BY_TASK, TASK_CONFIGS, IMG_SIZE
-from modules.main_single import load_diffusion_model, load_image_as_tensor
+
+
+PROJECTS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECTS_ROOT)
+
+from configs.config import IMG_SIZE, METRICS_CONFIG, TASK_CONFIGS, ZAPS_CONFIG
+from modules.dataset_loader import tensor_to_image
 from modules.degradations import get_operator
+from modules.main_single import load_diffusion_model, load_image_as_tensor
 from modules.zaps_algorithm import ZAPS
+from utils.metrics import compute_all_metrics, compute_psnr
+
 
 TASK = "super_resolution"
-SEED = 1000
-IMG_DIR = "/home/lzy/imagenet/256x256"
-MAX_N = 10
+IMAGE_EXTENSIONS = ("*.png", "*.jpg", "*.jpeg", "*.JPEG", "*.webp")
 
 
-def to_psnr(mse):
-    return 10.0 * torch.log10(torch.tensor(4.0 / max(mse, 1e-12))).item()
+def set_seed(seed: int) -> None:
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 
-def tv255(x):
-    x = x.detach().float().cpu().clamp(-1, 1)
-    dh = (x[..., 1:, :] - x[..., :-1, :]).abs().mean()
-    dw = (x[..., :, 1:] - x[..., :, :-1]).abs().mean()
-    return ((dh + dw) * 127.5).item()
+def collect_images(data_dir: str, start_index: int, max_images: int) -> list[str]:
+    images = []
+    for extension in IMAGE_EXTENSIONS:
+        images.extend(glob.glob(os.path.join(data_dir, "**", extension), recursive=True))
+    images = sorted(set(images))
+    return images[start_index:start_index + max_images]
 
 
-def main():
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    imgs = sorted(glob.glob(os.path.join(IMG_DIR, "*.png")) +
-                  glob.glob(os.path.join(IMG_DIR, "*.jpg")) +
-                  glob.glob(os.path.join(IMG_DIR, "*.JPEG")))[:MAX_N]
-    if not imgs:
-        print(f"[跳过] {IMG_DIR} 下没有图", flush=True)
-        return
-    print(f"\n{'='*66}\n  ImageNet 超分 多图方差 (共{len(imgs)}张, SEED={SEED}, last_opt)\n{'='*66}", flush=True)
+def save_image(tensor: torch.Tensor, path: str) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tensor_to_image(tensor.squeeze(0), denormalize=True).save(path)
 
-    dm = load_diffusion_model("imagenet", device)
-    cfg = {**ZAPS_CONFIG,
-           "zeta_init": ZETA_INIT_BY_TASK.get(TASK, ZAPS_CONFIG["zeta_init"]),
-           "use_learned_var": False, "sampler_mode": "ddim"}
 
-    print(f"  {'图':>16s}{'recon':>8s}{'bicubic':>9s}{'Δvs bic':>9s}{'recon_TV':>10s}{'GT_TV':>7s}", flush=True)
-    recs, deltas = [], []
-    for img in imgs:
-        x0_gt = load_image_as_tensor(img).to(device)
-        operator = get_operator(TASK, device=device, **TASK_CONFIGS[TASK])
-        torch.manual_seed(SEED)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed_all(SEED)
-        with torch.no_grad():
-            y_obs = operator(x0_gt)
-        y_up = F.interpolate(y_obs, size=x0_gt.shape[-2:], mode="bicubic", align_corners=False)
-        obs = to_psnr(((y_up.clamp(-1, 1) - x0_gt) ** 2).mean().item())
+def mean_std(values: list[float]) -> tuple[float, float]:
+    if len(values) < 2:
+        return statistics.mean(values), 0.0
+    return statistics.mean(values), statistics.stdev(values)
 
-        torch.manual_seed(SEED)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed_all(SEED)
-        zaps = ZAPS(diffusion_model=dm, forward_operator=operator, img_size=IMG_SIZE[0], **cfg)
-        result = zaps.run(y_obs, verbose=False, x0_gt=x0_gt, final_mode="last_opt")
-        x0f = result["x0_final"]
-        rec = to_psnr(((x0f.clamp(-1, 1) - x0_gt) ** 2).mean().item())
-        recs.append(rec); deltas.append(rec - obs)
-        print(f"  {os.path.basename(img):>16s}{rec:8.2f}{obs:9.2f}{rec-obs:+9.2f}"
-              f"{tv255(x0f):10.1f}{tv255(x0_gt):7.1f}", flush=True)
-        del zaps
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
 
-    import statistics as st
-    print(f"\n  recon: 均值={st.mean(recs):.2f}  中位={st.median(recs):.2f}  "
-          f"范围=[{min(recs):.2f}, {max(recs):.2f}]", flush=True)
-    print(f"  Δvs bicubic: 均值={st.mean(deltas):+.2f}  ({'超过' if st.mean(deltas)>0 else '劣于'}bicubic)", flush=True)
-    print("\n判读:", flush=True)
-    print(f"  · 均值接近原文23.82、方差大 ⇒ 之前16.4是碰上难图, 复现其实成立(原文是整集平均)", flush=True)
-    print(f"  · 所有图都卡~16、且都劣于bicubic ⇒ 系统性问题与图无关, 继续查先验适配/引导上限", flush=True)
-    print(f"  · GT_TV高的图recon更低 ⇒ 复杂高频图无条件先验更难, 佐证'先验上限'解释", flush=True)
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Validate the paper-faithful ImageNet ZAPS baseline on multiple images."
+    )
+    parser.add_argument("--data-dir", default="/home/lzy/imagenet/256x256")
+    parser.add_argument("--max-images", type=int, default=10)
+    parser.add_argument("--start-index", type=int, default=0)
+    parser.add_argument("--device", default="cuda")
+    parser.add_argument("--seed-base", type=int, default=1000)
+    parser.add_argument("--learning-rate", type=float, default=0.001)
+    parser.add_argument("--output-dir", default=None)
+    args = parser.parse_args()
+
+    images = collect_images(args.data_dir, args.start_index, args.max_images)
+    if not images:
+        raise FileNotFoundError(f"No images found under {args.data_dir}")
+
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    output_dir = args.output_dir or os.path.join(
+        PROJECTS_ROOT, "results", "diag_imagenet_multi", timestamp
+    )
+    recon_dir = os.path.join(output_dir, "recon")
+    os.makedirs(recon_dir, exist_ok=True)
+    csv_path = os.path.join(output_dir, "metrics.csv")
+
+    config = {
+        **ZAPS_CONFIG,
+        "lr": args.learning_rate,
+        "zeta_init": 0.1,
+        "use_learned_var": True,
+        "sampler_mode": "ddpm",
+        "surrogate_score_jacobian": False,
+    }
+    diffusion_model = load_diffusion_model("imagenet", args.device)
+
+    fieldnames = [
+        "index", "image", "seed", "psnr", "ssim", "lpips", "observed_psnr",
+        "final_mse", "final_residual", "zeta_min", "zeta_max", "d_delta_rms",
+        "d_delta_max", "nfe", "seconds", "reconstruction",
+    ]
+    rows = []
+    print("\n=== ImageNet multi-image validation ===", flush=True)
+    print(
+        f"images={len(images)}; lr={args.learning_rate:g}; sigma=0.05; "
+        "DDPM; learned-range variance; joint zeta+D",
+        flush=True,
+    )
+    print(f"CSV: {csv_path}", flush=True)
+
+    with open(csv_path, "w", newline="", encoding="utf-8") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        csv_file.flush()
+
+        for local_index, image_path in enumerate(images):
+            dataset_index = args.start_index + local_index
+            seed = args.seed_base + dataset_index
+            ground_truth = load_image_as_tensor(image_path).to(args.device)
+            operator = get_operator(TASK, device=args.device, **TASK_CONFIGS[TASK])
+
+            set_seed(seed)
+            with torch.no_grad():
+                measurement = operator(ground_truth)
+
+            set_seed(seed)
+            zaps = ZAPS(
+                diffusion_model=diffusion_model,
+                forward_operator=operator,
+                img_size=IMG_SIZE[0],
+                **config,
+            )
+            started = time.time()
+            losses = zaps.optimize(measurement, verbose=False, x0_gt=ground_truth)
+            elapsed = time.time() - started
+            reconstruction = zaps._last_opt_x0
+
+            metrics = compute_all_metrics(
+                reconstruction, ground_truth, lpips_net=METRICS_CONFIG["lpips_net"]
+            )
+            observed_up = F.interpolate(
+                measurement,
+                size=ground_truth.shape[-2:],
+                mode="bilinear",
+                align_corners=False,
+            )
+            observed_psnr = compute_psnr(observed_up, ground_truth)
+            with torch.no_grad():
+                residual = (
+                    measurement - operator.H(reconstruction)
+                ).flatten().norm().item()
+                zeta_min = zaps.zeta.detach().min().item()
+                zeta_max = zaps.zeta.detach().max().item()
+                d_delta = zaps.D.detach() - config["d_init"]
+                d_delta_rms = d_delta.square().mean().sqrt().item()
+                d_delta_max = d_delta.abs().max().item()
+
+            recon_path = os.path.join(
+                recon_dir, f"{dataset_index:05d}_{os.path.basename(image_path)}"
+            )
+            save_image(reconstruction, recon_path)
+            row = {
+                "index": dataset_index,
+                "image": image_path,
+                "seed": seed,
+                "psnr": metrics["psnr"],
+                "ssim": metrics["ssim"],
+                "lpips": metrics["lpips"],
+                "observed_psnr": observed_psnr,
+                "final_mse": losses[-1],
+                "final_residual": residual,
+                "zeta_min": zeta_min,
+                "zeta_max": zeta_max,
+                "d_delta_rms": d_delta_rms,
+                "d_delta_max": d_delta_max,
+                "nfe": config["num_steps"] * config["num_epochs"],
+                "seconds": elapsed,
+                "reconstruction": recon_path,
+            }
+            rows.append(row)
+            writer.writerow(row)
+            csv_file.flush()
+            print(
+                f"[{local_index + 1:02d}/{len(images):02d}] "
+                f"{os.path.basename(image_path)} seed={seed} "
+                f"PSNR={metrics['psnr']:.3f} SSIM={metrics['ssim']:.4f} "
+                f"LPIPS={metrics['lpips']:.4f} obs={observed_psnr:.3f} "
+                f"time={elapsed:.1f}s",
+                flush=True,
+            )
+            del zaps, operator, ground_truth, measurement, reconstruction
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+
+    print("\n=== Summary ===", flush=True)
+    for metric in ("psnr", "ssim", "lpips", "observed_psnr"):
+        values = [float(row[metric]) for row in rows]
+        average, std = mean_std(values)
+        print(
+            f"{metric:>14}: mean={average:.4f} std={std:.4f} "
+            f"median={statistics.median(values):.4f} "
+            f"range=[{min(values):.4f}, {max(values):.4f}]",
+            flush=True,
+        )
+    print(f"results: {output_dir}", flush=True)
 
 
 if __name__ == "__main__":
