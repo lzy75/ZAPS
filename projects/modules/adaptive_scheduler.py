@@ -9,7 +9,9 @@
 刻意做成 torch-free(只吃标量),便于无 GPU 单元测试;
 张量→指标的计算留在采样侧(zaps_algorithm.py),复用已有的 x̂₀ 与 residual。
 
-⚠️ 本文件为骨架,尚未接入 _reverse_diffusion 采样循环。
+旧版 ``StateAwareScheduler`` 保留给历史实验；新的
+``BudgetedStateAwareScheduler`` 专门用于严格配对的状态感知实验：它以一条
+已经验证过的固定时间步网格为名义轨迹，状态信号关闭时必须逐点退化回该网格。
 """
 from dataclasses import dataclass
 
@@ -227,6 +229,169 @@ class StateAwareScheduler:
         factor_r = 1.0 + c.gamma_r * self.r_tilde
         factor_s = max(0.0, 1.0 - c.gamma_s * (1.0 - s_use) / 2.0)
         return zeta_base * factor_r * factor_s
+
+    def done(self) -> bool:
+        return self.used >= self.N
+
+
+@dataclass
+class BudgetedSchedulerConfig:
+    """PPT 状态指标对应的固定预算调度参数。"""
+
+    residual_weight: float = 0.8
+    cosine_weight: float = 0.2
+    response_strength: float = 0.5
+    residual_target_drop: float = 0.05
+    mod_min: float = 0.75
+    mod_max: float = 1.25
+
+
+class BudgetedStateAwareScheduler:
+    """在固定 NFE 下围绕给定基线网格做保守、可退化的在线调整。
+
+    状态代价遵循汇报中的思路：残差为主、轨迹余弦为辅。为了避免此前
+    “绝对残差大就一味缩步”造成高噪声区预算耗尽，残差项改成相邻步骤的
+    相对下降是否停滞：
+
+        E_r = clip(1 - ((r_{k-1}-r_k)/r_{k-1}) / q, 0, 1)
+        E_c = clip((1-cos(Delta x0_k, Delta x0_{k-1}))/2, 0, 1)
+        E   = w_r E_r + w_c E_c
+
+    ``E>0.5`` 表示当前状态较难，缩小下一跨度；``E<0.5`` 则放大跨度。
+    首步或余弦不可用时对应项取中性值 0.5。所有调整都以给定的名义网格
+    为基准，并硬性保证恰好 N 次模型调用、最后一次调用位于 t=0。
+    """
+
+    include_zero = True
+
+    def __init__(self, nominal_timesteps, cfg: BudgetedSchedulerConfig = None):
+        grid = [int(value) for value in nominal_timesteps]
+        if len(grid) < 2:
+            raise ValueError("nominal_timesteps 至少需要两个点")
+        if grid[-1] != 0:
+            raise ValueError("nominal_timesteps 必须以 t=0 结束")
+        if any(left <= right for left, right in zip(grid, grid[1:])):
+            raise ValueError("nominal_timesteps 必须严格递减且不重复")
+
+        self.nominal_timesteps = grid
+        self.N = len(grid)
+        self.t_start = grid[0]
+        self.cfg = cfg or BudgetedSchedulerConfig()
+        self._validate_config()
+        self.reset()
+
+    def _validate_config(self):
+        c = self.cfg
+        if c.residual_weight < 0 or c.cosine_weight < 0:
+            raise ValueError("状态指标权重不能为负")
+        if abs(c.residual_weight + c.cosine_weight - 1.0) > 1e-8:
+            raise ValueError("residual_weight + cosine_weight 必须等于 1")
+        if c.response_strength < 0:
+            raise ValueError("response_strength 不能为负")
+        if c.residual_target_drop <= 0:
+            raise ValueError("residual_target_drop 必须为正")
+        if not (0 < c.mod_min <= 1.0 <= c.mod_max):
+            raise ValueError("调制边界必须满足 0 < mod_min <= 1 <= mod_max")
+
+    def reset(self):
+        self.used = 0
+        self._prev_r = None
+        self.residual_norm = float("nan")
+        self.relative_residual_drop = float("nan")
+        self.residual_error = 0.5
+        self.cosine_x0 = float("nan")
+        self.cosine_error = 0.5
+        self.state_score = 0.5
+        self.base_step = float("nan")
+        self.step_modifier = 1.0
+        self.selected_step = None
+
+    def update_state(self, resid_norm: float, cos_x0: float = float("nan")):
+        resid_norm = float(resid_norm)
+        if self._prev_r is None or self._prev_r <= 1e-12:
+            dr_rel = float("nan")
+            residual_error = 0.5
+        else:
+            dr_rel = (self._prev_r - resid_norm) / self._prev_r
+            residual_error = 1.0 - dr_rel / self.cfg.residual_target_drop
+            residual_error = _clip(residual_error, 0.0, 1.0)
+        self._prev_r = resid_norm
+
+        if cos_x0 == cos_x0:
+            cosine_error = _clip((1.0 - float(cos_x0)) / 2.0, 0.0, 1.0)
+        else:
+            cosine_error = 0.5
+
+        c = self.cfg
+        self.residual_norm = resid_norm
+        self.relative_residual_drop = dr_rel
+        self.residual_error = residual_error
+        self.cosine_x0 = float(cos_x0)
+        self.cosine_error = cosine_error
+        self.state_score = (
+            c.residual_weight * residual_error
+            + c.cosine_weight * cosine_error
+        )
+
+    def select_step(self, t: int) -> int:
+        """选择跨度并占用一次 NFE 预算。"""
+        if self.done():
+            raise RuntimeError("调度预算已经用完")
+        t = int(t)
+        k = self.used
+
+        # 最后一次模型调用必须发生在 t=0；返回 1 仅作为落到 x0 的哨兵跨度。
+        if k == self.N - 1:
+            if t != 0:
+                raise RuntimeError(f"最后一次调用应位于 t=0，实际 t={t}")
+            self.base_step = 1.0
+            self.step_modifier = 1.0
+            self.selected_step = 1
+            self.used += 1
+            return 1
+
+        nominal_t = self.nominal_timesteps[k]
+        nominal_next = self.nominal_timesteps[k + 1]
+        nominal_h = nominal_t - nominal_next
+        # 前面若已被状态调制，按剩余 t 等比例缩放名义跨度，避免末段补偿性大跳。
+        base = t * nominal_h / max(1, nominal_t)
+        c = self.cfg
+        modifier = 1.0 + c.response_strength * (0.5 - self.state_score) * 2.0
+        modifier = _clip(modifier, c.mod_min, c.mod_max)
+        h_raw = base * modifier
+
+        future_calls = self.N - k - 1
+        if future_calls == 1:
+            # 倒数第二次调用后必须精确到 0，确保最后一次评估与固定基线一致。
+            h = t
+        else:
+            # 为后续每次至少下降 1 留足互异的整数时间步。
+            max_h = t - (future_calls - 1)
+            if max_h < 1:
+                raise RuntimeError(
+                    f"剩余时间步不足以满足固定预算: t={t}, future_calls={future_calls}"
+                )
+            h = int(round(_clip(h_raw, 1.0, float(max_h))))
+
+        self.base_step = float(base)
+        self.step_modifier = float(modifier)
+        self.selected_step = int(h)
+        self.used += 1
+        return int(h)
+
+    def adapt_weight(self, zeta_base):
+        """第一阶段只改变时间步，显式保持 ZAPS 的 ζ/D 学习规则不变。"""
+        return zeta_base
+
+    def snapshot(self) -> dict:
+        return {
+            "relative_residual_drop": self.relative_residual_drop,
+            "residual_error": self.residual_error,
+            "cosine_error": self.cosine_error,
+            "state_score": self.state_score,
+            "base_step": self.base_step,
+            "step_modifier": self.step_modifier,
+        }
 
     def done(self) -> bool:
         return self.used >= self.N

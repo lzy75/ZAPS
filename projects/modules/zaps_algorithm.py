@@ -453,7 +453,7 @@ class ZAPS(nn.Module):
     def _nearest_zd_index(self, t_val: int) -> int:
         return int((self.tau - t_val).abs().argmin().item())
 
-    # ── 自适应调度采样(创新点②③;优化与采样共用,ζ/D 按步位置索引)──
+    # ── 自适应调度采样(创新点②③;优化与采样共用)──
     def _reverse_diffusion_adaptive(self, y: torch.Tensor, scheduler,
                                     nfe_counter: list = None,
                                     eta_override: float = None,
@@ -461,8 +461,9 @@ class ZAPS(nn.Module):
                                     record_indicators: bool = False) -> torch.Tensor:
         """
         用 StateAwareScheduler 在线选时间步。优化与最终采样共用此路径,
-        ζ/D 按【步位置 k】索引(非时间步最近邻)→ 优化学 ζ[k]、采样用 ζ[k],
-        无论第 k 步落在哪个 t 都完全同步(修复 ζ 错配)。
+        历史调度器沿用 ζ/D 的正向步位置索引；带 ``include_zero`` 标记的
+        严格配对调度器则按固定路径的反向索引 S-1-k 使用 ζ/D，并在 t=0
+        完成第 N 次模型调用。这样关闭状态调制时可逐操作退化为固定基线。
         eps 在 no_grad 下取(score 冻结),ζ/D 保留计算图供优化反传。
         """
         B = y.shape[0]
@@ -479,10 +480,13 @@ class ZAPS(nn.Module):
         prev_x0 = None
         prev_delta_x0 = None
         t = int(self.tau.max().item())          # 从最高噪声步起
-        k = 0                                    # 步位置:ζ/D 索引
+        k = 0                                    # 反向采样进度
+        include_zero = bool(getattr(scheduler, "include_zero", False))
 
-        while not scheduler.done() and t > 0:
-            kd = min(k, S - 1)                   # 步位置索引 ζ/D(越界钳到末位)
+        while not scheduler.done() and (include_zero or t > 0):
+            # 固定路径从 t=max(tau) 开始使用 ζ[S-1]/D[S-1]，随后递减到 0。
+            # 严格配对调度必须保持同样的参数语义；旧调度器保留历史行为。
+            kd = max(0, S - 1 - k) if include_zero else min(k, S - 1)
             t_batch = torch.full((B,), t, device=self.device, dtype=torch.long)
             with torch.no_grad():
                 if self.use_learned_var:
@@ -512,8 +516,13 @@ class ZAPS(nn.Module):
             scheduler.update_state(resid_norm=resid_norm, cos_x0=cos_x0)
             h = scheduler.select_step(t)
             t_prev = t - h
-            if scheduler.done() or t_prev <= 0:
-                t_prev = -1                      # 末步:落到 x̂₀
+            if include_zero:
+                if scheduler.done():
+                    t_prev = -1                  # 已在 t=0 完成最后一次模型调用
+                elif t_prev < 0:
+                    raise RuntimeError("状态调度在预算耗尽前越过了 t=0")
+            elif scheduler.done() or t_prev <= 0:
+                t_prev = -1                      # 历史路径:末步直接落到 x̂₀
 
             # 采样步 + 状态自适应权重(创新点③);ζ/D 按步位置 kd,传张量保留梯度
             llv = self._learned_log_var(var_values, t, t_prev) \
@@ -527,12 +536,17 @@ class ZAPS(nn.Module):
             x = x_uncond + zeta_k * guided
 
             if record_indicators:
-                self._indicator_log.append({
+                item = {
                     "step": k, "t": int(t), "h": int(h),
+                    "t_prev": int(t_prev), "parameter_index": int(kd),
                     "residual_norm": resid_norm,
                     "cosine_sim": float("nan"),
                     "cosine_sim_x0": cos_x0,
-                })
+                }
+                snapshot = getattr(scheduler, "snapshot", None)
+                if callable(snapshot):
+                    item.update(snapshot())
+                self._indicator_log.append(item)
 
             if t_prev < 0:
                 break

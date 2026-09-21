@@ -13,7 +13,12 @@
 """
 import sys, os, statistics as st
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from modules.adaptive_scheduler import StateAwareScheduler, SchedulerConfig
+from modules.adaptive_scheduler import (
+    BudgetedSchedulerConfig,
+    BudgetedStateAwareScheduler,
+    StateAwareScheduler,
+    SchedulerConfig,
+)
 
 
 def simulate(N, T, cfg, resid_fn, cos_fn):
@@ -136,6 +141,38 @@ def main():
     allok &= check("v3 去趋势:异常(骤弯骤停)步长 < 延续常态(异常处密采)",
                    h_probe(True) < h_probe(False),
                    f"异常={h_probe(True)} 常态={h_probe(False)}")
+
+    # ── 7. 严格配对调度器:关闭信号时逐点退化,开启后仍守住 NFE 与 t=0 ──
+    print("7. 严格配对状态调度器")
+    nominal = [999, 965, 930, 896, 861, 827, 792, 758, 723, 689,
+               655, 620, 586, 551, 517, 482, 448, 413, 379, 344,
+               310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+
+    def paired_path(strength):
+        cfg = BudgetedSchedulerConfig(response_strength=strength)
+        scheduler = BudgetedStateAwareScheduler(nominal, cfg)
+        t = nominal[0]
+        visits = []
+        for k in range(len(nominal)):
+            visits.append(t)
+            scheduler.update_state(
+                resid_norm=100.0 - 2.0 * k,
+                cos_x0=float("nan") if k < 2 else 0.5,
+            )
+            h = scheduler.select_step(t)
+            t = -1 if scheduler.done() else t - h
+        return visits, scheduler
+
+    null_path, null_scheduler = paired_path(0.0)
+    adaptive_path, adaptive_scheduler = paired_path(0.5)
+    allok &= check("关闭状态调制后逐点等于 uniform-30",
+                   null_path == nominal and null_scheduler.done())
+    allok &= check("开启状态调制后仍为 30 NFE 且最后访问 t=0",
+                   len(adaptive_path) == 30
+                   and len(set(adaptive_path)) == 30
+                   and adaptive_path[-1] == 0
+                   and adaptive_scheduler.done(),
+                   f"最后5点={adaptive_path[-5:]}")
 
     print("\n" + ("=" * 40))
     print("总体:", "✅ 全部通过,可进入参数扫描" if allok else "❌ 有 FAIL,先修逻辑再扫参")
