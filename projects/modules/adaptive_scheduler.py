@@ -248,6 +248,11 @@ class BudgetedSchedulerConfig:
     soft_baseline_decay: float = 0.7
     soft_scale_floor: float = 0.01
     soft_error_amplitude: float = 0.25
+    profile_warmup_epochs: int = 1
+    profile_center_decay: float = 0.8
+    profile_residual_scale: float = 0.15
+    profile_cosine_scale: float = 0.2
+    profile_cosine_gate: float = 0.25
     weight_mode: str = "identity"
     weight_residual_gain: float = 0.2
     weight_cosine_gain: float = 0.05
@@ -305,14 +310,24 @@ class BudgetedStateAwareScheduler:
             raise ValueError("residual_target_drop 必须为正")
         if not 0.0 <= c.residual_ema_decay < 1.0:
             raise ValueError("residual_ema_decay 必须位于 [0,1)")
-        if c.residual_mode not in ("target", "adaptive_soft"):
-            raise ValueError("residual_mode 必须是 target 或 adaptive_soft")
+        if c.residual_mode not in ("target", "adaptive_soft", "reference_profile"):
+            raise ValueError(
+                "residual_mode 必须是 target、adaptive_soft 或 reference_profile"
+            )
         if not 0.0 <= c.soft_baseline_decay < 1.0:
             raise ValueError("soft_baseline_decay 必须位于 [0,1)")
         if c.soft_scale_floor <= 0:
             raise ValueError("soft_scale_floor 必须为正")
         if not 0 < c.soft_error_amplitude <= 0.5:
             raise ValueError("soft_error_amplitude 必须位于 (0,0.5]")
+        if c.profile_warmup_epochs < 1:
+            raise ValueError("profile_warmup_epochs 必须至少为 1")
+        if not 0.0 <= c.profile_center_decay < 1.0:
+            raise ValueError("profile_center_decay 必须位于 [0,1)")
+        if c.profile_residual_scale <= 0 or c.profile_cosine_scale <= 0:
+            raise ValueError("reference-profile 的归一化尺度必须为正")
+        if not 0.0 <= c.profile_cosine_gate <= 1.0:
+            raise ValueError("profile_cosine_gate 必须位于 [0,1]")
         if c.weight_mode not in ("identity", "state_balanced"):
             raise ValueError("weight_mode 必须是 identity 或 state_balanced")
         if c.weight_residual_gain < 0 or c.weight_cosine_gain < 0:
@@ -323,6 +338,16 @@ class BudgetedStateAwareScheduler:
             raise ValueError("调制边界必须满足 0 < mod_min <= 1 <= mod_max")
 
     def reset(self):
+        # ``reset`` 在每次 unroll 开始时调用。参考曲线跨 epoch 保留，
+        # 但当前 epoch 的在线中心重新建立；这样首轮固定基线本身就是 pilot，
+        # 不增加任何 NFE。
+        if not hasattr(self, "_completed_unrolls"):
+            self._completed_unrolls = 0
+            self._profile_reference_residual = [float("nan")] * self.N
+            self._profile_reference_cosine = [float("nan")] * self.N
+        elif getattr(self, "used", 0) >= self.N:
+            self._completed_unrolls += 1
+        self._profile_log_ratio_ema = None
         self.used = 0
         self._prev_r = None
         self._residual_drop_ema = None
@@ -342,9 +367,105 @@ class BudgetedStateAwareScheduler:
         self.step_modifier = 1.0
         self.selected_step = None
         self.guidance_modifier = 1.0
+        self.profile_warmup = False
+        self.profile_log_ratio = float("nan")
+        self.profile_residual_signal = 0.0
+        self.profile_cosine_signal = 0.0
+        self.profile_confidence = 1.0
+
+    def _update_reference_profile(
+        self, resid_norm: float, cos_x0: float = float("nan")
+    ) -> None:
+        """Compare the current state with a schedule-specific pilot profile.
+
+        The physical residual determines the sign of the schedule response.
+        Cosine similarity cannot reverse that decision; it only increases or
+        decreases confidence when the two signals agree or disagree.
+        """
+        c = self.cfg
+        k = min(self.used, self.N - 1)
+        if self._prev_r is None or self._prev_r <= 1e-12:
+            relative_drop = float("nan")
+        else:
+            relative_drop = (self._prev_r - resid_norm) / self._prev_r
+        self._prev_r = resid_norm
+
+        warmup = self._completed_unrolls < c.profile_warmup_epochs
+        if warmup:
+            self._profile_reference_residual[k] = resid_norm
+            if cos_x0 == cos_x0:
+                self._profile_reference_cosine[k] = float(cos_x0)
+            log_ratio = 0.0
+            residual_signal = 0.0
+            cosine_signal = 0.0
+            confidence = 1.0
+            combined_signal = 0.0
+            reference_residual = resid_norm
+        else:
+            reference_residual = self._profile_reference_residual[k]
+            if reference_residual != reference_residual or reference_residual <= 1e-12:
+                reference_residual = resid_norm
+            log_ratio = math.log(max(resid_norm, 1e-12) / reference_residual)
+
+            if self._profile_log_ratio_ema is None:
+                centered_log_ratio = 0.0
+                self._profile_log_ratio_ema = log_ratio
+            else:
+                centered_log_ratio = log_ratio - self._profile_log_ratio_ema
+                decay = c.profile_center_decay
+                self._profile_log_ratio_ema = (
+                    decay * self._profile_log_ratio_ema
+                    + (1.0 - decay) * log_ratio
+                )
+            residual_signal = math.tanh(
+                centered_log_ratio / c.profile_residual_scale
+            )
+
+            reference_cosine = self._profile_reference_cosine[k]
+            if cos_x0 == cos_x0 and reference_cosine == reference_cosine:
+                # 正值表示当前轨迹比 pilot 更不稳定。
+                cosine_signal = math.tanh(
+                    (reference_cosine - float(cos_x0)) / c.profile_cosine_scale
+                )
+            else:
+                cosine_signal = 0.0
+
+            if abs(residual_signal) <= 1e-12:
+                confidence = 1.0
+            else:
+                agreement = (
+                    (1.0 if residual_signal > 0 else -1.0) * cosine_signal
+                )
+                confidence = _clip(
+                    1.0 + c.profile_cosine_gate * agreement,
+                    1.0 - c.profile_cosine_gate,
+                    1.0 + c.profile_cosine_gate,
+                )
+            combined_signal = _clip(
+                residual_signal * confidence, -1.0, 1.0
+            )
+
+        self.residual_norm = resid_norm
+        self.relative_residual_drop = relative_drop
+        self.smoothed_relative_residual_drop = relative_drop
+        self.residual_error = 0.5 + 0.5 * residual_signal
+        self.residual_baseline = reference_residual
+        self.residual_scale = c.profile_residual_scale
+        self.residual_zscore = residual_signal
+        self.cosine_x0 = float(cos_x0)
+        self.cosine_error = 0.5 + 0.5 * cosine_signal
+        self.state_score = 0.5 + 0.5 * combined_signal
+        self.profile_warmup = warmup
+        self.profile_log_ratio = log_ratio
+        self.profile_residual_signal = residual_signal
+        self.profile_cosine_signal = cosine_signal
+        self.profile_confidence = confidence
 
     def update_state(self, resid_norm: float, cos_x0: float = float("nan")):
         resid_norm = float(resid_norm)
+        if self.cfg.residual_mode == "reference_profile":
+            self._update_reference_profile(resid_norm, cos_x0)
+            return
         if self._prev_r is None or self._prev_r <= 1e-12:
             dr_rel = float("nan")
             smoothed_dr_rel = float("nan")
@@ -508,6 +629,12 @@ class BudgetedStateAwareScheduler:
             "base_step": self.base_step,
             "step_modifier": self.step_modifier,
             "guidance_modifier": self.guidance_modifier,
+            "profile_epoch": self._completed_unrolls,
+            "profile_warmup": self.profile_warmup,
+            "profile_log_ratio": self.profile_log_ratio,
+            "profile_residual_signal": self.profile_residual_signal,
+            "profile_cosine_signal": self.profile_cosine_signal,
+            "profile_confidence": self.profile_confidence,
         }
 
     def done(self) -> bool:

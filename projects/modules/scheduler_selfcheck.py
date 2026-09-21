@@ -249,6 +249,105 @@ def main():
                    0.9 <= bounded <= 1.1,
                    f"extreme modifier={bounded:.4f}")
 
+    # ── 8. 参考曲线调度:首轮严格为基线，次轮双指标生效且不翻转物理方向 ──
+    print("8. 参考曲线状态调度")
+    profile_cfg = BudgetedSchedulerConfig(
+        residual_weight=0.8,
+        cosine_weight=0.2,
+        response_strength=0.15,
+        residual_mode="reference_profile",
+        profile_warmup_epochs=1,
+        profile_center_decay=0.8,
+        profile_residual_scale=0.15,
+        profile_cosine_scale=0.2,
+        profile_cosine_gate=0.25,
+        mod_min=0.85,
+        mod_max=1.15,
+    )
+    profile_scheduler = BudgetedStateAwareScheduler(nominal, profile_cfg)
+
+    def run_profile_epoch(scheduler, residual_values, cosine_values):
+        t = nominal[0]
+        visits, snapshots = [], []
+        for residual, cosine in zip(residual_values, cosine_values):
+            visits.append(t)
+            scheduler.update_state(residual, cosine)
+            h = scheduler.select_step(t)
+            snapshots.append(scheduler.snapshot())
+            t = -1 if scheduler.done() else t - h
+        return visits, snapshots
+
+    pilot_residuals = [100.0 - 2.0 * k for k in range(len(nominal))]
+    pilot_cosines = [float("nan"), float("nan")] + [0.6] * (len(nominal) - 2)
+    pilot_path, pilot_snapshots = run_profile_epoch(
+        profile_scheduler, pilot_residuals, pilot_cosines
+    )
+    allok &= check(
+        "reference-profile 首轮逐点等于初始调度",
+        pilot_path == nominal
+        and all(item["profile_warmup"] for item in pilot_snapshots),
+    )
+
+    profile_scheduler.reset()
+    second_residuals = []
+    for k, value in enumerate(pilot_residuals):
+        # 前段恶化、后段改善，确保物理信号确实改变时间步。
+        factor = 1.0 + 0.02 * k if k < 15 else 1.30 - 0.025 * (k - 15)
+        second_residuals.append(value * factor)
+    second_cosines = [float("nan"), float("nan")] + [
+        0.35 if k < 15 else 0.85 for k in range(2, len(nominal))
+    ]
+    refined_path, refined_snapshots = run_profile_epoch(
+        profile_scheduler, second_residuals, second_cosines
+    )
+    finite_signals = [
+        item for item in refined_snapshots
+        if abs(item["profile_residual_signal"]) > 1e-9
+    ]
+    sign_preserved = all(
+        (item["state_score"] - 0.5) * item["profile_residual_signal"] > 0
+        for item in finite_signals
+    )
+    modifiers_bounded = all(
+        0.85 <= item["step_modifier"] <= 1.15
+        for item in refined_snapshots
+    )
+    allok &= check(
+        "次轮双指标改变轨迹但仍为 30 NFE 且终点 t=0",
+        refined_path != nominal
+        and len(refined_path) == len(nominal)
+        and refined_path[-1] == 0
+        and profile_scheduler.done(),
+        f"最后5点={refined_path[-5:]}",
+    )
+    allok &= check(
+        "余弦门控不翻转物理残差决定的方向",
+        bool(finite_signals) and sign_preserved,
+        f"有效信号数={len(finite_signals)}",
+    )
+    allok &= check("参考曲线步长调制严格受边界约束", modifiers_bounded)
+
+    null_profile = BudgetedStateAwareScheduler(
+        nominal,
+        BudgetedSchedulerConfig(
+            residual_weight=0.8,
+            cosine_weight=0.2,
+            response_strength=0.0,
+            residual_mode="reference_profile",
+        ),
+    )
+    null_first, _ = run_profile_epoch(
+        null_profile, pilot_residuals, pilot_cosines
+    )
+    null_profile.reset()
+    null_second, _ = run_profile_epoch(
+        null_profile, second_residuals, second_cosines
+    )
+    allok &= check(
+        "response=0 时跨轮均严格退化为初始调度",
+        null_first == nominal and null_second == nominal,
+    )
+
     print("\n" + ("=" * 40))
     print("总体:", "✅ 全部通过,可进入参数扫描" if allok else "❌ 有 FAIL,先修逻辑再扫参")
     print("=" * 40)
