@@ -498,8 +498,15 @@ class ZAPS(nn.Module):
 
             ab_t = ab[t]; sqrt_ab_t = ab_t.sqrt()
             x0_pred = self._tweedie_estimate(x, eps, ab_t, kd)
-            residual = y - self.A.H(x0_pred)     # 保留计算图(供 ζ/D 反传)
-            resid_norm = residual.detach().flatten().norm().item()
+
+            # 调度决策只需要标量状态。这里单独用 detach/no_grad 计算，避免在
+            # DDPM posterior 之前提前创建可微残差分支；真正用于 ζ/D 优化的
+            # residual 会在 posterior 之后按固定路径的原始运算顺序重新构建。
+            # 这保证 response_strength=0 时两条路径不仅时间步相同，反向图的
+            # 构建与梯度累加顺序也一致。
+            with torch.no_grad():
+                state_residual = y - self.A.H(x0_pred.detach())
+                resid_norm = state_residual.flatten().norm().item()
 
             # 辅助信号:x̂₀ 轨迹的相邻余弦(仅用于选步长,detach)
             cos_x0 = float("nan")
@@ -529,6 +536,7 @@ class ZAPS(nn.Module):
                 if (var_values is not None and t_prev >= 0) else None
             x_uncond = ddpm_posterior_step(x, x0_pred, t, t_prev, ab, eta=eta,
                                            learned_log_var=llv, mode=self.sampler_mode)
+            residual = y - self.A.H(x0_pred)     # 保留计算图(供 ζ/D 反传)
             zeta_k = scheduler.adapt_weight(self.zeta[kd])       # 张量,梯度可回传
             v      = self.A.transpose(residual)
             Hv     = self.dwt.synthesis(self.D[kd] * self.dwt.analysis(v))
