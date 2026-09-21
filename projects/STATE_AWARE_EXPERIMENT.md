@@ -122,3 +122,16 @@ zeta_eff(k) = zeta_learned(k) * g_k
 两个 weight-only 变体访问的时间步必须与 uniform-30 完全一致。只有相对
 `adaptive_null` 超过 `+0.05 dB` 且 LPIPS 不恶化的分支，才进入 10 图配对
 验证；否则应认定当前两类状态指标不足以改善 FFHQ 超分基线。
+
+## 阶段 5：排除 ζ 学习的补偿效应
+
+阶段 4 中状态因子实际产生了约 `0.03–0.04` 的标准差且未触及边界，但
+weight-only 与联合分支都没有 PSNR 增益。最后一个必要诊断是排除可学习 ζ
+在十轮优化中吸收或反向补偿乘法因子。
+
+`--variant-set posthoc` 先完成固定 uniform-30 优化，然后复制同一份已学习
+ζ/D，在不再执行优化器更新的条件下做三次成对推理：identity、residual-only
+和 residual+cosine。三者共享同一 `x_T` 和全部 DDPM 随机数，且都固定
+uniform-30，因此只剩状态权重一个变量。结果必须相对 `posthoc_identity`
+提升超过 `0.05 dB` 且 LPIPS 不恶化，才能说明状态信号有效而此前被 ζ 学习
+补偿；若仍无提升，则结束这套状态到 ζ 的映射，不继续扩大增益或样本量。

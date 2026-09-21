@@ -283,6 +283,7 @@ def run_variant(
 
     result = {
         "name": name,
+        "phase": "optimization",
         "residual_mode": (
             scheduler.cfg.residual_mode if scheduler is not None else "fixed"
         ),
@@ -323,7 +324,105 @@ def run_variant(
         "reconstruction": reconstruction.cpu(),
         "zeta": zaps.zeta.detach().cpu().clone(),
         "D": zaps.D.detach().cpu().clone(),
+        "init_noise": zaps._last_opt_noise.detach().cpu().clone(),
     }
+    del zaps
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    return result, tensors
+
+
+def run_frozen_posthoc_variant(
+    name: str,
+    scheduler,
+    uniform_tau: torch.Tensor,
+    diffusion_model,
+    operator,
+    measurement: torch.Tensor,
+    ground_truth: torch.Tensor,
+    device: str,
+    seed: int,
+    trained_tensors: dict,
+) -> tuple[dict, dict]:
+    """Evaluate one paired inference path with the same already-trained zeta/D.
+
+    This isolates whether the state multiplier is useful by itself. No optimizer
+    step is taken, and identity/state runs share x_T and every DDPM random draw.
+    """
+    config = {
+        **ZAPS_CONFIG,
+        "num_steps": NUM_STEPS,
+        "num_epochs": NUM_EPOCHS,
+        "lr": 0.01,
+        "zeta_init": 0.1,
+        "d_init": 0.2,
+        "use_learned_var": False,
+        "sampler_mode": "ddpm",
+        "surrogate_score_jacobian": False,
+    }
+    zaps = ZAPS(
+        diffusion_model=diffusion_model,
+        forward_operator=operator,
+        img_size=IMG_SIZE[0],
+        **config,
+    )
+    zaps.tau = uniform_tau.to(device)
+    with torch.no_grad():
+        zaps.zeta.copy_(trained_tensors["zeta"].to(device))
+        zaps.D.copy_(trained_tensors["D"].to(device))
+
+    # Reset before every paired arm so posterior noise draws are identical.
+    set_seed(seed)
+    print(f"\n--- {name} (frozen post-hoc inference) ---", flush=True)
+    reconstruction, nfe, elapsed = zaps.sample(
+        measurement,
+        eta_override=zaps.eta,
+        init_noise=trained_tensors["init_noise"].to(device),
+        scheduler=scheduler,
+    )
+    reconstruction = reconstruction.detach()
+    metrics = compute_all_metrics(
+        reconstruction,
+        ground_truth,
+        lpips_net=METRICS_CONFIG["lpips_net"],
+    )
+    with torch.no_grad():
+        measurement_error = operator.H(reconstruction) - measurement
+        mse = measurement_error.square().mean().item()
+        residual = measurement_error.flatten().norm().item()
+        d_delta = zaps.D.detach() - config["d_init"]
+
+    indicators = list(getattr(zaps, "_indicator_log", []))
+    result = {
+        "name": name,
+        "phase": "frozen_posthoc_inference",
+        "residual_mode": scheduler.cfg.residual_mode,
+        "response_strength": scheduler.cfg.response_strength,
+        "weight_mode": scheduler.cfg.weight_mode,
+        "weight_residual_gain": scheduler.cfg.weight_residual_gain,
+        "weight_cosine_gain": scheduler.cfg.weight_cosine_gain,
+        "psnr": float(metrics["psnr"]),
+        "ssim": float(metrics["ssim"]),
+        "lpips": float(metrics["lpips"]),
+        "mse": float(mse),
+        "residual": float(residual),
+        "zeta_min": zaps.zeta.detach().min().item(),
+        "zeta_max": zaps.zeta.detach().max().item(),
+        "d_delta_rms": d_delta.square().mean().sqrt().item(),
+        "seconds": elapsed,
+        "visited": [int(item["t"]) for item in indicators],
+        "steps": [int(item["h"]) for item in indicators],
+        "nfe": int(nfe),
+        "indicators": indicators,
+        "trace_diagnostics": trace_diagnostics(
+            indicators,
+            scheduler.cfg.mod_min,
+            scheduler.cfg.mod_max,
+            scheduler.cfg.weight_min,
+            scheduler.cfg.weight_max,
+        ),
+    }
+    tensors = {"reconstruction": reconstruction.cpu()}
     del zaps
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
@@ -450,18 +549,29 @@ def save_records(
         json.dump(finite_json(record), handle, ensure_ascii=False, indent=2)
 
     summary_fields = [
-        "name", "residual_mode", "response_strength", "weight_mode",
+        "name", "phase", "residual_mode", "response_strength", "weight_mode",
         "weight_residual_gain", "weight_cosine_gain", "psnr", "ssim",
         "lpips", "mse", "residual", "zeta_min", "zeta_max",
-        "d_delta_rms", "nfe", "seconds", "psnr_delta_vs_fixed",
+        "d_delta_rms", "nfe", "seconds", "psnr_delta_vs_reference",
     ]
-    baseline_psnr = results[0]["psnr"]
+    reference = next(
+        (item for item in results if item["name"] == "posthoc_identity"),
+        results[0],
+    )
     with (output_dir / "summary.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=summary_fields)
         writer.writeheader()
         for result in results:
             row = {key: result[key] for key in summary_fields if key in result}
-            row["psnr_delta_vs_fixed"] = result["psnr"] - baseline_psnr
+            if (
+                reference["name"] == "posthoc_identity"
+                and result.get("phase") != "frozen_posthoc_inference"
+            ):
+                row["psnr_delta_vs_reference"] = None
+            else:
+                row["psnr_delta_vs_reference"] = (
+                    result["psnr"] - reference["psnr"]
+                )
             writer.writerow(row)
 
     trace_fields = [
@@ -510,11 +620,12 @@ def main() -> None:
     parser.add_argument("--residual-target-drop", type=float, default=0.05)
     parser.add_argument(
         "--variant-set",
-        choices=("initial", "ema", "soft", "weight"),
+        choices=("initial", "ema", "soft", "weight", "posthoc"),
         default="initial",
         help=(
             "initial runs the first indicator screen; ema tests smoothing; "
-            "soft tests online baseline normalization; weight tests guidance control."
+            "soft tests online baseline normalization; weight tests guidance control; "
+            "posthoc freezes trained zeta/D and isolates inference-time control."
         ),
     )
     parser.add_argument(
@@ -658,6 +769,17 @@ def main() -> None:
                  "adaptive_soft", None, "state_balanced",
                  args.weight_residual_gain, args.weight_cosine_gain),
             ]
+        elif args.variant_set == "posthoc":
+            variants = [
+                ("posthoc_identity", 0.7, 0.3, 0.0,
+                 "adaptive_soft", 0.0, "identity", None, None),
+                ("posthoc_residual_only", 0.7, 0.3, 0.0,
+                 "adaptive_soft", 0.0, "state_balanced",
+                 args.weight_residual_gain, 0.0),
+                ("posthoc_residual_cos", 0.7, 0.3, 0.0,
+                 "adaptive_soft", 0.0, "state_balanced",
+                 args.weight_residual_gain, args.weight_cosine_gain),
+            ]
         else:
             variants = [
                 ("residual_only", 1.0, 0.0, 0.0,
@@ -702,10 +824,17 @@ def main() -> None:
                 weight_residual_gain=weight_residual_gain,
                 weight_cosine_gain=weight_cosine_gain,
             )
-            result, tensors = run_variant(
-                name, scheduler, uniform_tau, diffusion_model, operator,
-                measurement, ground_truth, args.device, args.seed,
-            )
+            if args.variant_set == "posthoc":
+                result, tensors = run_frozen_posthoc_variant(
+                    name, scheduler, uniform_tau, diffusion_model, operator,
+                    measurement, ground_truth, args.device, args.seed,
+                    fixed_tensors,
+                )
+            else:
+                result, tensors = run_variant(
+                    name, scheduler, uniform_tau, diffusion_model, operator,
+                    measurement, ground_truth, args.device, args.seed,
+                )
             results.append(result)
             reconstructions[name] = tensors["reconstruction"]
 
@@ -714,18 +843,30 @@ def main() -> None:
         reconstructions, ground_truth, measurement, observed_psnr,
     )
 
-    baseline_psnr = fixed["psnr"]
+    reference = next(
+        (item for item in results if item["name"] == "posthoc_identity"),
+        fixed,
+    )
+    baseline_psnr = reference["psnr"]
     print("\n=== Summary ===", flush=True)
     print(f"observed PSNR: {observed_psnr:.4f} dB", flush=True)
+    print(f"delta reference: {reference['name']}", flush=True)
     print(
         f"{'variant':>26} {'PSNR':>9} {'delta':>9} {'SSIM':>8} {'LPIPS':>9} "
         f"{'MSE':>11} {'residual':>10} {'NFE':>6} {'seconds':>9}",
         flush=True,
     )
     for result in results:
+        if (
+            reference["name"] == "posthoc_identity"
+            and result.get("phase") != "frozen_posthoc_inference"
+        ):
+            delta_text = "n/a"
+        else:
+            delta_text = f"{result['psnr'] - baseline_psnr:+.4f}"
         print(
             f"{result['name']:>26} {result['psnr']:9.4f} "
-            f"{result['psnr'] - baseline_psnr:+9.4f} "
+            f"{delta_text:>9} "
             f"{result['ssim']:8.4f} {result['lpips']:9.4f} "
             f"{result['mse']:11.6f} {result['residual']:10.4f} "
             f"{result['nfe']:6d} {result['seconds']:9.1f}",
@@ -763,6 +904,10 @@ def main() -> None:
         print("  3) residual-only vs residual+cosine tests whether cosine is useful for zeta", flush=True)
         print("  4) joint schedule+weight tests interaction, not a new hyperparameter sweep", flush=True)
         print("  5) require >0.05 dB over adaptive_null without LPIPS degradation", flush=True)
+    elif args.variant_set == "posthoc":
+        print("  2) all post-hoc arms reuse identical trained zeta/D and DDPM randomness", flush=True)
+        print("  3) compare only against posthoc_identity, not the optimization outputs", flush=True)
+        print("  4) >0.05 dB means learning compensated the state factor; otherwise reject it", flush=True)
     else:
         print("  2) residual_only vs cosine_only identifies the useful signal", flush=True)
         print("  3) only if a combined variant beats adaptive_null do we tune strength", flush=True)
