@@ -242,6 +242,7 @@ class BudgetedSchedulerConfig:
     cosine_weight: float = 0.2
     response_strength: float = 0.5
     residual_target_drop: float = 0.05
+    residual_ema_decay: float = 0.0
     mod_min: float = 0.75
     mod_max: float = 1.25
 
@@ -253,7 +254,8 @@ class BudgetedStateAwareScheduler:
     “绝对残差大就一味缩步”造成高噪声区预算耗尽，残差项改成相邻步骤的
     相对下降是否停滞：
 
-        E_r = clip(1 - ((r_{k-1}-r_k)/r_{k-1}) / q, 0, 1)
+        d_k = (r_{k-1}-r_k)/r_{k-1}              # 可选 EMA 平滑
+        E_r = clip(1 - d_k / q, 0, 1)
         E_c = clip((1-cos(Delta x0_k, Delta x0_{k-1}))/2, 0, 1)
         E   = w_r E_r + w_c E_c
 
@@ -290,14 +292,18 @@ class BudgetedStateAwareScheduler:
             raise ValueError("response_strength 不能为负")
         if c.residual_target_drop <= 0:
             raise ValueError("residual_target_drop 必须为正")
+        if not 0.0 <= c.residual_ema_decay < 1.0:
+            raise ValueError("residual_ema_decay 必须位于 [0,1)")
         if not (0 < c.mod_min <= 1.0 <= c.mod_max):
             raise ValueError("调制边界必须满足 0 < mod_min <= 1 <= mod_max")
 
     def reset(self):
         self.used = 0
         self._prev_r = None
+        self._residual_drop_ema = None
         self.residual_norm = float("nan")
         self.relative_residual_drop = float("nan")
+        self.smoothed_relative_residual_drop = float("nan")
         self.residual_error = 0.5
         self.cosine_x0 = float("nan")
         self.cosine_error = 0.5
@@ -310,10 +316,21 @@ class BudgetedStateAwareScheduler:
         resid_norm = float(resid_norm)
         if self._prev_r is None or self._prev_r <= 1e-12:
             dr_rel = float("nan")
+            smoothed_dr_rel = float("nan")
             residual_error = 0.5
         else:
             dr_rel = (self._prev_r - resid_norm) / self._prev_r
-            residual_error = 1.0 - dr_rel / self.cfg.residual_target_drop
+            decay = self.cfg.residual_ema_decay
+            if decay <= 0.0 or self._residual_drop_ema is None:
+                smoothed_dr_rel = dr_rel
+            else:
+                smoothed_dr_rel = (
+                    decay * self._residual_drop_ema + (1.0 - decay) * dr_rel
+                )
+            self._residual_drop_ema = smoothed_dr_rel
+            residual_error = (
+                1.0 - smoothed_dr_rel / self.cfg.residual_target_drop
+            )
             residual_error = _clip(residual_error, 0.0, 1.0)
         self._prev_r = resid_norm
 
@@ -325,6 +342,7 @@ class BudgetedStateAwareScheduler:
         c = self.cfg
         self.residual_norm = resid_norm
         self.relative_residual_drop = dr_rel
+        self.smoothed_relative_residual_drop = smoothed_dr_rel
         self.residual_error = residual_error
         self.cosine_x0 = float(cos_x0)
         self.cosine_error = cosine_error
@@ -386,6 +404,9 @@ class BudgetedStateAwareScheduler:
     def snapshot(self) -> dict:
         return {
             "relative_residual_drop": self.relative_residual_drop,
+            "smoothed_relative_residual_drop": (
+                self.smoothed_relative_residual_drop
+            ),
             "residual_error": self.residual_error,
             "cosine_error": self.cosine_error,
             "state_score": self.state_score,

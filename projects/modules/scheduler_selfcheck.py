@@ -174,6 +174,28 @@ def main():
                    and adaptive_scheduler.done(),
                    f"最后5点={adaptive_path[-5:]}")
 
+    # 7c. EMA 应降低交替残差降速的抖动，同时不改变原始观测值记录。
+    raw_scheduler = BudgetedStateAwareScheduler(
+        nominal, BudgetedSchedulerConfig(residual_ema_decay=0.0)
+    )
+    ema_scheduler = BudgetedStateAwareScheduler(
+        nominal, BudgetedSchedulerConfig(residual_ema_decay=0.7)
+    )
+    residuals = [100.0]
+    for k in range(1, 15):
+        rate = 0.10 if k % 2 else -0.02
+        residuals.append(residuals[-1] * (1.0 - rate))
+    raw_drops, ema_drops = [], []
+    for residual in residuals:
+        raw_scheduler.update_state(residual)
+        ema_scheduler.update_state(residual)
+        if raw_scheduler.relative_residual_drop == raw_scheduler.relative_residual_drop:
+            raw_drops.append(raw_scheduler.smoothed_relative_residual_drop)
+            ema_drops.append(ema_scheduler.smoothed_relative_residual_drop)
+    allok &= check("EMA 降低交替残差降速的标准差",
+                   st.pstdev(ema_drops) < st.pstdev(raw_drops),
+                   f"raw={st.pstdev(raw_drops):.4f} ema={st.pstdev(ema_drops):.4f}")
+
     print("\n" + ("=" * 40))
     print("总体:", "✅ 全部通过,可进入参数扫描" if allok else "❌ 有 FAIL,先修逻辑再扫参")
     print("=" * 40)

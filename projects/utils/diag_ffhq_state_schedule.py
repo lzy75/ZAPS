@@ -95,6 +95,7 @@ def make_scheduler(
     args,
     *,
     response_strength: float | None = None,
+    residual_ema_decay: float = 0.0,
 ):
     return BudgetedStateAwareScheduler(
         nominal_descending,
@@ -107,10 +108,73 @@ def make_scheduler(
                 else response_strength
             ),
             residual_target_drop=args.residual_target_drop,
+            residual_ema_decay=residual_ema_decay,
             mod_min=args.mod_min,
             mod_max=args.mod_max,
         ),
     )
+
+
+def trace_diagnostics(indicators: list[dict], mod_min: float, mod_max: float) -> dict:
+    """Summarize whether noisy state signals saturate or hit step bounds."""
+
+    def valid_values(key):
+        return [
+            float(item[key])
+            for item in indicators
+            if item.get(key) is not None
+            and isinstance(item.get(key), (int, float))
+            and math.isfinite(float(item[key]))
+        ]
+
+    def mean_std(values):
+        if not values:
+            return {"mean": None, "std": None, "min": None, "max": None}
+        mean = sum(values) / len(values)
+        variance = sum((value - mean) ** 2 for value in values) / len(values)
+        return {
+            "mean": mean,
+            "std": math.sqrt(variance),
+            "min": min(values),
+            "max": max(values),
+        }
+
+    raw_drop = valid_values("relative_residual_drop")
+    smooth_drop = valid_values("smoothed_relative_residual_drop")
+    residual_error = valid_values("residual_error")
+    cosine_error = valid_values("cosine_error")
+    modifiers = valid_values("step_modifier")
+    steps = valid_values("h")
+    epsilon = 1e-6
+    return {
+        "raw_relative_drop": mean_std(raw_drop),
+        "smoothed_relative_drop": mean_std(smooth_drop),
+        "negative_raw_drop_rate": (
+            sum(value < 0 for value in raw_drop) / len(raw_drop)
+            if raw_drop else None
+        ),
+        "residual_error": mean_std(residual_error),
+        "residual_error_zero_rate": (
+            sum(value <= epsilon for value in residual_error) / len(residual_error)
+            if residual_error else None
+        ),
+        "residual_error_one_rate": (
+            sum(value >= 1.0 - epsilon for value in residual_error)
+            / len(residual_error)
+            if residual_error else None
+        ),
+        "cosine_error": mean_std(cosine_error),
+        "step_modifier": mean_std(modifiers),
+        "modifier_lower_bound_rate": (
+            sum(value <= mod_min + epsilon for value in modifiers) / len(modifiers)
+            if modifiers else None
+        ),
+        "modifier_upper_bound_rate": (
+            sum(value >= mod_max - epsilon for value in modifiers) / len(modifiers)
+            if modifiers else None
+        ),
+        "step_h": mean_std(steps),
+    }
 
 
 def run_variant(
@@ -191,6 +255,11 @@ def run_variant(
         "steps": steps,
         "nfe": int(zaps._last_nfe),
         "indicators": indicators,
+        "trace_diagnostics": trace_diagnostics(
+            indicators,
+            scheduler.cfg.mod_min if scheduler is not None else 1.0,
+            scheduler.cfg.mod_max if scheduler is not None else 1.0,
+        ) if scheduler is not None else {},
     }
     tensors = {
         "reconstruction": reconstruction.cpu(),
@@ -301,6 +370,8 @@ def save_records(
             "combined_score": "E=w_r*E_r+w_c*E_c",
             "step_rule": "h=nominal_h*[1+strength*(0.5-E)*2]",
             "residual_target_drop": args.residual_target_drop,
+            "variant_set": args.variant_set,
+            "ema_decay_for_ema_variants": args.ema_decay,
             "response_strength": args.response_strength,
             "modulation_bounds": [args.mod_min, args.mod_max],
             "zeta_D_rule": "unchanged; scheduler adapt_weight is identity",
@@ -326,7 +397,8 @@ def save_records(
 
     trace_fields = [
         "variant", "step", "t", "t_prev", "h", "parameter_index",
-        "residual_norm", "relative_residual_drop", "residual_error",
+        "residual_norm", "relative_residual_drop",
+        "smoothed_relative_residual_drop", "residual_error",
         "cosine_sim_x0", "cosine_error", "state_score", "base_step",
         "step_modifier",
     ]
@@ -366,6 +438,18 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=1000)
     parser.add_argument("--response-strength", type=float, default=0.5)
     parser.add_argument("--residual-target-drop", type=float, default=0.05)
+    parser.add_argument(
+        "--variant-set",
+        choices=("initial", "ema"),
+        default="initial",
+        help="initial runs the first indicator screen; ema runs the targeted smoothing ablation.",
+    )
+    parser.add_argument(
+        "--ema-decay",
+        type=float,
+        default=0.7,
+        help="EMA decay used only by the ema variant set (default: 0.7).",
+    )
     parser.add_argument("--mod-min", type=float, default=0.75)
     parser.add_argument("--mod-max", type=float, default=1.25)
     parser.add_argument(
@@ -390,6 +474,8 @@ def main() -> None:
         raise ValueError("response-strength must be non-negative")
     if args.residual_target_drop <= 0:
         raise ValueError("residual-target-drop must be positive")
+    if not 0 <= args.ema_decay < 1:
+        raise ValueError("ema-decay must be in [0,1)")
     if not 0 < args.mod_min <= 1 <= args.mod_max:
         raise ValueError("modulation bounds must satisfy 0 < min <= 1 <= max")
     weight_pairs = parse_weight_pairs(args.weight_pairs)
@@ -450,17 +536,28 @@ def main() -> None:
 
     if not args.gate_only:
         print("\n=== Stage 2: paired state-indicator screen ===", flush=True)
-        variants = [
-            ("residual_only", 1.0, 0.0),
-            ("cosine_only", 0.0, 1.0),
-            *[
-                (f"combined_r{residual:g}_c{cosine:g}", residual, cosine)
-                for residual, cosine in weight_pairs
-            ],
-        ]
-        for name, residual_weight, cosine_weight in variants:
+        if args.variant_set == "ema":
+            variants = [
+                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0),
+                ("ema_combined_r0.7_c0.3", 0.7, 0.3, args.ema_decay),
+                ("ema_residual_only", 1.0, 0.0, args.ema_decay),
+            ]
+        else:
+            variants = [
+                ("residual_only", 1.0, 0.0, 0.0),
+                ("cosine_only", 0.0, 1.0, 0.0),
+                *[
+                    (f"combined_r{residual:g}_c{cosine:g}", residual, cosine, 0.0)
+                    for residual, cosine in weight_pairs
+                ],
+            ]
+        for name, residual_weight, cosine_weight, ema_decay in variants:
             scheduler = make_scheduler(
-                nominal_descending, residual_weight, cosine_weight, args
+                nominal_descending,
+                residual_weight,
+                cosine_weight,
+                args,
+                residual_ema_decay=ema_decay,
             )
             result, tensors = run_variant(
                 name, scheduler, uniform_tau, diffusion_model, operator,
@@ -492,12 +589,28 @@ def main() -> None:
             flush=True,
         )
         print(f"  visited t: {result['visited']}", flush=True)
+        diagnostics = result.get("trace_diagnostics", {})
+        if diagnostics:
+            print(
+                "  trace: "
+                f"negative_drop={diagnostics['negative_raw_drop_rate']:.3f}  "
+                f"E_r@0={diagnostics['residual_error_zero_rate']:.3f}  "
+                f"E_r@1={diagnostics['residual_error_one_rate']:.3f}  "
+                f"mod@low={diagnostics['modifier_lower_bound_rate']:.3f}  "
+                f"mod@high={diagnostics['modifier_upper_bound_rate']:.3f}  "
+                f"h_std={diagnostics['step_h']['std']:.3f}",
+                flush=True,
+            )
 
     print(f"\nRecords saved to: {output_dir}", flush=True)
     print("Decision order:", flush=True)
     print("  1) gate must PASS before interpreting any adaptive result", flush=True)
-    print("  2) residual_only vs cosine_only identifies the useful signal", flush=True)
-    print("  3) only if a combined variant beats fixed_uniform do we tune strength", flush=True)
+    if args.variant_set == "ema":
+        print("  2) raw vs EMA isolates whether instantaneous residual noise causes jitter", flush=True)
+        print("  3) require >0.05 dB over adaptive_null before any broader sweep", flush=True)
+    else:
+        print("  2) residual_only vs cosine_only identifies the useful signal", flush=True)
+        print("  3) only if a combined variant beats adaptive_null do we tune strength", flush=True)
 
 
 if __name__ == "__main__":
