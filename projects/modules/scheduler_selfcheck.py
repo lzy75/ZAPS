@@ -196,6 +196,23 @@ def main():
                    st.pstdev(ema_drops) < st.pstdev(raw_drops),
                    f"raw={st.pstdev(raw_drops):.4f} ema={st.pstdev(ema_drops):.4f}")
 
+    soft_scheduler = BudgetedStateAwareScheduler(
+        nominal,
+        BudgetedSchedulerConfig(
+            residual_mode="adaptive_soft",
+            soft_baseline_decay=0.7,
+            soft_scale_floor=0.01,
+            soft_error_amplitude=0.25,
+        ),
+    )
+    soft_errors = []
+    for residual in residuals:
+        soft_scheduler.update_state(residual)
+        soft_errors.append(soft_scheduler.residual_error)
+    allok &= check("adaptive-soft 残差误差不发生 0/1 硬饱和",
+                   min(soft_errors) >= 0.25 and max(soft_errors) <= 0.75,
+                   f"range=[{min(soft_errors):.4f},{max(soft_errors):.4f}]")
+
     print("\n" + ("=" * 40))
     print("总体:", "✅ 全部通过,可进入参数扫描" if allok else "❌ 有 FAIL,先修逻辑再扫参")
     print("=" * 40)

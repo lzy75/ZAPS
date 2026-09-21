@@ -96,6 +96,7 @@ def make_scheduler(
     *,
     response_strength: float | None = None,
     residual_ema_decay: float = 0.0,
+    residual_mode: str = "target",
 ):
     return BudgetedStateAwareScheduler(
         nominal_descending,
@@ -109,6 +110,10 @@ def make_scheduler(
             ),
             residual_target_drop=args.residual_target_drop,
             residual_ema_decay=residual_ema_decay,
+            residual_mode=residual_mode,
+            soft_baseline_decay=args.soft_baseline_decay,
+            soft_scale_floor=args.soft_scale_floor,
+            soft_error_amplitude=args.soft_error_amplitude,
             mod_min=args.mod_min,
             mod_max=args.mod_max,
         ),
@@ -143,6 +148,7 @@ def trace_diagnostics(indicators: list[dict], mod_min: float, mod_max: float) ->
     smooth_drop = valid_values("smoothed_relative_residual_drop")
     residual_error = valid_values("residual_error")
     cosine_error = valid_values("cosine_error")
+    residual_zscore = valid_values("residual_zscore")
     modifiers = valid_values("step_modifier")
     steps = valid_values("h")
     epsilon = 1e-6
@@ -164,6 +170,7 @@ def trace_diagnostics(indicators: list[dict], mod_min: float, mod_max: float) ->
             if residual_error else None
         ),
         "cosine_error": mean_std(cosine_error),
+        "residual_zscore": mean_std(residual_zscore),
         "step_modifier": mean_std(modifiers),
         "modifier_lower_bound_rate": (
             sum(value <= mod_min + epsilon for value in modifiers) / len(modifiers)
@@ -372,6 +379,9 @@ def save_records(
             "residual_target_drop": args.residual_target_drop,
             "variant_set": args.variant_set,
             "ema_decay_for_ema_variants": args.ema_decay,
+            "soft_baseline_decay": args.soft_baseline_decay,
+            "soft_scale_floor": args.soft_scale_floor,
+            "soft_error_amplitude": args.soft_error_amplitude,
             "response_strength": args.response_strength,
             "modulation_bounds": [args.mod_min, args.mod_max],
             "zeta_D_rule": "unchanged; scheduler adapt_weight is identity",
@@ -399,6 +409,7 @@ def save_records(
         "variant", "step", "t", "t_prev", "h", "parameter_index",
         "residual_norm", "relative_residual_drop",
         "smoothed_relative_residual_drop", "residual_error",
+        "residual_baseline", "residual_scale", "residual_zscore",
         "cosine_sim_x0", "cosine_error", "state_score", "base_step",
         "step_modifier",
     ]
@@ -440,9 +451,12 @@ def main() -> None:
     parser.add_argument("--residual-target-drop", type=float, default=0.05)
     parser.add_argument(
         "--variant-set",
-        choices=("initial", "ema"),
+        choices=("initial", "ema", "soft"),
         default="initial",
-        help="initial runs the first indicator screen; ema runs the targeted smoothing ablation.",
+        help=(
+            "initial runs the first indicator screen; ema tests smoothing; "
+            "soft tests online baseline normalization."
+        ),
     )
     parser.add_argument(
         "--ema-decay",
@@ -450,6 +464,9 @@ def main() -> None:
         default=0.7,
         help="EMA decay used only by the ema variant set (default: 0.7).",
     )
+    parser.add_argument("--soft-baseline-decay", type=float, default=0.7)
+    parser.add_argument("--soft-scale-floor", type=float, default=0.01)
+    parser.add_argument("--soft-error-amplitude", type=float, default=0.25)
     parser.add_argument("--mod-min", type=float, default=0.75)
     parser.add_argument("--mod-max", type=float, default=1.25)
     parser.add_argument(
@@ -476,6 +493,12 @@ def main() -> None:
         raise ValueError("residual-target-drop must be positive")
     if not 0 <= args.ema_decay < 1:
         raise ValueError("ema-decay must be in [0,1)")
+    if not 0 <= args.soft_baseline_decay < 1:
+        raise ValueError("soft-baseline-decay must be in [0,1)")
+    if args.soft_scale_floor <= 0:
+        raise ValueError("soft-scale-floor must be positive")
+    if not 0 < args.soft_error_amplitude <= 0.5:
+        raise ValueError("soft-error-amplitude must be in (0,0.5]")
     if not 0 < args.mod_min <= 1 <= args.mod_max:
         raise ValueError("modulation bounds must satisfy 0 < min <= 1 <= max")
     weight_pairs = parse_weight_pairs(args.weight_pairs)
@@ -538,26 +561,39 @@ def main() -> None:
         print("\n=== Stage 2: paired state-indicator screen ===", flush=True)
         if args.variant_set == "ema":
             variants = [
-                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0),
-                ("ema_combined_r0.7_c0.3", 0.7, 0.3, args.ema_decay),
-                ("ema_residual_only", 1.0, 0.0, args.ema_decay),
+                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0, "target"),
+                ("ema_combined_r0.7_c0.3", 0.7, 0.3, args.ema_decay, "target"),
+                ("ema_residual_only", 1.0, 0.0, args.ema_decay, "target"),
+            ]
+        elif args.variant_set == "soft":
+            variants = [
+                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0, "target"),
+                ("soft_combined_r0.7_c0.3", 0.7, 0.3, 0.0, "adaptive_soft"),
+                ("soft_residual_only", 1.0, 0.0, 0.0, "adaptive_soft"),
             ]
         else:
             variants = [
-                ("residual_only", 1.0, 0.0, 0.0),
-                ("cosine_only", 0.0, 1.0, 0.0),
+                ("residual_only", 1.0, 0.0, 0.0, "target"),
+                ("cosine_only", 0.0, 1.0, 0.0, "target"),
                 *[
-                    (f"combined_r{residual:g}_c{cosine:g}", residual, cosine, 0.0)
+                    (
+                        f"combined_r{residual:g}_c{cosine:g}",
+                        residual,
+                        cosine,
+                        0.0,
+                        "target",
+                    )
                     for residual, cosine in weight_pairs
                 ],
             ]
-        for name, residual_weight, cosine_weight, ema_decay in variants:
+        for name, residual_weight, cosine_weight, ema_decay, residual_mode in variants:
             scheduler = make_scheduler(
                 nominal_descending,
                 residual_weight,
                 cosine_weight,
                 args,
                 residual_ema_decay=ema_decay,
+                residual_mode=residual_mode,
             )
             result, tensors = run_variant(
                 name, scheduler, uniform_tau, diffusion_model, operator,
@@ -608,6 +644,9 @@ def main() -> None:
     if args.variant_set == "ema":
         print("  2) raw vs EMA isolates whether instantaneous residual noise causes jitter", flush=True)
         print("  3) require >0.05 dB over adaptive_null before any broader sweep", flush=True)
+    elif args.variant_set == "soft":
+        print("  2) raw vs adaptive-soft isolates hard-threshold saturation", flush=True)
+        print("  3) require >0.05 dB over adaptive_null without LPIPS degradation", flush=True)
     else:
         print("  2) residual_only vs cosine_only identifies the useful signal", flush=True)
         print("  3) only if a combined variant beats adaptive_null do we tune strength", flush=True)

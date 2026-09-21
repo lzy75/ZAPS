@@ -14,6 +14,7 @@
 已经验证过的固定时间步网格为名义轨迹，状态信号关闭时必须逐点退化回该网格。
 """
 from dataclasses import dataclass
+import math
 
 
 @dataclass
@@ -243,6 +244,10 @@ class BudgetedSchedulerConfig:
     response_strength: float = 0.5
     residual_target_drop: float = 0.05
     residual_ema_decay: float = 0.0
+    residual_mode: str = "target"
+    soft_baseline_decay: float = 0.7
+    soft_scale_floor: float = 0.01
+    soft_error_amplitude: float = 0.25
     mod_min: float = 0.75
     mod_max: float = 1.25
 
@@ -255,7 +260,8 @@ class BudgetedStateAwareScheduler:
     相对下降是否停滞：
 
         d_k = (r_{k-1}-r_k)/r_{k-1}              # 可选 EMA 平滑
-        E_r = clip(1 - d_k / q, 0, 1)
+        E_r = clip(1 - d_k / q, 0, 1)             # target 模式
+        E_r = 0.5-a*tanh((d_k-m_k)/s_k)           # adaptive_soft 模式
         E_c = clip((1-cos(Delta x0_k, Delta x0_{k-1}))/2, 0, 1)
         E   = w_r E_r + w_c E_c
 
@@ -294,6 +300,14 @@ class BudgetedStateAwareScheduler:
             raise ValueError("residual_target_drop 必须为正")
         if not 0.0 <= c.residual_ema_decay < 1.0:
             raise ValueError("residual_ema_decay 必须位于 [0,1)")
+        if c.residual_mode not in ("target", "adaptive_soft"):
+            raise ValueError("residual_mode 必须是 target 或 adaptive_soft")
+        if not 0.0 <= c.soft_baseline_decay < 1.0:
+            raise ValueError("soft_baseline_decay 必须位于 [0,1)")
+        if c.soft_scale_floor <= 0:
+            raise ValueError("soft_scale_floor 必须为正")
+        if not 0 < c.soft_error_amplitude <= 0.5:
+            raise ValueError("soft_error_amplitude 必须位于 (0,0.5]")
         if not (0 < c.mod_min <= 1.0 <= c.mod_max):
             raise ValueError("调制边界必须满足 0 < mod_min <= 1 <= mod_max")
 
@@ -301,10 +315,15 @@ class BudgetedStateAwareScheduler:
         self.used = 0
         self._prev_r = None
         self._residual_drop_ema = None
+        self._soft_drop_baseline = None
+        self._soft_abs_deviation = None
         self.residual_norm = float("nan")
         self.relative_residual_drop = float("nan")
         self.smoothed_relative_residual_drop = float("nan")
         self.residual_error = 0.5
+        self.residual_baseline = float("nan")
+        self.residual_scale = float("nan")
+        self.residual_zscore = float("nan")
         self.cosine_x0 = float("nan")
         self.cosine_error = 0.5
         self.state_score = 0.5
@@ -318,20 +337,63 @@ class BudgetedStateAwareScheduler:
             dr_rel = float("nan")
             smoothed_dr_rel = float("nan")
             residual_error = 0.5
+            residual_baseline = float("nan")
+            residual_scale = float("nan")
+            residual_zscore = float("nan")
         else:
             dr_rel = (self._prev_r - resid_norm) / self._prev_r
-            decay = self.cfg.residual_ema_decay
-            if decay <= 0.0 or self._residual_drop_ema is None:
+            if self.cfg.residual_mode == "adaptive_soft":
                 smoothed_dr_rel = dr_rel
+                if self._soft_drop_baseline is None:
+                    # 第一项只建立局部基线，不立即改变步长。
+                    residual_baseline = dr_rel
+                    residual_scale = self.cfg.soft_scale_floor
+                    residual_zscore = 0.0
+                    residual_error = 0.5
+                    self._soft_drop_baseline = dr_rel
+                    self._soft_abs_deviation = self.cfg.soft_scale_floor
+                else:
+                    baseline = self._soft_drop_baseline
+                    scale = max(
+                        self._soft_abs_deviation,
+                        self.cfg.soft_scale_floor,
+                    )
+                    deviation = dr_rel - baseline
+                    residual_zscore = deviation / scale
+                    residual_error = (
+                        0.5
+                        - self.cfg.soft_error_amplitude
+                        * math.tanh(residual_zscore)
+                    )
+                    decay = self.cfg.soft_baseline_decay
+                    self._soft_drop_baseline = (
+                        decay * baseline + (1.0 - decay) * dr_rel
+                    )
+                    self._soft_abs_deviation = (
+                        decay * self._soft_abs_deviation
+                        + (1.0 - decay) * abs(deviation)
+                    )
+                    residual_baseline = baseline
+                    residual_scale = scale
             else:
-                smoothed_dr_rel = (
-                    decay * self._residual_drop_ema + (1.0 - decay) * dr_rel
+                decay = self.cfg.residual_ema_decay
+                if decay <= 0.0 or self._residual_drop_ema is None:
+                    smoothed_dr_rel = dr_rel
+                else:
+                    smoothed_dr_rel = (
+                        decay * self._residual_drop_ema + (1.0 - decay) * dr_rel
+                    )
+                self._residual_drop_ema = smoothed_dr_rel
+                residual_error = (
+                    1.0 - smoothed_dr_rel / self.cfg.residual_target_drop
                 )
-            self._residual_drop_ema = smoothed_dr_rel
-            residual_error = (
-                1.0 - smoothed_dr_rel / self.cfg.residual_target_drop
-            )
-            residual_error = _clip(residual_error, 0.0, 1.0)
+                residual_error = _clip(residual_error, 0.0, 1.0)
+                residual_baseline = self.cfg.residual_target_drop
+                residual_scale = self.cfg.residual_target_drop
+                residual_zscore = (
+                    (smoothed_dr_rel - self.cfg.residual_target_drop)
+                    / self.cfg.residual_target_drop
+                )
         self._prev_r = resid_norm
 
         if cos_x0 == cos_x0:
@@ -344,6 +406,9 @@ class BudgetedStateAwareScheduler:
         self.relative_residual_drop = dr_rel
         self.smoothed_relative_residual_drop = smoothed_dr_rel
         self.residual_error = residual_error
+        self.residual_baseline = residual_baseline
+        self.residual_scale = residual_scale
+        self.residual_zscore = residual_zscore
         self.cosine_x0 = float(cos_x0)
         self.cosine_error = cosine_error
         self.state_score = (
@@ -408,6 +473,9 @@ class BudgetedStateAwareScheduler:
                 self.smoothed_relative_residual_drop
             ),
             "residual_error": self.residual_error,
+            "residual_baseline": self.residual_baseline,
+            "residual_scale": self.residual_scale,
+            "residual_zscore": self.residual_zscore,
             "cosine_error": self.cosine_error,
             "state_score": self.state_score,
             "base_step": self.base_step,
