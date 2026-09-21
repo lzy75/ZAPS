@@ -92,3 +92,33 @@ E_r = 0.5 - 0.25 * tanh(z_k)
 `0.7/0.3` 与 soft residual-only，其他设置不变。
 
 运行脚本：`projects/utils/diag_ffhq_state_schedule.py`。每次运行自动生成 `run.json`、`summary.csv`、`indicator_trace.csv` 和各变体重建图。
+
+## 阶段 4：状态感知引导权重
+
+在线软归一化解决了 `E_r` 的 0/1 饱和和频繁触边，但单图结果仍未超过
+固定 uniform-30：soft combined 相对固定约 `-0.05 dB`，soft
+residual-only 约 `-0.01 dB`。因此当前证据拒绝“仅靠状态重排 30 个时间步”
+这一分支，不再继续扫描调度响应强度。
+
+下一步固定 uniform-30，保持 ζ 和 D 按 ZAPS 原流程共同学习，只把状态作为
+当前可学习 ζ 的小幅乘法因子：
+
+```text
+g_k = clip(1 + 0.20 * (E_r - 0.5) - 0.05 * (E_c - 0.5), 0.90, 1.10)
+zeta_eff(k) = zeta_learned(k) * g_k
+```
+
+残差停滞时增强物理引导，轨迹余弦不稳定时轻微抑制；残差增益是余弦增益的
+4 倍，符合“残差为主、余弦为辅”的设计。状态因子由 detached 标量构造，
+不会截断 ζ/D 的梯度，也不冻结任何 ZAPS 参数。
+
+`--variant-set weight` 比较四个实验臂：
+
+- `soft_schedule_only`：只改变时间步，作为本阶段内部对照；
+- `weight_residual_only`：固定 uniform-30，只调制 ζ，不用余弦；
+- `weight_residual_cos`：固定 uniform-30，残差主导并加入弱余弦抑制；
+- `soft_schedule_and_weight`：同时调整时间步和 ζ，用于检查二者交互。
+
+两个 weight-only 变体访问的时间步必须与 uniform-30 完全一致。只有相对
+`adaptive_null` 超过 `+0.05 dB` 且 LPIPS 不恶化的分支，才进入 10 图配对
+验证；否则应认定当前两类状态指标不足以改善 FFHQ 超分基线。

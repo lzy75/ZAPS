@@ -213,6 +213,42 @@ def main():
                    min(soft_errors) >= 0.25 and max(soft_errors) <= 0.75,
                    f"range=[{min(soft_errors):.4f},{max(soft_errors):.4f}]")
 
+    # 7e. 权重控制关闭时严格恒等；开启时残差停滞增强、轨迹不稳抑制，
+    # 且任何状态下都不能越过预设的安全边界。
+    identity_scheduler = BudgetedStateAwareScheduler(
+        nominal, BudgetedSchedulerConfig(weight_mode="identity")
+    )
+    identity_scheduler.update_state(100.0, float("nan"))
+    allok &= check("weight_mode=identity 不改变 zeta",
+                   identity_scheduler.adapt_weight(0.1) == 0.1)
+
+    weight_scheduler = BudgetedStateAwareScheduler(
+        nominal,
+        BudgetedSchedulerConfig(
+            residual_mode="adaptive_soft",
+            weight_mode="state_balanced",
+            weight_residual_gain=0.2,
+            weight_cosine_gain=0.05,
+            weight_min=0.9,
+            weight_max=1.1,
+        ),
+    )
+    weight_scheduler.residual_error = 0.75
+    weight_scheduler.cosine_error = 0.5
+    boosted = weight_scheduler.adapt_weight(1.0)
+    weight_scheduler.residual_error = 0.5
+    weight_scheduler.cosine_error = 1.0
+    suppressed = weight_scheduler.adapt_weight(1.0)
+    weight_scheduler.residual_error = 1.0
+    weight_scheduler.cosine_error = 0.0
+    bounded = weight_scheduler.adapt_weight(1.0)
+    allok &= check("残差停滞增强 zeta、轨迹不稳抑制 zeta",
+                   boosted > 1.0 and suppressed < 1.0,
+                   f"boosted={boosted:.4f} suppressed={suppressed:.4f}")
+    allok &= check("状态权重严格受安全边界约束",
+                   0.9 <= bounded <= 1.1,
+                   f"extreme modifier={bounded:.4f}")
+
     print("\n" + ("=" * 40))
     print("总体:", "✅ 全部通过,可进入参数扫描" if allok else "❌ 有 FAIL,先修逻辑再扫参")
     print("=" * 40)

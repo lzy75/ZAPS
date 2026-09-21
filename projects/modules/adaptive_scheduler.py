@@ -248,6 +248,11 @@ class BudgetedSchedulerConfig:
     soft_baseline_decay: float = 0.7
     soft_scale_floor: float = 0.01
     soft_error_amplitude: float = 0.25
+    weight_mode: str = "identity"
+    weight_residual_gain: float = 0.2
+    weight_cosine_gain: float = 0.05
+    weight_min: float = 0.9
+    weight_max: float = 1.1
     mod_min: float = 0.75
     mod_max: float = 1.25
 
@@ -308,6 +313,12 @@ class BudgetedStateAwareScheduler:
             raise ValueError("soft_scale_floor 必须为正")
         if not 0 < c.soft_error_amplitude <= 0.5:
             raise ValueError("soft_error_amplitude 必须位于 (0,0.5]")
+        if c.weight_mode not in ("identity", "state_balanced"):
+            raise ValueError("weight_mode 必须是 identity 或 state_balanced")
+        if c.weight_residual_gain < 0 or c.weight_cosine_gain < 0:
+            raise ValueError("状态权重增益不能为负")
+        if not 0 < c.weight_min <= 1.0 <= c.weight_max:
+            raise ValueError("权重边界必须满足 0 < min <= 1 <= max")
         if not (0 < c.mod_min <= 1.0 <= c.mod_max):
             raise ValueError("调制边界必须满足 0 < mod_min <= 1 <= mod_max")
 
@@ -330,6 +341,7 @@ class BudgetedStateAwareScheduler:
         self.base_step = float("nan")
         self.step_modifier = 1.0
         self.selected_step = None
+        self.guidance_modifier = 1.0
 
     def update_state(self, resid_norm: float, cos_x0: float = float("nan")):
         resid_norm = float(resid_norm)
@@ -463,8 +475,23 @@ class BudgetedStateAwareScheduler:
         return int(h)
 
     def adapt_weight(self, zeta_base):
-        """第一阶段只改变时间步，显式保持 ZAPS 的 ζ/D 学习规则不变。"""
-        return zeta_base
+        """可选地用同一状态小幅调制当前 ζ，不改变 ζ/D 的可学习性。
+
+        残差停滞 ``E_r>0.5`` 时增强引导；轨迹不稳定 ``E_c>0.5`` 时
+        抑制引导。两项分开进入，避免把余弦误当成时间步主信号。
+        """
+        c = self.cfg
+        if c.weight_mode == "state_balanced":
+            modifier = (
+                1.0
+                + c.weight_residual_gain * (self.residual_error - 0.5)
+                - c.weight_cosine_gain * (self.cosine_error - 0.5)
+            )
+            modifier = _clip(modifier, c.weight_min, c.weight_max)
+        else:
+            modifier = 1.0
+        self.guidance_modifier = float(modifier)
+        return zeta_base * modifier
 
     def snapshot(self) -> dict:
         return {
@@ -480,6 +507,7 @@ class BudgetedStateAwareScheduler:
             "state_score": self.state_score,
             "base_step": self.base_step,
             "step_modifier": self.step_modifier,
+            "guidance_modifier": self.guidance_modifier,
         }
 
     def done(self) -> bool:

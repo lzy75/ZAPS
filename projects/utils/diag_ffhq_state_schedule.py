@@ -1,14 +1,14 @@
-"""Gate and screen PPT-aligned state-aware FFHQ timestep schedules.
+"""Gate and screen PPT-aligned state-aware FFHQ schedules and weights.
 
 The experiment deliberately has two stages:
 
 1. Code gate: a state-aware scheduler with response_strength=0 must reproduce
    the tuned fixed uniform-30 baseline exactly (timesteps, output, learned
    zeta/D, and NFE). A failed gate aborts the experiment.
-2. Indicator screen: change timestep placement only. ZAPS still learns both
-   zeta and D with the selected FFHQ baseline settings, while the scheduler's
-   ``adapt_weight`` is the identity. Residual-only, cosine-only, and
-   residual-dominant combinations are compared under paired randomness.
+2. Indicator screens: first change timestep placement only, then (after that
+   hypothesis is screened) keep uniform-30 fixed and use the same normalized
+   state to apply a small bounded multiplier to the learnable zeta. ZAPS keeps
+   learning both zeta and D in every arm.
 
 Every run writes a machine-readable JSON record, a compact CSV summary, the
 per-step indicator trace, and reconstruction images.
@@ -97,6 +97,9 @@ def make_scheduler(
     response_strength: float | None = None,
     residual_ema_decay: float = 0.0,
     residual_mode: str = "target",
+    weight_mode: str = "identity",
+    weight_residual_gain: float | None = None,
+    weight_cosine_gain: float | None = None,
 ):
     return BudgetedStateAwareScheduler(
         nominal_descending,
@@ -114,13 +117,32 @@ def make_scheduler(
             soft_baseline_decay=args.soft_baseline_decay,
             soft_scale_floor=args.soft_scale_floor,
             soft_error_amplitude=args.soft_error_amplitude,
+            weight_mode=weight_mode,
+            weight_residual_gain=(
+                args.weight_residual_gain
+                if weight_residual_gain is None
+                else weight_residual_gain
+            ),
+            weight_cosine_gain=(
+                args.weight_cosine_gain
+                if weight_cosine_gain is None
+                else weight_cosine_gain
+            ),
+            weight_min=args.weight_min,
+            weight_max=args.weight_max,
             mod_min=args.mod_min,
             mod_max=args.mod_max,
         ),
     )
 
 
-def trace_diagnostics(indicators: list[dict], mod_min: float, mod_max: float) -> dict:
+def trace_diagnostics(
+    indicators: list[dict],
+    mod_min: float,
+    mod_max: float,
+    weight_min: float,
+    weight_max: float,
+) -> dict:
     """Summarize whether noisy state signals saturate or hit step bounds."""
 
     def valid_values(key):
@@ -150,6 +172,7 @@ def trace_diagnostics(indicators: list[dict], mod_min: float, mod_max: float) ->
     cosine_error = valid_values("cosine_error")
     residual_zscore = valid_values("residual_zscore")
     modifiers = valid_values("step_modifier")
+    guidance_modifiers = valid_values("guidance_modifier")
     steps = valid_values("h")
     epsilon = 1e-6
     return {
@@ -172,6 +195,7 @@ def trace_diagnostics(indicators: list[dict], mod_min: float, mod_max: float) ->
         "cosine_error": mean_std(cosine_error),
         "residual_zscore": mean_std(residual_zscore),
         "step_modifier": mean_std(modifiers),
+        "guidance_modifier": mean_std(guidance_modifiers),
         "modifier_lower_bound_rate": (
             sum(value <= mod_min + epsilon for value in modifiers) / len(modifiers)
             if modifiers else None
@@ -179,6 +203,16 @@ def trace_diagnostics(indicators: list[dict], mod_min: float, mod_max: float) ->
         "modifier_upper_bound_rate": (
             sum(value >= mod_max - epsilon for value in modifiers) / len(modifiers)
             if modifiers else None
+        ),
+        "guidance_lower_bound_rate": (
+            sum(value <= weight_min + epsilon for value in guidance_modifiers)
+            / len(guidance_modifiers)
+            if guidance_modifiers else None
+        ),
+        "guidance_upper_bound_rate": (
+            sum(value >= weight_max - epsilon for value in guidance_modifiers)
+            / len(guidance_modifiers)
+            if guidance_modifiers else None
         ),
         "step_h": mean_std(steps),
     }
@@ -249,6 +283,21 @@ def run_variant(
 
     result = {
         "name": name,
+        "residual_mode": (
+            scheduler.cfg.residual_mode if scheduler is not None else "fixed"
+        ),
+        "response_strength": (
+            scheduler.cfg.response_strength if scheduler is not None else 0.0
+        ),
+        "weight_mode": (
+            scheduler.cfg.weight_mode if scheduler is not None else "identity"
+        ),
+        "weight_residual_gain": (
+            scheduler.cfg.weight_residual_gain if scheduler is not None else 0.0
+        ),
+        "weight_cosine_gain": (
+            scheduler.cfg.weight_cosine_gain if scheduler is not None else 0.0
+        ),
         "psnr": float(metrics["psnr"]),
         "ssim": float(metrics["ssim"]),
         "lpips": float(metrics["lpips"]),
@@ -266,6 +315,8 @@ def run_variant(
             indicators,
             scheduler.cfg.mod_min if scheduler is not None else 1.0,
             scheduler.cfg.mod_max if scheduler is not None else 1.0,
+            scheduler.cfg.weight_min if scheduler is not None else 1.0,
+            scheduler.cfg.weight_max if scheduler is not None else 1.0,
         ) if scheduler is not None else {},
     }
     tensors = {
@@ -382,9 +433,15 @@ def save_records(
             "soft_baseline_decay": args.soft_baseline_decay,
             "soft_scale_floor": args.soft_scale_floor,
             "soft_error_amplitude": args.soft_error_amplitude,
+            "weight_residual_gain": args.weight_residual_gain,
+            "weight_cosine_gain": args.weight_cosine_gain,
+            "weight_bounds": [args.weight_min, args.weight_max],
             "response_strength": args.response_strength,
             "modulation_bounds": [args.mod_min, args.mod_max],
-            "zeta_D_rule": "unchanged; scheduler adapt_weight is identity",
+            "zeta_D_rule": (
+                "both zeta and D remain learnable; weight variants multiply "
+                "the current learnable zeta by a detached bounded state factor"
+            ),
         },
         "gate": gate,
         "results": results,
@@ -393,8 +450,10 @@ def save_records(
         json.dump(finite_json(record), handle, ensure_ascii=False, indent=2)
 
     summary_fields = [
-        "name", "psnr", "ssim", "lpips", "mse", "residual", "zeta_min",
-        "zeta_max", "d_delta_rms", "nfe", "seconds", "psnr_delta_vs_fixed",
+        "name", "residual_mode", "response_strength", "weight_mode",
+        "weight_residual_gain", "weight_cosine_gain", "psnr", "ssim",
+        "lpips", "mse", "residual", "zeta_min", "zeta_max",
+        "d_delta_rms", "nfe", "seconds", "psnr_delta_vs_fixed",
     ]
     baseline_psnr = results[0]["psnr"]
     with (output_dir / "summary.csv").open("w", newline="", encoding="utf-8") as handle:
@@ -411,7 +470,7 @@ def save_records(
         "smoothed_relative_residual_drop", "residual_error",
         "residual_baseline", "residual_scale", "residual_zscore",
         "cosine_sim_x0", "cosine_error", "state_score", "base_step",
-        "step_modifier",
+        "step_modifier", "guidance_modifier",
     ]
     with (output_dir / "indicator_trace.csv").open(
         "w", newline="", encoding="utf-8"
@@ -451,11 +510,11 @@ def main() -> None:
     parser.add_argument("--residual-target-drop", type=float, default=0.05)
     parser.add_argument(
         "--variant-set",
-        choices=("initial", "ema", "soft"),
+        choices=("initial", "ema", "soft", "weight"),
         default="initial",
         help=(
             "initial runs the first indicator screen; ema tests smoothing; "
-            "soft tests online baseline normalization."
+            "soft tests online baseline normalization; weight tests guidance control."
         ),
     )
     parser.add_argument(
@@ -467,6 +526,10 @@ def main() -> None:
     parser.add_argument("--soft-baseline-decay", type=float, default=0.7)
     parser.add_argument("--soft-scale-floor", type=float, default=0.01)
     parser.add_argument("--soft-error-amplitude", type=float, default=0.25)
+    parser.add_argument("--weight-residual-gain", type=float, default=0.2)
+    parser.add_argument("--weight-cosine-gain", type=float, default=0.05)
+    parser.add_argument("--weight-min", type=float, default=0.9)
+    parser.add_argument("--weight-max", type=float, default=1.1)
     parser.add_argument("--mod-min", type=float, default=0.75)
     parser.add_argument("--mod-max", type=float, default=1.25)
     parser.add_argument(
@@ -499,6 +562,10 @@ def main() -> None:
         raise ValueError("soft-scale-floor must be positive")
     if not 0 < args.soft_error_amplitude <= 0.5:
         raise ValueError("soft-error-amplitude must be in (0,0.5]")
+    if args.weight_residual_gain < 0 or args.weight_cosine_gain < 0:
+        raise ValueError("weight gains must be non-negative")
+    if not 0 < args.weight_min <= 1 <= args.weight_max:
+        raise ValueError("weight bounds must satisfy 0 < min <= 1 <= max")
     if not 0 < args.mod_min <= 1 <= args.mod_max:
         raise ValueError("modulation bounds must satisfy 0 < min <= 1 <= max")
     weight_pairs = parse_weight_pairs(args.weight_pairs)
@@ -561,20 +628,42 @@ def main() -> None:
         print("\n=== Stage 2: paired state-indicator screen ===", flush=True)
         if args.variant_set == "ema":
             variants = [
-                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0, "target"),
-                ("ema_combined_r0.7_c0.3", 0.7, 0.3, args.ema_decay, "target"),
-                ("ema_residual_only", 1.0, 0.0, args.ema_decay, "target"),
+                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0,
+                 "target", None, "identity", None, None),
+                ("ema_combined_r0.7_c0.3", 0.7, 0.3, args.ema_decay,
+                 "target", None, "identity", None, None),
+                ("ema_residual_only", 1.0, 0.0, args.ema_decay,
+                 "target", None, "identity", None, None),
             ]
         elif args.variant_set == "soft":
             variants = [
-                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0, "target"),
-                ("soft_combined_r0.7_c0.3", 0.7, 0.3, 0.0, "adaptive_soft"),
-                ("soft_residual_only", 1.0, 0.0, 0.0, "adaptive_soft"),
+                ("raw_combined_r0.7_c0.3", 0.7, 0.3, 0.0,
+                 "target", None, "identity", None, None),
+                ("soft_combined_r0.7_c0.3", 0.7, 0.3, 0.0,
+                 "adaptive_soft", None, "identity", None, None),
+                ("soft_residual_only", 1.0, 0.0, 0.0,
+                 "adaptive_soft", None, "identity", None, None),
+            ]
+        elif args.variant_set == "weight":
+            variants = [
+                ("soft_schedule_only", 0.7, 0.3, 0.0,
+                 "adaptive_soft", None, "identity", None, None),
+                ("weight_residual_only", 0.7, 0.3, 0.0,
+                 "adaptive_soft", 0.0, "state_balanced",
+                 args.weight_residual_gain, 0.0),
+                ("weight_residual_cos", 0.7, 0.3, 0.0,
+                 "adaptive_soft", 0.0, "state_balanced",
+                 args.weight_residual_gain, args.weight_cosine_gain),
+                ("soft_schedule_and_weight", 0.7, 0.3, 0.0,
+                 "adaptive_soft", None, "state_balanced",
+                 args.weight_residual_gain, args.weight_cosine_gain),
             ]
         else:
             variants = [
-                ("residual_only", 1.0, 0.0, 0.0, "target"),
-                ("cosine_only", 0.0, 1.0, 0.0, "target"),
+                ("residual_only", 1.0, 0.0, 0.0,
+                 "target", None, "identity", None, None),
+                ("cosine_only", 0.0, 1.0, 0.0,
+                 "target", None, "identity", None, None),
                 *[
                     (
                         f"combined_r{residual:g}_c{cosine:g}",
@@ -582,18 +671,36 @@ def main() -> None:
                         cosine,
                         0.0,
                         "target",
+                        None,
+                        "identity",
+                        None,
+                        None,
                     )
                     for residual, cosine in weight_pairs
                 ],
             ]
-        for name, residual_weight, cosine_weight, ema_decay, residual_mode in variants:
+        for (
+            name,
+            residual_weight,
+            cosine_weight,
+            ema_decay,
+            residual_mode,
+            response_strength,
+            weight_mode,
+            weight_residual_gain,
+            weight_cosine_gain,
+        ) in variants:
             scheduler = make_scheduler(
                 nominal_descending,
                 residual_weight,
                 cosine_weight,
                 args,
+                response_strength=response_strength,
                 residual_ema_decay=ema_decay,
                 residual_mode=residual_mode,
+                weight_mode=weight_mode,
+                weight_residual_gain=weight_residual_gain,
+                weight_cosine_gain=weight_cosine_gain,
             )
             result, tensors = run_variant(
                 name, scheduler, uniform_tau, diffusion_model, operator,
@@ -634,6 +741,10 @@ def main() -> None:
                 f"E_r@1={diagnostics['residual_error_one_rate']:.3f}  "
                 f"mod@low={diagnostics['modifier_lower_bound_rate']:.3f}  "
                 f"mod@high={diagnostics['modifier_upper_bound_rate']:.3f}  "
+                f"g_mean={diagnostics['guidance_modifier']['mean']:.3f}  "
+                f"g_std={diagnostics['guidance_modifier']['std']:.3f}  "
+                f"g@low={diagnostics['guidance_lower_bound_rate']:.3f}  "
+                f"g@high={diagnostics['guidance_upper_bound_rate']:.3f}  "
                 f"h_std={diagnostics['step_h']['std']:.3f}",
                 flush=True,
             )
@@ -647,6 +758,11 @@ def main() -> None:
     elif args.variant_set == "soft":
         print("  2) raw vs adaptive-soft isolates hard-threshold saturation", flush=True)
         print("  3) require >0.05 dB over adaptive_null without LPIPS degradation", flush=True)
+    elif args.variant_set == "weight":
+        print("  2) weight-only arms must keep exactly the uniform-30 visited timesteps", flush=True)
+        print("  3) residual-only vs residual+cosine tests whether cosine is useful for zeta", flush=True)
+        print("  4) joint schedule+weight tests interaction, not a new hyperparameter sweep", flush=True)
+        print("  5) require >0.05 dB over adaptive_null without LPIPS degradation", flush=True)
     else:
         print("  2) residual_only vs cosine_only identifies the useful signal", flush=True)
         print("  3) only if a combined variant beats adaptive_null do we tune strength", flush=True)
