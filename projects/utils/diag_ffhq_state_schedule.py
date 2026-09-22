@@ -228,6 +228,7 @@ def run_variant(
     ground_truth: torch.Tensor,
     device: str,
     seed: int,
+    verbose: bool = True,
 ) -> tuple[dict, dict]:
     config = {
         **ZAPS_CONFIG,
@@ -252,7 +253,7 @@ def run_variant(
     started = time.time()
     losses = zaps.optimize(
         measurement,
-        verbose=True,
+        verbose=verbose,
         x0_gt=ground_truth,
         scheduler=scheduler,
     )
