@@ -175,3 +175,19 @@ python -u utils/diag_ffhq_profile_schedule.py \
 单图进入批量验证的门槛为：同一初始调度下 refined 相对 null 的 PSNR 提升
 大于 0.05 dB，且 LPIPS 不恶化。通过后只对最佳候选运行 10 张图，避免继续
 做无方向的全量参数扫描。
+
+### 阶段 7：扩大非均匀初始调度与微调幅度
+
+参考曲线方案在 paper 15/10/5 与 uniform-30 上得到小幅正增益，但仍接近
+单图噪声门槛；residual-only 又表明不同初始调度对状态微调的响应明显不同。
+下一轮不再只围绕 uniform，使用同一指标和相同参数筛选多种非均匀网格：
+
+- paper 15/10/5；
+- global-t power 2；
+- uniform log-sigma、uniform log-SNR；
+- Karras rho 3、5、7。
+
+已知固定结果极差的 uniform-sigma 和过度集中的 power-3 暂不进入首轮。
+状态响应由 0.15 提高为 0.20，允许的步长调制同步扩大为 `[0.8,1.2]`。
+脚本同时输出上下界触边率；若候选频繁触边，则不继续增大响应。每个候选
+仍与自己的 null 配对，不能按不同初始调度之间的绝对 PSNR 判断状态增益。

@@ -8,9 +8,8 @@ The experiment keeps both requested state signals but changes their role:
 * x0-trajectory cosine only gates confidence and can never reverse the sign;
 * all arms retain 30 steps x 10 epochs and learn both zeta and D normally.
 
-Three initial schedules are screened independently: paper 15-10-5, uniform-30,
-and Karras rho=5.  Each refined arm is paired with an adaptive-path null arm
-using the same base schedule and random seed.
+The initial schedules are selected from the command line.  Each refined arm is
+paired with an adaptive-path null arm using the same base schedule and seed.
 """
 
 import argparse
@@ -186,6 +185,16 @@ def main():
     parser.add_argument("--image", required=True)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--seed", type=int, default=1000)
+    parser.add_argument(
+        "--schedules",
+        nargs="+",
+        default=["paper_15_10_5", "uniform_30", "karras_rho_5"],
+        help=(
+            "Initial schedules to refine. Available: paper_15_10_5, "
+            "uniform_30, uniform_sigma, uniform_logsigma, uniform_logsnr, "
+            "power_2, power_3, karras_rho_3, karras_rho_5, karras_rho_7."
+        ),
+    )
     parser.add_argument("--response-strength", type=float, default=0.15)
     parser.add_argument("--profile-center-decay", type=float, default=0.8)
     parser.add_argument("--profile-residual-scale", type=float, default=0.15)
@@ -232,13 +241,20 @@ def main():
         ).item()
 
     diffusion_model = load_diffusion_model("ffhq", args.device)
-    all_schedules = schedule_variants(diffusion_model, [], [5.0])
-    selected_names = {"paper_15_10_5", "uniform_30", "karras_rho_5"}
-    schedules = [
-        (name, tau) for name, tau in all_schedules if name in selected_names
-    ]
-    if len(schedules) != 3:
-        raise RuntimeError(f"unexpected schedules: {[name for name, _ in schedules]}")
+    all_schedules = schedule_variants(
+        diffusion_model,
+        [2.0, 3.0],
+        [3.0, 5.0, 7.0],
+        include_noise_grids=True,
+    )
+    schedule_map = {name: tau for name, tau in all_schedules}
+    selected_names = list(dict.fromkeys(args.schedules))
+    unknown = [name for name in selected_names if name not in schedule_map]
+    if unknown:
+        raise ValueError(
+            f"unknown schedules {unknown}; available={list(schedule_map)}"
+        )
+    schedules = [(name, schedule_map[name]) for name in selected_names]
 
     print("\n=== Profile-normalized state schedule screen ===", flush=True)
     print(
@@ -286,6 +302,7 @@ def main():
 
         null, refined = pair
         trace = profile_trace(refined["indicators"])
+        diagnostics = refined["trace_diagnostics"]
         print(
             f"PAIR {base_name}: PSNR {null['psnr']:.4f} -> "
             f"{refined['psnr']:.4f} ({refined['psnr'] - null['psnr']:+.4f}); "
@@ -303,6 +320,8 @@ def main():
             f"{trace['profile_confidence'][1]:.3f}  "
             f"modifier={trace['step_modifier'][0]:.3f}±"
             f"{trace['step_modifier'][1]:.3f}  "
+            f"bound_low={diagnostics['modifier_lower_bound_rate']:.3f}  "
+            f"bound_high={diagnostics['modifier_upper_bound_rate']:.3f}  "
             f"h_std={trace['h'][1]:.3f}",
             flush=True,
         )
