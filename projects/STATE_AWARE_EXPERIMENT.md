@@ -191,3 +191,20 @@ python -u utils/diag_ffhq_profile_schedule.py \
 状态响应由 0.15 提高为 0.20，允许的步长调制同步扩大为 `[0.8,1.2]`。
 脚本同时输出上下界触边率；若候选频繁触边，则不继续增大响应。每个候选
 仍与自己的 null 配对，不能按不同初始调度之间的绝对 PSNR 判断状态增益。
+
+### 阶段 8：余弦非对称否决门控
+
+将对称余弦门控从 0.25 增至 0.35 后，uniform 与 paper 的 PSNR 增益下降，
+LPIPS 反而进一步恶化；Karras rho-3 虽得到更大 PSNR 增益，但仍存在感知
+代价。原因是对称门控不仅在两个指标冲突时削弱物理响应，也会在两者一致
+时进一步放大响应。新的 `veto_only` 组合保留物理指标的方向，并令：
+
+```text
+agreement = sign(e_r) * e_c
+q = 1 - gamma * max(0, -agreement)
+e = e_r * q
+```
+
+因此 `q` 始终位于 `[1-gamma,1]`：余弦只在与物理指标冲突时行使“否决”，
+意见一致时不再成为额外加速器。下一轮只保留 uniform、paper 与 Karras
+rho-3，固定 response=0.20、gamma=0.35 和 `[0.8,1.2]` 边界。

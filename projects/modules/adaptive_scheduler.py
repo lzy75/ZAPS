@@ -253,6 +253,7 @@ class BudgetedSchedulerConfig:
     profile_residual_scale: float = 0.15
     profile_cosine_scale: float = 0.2
     profile_cosine_gate: float = 0.25
+    profile_gate_mode: str = "symmetric"
     weight_mode: str = "identity"
     weight_residual_gain: float = 0.2
     weight_cosine_gain: float = 0.05
@@ -328,6 +329,10 @@ class BudgetedStateAwareScheduler:
             raise ValueError("reference-profile 的归一化尺度必须为正")
         if not 0.0 <= c.profile_cosine_gate <= 1.0:
             raise ValueError("profile_cosine_gate 必须位于 [0,1]")
+        if c.profile_gate_mode not in ("symmetric", "veto_only"):
+            raise ValueError(
+                "profile_gate_mode 必须是 symmetric 或 veto_only"
+            )
         if c.weight_mode not in ("identity", "state_balanced"):
             raise ValueError("weight_mode 必须是 identity 或 state_balanced")
         if c.weight_residual_gain < 0 or c.weight_cosine_gain < 0:
@@ -436,11 +441,21 @@ class BudgetedStateAwareScheduler:
                 agreement = (
                     (1.0 if residual_signal > 0 else -1.0) * cosine_signal
                 )
-                confidence = _clip(
-                    1.0 + c.profile_cosine_gate * agreement,
-                    1.0 - c.profile_cosine_gate,
-                    1.0 + c.profile_cosine_gate,
-                )
+                if c.profile_gate_mode == "veto_only":
+                    # 余弦只在与物理指标冲突时削弱响应；两者一致时不再
+                    # 额外放大，避免轨迹稳定性指标变成第二个加速器。
+                    confidence = _clip(
+                        1.0
+                        - c.profile_cosine_gate * max(0.0, -agreement),
+                        1.0 - c.profile_cosine_gate,
+                        1.0,
+                    )
+                else:
+                    confidence = _clip(
+                        1.0 + c.profile_cosine_gate * agreement,
+                        1.0 - c.profile_cosine_gate,
+                        1.0 + c.profile_cosine_gate,
+                    )
             combined_signal = _clip(
                 residual_signal * confidence, -1.0, 1.0
             )

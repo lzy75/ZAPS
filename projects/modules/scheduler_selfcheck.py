@@ -327,6 +327,36 @@ def main():
     )
     allok &= check("参考曲线步长调制严格受边界约束", modifiers_bounded)
 
+    veto_scheduler = BudgetedStateAwareScheduler(
+        nominal,
+        BudgetedSchedulerConfig(
+            residual_weight=0.8,
+            cosine_weight=0.2,
+            response_strength=0.2,
+            residual_mode="reference_profile",
+            profile_cosine_gate=0.35,
+            profile_gate_mode="veto_only",
+            mod_min=0.8,
+            mod_max=1.2,
+        ),
+    )
+    run_profile_epoch(veto_scheduler, pilot_residuals, pilot_cosines)
+    veto_scheduler.reset()
+    _, veto_snapshots = run_profile_epoch(
+        veto_scheduler, second_residuals, second_cosines
+    )
+    veto_confidence = [
+        item["profile_confidence"] for item in veto_snapshots
+    ]
+    allok &= check(
+        "veto-only 余弦门控只削弱、不放大物理响应",
+        min(veto_confidence) >= 0.65
+        and max(veto_confidence) <= 1.0
+        and any(value < 1.0 for value in veto_confidence),
+        f"confidence=[{min(veto_confidence):.3f},"
+        f"{max(veto_confidence):.3f}]",
+    )
+
     null_profile = BudgetedStateAwareScheduler(
         nominal,
         BudgetedSchedulerConfig(

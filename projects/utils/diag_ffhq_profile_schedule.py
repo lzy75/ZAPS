@@ -61,6 +61,7 @@ def make_profile_scheduler(timesteps, args, response_strength):
             profile_residual_scale=args.profile_residual_scale,
             profile_cosine_scale=args.profile_cosine_scale,
             profile_cosine_gate=args.profile_cosine_gate,
+            profile_gate_mode=args.profile_gate_mode,
             weight_mode="identity",
             mod_min=args.mod_min,
             mod_max=args.mod_max,
@@ -136,6 +137,7 @@ def save_outputs(
             "profile_residual_scale": args.profile_residual_scale,
             "profile_cosine_scale": args.profile_cosine_scale,
             "profile_cosine_gate": args.profile_cosine_gate,
+            "profile_gate_mode": args.profile_gate_mode,
             "modifier_bounds": [args.mod_min, args.mod_max],
         },
         "schedules": {
@@ -200,6 +202,15 @@ def main():
     parser.add_argument("--profile-residual-scale", type=float, default=0.15)
     parser.add_argument("--profile-cosine-scale", type=float, default=0.2)
     parser.add_argument("--profile-cosine-gate", type=float, default=0.25)
+    parser.add_argument(
+        "--profile-gate-mode",
+        choices=("symmetric", "veto_only"),
+        default="symmetric",
+        help=(
+            "symmetric amplifies agreement and damps disagreement; "
+            "veto_only only damps disagreement."
+        ),
+    )
     parser.add_argument("--mod-min", type=float, default=0.85)
     parser.add_argument("--mod-max", type=float, default=1.15)
     parser.add_argument("--output-dir", default=None)
@@ -266,7 +277,8 @@ def main():
         f"response={args.response_strength}; modifier=[{args.mod_min},"
         f"{args.mod_max}]; residual_scale={args.profile_residual_scale}; "
         f"cosine_scale={args.profile_cosine_scale}; "
-        f"cosine_gate={args.profile_cosine_gate}",
+        f"cosine_gate={args.profile_cosine_gate}; "
+        f"gate_mode={args.profile_gate_mode}",
         flush=True,
     )
 
