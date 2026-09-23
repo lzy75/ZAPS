@@ -479,6 +479,14 @@ class ZAPS(nn.Module):
             self._indicator_log = []
         prev_x0 = None
         prev_delta_x0 = None
+        prev_delta_x0_detail = None
+        scheduler_cfg = getattr(scheduler, "cfg", None)
+        cosine_feature_mode = getattr(
+            scheduler_cfg, "profile_cosine_feature_mode", "global"
+        )
+        cosine_detail_weight = getattr(
+            scheduler_cfg, "profile_cosine_detail_weight", 0.7
+        )
         t = int(self.tau.max().item())          # 从最高噪声步起
         k = 0                                    # 反向采样进度
         include_zero = bool(getattr(scheduler, "include_zero", False))
@@ -510,13 +518,40 @@ class ZAPS(nn.Module):
 
             # 辅助信号:x̂₀ 轨迹的相邻余弦(仅用于选步长,detach)
             cos_x0 = float("nan")
+            cos_x0_global = float("nan")
+            cos_x0_detail = float("nan")
             x0d = x0_pred.detach()
             if prev_x0 is not None:
                 delta_x0 = x0d - prev_x0
                 if prev_delta_x0 is not None:
-                    cos_x0 = F.cosine_similarity(
+                    cos_x0_global = F.cosine_similarity(
                         delta_x0.flatten(), prev_delta_x0.flatten(), dim=0).item()
+                if cosine_feature_mode != "global":
+                    detail_delta = self.dwt.analysis(delta_x0).clone()
+                    ll_height = detail_delta.shape[-2] // (2 ** self.dwt.level)
+                    ll_width = detail_delta.shape[-1] // (2 ** self.dwt.level)
+                    detail_delta[..., :ll_height, :ll_width] = 0
+                    if prev_delta_x0_detail is not None:
+                        cos_x0_detail = F.cosine_similarity(
+                            detail_delta.flatten(),
+                            prev_delta_x0_detail.flatten(),
+                            dim=0,
+                        ).item()
+                    prev_delta_x0_detail = detail_delta
                 prev_delta_x0 = delta_x0
+                if cosine_feature_mode == "dwt_detail":
+                    cos_x0 = cos_x0_detail
+                elif cosine_feature_mode == "multiscale":
+                    if (
+                        cos_x0_global == cos_x0_global
+                        and cos_x0_detail == cos_x0_detail
+                    ):
+                        cos_x0 = (
+                            (1.0 - cosine_detail_weight) * cos_x0_global
+                            + cosine_detail_weight * cos_x0_detail
+                        )
+                else:
+                    cos_x0 = cos_x0_global
             prev_x0 = x0d
 
             # 喂指标 → 选步长
@@ -550,6 +585,8 @@ class ZAPS(nn.Module):
                     "residual_norm": resid_norm,
                     "cosine_sim": float("nan"),
                     "cosine_sim_x0": cos_x0,
+                    "cosine_sim_x0_global": cos_x0_global,
+                    "cosine_sim_x0_detail": cos_x0_detail,
                 }
                 snapshot = getattr(scheduler, "snapshot", None)
                 if callable(snapshot):

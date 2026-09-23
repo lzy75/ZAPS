@@ -78,6 +78,14 @@ def main() -> None:
         choices=("symmetric", "veto_only"),
         default="veto_only",
     )
+    parser.add_argument(
+        "--profile-cosine-feature-mode",
+        choices=("global", "dwt_detail", "multiscale"),
+        default="global",
+    )
+    parser.add_argument(
+        "--profile-cosine-detail-weight", type=float, default=0.7
+    )
     parser.add_argument("--mod-min", type=float, default=0.8)
     parser.add_argument("--mod-max", type=float, default=1.2)
     parser.add_argument("--output-dir", default=None)
@@ -93,6 +101,8 @@ def main() -> None:
         raise ValueError("profile scales must be positive")
     if not 0 <= args.profile_cosine_gate <= 1:
         raise ValueError("profile-cosine-gate must be in [0,1]")
+    if not 0 <= args.profile_cosine_detail_weight <= 1:
+        raise ValueError("profile-cosine-detail-weight must be in [0,1]")
     if not 0 < args.mod_min <= 1 <= args.mod_max:
         raise ValueError("modifier bounds must contain 1")
 
@@ -135,6 +145,8 @@ def main() -> None:
         f"images={len(images)}; schedules={selected_names}; "
         f"response={args.response_strength}; gate={args.profile_cosine_gate}; "
         f"gate_mode={args.profile_gate_mode}; "
+        f"cosine_feature={args.profile_cosine_feature_mode}; "
+        f"detail_weight={args.profile_cosine_detail_weight}; "
         f"modifier=[{args.mod_min},{args.mod_max}]",
         flush=True,
     )
@@ -309,6 +321,8 @@ def main() -> None:
             "profile_cosine_scale": args.profile_cosine_scale,
             "profile_cosine_gate": args.profile_cosine_gate,
             "profile_gate_mode": args.profile_gate_mode,
+            "profile_cosine_feature_mode": args.profile_cosine_feature_mode,
+            "profile_cosine_detail_weight": args.profile_cosine_detail_weight,
             "modifier_bounds": [args.mod_min, args.mod_max],
         },
         "summaries": summaries,

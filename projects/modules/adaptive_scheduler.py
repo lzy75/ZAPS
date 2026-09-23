@@ -254,6 +254,8 @@ class BudgetedSchedulerConfig:
     profile_cosine_scale: float = 0.2
     profile_cosine_gate: float = 0.25
     profile_gate_mode: str = "symmetric"
+    profile_cosine_feature_mode: str = "global"
+    profile_cosine_detail_weight: float = 0.7
     weight_mode: str = "identity"
     weight_residual_gain: float = 0.2
     weight_cosine_gain: float = 0.05
@@ -333,6 +335,15 @@ class BudgetedStateAwareScheduler:
             raise ValueError(
                 "profile_gate_mode 必须是 symmetric 或 veto_only"
             )
+        if c.profile_cosine_feature_mode not in (
+            "global", "dwt_detail", "multiscale"
+        ):
+            raise ValueError(
+                "profile_cosine_feature_mode 必须是 global、dwt_detail "
+                "或 multiscale"
+            )
+        if not 0.0 <= c.profile_cosine_detail_weight <= 1.0:
+            raise ValueError("profile_cosine_detail_weight 必须位于 [0,1]")
         if c.weight_mode not in ("identity", "state_balanced"):
             raise ValueError("weight_mode 必须是 identity 或 state_balanced")
         if c.weight_residual_gain < 0 or c.weight_cosine_gain < 0:

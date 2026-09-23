@@ -62,6 +62,8 @@ def make_profile_scheduler(timesteps, args, response_strength):
             profile_cosine_scale=args.profile_cosine_scale,
             profile_cosine_gate=args.profile_cosine_gate,
             profile_gate_mode=args.profile_gate_mode,
+            profile_cosine_feature_mode=args.profile_cosine_feature_mode,
+            profile_cosine_detail_weight=args.profile_cosine_detail_weight,
             weight_mode="identity",
             mod_min=args.mod_min,
             mod_max=args.mod_max,
@@ -138,6 +140,8 @@ def save_outputs(
             "profile_cosine_scale": args.profile_cosine_scale,
             "profile_cosine_gate": args.profile_cosine_gate,
             "profile_gate_mode": args.profile_gate_mode,
+            "profile_cosine_feature_mode": args.profile_cosine_feature_mode,
+            "profile_cosine_detail_weight": args.profile_cosine_detail_weight,
             "modifier_bounds": [args.mod_min, args.mod_max],
         },
         "schedules": {
@@ -211,6 +215,14 @@ def main():
             "veto_only only damps disagreement."
         ),
     )
+    parser.add_argument(
+        "--profile-cosine-feature-mode",
+        choices=("global", "dwt_detail", "multiscale"),
+        default="global",
+    )
+    parser.add_argument(
+        "--profile-cosine-detail-weight", type=float, default=0.7
+    )
     parser.add_argument("--mod-min", type=float, default=0.85)
     parser.add_argument("--mod-max", type=float, default=1.15)
     parser.add_argument("--output-dir", default=None)
@@ -224,6 +236,8 @@ def main():
         raise ValueError("profile scales must be positive")
     if not 0 <= args.profile_cosine_gate <= 1:
         raise ValueError("profile-cosine-gate must be in [0,1]")
+    if not 0 <= args.profile_cosine_detail_weight <= 1:
+        raise ValueError("profile-cosine-detail-weight must be in [0,1]")
     if not 0 < args.mod_min <= 1 <= args.mod_max:
         raise ValueError("modifier bounds must contain 1")
 
@@ -278,7 +292,9 @@ def main():
         f"{args.mod_max}]; residual_scale={args.profile_residual_scale}; "
         f"cosine_scale={args.profile_cosine_scale}; "
         f"cosine_gate={args.profile_cosine_gate}; "
-        f"gate_mode={args.profile_gate_mode}",
+        f"gate_mode={args.profile_gate_mode}; "
+        f"cosine_feature={args.profile_cosine_feature_mode}; "
+        f"detail_weight={args.profile_cosine_detail_weight}",
         flush=True,
     )
 

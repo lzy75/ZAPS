@@ -213,3 +213,18 @@ rho-3，固定 response=0.20、gamma=0.35 和 `[0.8,1.2]` 边界。
 `+0.0480`、`+0.1661`、`+0.0691 dB`；Karras rho-3 同时改善 SSIM 与
 LPIPS，首次完整通过综合判据。由此结束单图机制调参，三个候选进入 10 图
 严格配对验证；批量阶段固定全部参数，不再按单图结果继续调节。
+
+10 图验证表明 Karras rho-3 的 PSNR 增益稳定泛化（平均 `+0.1398 dB`、
+9/10 图改善），但 LPIPS 平均恶化 `+0.0067`。这说明全局像素余弦主要反映
+低频结构的轨迹稳定性，无法充分感知纹理变化。下一阶段保持物理指标与
+veto-only 组合不变，只比较余弦的特征空间：
+
+```text
+c_global = cos(delta_x0(k), delta_x0(k-1))
+c_detail = cos(M_detail W delta_x0(k), M_detail W delta_x0(k-1))
+c_multi  = (1-alpha) c_global + alpha c_detail
+```
+
+其中 `W` 为已验证正交的 db4 DWT，`M_detail` 仅将最粗 LL 子带置零，默认
+`alpha=0.7`。该设计保留全局结构稳定性，同时提高余弦对高频纹理不稳定的
+敏感度；先做单图筛选，通过后才重新进入多图验证。
