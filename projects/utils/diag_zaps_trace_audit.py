@@ -8,6 +8,7 @@ This isolates early guidance, clipping and grid effects from adaptation.
 import argparse
 import csv
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -30,7 +31,7 @@ from utils.diag_learning_rate_ablation import set_seed
 
 @torch.no_grad()
 def trace(zaps, y, ground_truth, init_noise):
-    x = init_noise.clone()
+    x = init_noise.to(zaps.device)
     ab = zaps.dm.alphas_cumprod
     rows = []
     for position, index in enumerate(range(len(zaps.tau) - 1, -1, -1)):
@@ -43,8 +44,9 @@ def trace(zaps, y, ground_truth, init_noise):
             eps, variance = zaps.dm._predict_eps(x, tb), None
         # Unclipped estimate is recorded only; sampling uses the exact core
         # Tweedie helper and posterior helper, including final t=0 behavior.
-        raw_x0 = (x - (1 - ab[t]).sqrt() * eps) / ab[t].sqrt().clamp_min(1e-8)
-        x0 = zaps._tweedie_estimate(x, eps, ab[t], index)
+        ab_t = ab[t]
+        sqrt_ab_t = ab_t.sqrt()
+        x0 = zaps._tweedie_estimate(x, eps, ab_t, index)
         log_var = (
             zaps._learned_log_var(variance, t, previous_t)
             if variance is not None and previous_t >= 0 else None
@@ -56,10 +58,12 @@ def trace(zaps, y, ground_truth, init_noise):
         residual = y - zaps.A.H(x0)
         v = zaps.A.transpose(residual)
         hv = zaps.dwt.synthesis(zaps.D[index] * zaps.dwt.analysis(v))
-        correction = zaps.zeta[index] * (
-            v + (1 - ab[t]) * hv
-        ) / ab[t].sqrt().clamp_min(1e-8)
+        # Preserve core evaluation order, not only algebraic equivalence:
+        # dividing AFTER multiplying zeta changes fp32 rounding at every step.
+        guided = (v + (1.0 - ab_t) * hv) / sqrt_ab_t.clamp(min=1e-8)
+        correction = zaps.zeta[index] * guided
         next_x = uncond + correction
+        raw_x0 = (x - (1.0 - ab_t).sqrt() * eps.detach()) / sqrt_ab_t.clamp(min=1e-8)
         rows.append({
             "step": position,
             "t": t,
@@ -80,6 +84,51 @@ def trace(zaps, y, ground_truth, init_noise):
         })
         x = next_x
     return x, rows
+
+
+def relative_error(reference, candidate):
+    return (
+        (candidate.double() - reference.double()).norm()
+        / reference.double().norm().clamp_min(1e-12)
+    ).item()
+
+
+def classify_parity(repeat_error, trace_error, metadata_equal):
+    """Repeat-calibrated gate, retaining the original 1e-5 hard ceiling.
+
+    A measured repeat floor is evidence of numerical variability, not proof
+    that any arbitrary trace mismatch is harmless. Above-floor discrepancies
+    and unstable core repeats remain failures.
+    """
+    tolerance = 1e-7
+    hard_ceiling = 1e-5
+    repeat_limit = 2 * repeat_error + tolerance
+    limit = min(hard_ceiling, repeat_limit)
+    finite = math.isfinite(repeat_error) and math.isfinite(trace_error)
+    passed = (
+        finite and metadata_equal and repeat_error <= hard_ceiling
+        and trace_error <= limit
+    )
+    if not finite or not metadata_equal:
+        classification = "INVALID_OUTPUT_OR_METADATA"
+    elif repeat_error > hard_ceiling:
+        classification = "CORE_REPEAT_UNSTABLE"
+    elif trace_error > limit:
+        classification = "TRACE_MISMATCH_ABOVE_REPEAT_FLOOR"
+    elif repeat_error <= tolerance and trace_error <= tolerance:
+        classification = "PASS_NUMERICAL_PARITY"
+    else:
+        classification = "PASS_WITHIN_MEASURED_REPEAT_FLOOR"
+    return {
+        "passed": passed,
+        "classification": classification,
+        "core_repeat_relative_error": repeat_error,
+        "trace_core_relative_error": trace_error,
+        "metadata_equal": metadata_equal,
+        "absolute_tolerance": tolerance,
+        "hard_relative_error_ceiling": hard_ceiling,
+        "effective_relative_error_limit": limit,
+    }
 
 
 def main():
@@ -112,6 +161,10 @@ def main():
         raise RuntimeError("source run must contain both fixed schedules for this task")
 
     traces = {}
+    def save_records():
+        with (output_dir / "trace.json").open("w", encoding="utf-8") as handle:
+            json.dump(finite_json({"git": git_info(), "source": str(source), "task": args.task, "traces": traces}), handle, ensure_ascii=False, indent=2)
+
     for name, result in definitions.items():
         set_seed(seed)
         zaps = ZAPS(model, operator, img_size=IMG_SIZE[0], **result["config"])
@@ -120,24 +173,46 @@ def main():
         init_noise = torch.randn(ground_truth.shape, device=args.device)
         rng = torch.get_rng_state()
         cuda_rng = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None
+        def restore_rng():
+            torch.set_rng_state(rng)
+            if cuda_rng is not None:
+                torch.cuda.set_rng_state_all(cuda_rng)
+
+        print(f"\n{name}: tracing and checking two identical core repeats...", flush=True)
         reconstruction, rows = trace(zaps, measurement, ground_truth, init_noise)
-        torch.set_rng_state(rng)
-        if cuda_rng is not None:
-            torch.cuda.set_rng_state_all(cuda_rng)
+        restore_rng()
         reference, nfe, _ = zaps.sample(measurement, init_noise=init_noise)
-        relative_error = (
-            (reconstruction.double() - reference.double()).norm()
-            / reference.double().norm().clamp_min(1e-12)
-        ).item()
-        if relative_error > 1e-5 or nfe != len(rows):
-            raise RuntimeError(f"trace/core parity failed: {relative_error=}, {nfe=}")
+        reference_timesteps = [row["t"] for row in zaps._indicator_log]
+        restore_rng()
+        repeat, repeat_nfe, _ = zaps.sample(measurement, init_noise=init_noise)
+        repeat_timesteps = [row["t"] for row in zaps._indicator_log]
+        trace_error = relative_error(reference, reconstruction)
+        repeat_error = relative_error(reference, repeat)
+        parity = classify_parity(
+            repeat_error, trace_error,
+            nfe == repeat_nfe == len(rows)
+            and reference_timesteps == repeat_timesteps == [row["t"] for row in rows],
+        )
+        parity.update({
+            "trace_core_max_absolute_error": (reconstruction - reference).abs().max().item(),
+            "trace_core_psnr_absolute_delta": abs(tensor_psnr(ground_truth, reconstruction) - tensor_psnr(ground_truth, reference)),
+            "core_repeat_psnr_absolute_delta": abs(tensor_psnr(ground_truth, repeat) - tensor_psnr(ground_truth, reference)),
+            "reference_nfe": nfe,
+            "repeat_nfe": repeat_nfe,
+            "trace_nfe": len(rows),
+            "audit_total_nfe": nfe + repeat_nfe + len(rows),
+        })
+        with (output_dir / f"{name}_parity.json").open("w", encoding="utf-8") as handle:
+            json.dump(finite_json(parity), handle, ensure_ascii=False, indent=2)
+        print(json.dumps(finite_json(parity), ensure_ascii=False, indent=2), flush=True)
         with (output_dir / f"{name}.csv").open("w", newline="", encoding="utf-8") as handle:
             writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
             writer.writeheader()
             writer.writerows(rows)
         tensor_to_image(reconstruction.cpu().squeeze(0), denormalize=True).save(output_dir / f"{name}.png")
         traces[name] = {
-            "parity_relative_error": relative_error,
+            "parity_relative_error": trace_error,
+            "parity": parity,
             "config": result["config"],
             "initial_final_psnr": tensor_psnr(ground_truth, reconstruction),
             "source_optimized_psnr": result["psnr"],
@@ -148,8 +223,12 @@ def main():
             "parity_reference_nfe": nfe,
             "rows": rows,
         }
+        # Keep all evidence even if the gate blocks interpretation.
+        save_records()
+        if not parity["passed"]:
+            raise RuntimeError(f"trace/core parity failed: {parity['classification']}; records saved to {output_dir}")
         print(f"\n--- {name} (initial parameters, no training) ---", flush=True)
-        print(f"core parity relative error: {relative_error:.3e}", flush=True)
+        print(f"core parity relative error: {trace_error:.3e}; core repeat: {repeat_error:.3e}", flush=True)
         print(f"{'k':>3} {'t':>4} {'jump':>5} {'corr/unc':>9} {'corr/dunc':>10} {'resid':>9} {'clip%':>7} {'x0PSNR':>8} {'nextRMS':>8}", flush=True)
         for row in rows:
             print(
@@ -174,11 +253,10 @@ def main():
             if int(t) >= 667
         ]
         print(f"saved high-noise zeta: {list(reversed(selected))}", flush=True)
-        del zaps, reconstruction, reference
+        del zaps, reconstruction, reference, repeat
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
-    with (output_dir / "trace.json").open("w", encoding="utf-8") as handle:
-        json.dump(finite_json({"git": git_info(), "source": str(source), "task": args.task, "traces": traces}), handle, ensure_ascii=False, indent=2)
+    save_records()
     print("\nTrace PSNR is initialization behavior, not the optimized baseline.", flush=True)
     print("No single norm threshold proves overshoot; inspect the shared first-step response and subsequent residual/clipping/PSNR together.", flush=True)
     print(f"Records saved to: {output_dir}", flush=True)

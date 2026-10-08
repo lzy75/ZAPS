@@ -84,3 +84,30 @@ uint8 评估方式，同时记录未量化的 float_psnr，避免日志 PSNR 与
 
 当前 ImageNet 随机修复的 10/15 步增益仅作为探索记录，不能替代这两个
 正式任务的复现审计，也不能证明 ImageNet 论文基线已经复现。
+
+## 初始轨迹审计：先过诊断一致性门控
+
+`utils/diag_zaps_trace_audit.py` 复用上述 run.json 和 measurement.pt，仅检查
+初始化时的固定采样轨迹，不重新优化，也不修改核心算法、学习率或权重。
+每个调度运行诊断路径一次、核心路径两次，三次重置为同一份 CPU/CUDA RNG
+状态并共用 x_T。30 步时每个调度的审计成本是 90 NFE，不是训练的 300 NFE。
+
+诊断路径的引导修正必须与核心代码逐操作一致：先除以 sqrt(alpha_bar)，
+再乘 zeta；不能以浮点下未必相等的代数重排替代。原诊断曾先乘再除，本次
+服务器运行的最终相对误差约 1.78e-4；修正后仍需复测，才能确认重排解释
+了多少误差。这个报错不能当成 ZAPS 基线算法错误或已确认的 GPU 非确定性
+证据。
+
+新版门控要求实际时间步及 NFE 相同，且诊断/核心相对误差不超过
+min(1e-5, 2 * 核心重复相对误差 + 1e-7)。核心自身重复误差也不得超过
+1e-5；保留原有硬上限，并用实测重复误差检查是否存在额外路径差异。
+门控失败仍保存 *_parity.json、逐步 CSV 和 trace.json，先看具体分类，
+不解读未通过一致性检查的诊断轨迹为重建机制证据。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_zaps_trace_audit.py \
+  --run-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549 \
+  --task gaussian_deblur --device cuda \
+  | tee ../imagenet_gaussian_initial_trace.log
+```
