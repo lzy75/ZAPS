@@ -30,7 +30,8 @@ from utils.diag_learning_rate_ablation import set_seed
 
 
 @torch.no_grad()
-def trace(zaps, y, ground_truth, init_noise):
+def trace(zaps, y, ground_truth, init_noise, *, late_start=None,
+          late_noise_scale=1.0, late_guidance_scale=1.0):
     x = init_noise.to(zaps.device)
     ab = zaps.dm.alphas_cumprod
     rows = []
@@ -55,6 +56,18 @@ def trace(zaps, y, ground_truth, init_noise):
             x, x0, t, previous_t, ab, eta=zaps.eta,
             learned_log_var=log_var, mode=zaps.sampler_mode,
         )
+        late = late_start is not None and t <= late_start
+        if late and late_noise_scale != 1.0:
+            if zaps.sampler_mode != "ddpm":
+                raise ValueError("noise-only intervention requires DDPM: DDIM eta also changes the drift")
+            # The original posterior call ABOVE still draws its noise. Obtain
+            # the identical DDPM mean without a second draw, then discard or
+            # scale only that noise contribution. Later draws stay paired.
+            mean = ddpm_posterior_step(
+                x, x0, t, previous_t, ab, eta=0.0,
+                learned_log_var=log_var, mode="ddpm",
+            )
+            uncond = mean if late_noise_scale == 0.0 else mean + late_noise_scale * (uncond - mean)
         residual = y - zaps.A.H(x0)
         v = zaps.A.transpose(residual)
         hv = zaps.dwt.synthesis(zaps.D[index] * zaps.dwt.analysis(v))
@@ -62,6 +75,8 @@ def trace(zaps, y, ground_truth, init_noise):
         # dividing AFTER multiplying zeta changes fp32 rounding at every step.
         guided = (v + (1.0 - ab_t) * hv) / sqrt_ab_t.clamp(min=1e-8)
         correction = zaps.zeta[index] * guided
+        if late and late_guidance_scale != 1.0:
+            correction = correction * late_guidance_scale
         next_x = uncond + correction
         raw_x0 = (x - (1.0 - ab_t).sqrt() * eps.detach()) / sqrt_ab_t.clamp(min=1e-8)
         rows.append({
@@ -70,6 +85,8 @@ def trace(zaps, y, ground_truth, init_noise):
             "t_prev": previous_t,
             "jump": t - previous_t,
             "zeta": zaps.zeta[index].item(),
+            "noise_scale": late_noise_scale if late else 1.0,
+            "guidance_scale": late_guidance_scale if late else 1.0,
             "sqrt_alpha_bar": ab[t].sqrt().item(),
             "residual_norm": residual.norm().item(),
             "adjoint_residual_norm": v.norm().item(),

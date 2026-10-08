@@ -147,3 +147,37 @@ python -u utils/diag_zaps_optimized_trace.py \
 低噪声引导/随机转移单因素消融，以区分原因；不把中间峰值当作可实现
 的最终重建基线。若没有复现退化趋势，则放弃以初始化晚期退化解释优化
 差距，检查完整的优化轨迹及随机波动，不继续基于该假设调参。
+
+## 已确认优化后低噪声退化：后半段噪声 x 引导分解
+
+第10轮复测精确复现最终结果：不规则 19.5987 dB、均匀 21.5069 dB。
+t<=400 的最高 x0 PSNR 分别 21.7661/22.0823 dB，t=0 为
+19.5790/21.4644 dB，后半段下降 2.1872/0.6180 dB。不规则的峰值低
+0.3162 dB，但到 t=0 差距扩大到 1.8854 dB，支持优先排查后半段。
+这还不证明哪个公式写错，也不证明论文调度在所有 ImageNet 图上应获胜。
+
+复用已保存的 *_last_unroll_state.pt，不重新优化，运行四种冻结参数回放：
+baseline、late_noise_off、late_guidance_off、late_both_off。干预边界提前固定
+为 t<=333（低噪声三分之一区域），不根据 GT 峰值选择。每个调度的前段、
+zeta/D、x_T、时间步和后验噪声抽样序列不变。关闭随机噪声仍先执行原来的
+噪声抽样，然后用相同 DDPM 后验均值替代带噪更新，不改变后续 RNG 序列；
+关闭引导仅将该段显式 correction 置零，不冻结或改变 D 的历史训练。
+
+baseline 先与两次核心回放门控，并核对保存的 PSNR；各干预核对 RNG 最终
+状态与 baseline 相同。每个调度四条轨迹 120 NFE，门控额外 60 NFE，两种
+调度总计 360 NFE，不加训练。新记录保存在 optimized_trace 目录的子目录。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_zaps_late_component.py \
+  --trace-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857 \
+  --late-start 333 \
+  --device cuda \
+  | tee ../imagenet_gaussian_late_component.log
+```
+
+判断每种调度相对自身 baseline 的变化，不把跨调度差值与干预收益混淆。
+noise_off 改善支持随机转移敏感性；guidance_off 改善支持晚期引导敏感性；
+仅 both_off 改善或单项效果依赖另一项，说明存在交互。均不改善则下一步
+审查确定性后验/Tweedie 路径及优化目标。关闭分量是定位实验，不是最终
+算法、不是论文基线，更不能仅凭该结果宣称代码有错。
