@@ -111,3 +111,39 @@ python -u utils/diag_zaps_trace_audit.py \
   --task gaussian_deblur --device cuda \
   | tee ../imagenet_gaussian_initial_trace.log
 ```
+
+## 第10轮优化轨迹：定位后半段退化
+
+初始化审计已在服务器上通过：两种调度的诊断/核心误差、核心重复误差
+均为 0。不规则初始化轨迹在 t=333 的 x0 估计为 21.71 dB，t=0 为
+19.23 dB；均匀在 t=344 为 21.28 dB，t=0 为 20.03 dB。不能仅用
+初始化轨迹解释优化后的 19.5987/21.5069 dB 差距。
+
+下一项只复用同一图、measurement.pt、seed、保存配置和时间步重新执行
+两种调度的原始优化（各 30 步 x 10 轮，lr=0.001，zeta+D 都学习）。
+`diag_zaps_optimized_trace.py` 通过诊断子类在最后一轮采样调用前被动保存
+zeta、完整 D、x_T 和 CPU/CUDA RNG，仍调用原始 optimize/reverse 方法。
+优化结束后恢复这些采样前参数，不使用第10次 Adam 更新后的参数，以
+免混淆 last_opt 和新采样。诊断/核心、last_opt/核心回放分别门控；失败
+保留记录并停止解读。
+
+每个调度优化 300 NFE，诊断与两次核心回放额外 90 NFE，总成本两个调度
+为 780 NFE。逐步 CSV、PNG、audit.json 和最后一轮回放状态文件保存至新
+目录，不覆盖原归档。末尾直接输出并排汇总，包括最终 PSNR/SSIM/LPIPS、
+t<=400 的最高 x0 PSNR、峰值时间步、t=0 x0 PSNR、两者之差和最终 MSE。
+中间最高 PSNR 只用于诊断，不用 GT 早停或挑选输出。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_zaps_optimized_trace.py \
+  --run-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549 \
+  --task gaussian_deblur \
+  --learning-rate 0.001 \
+  --device cuda \
+  | tee ../imagenet_gaussian_optimized_trace.log
+```
+
+若优化后不规则仍出现更大的后半段 x0 PSNR 下降，下一步才做同轨迹的
+低噪声引导/随机转移单因素消融，以区分原因；不把中间峰值当作可实现
+的最终重建基线。若没有复现退化趋势，则放弃以初始化晚期退化解释优化
+差距，检查完整的优化轨迹及随机波动，不继续基于该假设调参。
