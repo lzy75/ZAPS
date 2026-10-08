@@ -401,3 +401,10 @@ python -u utils/diag_dps_same_observation.py \
 再看共享任务设置与模型/评价，不能凭单图排名要求ZAPS必胜。FFHQ、
 批量及算法默认配置均不变。本地无PyTorch，接口/配置/文件hash/CLI
 检查通过，真实梯度及GPU1000步执行待服务器验证。
+
+服务器首次同观测DPS运行通过真实输入梯度检查，但在首个条件调用因
+适配层拒绝 `noisy_measurement` 停止。这是新增适配代码的接口缺陷，
+不是算法结果。官方 loop 经 PS 的 **kwargs 把该参数传到算子；高斯
+PS 不使用它替代固定y，因此 adapter 显式接受并忽略，只计算 H(data)。
+不改官方 loop、观测、噪声消耗或参数。增加带该参数的无PyTorch接口
+测试，以及真实官方两步 toy loop 回归测试（本地无PyTorch仍显式跳过）。

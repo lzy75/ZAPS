@@ -31,7 +31,10 @@ class PureOperatorAdapter:
     def __init__(self, operator):
         self.operator = operator
 
-    def forward(self, data, **kwargs):
+    def forward(self, data, noisy_measurement=None, **kwargs):
+        # Original p_sample_loop passes this through PS's **kwargs to the
+        # operator. Gaussian PS uses the fixed observation in its loss; this
+        # extra noisy observation is intentionally ignored, as by DPS's blur H.
         if kwargs:
             raise ValueError("Gaussian H does not accept extra conditioning arguments")
         return self.operator.H(data)
@@ -206,7 +209,11 @@ def main():
             probe = init_noise.detach().clone().requires_grad_(True)
             t = torch.full((probe.shape[0],), 999, device=probe.device, dtype=torch.long)
             probe_out = sampler.p_mean_variance(model.model, probe, t)
-            grad, norm = condition.grad_and_value(probe, probe_out["pred_xstart"], y)
+            # Exercise the same extra keyword used by the official loop. It is
+            # ignored by Gaussian H, so its value does not affect the gradient.
+            grad, norm = condition.grad_and_value(
+                probe, probe_out["pred_xstart"], y, noisy_measurement=y,
+            )
             if not torch.isfinite(grad).all() or not torch.isfinite(norm):
                 raise RuntimeError("Official DPS input gradient is not finite")
             record["preflight_gradient_norm"] = float(grad.detach().norm())

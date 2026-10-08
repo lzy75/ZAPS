@@ -29,6 +29,8 @@ class ContractTests(unittest.TestCase):
 
         adapter = audit.PureOperatorAdapter(Operator())
         self.assertEqual(adapter.forward(3), 6)
+        self.assertEqual(adapter.forward(3, noisy_measurement=100), 6)
+        self.assertEqual(adapter.forward(3, noisy_measurement=-100), 6)
         with self.assertRaises(ValueError):
             adapter.forward(3, mask="wrong task")
 
@@ -56,6 +58,48 @@ class ContractTests(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec("torch"), "PyTorch unavailable; numerical test not run")
 class GradientTests(unittest.TestCase):
+    def tearDown(self):
+        import sys
+        for name in list(sys.modules):
+            if name.startswith("_zaps_sampler_dps_reference"):
+                del sys.modules[name]
+
+    def test_actual_official_loop_forwards_noisy_measurement_safely(self):
+        import importlib
+        import numpy as np
+        import torch
+        dps, _ = audit.load_dps_reference(audit.REPO_ROOT / "DPS")
+        module = importlib.import_module(dps.__package__ + ".condition_methods")
+
+        class Operator:
+            def H(self, data):
+                return 2 * data
+
+            def forward(self, data):
+                raise AssertionError("No new measurement noise")
+
+        condition = module.get_conditioning_method(
+            "ps", operator=audit.PureOperatorAdapter(Operator()),
+            noiser=types.SimpleNamespace(__name__="gaussian"), scale=0.3,
+        )
+        sampler = dps.DDPM(use_timesteps=[0, 1], betas=np.array([0.01, 0.02]),
+                           model_mean_type="epsilon", model_var_type="learned_range",
+                           dynamic_threshold=False, clip_denoised=True,
+                           rescale_timesteps=False)
+        calls = []
+
+        def toy_model(x, t):
+            calls.append(int(t[0]))
+            return torch.cat((torch.zeros_like(x), torch.zeros_like(x)), dim=1)
+
+        initial = torch.full((1, 3, 4, 4), 0.1)
+        result = sampler.p_sample_loop(
+            model=toy_model, x_start=initial, measurement=torch.zeros_like(initial),
+            measurement_cond_fn=condition.conditioning, record=False, save_root="unused",
+        )
+        self.assertEqual(calls, [1, 0])
+        self.assertTrue(torch.isfinite(result).all())
+
     def test_official_PS_uses_pure_H_and_true_input_gradient(self):
         import torch
         source = audit.REPO_ROOT / "DPS/guided_diffusion/condition_methods.py"
