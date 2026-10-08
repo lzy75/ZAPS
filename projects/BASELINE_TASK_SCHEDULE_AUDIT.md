@@ -408,3 +408,53 @@ python -u utils/diag_dps_same_observation.py \
 PS 不使用它替代固定y，因此 adapter 显式接受并忽略，只计算 H(data)。
 不改官方 loop、观测、噪声消耗或参数。增加带该参数的无PyTorch接口
 测试，以及真实官方两步 toy loop 回归测试（本地无PyTorch仍显式跳过）。
+
+## 同观测 DPS 已完成：下一项拆分少步数与方差影响
+
+服务器同观测结果（ImageNet 高斯去模糊单图）：
+
+| 方法 | PSNR | SSIM | LPIPS | NFE |
+| --- | ---: | ---: | ---: | ---: |
+| DPS 官方采样/PS，1000步，learned_range | 23.1528 | 0.6301 | 0.3999 | 1000 |
+| ZAPS irregular_15_10_5，fixed_small | 19.5987 | 0.3168 | 0.6505 | 300 |
+| ZAPS uniform_30，fixed_small | 21.5069 | 0.5510 | 0.3432 | 300 |
+
+相同模型/图像/H/y/x_T 在 DPS 下能够正常重建，降低共享输入或模型调用
+错误的优先级；不意味着已验证所有任务定义或ZAPS实现。uniform 的
+LPIPS还优于DPS，因此不能写成所有指标都失败。单图、不同NFE/方差/
+引导/优化的比较不能宣称复现论文均值或定位一个特定实现错误。
+
+新增 `utils/diag_dps_lowstep_variance.py`：仅用原始 DPS 的 DDPM/PS
+运行保存的两条30步网格，每条各用 fixed_small / learned_range，固定
+scale=0.3。模型接收原始0..999时间步，不把30步索引作为模型时间步。
+保持同一H、y、模型、图像、x_T和初始化后的CPU/CUDA RNG；四组按抽样
+序号配对，记录终点RNG相同，不宣称不同网格的随机数具有相同物理时间。
+保留原始DPS loop的q_sample/noisy_measurement消耗，不做晚期噪声缩放。
+
+自动复用 trace 目录中已完成的 DPS1000 run.json；校验完成状态、NFE、
+scale/完整网格/方差配置、源路径、seed、H配置/源码、观测/图像/权重/
+官方采样参考源码指纹和原运行门控。较新的失败记录会跳过；找不到
+身份匹配记录则停止，可用 --dps-baseline-dir 指定，不暗中重跑1000步。
+四组新计算量仅120NFE；ZAPS存档原样展示，不重训。每组即时输出进度、
+指标并存档原始浮点重建、正常值域PNG、原始时间步和配置/指纹。
+
+判读顺序：
+
+1. 同网格 DPS learned_range - fixed_small：方差策略的配对影响。
+2. DPS30 learned_range 与已存档 DPS1000 learned_range：少步数/网格/
+   后验跨步及不同噪声路径的综合影响，不是仅步数一个因素。
+3. DPS30 fixed_small 与 ZAPS同网格 fixed_small：引导和优化整个包的
+   差异（DPS单轨迹30NFE vs ZAPS30x10=300NFE），不能直接归因于近似
+   Jacobian，也不是等预算方法比较。
+
+不改ZAPS核心、FFHQ、批量或默认配置；不根据当前PSNR预设某种方差
+应当更好。脚本语法、CLI与11项无PyTorch测试通过；6项需PyTorch的
+采样/梯度测试明确跳过，真实四组GPU运行等待服务器回报。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_dps_lowstep_variance.py \
+  --trace-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857 \
+  --device cuda \
+  | tee ../imagenet_gaussian_dps_lowstep_variance.log
+```
