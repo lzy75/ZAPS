@@ -8,6 +8,7 @@ draws are still consumed so disabling noise cannot shift later RNG draws.
 import argparse
 import csv
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -44,14 +45,36 @@ def rng_equal(first, second):
     return len(a) == len(b) and all(torch.equal(x, y) for x, y in zip(a, b))
 
 
+def build_variants(noise_scales=None):
+    if noise_scales is None:
+        return (("baseline", 1.0, 1.0), ("late_noise_off", 0.0, 1.0),
+                ("late_guidance_off", 1.0, 0.0), ("late_both_off", 0.0, 0.0))
+    if not noise_scales or len(set(noise_scales)) != len(noise_scales):
+        raise ValueError("noise scales must be nonempty and unique")
+    if any(not math.isfinite(scale) or not 0 <= scale <= 1 for scale in noise_scales):
+        raise ValueError("noise scales must be finite and in [0, 1]")
+    variants = [("baseline", 1.0, 1.0)]
+    for scale in noise_scales:
+        if scale != 1.0:
+            name = "late_noise_off" if scale == 0.0 else f"late_noise_{scale:g}"
+            variants.append((name, scale, 1.0))
+    return tuple(variants)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--trace-dir", required=True)
     parser.add_argument("--late-start", type=int, default=333)
+    parser.add_argument("--noise-scales", nargs="+", type=float, default=None,
+                        help="optional noise-only dose test; guidance stays enabled, baseline always included")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     if not 0 <= args.late_start < 999:
         parser.error("late-start must be between 0 and 998")
+    try:
+        variants = build_variants(args.noise_scales)
+    except ValueError as error:
+        parser.error(str(error))
     trace_dir = Path(args.trace_dir)
     saved = json.loads((trace_dir / "audit.json").read_text(encoding="utf-8"))
     source = Path(saved["source"])
@@ -76,8 +99,7 @@ def main():
     record = {"git": git_info(), "arguments": vars(args), "source_trace": str(trace_dir),
               "semantics": "frozen trained parameters; interventions only at t<=late_start; no reoptimization",
               "results": [], "gates": {}}
-    variants = (("baseline", 1.0, 1.0), ("late_noise_off", 0.0, 1.0),
-                ("late_guidance_off", 1.0, 0.0), ("late_both_off", 0.0, 0.0))
+    record["variants"] = variants
 
     def save_records():
         (output_dir / "run.json").write_text(json.dumps(finite_json(record), ensure_ascii=False, indent=2), encoding="utf-8")
@@ -89,6 +111,7 @@ def main():
 
     print(f"\n=== Late DDPM noise x guidance diagnostic; t<={args.late_start} ===", flush=True)
     print("No optimizer runs; same saved zeta/D, x_T and posterior draws.", flush=True)
+    print("noise scale multiplies standard deviation/amplitude, NOT variance.", flush=True)
     print(f"Records: {output_dir}", flush=True)
     for name, arm in saved["results"].items():
         state = torch.load(trace_dir / f"{name}_last_unroll_state.pt", map_location="cpu", weights_only=True)
@@ -106,7 +129,7 @@ def main():
         repeat, repeat_nfe, _ = zaps.sample(y, init_noise=init_noise)
         repeat_error = relative_error(reference, repeat)
         baseline_rng = None
-        baseline_psnr = None
+        baseline_metrics = None
         for variant, noise_scale, guidance_scale in variants:
             restore_rng(state)
             output, rows = trace(zaps, y, gt, init_noise, late_start=args.late_start,
@@ -126,8 +149,8 @@ def main():
                 raise RuntimeError(f"posterior RNG draw sequence shifted in {name}/{variant}")
             metrics = compute_all_metrics(output, gt, lpips_net=METRICS_CONFIG["lpips_net"])
             if variant == "baseline":
-                baseline_psnr = metrics["psnr"]
-                archive_delta = abs(baseline_psnr - arm["metrics"]["psnr"])
+                baseline_metrics = metrics
+                archive_delta = abs(metrics["psnr"] - arm["metrics"]["psnr"])
                 record["gates"][name]["archived_psnr_absolute_delta"] = archive_delta
                 if archive_delta > 1e-4:
                     record["gates"][name]["passed"] = False
@@ -135,7 +158,10 @@ def main():
                     raise RuntimeError(f"saved baseline metrics not reproduced: delta={archive_delta}; records: {output_dir}")
             summary = late_summary(rows, tensor_psnr(gt, output))
             result = {"schedule": name, "variant": variant, **metrics,
-                      "dPSNR": metrics["psnr"] - baseline_psnr,
+                      "dPSNR": metrics["psnr"] - baseline_metrics["psnr"],
+                      "dSSIM": metrics["ssim"] - baseline_metrics["ssim"],
+                      "dLPIPS": metrics["lpips"] - baseline_metrics["lpips"],
+                      "noise_scale": noise_scale, "guidance_scale": guidance_scale,
                       "late_peak_x0_psnr": summary["late_peak_x0_psnr"],
                       "t0_x0_psnr": summary["t0_x0_psnr"],
                       "late_drop": summary["late_peak_to_t0_drop"],
@@ -154,10 +180,10 @@ def main():
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
     print("\n=== Paired late-component summary ===", flush=True)
-    print(f"{'schedule':>20} {'variant':>19} {'PSNR':>9} {'delta':>9} {'SSIM':>8} {'LPIPS':>8} {'drop':>8} {'resid':>9}", flush=True)
+    print(f"{'schedule':>20} {'variant':>19} {'PSNR':>9} {'delta':>9} {'SSIM':>8} {'LPIPS':>8} {'dLPIPS':>9} {'drop':>8} {'resid':>9}", flush=True)
     for row in record["results"]:
         print(f"{row['schedule']:>20} {row['variant']:>19} {row['psnr']:9.4f} {row['dPSNR']:+9.4f} "
-              f"{row['ssim']:8.4f} {row['lpips']:8.4f} {row['late_drop']:8.4f} {row['residual']:9.3f}", flush=True)
+              f"{row['ssim']:8.4f} {row['lpips']:8.4f} {row['dLPIPS']:+9.4f} {row['late_drop']:8.4f} {row['residual']:9.3f}", flush=True)
     print("Interventions test frozen-path sensitivity; they are not a newly trained ZAPS baseline or proof of an implementation bug.", flush=True)
     print(f"Records saved to: {output_dir}", flush=True)
 

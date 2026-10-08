@@ -181,3 +181,44 @@ noise_off 改善支持随机转移敏感性；guidance_off 改善支持晚期引
 仅 both_off 改善或单项效果依赖另一项，说明存在交互。均不改善则下一步
 审查确定性后验/Tweedie 路径及优化目标。关闭分量是定位实验，不是最终
 算法、不是论文基线，更不能仅凭该结果宣称代码有错。
+
+## 后半段分量结果与幅度验证
+
+固定训练参数、t<=333 的单图回放结果：
+
+| 调度 | baseline PSNR/LPIPS | noise_off PSNR/LPIPS | guidance_off PSNR | both_off PSNR |
+| --- | --- | --- | ---: | ---: |
+| 不规则 | 19.5987 / 0.6505 | 23.5527 / 0.6884 | 18.8771 | 22.5121 |
+| 均匀 | 21.5069 / 0.3432 | 23.6947 / 0.6575 | 20.5280 | 22.7676 |
+
+关闭晚期噪声使 PSNR 分别 +3.9540/+2.1878，跨调度差距从 1.9082 缩小
+至 0.1420 dB；关闭引导反而降低 PSNR。说明这条已训练轨迹的后半段
+退化主要对随机项敏感，引导仍有正向作用。但 noise_off 的 LPIPS 分别
+恶化 0.0379/0.3143，不能当作全面改善，也不能凭本图宣布 ImageNet
+论文基线复现成功。
+
+核对当前固定 DDPM 后验公式：令跳步有效 beta=1-alpha_bar_t/alpha_bar_s，
+仓库 DPS SpacedDiffusion 的重新构建 beta 与 ZAPS 的 c1、c2、beta_tilde
+代数一致，标量双精度两种网格检查最大误差 1.11e-16；代码使用 sqrt(beta_tilde)
+乘随机项。这个检查不覆盖论文采样约定、GPU模型回放或 learned variance，
+不能把轨迹敏感性直接归因为已确认的方差公式 bug。
+
+下一步保留引导，固定边界和已训练参数，只比较噪声幅度 rho=0/0.5/0.75/1：
+晚期更新为原 DDPM 均值 + rho * 原随机项 + 原 correction。rho 乘标准差，
+有效方差乘 rho^2（rho=0.5 不是方差减半）。这是剂量验证，不扩展学习率、
+时间步或阈值搜索。仍消耗原噪声抽样序列，baseline 门控不变。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_zaps_late_component.py \
+  --trace-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857 \
+  --late-start 333 \
+  --noise-scales 0 0.5 0.75 1 \
+  --device cuda \
+  | tee ../imagenet_gaussian_late_noise_scale.log
+```
+
+关注是否存在 PSNR/SSIM 改善且 LPIPS 不明显退化的中间幅度，不能只挑
+最高 PSNR。若出现稳定折中，再将优化/采样的约定同步做对照验证，不能
+把训练 eta=1、冻结后采样降噪的定位结果作为新基线或状态指标收益。
+当前仅扩展诊断入参，没有修改全局设置、核心采样、FFHQ或批量分支。
