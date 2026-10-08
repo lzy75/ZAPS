@@ -310,3 +310,49 @@ python -u utils/diag_zaps_late_noise_training.py \
 或反转，报告轨迹依赖，不把本例当成稳定基线。即使两次方向一致，也
 只支持局部稳定性，不是统计上的泛化证明或原文复现成功。FFHQ/批量
 仍不改默认设置。
+
+## 2026-10-08：结束晚期降噪探索，检查原始采样实现
+
+同图、同观测的新种子1000结果：不规则 train/eval=1/1 为
+19.0669/0.3037/0.6076（PSNR/SSIM/LPIPS），0.75/0.75 为
+23.9203/0.6549/0.4797；均匀对应为21.2842/0.4463/0.5184 与
+23.6131/0.6388/0.4378。主导改善仍来自评估时的随机项幅度改变。
+
+这只定位到轨迹敏感性，没有证明代码错误、ImageNet 数据问题或原文
+复现成功。停止扩大降噪/学习率/调度搜索，不再执行上一节建议的更多
+降噪换图试验；保留 eta=1 的原始基线继续排查。rho<1 只归档为诊断，
+不作为状态感知增益或同步到 FFHQ/批量默认配置。
+
+新增 `utils/diag_zaps_sampler_parity.py`：复用原种子的保存参数、x_T 与
+第10轮 RNG，不再优化。直接导入仓库 DPS 的原始 GaussianDiffusion、
+SpacedDiffusion、DDPM 和 mean/variance processors，使用私有包名避免
+与 UNet 的 guided_diffusion 包冲突；真实 utility imports 不作数值替换。
+记录参考源文件 SHA256，缺失/混用来源则停止，而非悄悄换参考公式。
+
+参考保持**源实验的方差策略**：本例 fixed_small 对 fixed_small；
+不能直接与 DPS 默认 learned_range 比较而把预期差异判成 bug。
+模型预测复用，每次仍仅一次 UNet 调用。检查每一步的原始时间步映射、
+裁剪后的 Tweedie x0、共享同一 x0 时的后验均值、完整后验均值、有效
+注噪标准差以及同一噪声下的下一步输出。末步标准差应为零，不比较其
+未实际使用的 learned log variance。std 通过原核心 helper 的零输入/
+单位噪声探针取得，next 通过 DPS 实际 p_sample 取得，不重写采样公式。
+
+每个网格两次原核心回放和一次被动审计，30x3=90 NFE；两个网格合计
+180 NFE，无优化、无 GT/PSNR 选优、无方差策略消融。诊断过程须通过
+输出、NFE 和 RNG 终点门控。逐元素容差固定 atol=rtol=2e-5，同时记录
+相对范数与最大绝对误差；两种系数计算的 float32/float64 顺序差异不可
+强求逐位一致。门控不稳定或误差超限则记录 FAIL，不据此直接宣布 bug。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_zaps_sampler_parity.py \
+  --trace-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857 \
+  --device cuda \
+  | tee ../imagenet_gaussian_sampler_parity.log
+```
+
+PASS 仅排除这些已保存轨迹上的去噪/前向 DDPM 运算不一致，不验证引导、
+反向传播或论文整体设置。FAIL 先看首个失败分量与 replay/RNG 门控；
+不能调容差掩盖差异。之后才决定修正具体实现，或进入同观测官方 DPS/
+ZAPS 特有引导与优化流程的排查。本地无 PyTorch：语法/CLI/导入隔离
+测试通过，三个 PyTorch 数值测试显式跳过；服务器结果尚待用户运行。
