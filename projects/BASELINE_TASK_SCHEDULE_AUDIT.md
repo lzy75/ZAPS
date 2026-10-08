@@ -222,3 +222,49 @@ python -u utils/diag_zaps_late_component.py \
 最高 PSNR。若出现稳定折中，再将优化/采样的约定同步做对照验证，不能
 把训练 eta=1、冻结后采样降噪的定位结果作为新基线或状态指标收益。
 当前仅扩展诊断入参，没有修改全局设置、核心采样、FFHQ或批量分支。
+
+## 幅度结果：固定 rho=0.75 验证优化/采样一致性
+
+保持引导的冻结参数回放：不规则 rho=0.5/0.75 的 PSNR 为
+23.9557/24.2687、LPIPS 为 0.5544/0.4985；其 rho=1 基线为
+19.5987/0.6505。rho=0.75 同时改善 PSNR +4.6700、SSIM +0.3585、
+LPIPS -0.1519。不再扩大幅度搜索。
+
+均匀 rho=0.75 为 23.5971/0.6494/0.4560（PSNR/SSIM/LPIPS），相对
+rho=1 仍是像素指标改善但 LPIPS 退化。不规则在共同 rho=0.75 下 PSNR
+高 0.6716、SSIM 高 0.0259，但 LPIPS 差 0.0425；不能宣布全面复现论文
+的不规则优势，更不能用本图 24.2687 对比论文样本均值宣布成功。
+
+下一步 `diag_zaps_late_noise_training.py` 对每个网格做 train rho x eval
+rho=1/0.75 的 2x2 对照。train=1 复用保存的第10轮参数和噪声，不重复
+训练；train=0.75 执行原 optimize、lr=0.001、30步x10轮、联合学习 zeta/D，
+仅在 t<=333 使用 DDPM mean+(eta*rho)*sigma*z+原 correction。两个
+阶段都通过同一核心 helper 应用该设置；不改核心文件、配置默认值或
+FFHQ/批量分支。helper 仅在诊断进程的调用作用域内暂时替换，异常也恢复。
+
+回放仍取第10轮采样前参数，而非最后一次 Adam 更新后的参数；匹配
+train/eval 政策的输出与原 last_opt 门控，核对原基线 PSNR、新训练 x_T、
+第10轮 RNG 起点及所有评估 RNG 终点。每个网格只新增一次训练，合计
+600 NFE；2x2 回放和重复门控合计 360 NFE，本次总计 960 NFE。
+
+部分噪声采用核心 helper 的 eta*rho 直接乘标准差，保持可微计算图。
+这与早先定位时 mean+rho*(带噪结果-mean) 数学等价，但浮点运算顺序
+不同，因此不要求两种实现的 rho<1 轨迹逐位一致；rho=1 基线和训练
+last_opt 必须分别通过当前同操作路径门控。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_zaps_late_noise_training.py \
+  --trace-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857 \
+  --late-start 333 \
+  --noise-scale 0.75 \
+  --device cuda \
+  | tee ../imagenet_gaussian_late_noise_training.log
+```
+
+以 train=eval=0.75 对比 train=eval=1 判断统一设置下是否改善；
+train=1/eval=0.75 只表示后处理式回放改变，不能当作一致训练基线。
+两组交叉回放用于区分参数适配与采样设置效果。结果首先报告所有三个
+质量指标，不只 PSNR。rho<1 是修改版固定设置，不等于恢复原文、修正
+了已确认的公式 bug，也不是状态指标自身带来的创新增益。需后续验证
+随机种子、少量固定图及严格原文实现约定后，再决定是否采用该候选设置。
