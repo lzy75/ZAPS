@@ -356,3 +356,48 @@ PASS 仅排除这些已保存轨迹上的去噪/前向 DDPM 运算不一致，�
 不能调容差掩盖差异。之后才决定修正具体实现，或进入同观测官方 DPS/
 ZAPS 特有引导与优化流程的排查。本地无 PyTorch：语法/CLI/导入隔离
 测试通过，三个 PyTorch 数值测试显式跳过；服务器结果尚待用户运行。
+
+## 采样审计回报与下一项：同观测官方 DPS 对照
+
+用户回报 `sampler_parity_20261008_220150`：两网格 replay、RNG、重复
+核心与审计输出均精确一致。只有共同首步 t=999 的 x0 未通过，relative
+error=4.088976e-5、max absolute error=8.726865e-5；mean、共享x0均值、
+std、next 以及后续所有步通过。不能把这个总 FAIL 写成采样公式错误，
+也不能未经记录改容差后写成总 PASS。
+
+源码去噪形式分别为 `(x-sqrt(1-ab)*eps)/sqrt(ab)` 与
+`sqrt(1/ab)*x-sqrt(1/ab-1)*eps`。数学等价，在 t=999 的放大系数约
+157.41。NumPy 合成输入（不是服务器实际预测）得到 float32 最大差异
+8.0764294e-5，同一alpha float64差异约1.43e-13，支持舍入解释。没有
+证据表明此微小首步差异解释当前数dB差距；不改核心计算或降噪配置。
+
+新增 `utils/diag_dps_same_observation.py`：仅当前 ImageNet 高斯去模糊
+单图，官方 DPS 源文件中的 `create_sampler/p_sample_loop/ps` 原样运行，
+读取官方 YAML 的1000步DDPM、learned_range、PS scale=0.3，校验这些
+设置后不允许隐式改动。复用当前存档 H、measurement.pt、图像处理及
+x_T，而非官方默认 blur H；项目 forward 会加噪，因此专用 adapter
+让 DPS forward 只调用 H。Gaussian tag 只用于原 PS 选择高斯 L2 梯度，
+不重新生成观测；原 loop 中 noisy_measurement 的 q_sample 和随机数
+消耗仍保留，虽 PS 不使用它。30x10 与1000步无法逐随机数配对。
+
+开始前一次真实 t=999 输入梯度检查（1 NFE），保留模型参数 requires_grad
+以兼容 custom checkpoint；没有优化器/模型权重更新。检查源两网格x_T
+相同且源seed能重现；随后恢复初始化后RNG，官方循环严格1000次模型
+调用。存档原始浮点重建、正常值域PNG、同ZAPS口径指标、浮点PSNR、
+观测/图像/现有checkpoint/源码hash、配置、噪声统计及错误记录。现有
+源实验没有checkpoint hash，明确记录历史权重身份验证的这一限制。
+
+```bash
+cd ~/ZAPS/projects
+python -u utils/diag_dps_same_observation.py \
+  --trace-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857 \
+  --device cuda \
+  | tee ../imagenet_gaussian_dps_same_observation.log
+```
+
+表格同时展示新DPS1000与原存档两条ZAPS300，不重训ZAPS。本对照的
+采样步数、方差和引导均不同，不是单因素机制定位，也不是论文1000图
+均值复现。DPS若明显更好，优先排查ZAPS特有流程和少步设置；若也差，
+再看共享任务设置与模型/评价，不能凭单图排名要求ZAPS必胜。FFHQ、
+批量及算法默认配置均不变。本地无PyTorch，接口/配置/文件hash/CLI
+检查通过，真实梯度及GPU1000步执行待服务器验证。
