@@ -3,6 +3,8 @@
 Keep the archived rho=1 baseline; only train rho=0.75 (or the explicitly chosen
 single scale). This is a modified sampling setting, NOT original-paper recovery
 or state-aware scheduling. Both zeta and D learn with the original optimizer.
+With --seed different from the archived seed, both policies are freshly trained
+on the SAME saved observation so the sampling-seed comparison remains fair.
 """
 
 import argparse
@@ -69,19 +71,30 @@ def load_unroll(zaps, state):
     return state["init_noise"].to(zaps.device)
 
 
+def training_required(train_scale, sampling_seed, source_seed):
+    return train_scale != 1.0 or sampling_seed != source_seed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--trace-dir", required=True)
     parser.add_argument("--late-start", type=int, default=333)
     parser.add_argument("--noise-scale", type=float, default=0.75)
+    parser.add_argument("--seed", type=int, default=None,
+                        help="sampling/training RNG only; saved measurement unchanged; new seed retrains both policies")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     if not math.isfinite(args.noise_scale) or not 0 < args.noise_scale < 1:
         parser.error("choose one nonzero noise scale below 1; no sweep")
     if not 0 <= args.late_start < 999:
         parser.error("late-start must be in [0,998]")
+    if args.seed is not None and not 0 <= args.seed < 2 ** 63:
+        parser.error("seed must be in [0,2**63)")
     trace_dir = Path(args.trace_dir)
     saved = json.loads((trace_dir / "audit.json").read_text(encoding="utf-8"))
+    source_seed = int(saved["seed"])
+    sampling_seed = source_seed if args.seed is None else args.seed
+    reuse_baseline = sampling_seed == source_seed
     source = Path(saved["source"])
     source_record = json.loads((source / "run.json").read_text(encoding="utf-8"))
     task = saved["arguments"]["task"]
@@ -96,12 +109,15 @@ def main():
     operator = get_operator(task, device=args.device, **source_record["task_configs"][task])
     if task == "super_resolution":
         operator = TransposeMode(operator, run_args["sr_transpose"]).to(args.device)
-    output_dir = trace_dir / ("late_noise_training_" + time.strftime("%Y%m%d_%H%M%S"))
+    output_dir = trace_dir / (f"late_noise_training_seed_{sampling_seed}_" + time.strftime("%Y%m%d_%H%M%S"))
     output_dir.mkdir(parents=True, exist_ok=True)
     record = {"git": git_info(), "arguments": vars(args), "source_trace": str(trace_dir),
               "semantics": "train and evaluate with same fixed late-noise policy; original baseline retained",
               "formula": "DDPM mean + (eta*rho)*sigma*z + original correction at t<=late_start",
               "ground_truth_usage": "report metrics only; no output selection or early stopping",
+              "source_seed": source_seed, "sampling_seed": sampling_seed,
+              "reuse_archived_baseline": reuse_baseline,
+              "measurement_semantics": "exact saved measurement.pt; seed override does not regenerate observation",
               "results": [], "gates": {}, "pairing": {}, "optimization_nfe": {}}
 
     def save_records():
@@ -113,19 +129,21 @@ def main():
                 writer.writerows(record["results"])
 
     print(f"\n=== Train/evaluate late noise consistency; rho={args.noise_scale:g}, t<={args.late_start} ===", flush=True)
-    print("Original settings remain archived. One new training per schedule; lr/zeta/D/observation unchanged.", flush=True)
+    print(f"Sampling seed={sampling_seed}; observation stays unchanged; "
+          f"new trainings per schedule={1 if reuse_baseline else 2}; lr/zeta/D unchanged.", flush=True)
     print(f"Records: {output_dir}", flush=True)
     for name, arm in saved["results"].items():
         old_state = torch.load(trace_dir / f"{name}_last_unroll_state.pt", map_location="cpu", weights_only=True)
         baseline_metrics = None
         baseline_end_rng = None
+        baseline_state = old_state if reuse_baseline else None
         for train_scale in (1.0, args.noise_scale):
-            set_seed(int(saved["seed"]))
+            set_seed(sampling_seed)
             zaps = LateNoiseZAPS(model, operator, img_size=IMG_SIZE[0],
                                  late_start=args.late_start, late_noise_scale=train_scale, **arm["config"])
             zaps.tau = old_state["tau"].to(args.device)
             expected_output = None
-            if train_scale == 1.0:
+            if not training_required(train_scale, sampling_seed, source_seed):
                 state = old_state
                 optimization_nfe = 0
             else:
@@ -136,15 +154,20 @@ def main():
                 optimization_nfe = zaps._last_nfe
                 if state is None or optimization_nfe != len(zaps.tau) * zaps.num_epochs:
                     raise RuntimeError("training snapshot or NFE invalid")
-                pairing = {"x_T_equal": torch.equal(old_state["init_noise"], state["init_noise"]),
-                           "epoch10_rng_equal": rng_equal(old_state, state)}
-                record["pairing"][name] = pairing
-                record["optimization_nfe"][name] = optimization_nfe
-                record.setdefault("new_loss_history", {})[name] = losses
+                if train_scale == 1.0:
+                    baseline_state = state
+                key = f"{name}_train_{train_scale:g}"
+                record["optimization_nfe"][key] = optimization_nfe
+                record.setdefault("new_loss_history", {})[key] = losses
                 torch.save(state, output_dir / f"{name}_rho_{train_scale:g}_last_unroll_state.pt")
                 save_records()
-                if not all(pairing.values()):
-                    raise RuntimeError(f"training random draws not paired: {pairing}; records: {output_dir}")
+                if train_scale != 1.0:
+                    pairing = {"x_T_equal": torch.equal(baseline_state["init_noise"], state["init_noise"]),
+                               "epoch10_rng_equal": rng_equal(baseline_state, state)}
+                    record["pairing"][name] = pairing
+                    save_records()
+                    if not all(pairing.values()):
+                        raise RuntimeError(f"training random draws not paired: {pairing}; records: {output_dir}")
             init_noise = load_unroll(zaps, state)
             for eval_scale in (train_scale, args.noise_scale if train_scale == 1.0 else 1.0):
                 zaps.late_noise_scale = eval_scale
@@ -175,12 +198,13 @@ def main():
                 metrics = compute_all_metrics(output, gt, lpips_net=METRICS_CONFIG["lpips_net"])
                 if train_scale == eval_scale == 1.0:
                     baseline_metrics = metrics
-                    delta = abs(metrics["psnr"] - arm["metrics"]["psnr"])
-                    record["gates"][key]["archived_psnr_absolute_delta"] = delta
-                    if delta > 1e-4:
-                        record["gates"][key]["passed"] = False
-                        save_records()
-                        raise RuntimeError(f"archived baseline differs: {delta}; records: {output_dir}")
+                    if reuse_baseline:
+                        delta = abs(metrics["psnr"] - arm["metrics"]["psnr"])
+                        record["gates"][key]["archived_psnr_absolute_delta"] = delta
+                        if delta > 1e-4:
+                            record["gates"][key]["passed"] = False
+                            save_records()
+                            raise RuntimeError(f"archived baseline differs: {delta}; records: {output_dir}")
                 row = {"schedule": name, "train_noise_scale": train_scale, "eval_noise_scale": eval_scale,
                        "matched_policy": train_scale == eval_scale, **metrics,
                        "dPSNR": metrics["psnr"] - baseline_metrics["psnr"],
@@ -197,7 +221,7 @@ def main():
             del zaps, state, output, init_noise, expected_output
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
-        del old_state
+        del old_state, baseline_state
     print("\n=== Paired training-policy summary ===", flush=True)
     print(f"{'schedule':>20} {'train':>7} {'eval':>7} {'PSNR':>9} {'delta':>9} {'SSIM':>8} {'LPIPS':>8} {'dLPIPS':>9}", flush=True)
     for row in record["results"]:
