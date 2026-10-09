@@ -511,3 +511,29 @@ python -u utils/diag_zaps_guidance_clipping.py \
   --device cuda \
   | tee ../imagenet_gaussian_guidance_clipping.log
 ```
+
+### CUDA 可见数量变化导致的回放接口失败
+
+用户在 `TriPS_from_base` 环境运行，初始化身份检查通过，第一次恢复
+RNG时因存档/当前可见CUDA数量不同停止；此时没有采样或梯度诊断结果。
+旧存档保存所有可见设备的RNG，实际ZAPS是单设备模型，要求全部设备
+数量相同过于严格。只修本项诊断的恢复接口，不改采样算法或共享审计
+helper原有严格策略。
+
+从存档采样设备选择原始逻辑CUDA RNG索引，把该状态恢复到当前实际
+采样设备，仅恢复CPU与这一块卡，不改变当前其他GPU状态。新快照明确
+保存sampling_device/sampling_cuda_index；旧快照使用trace的--device：
+`cuda:n`取n，原trace程序中的裸`cuda`取默认逻辑0（程序与model loader
+均无set_device）；仅一个保存状态时无歧义取0。未知多卡来源停止，
+可核实后用--saved-cuda-index显式指定，不按物理GPU编号猜测。
+
+记录当前torch/CUDA版本、CUDA_VISIBLE_DEVICES、可见数量与RNG映射。
+保留原重复校准输出/RNG门控及容差；增加全30步存档标量指纹对照：
+input_x_rms/residual_norm的atol=1e-6、rtol=2e-5，离散裁剪比例的
+atol=2e-5。标量指纹通过不等于存档张量逐位一致，但错映射或环境导致
+的明显路径改变必须停止，不能仅证明三次相同错误路径彼此一致。
+GPU/软件环境改变仍可能影响浮点结果，超限时核查原环境，不调宽门控。
+
+新增无PyTorch测试覆盖多卡到单卡恢复、默认/显式索引、来源歧义拒绝、
+其他GPU不被写入、错误路径指纹拒绝。11项当前脚本测试中7项通过，
+4项真实VJP数值测试因本地无PyTorch明确跳过；服务器复跑仍待验证。

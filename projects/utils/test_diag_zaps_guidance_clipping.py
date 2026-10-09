@@ -4,11 +4,48 @@ import importlib.util
 import math
 import types
 import unittest
+from unittest.mock import Mock, patch
 
 from utils import diag_zaps_guidance_clipping as audit
 
 
 class ContractTests(unittest.TestCase):
+    def test_legacy_and_explicit_saved_CUDA_generator_mapping(self):
+        state = {"cuda_rng": ["gpu0 state", "gpu1 state"]}
+        self.assertEqual(audit.saved_cuda_selection(state, "cuda")["saved_sampling_index"], 0)
+        self.assertEqual(audit.saved_cuda_selection(state, "cuda:1")["saved_sampling_index"], 1)
+        self.assertEqual(audit.saved_cuda_selection(state, None, 1)["saved_sampling_index"], 1)
+        metadata = {**state, "sampling_cuda_index": 1, "sampling_device": "cuda"}
+        self.assertEqual(audit.saved_cuda_selection(metadata, "cuda")["saved_sampling_index"], 1)
+        self.assertEqual(audit.saved_cuda_selection({"cuda_rng": ["only"]}, None)["saved_sampling_index"], 0)
+
+    def test_ambiguous_missing_CPU_or_invalid_generator_is_not_guessed(self):
+        for state, original, override in (({"cuda_rng": [0, 1]}, None, None),
+                                         ({"cuda_rng": None}, "cuda", None),
+                                         ({"cuda_rng": [0]}, "cpu", None),
+                                         ({"cuda_rng": [0]}, "cuda:1", None),
+                                         ({"cuda_rng": [0]}, "cuda", 3)):
+            with self.subTest(state=state, original=original, override=override), self.assertRaises(RuntimeError):
+                audit.saved_cuda_selection(state, original, override)
+
+    def test_restore_does_not_require_equal_visible_GPU_counts_or_touch_other_GPU(self):
+        fake_torch = types.SimpleNamespace(set_rng_state=Mock(), cuda=types.SimpleNamespace(set_rng_state=Mock()))
+        state = {"cpu_rng": "cpu state", "cuda_rng": ["saved GPU0", "saved GPU1"]}
+        with patch.dict("sys.modules", {"torch": fake_torch}):
+            audit.restore_sampling_rng(state, "cuda:0", 1)
+        fake_torch.set_rng_state.assert_called_once_with("cpu state")
+        fake_torch.cuda.set_rng_state.assert_called_once_with("saved GPU1", device="cuda:0")
+
+    def test_archive_scalar_fingerprint_rejects_wrong_noise_path(self):
+        archived = [{"t": 999, "input_x_rms": 1., "residual_norm": 20., "raw_x0_clip_fraction": .01}]
+        self.assertTrue(audit.archive_fingerprint_check(archived, archived)["passed"])
+        altered = [{**archived[0], "input_x_rms": 1.03}]
+        self.assertFalse(audit.archive_fingerprint_check(altered, archived)["passed"])
+        self.assertFalse(audit.archive_fingerprint_check([], archived)["passed"])
+        # A one-pixel clip count difference is not a new continuous trajectory.
+        near = [{**archived[0], "raw_x0_clip_fraction": .01 + 1/(3*256*256)}]
+        self.assertTrue(audit.archive_fingerprint_check(near, archived)["passed"])
+
     def test_original_times_map_to_nearest_grid_indices_once(self):
         grid = [0, 34, 138, 344, 655, 827, 930, 999]
         selected = audit.probe_indices(grid, [999, 916, 833, 667, 333, 143, 0, 999])

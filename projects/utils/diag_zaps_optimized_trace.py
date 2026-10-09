@@ -52,6 +52,11 @@ class LastUnrollSnapshotZAPS(ZAPS):
                 "init_noise": init_noise.detach().cpu().clone(),
                 "cpu_rng": torch.get_rng_state().clone(),
                 "cuda_rng": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
+                "sampling_device": str(self.device),
+                "sampling_cuda_index": (
+                    torch.device(self.device).index if torch.device(self.device).index is not None
+                    else torch.cuda.current_device()
+                ) if str(self.device).startswith("cuda") else None,
             }
         return super()._reverse_diffusion(*args, **kwargs)
 

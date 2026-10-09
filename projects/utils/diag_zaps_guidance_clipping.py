@@ -9,6 +9,8 @@ Improved gradient agreement alone does not prove a reconstruction improvement.
 import argparse
 import csv
 import json
+import math
+import os
 from pathlib import Path
 import statistics
 import subprocess
@@ -22,7 +24,69 @@ sys.path.insert(0, str(PROJECTS_ROOT))
 
 from utils.diag_dps_same_observation import file_sha256
 from utils.diag_dps_lowstep_variance import find_baseline
-from utils.diag_zaps_sampler_parity import error_metrics, restore_rng, rng_state, same_rng
+from utils.diag_zaps_sampler_parity import error_metrics, rng_state, same_rng
+
+
+def saved_cuda_selection(state, archived_device, override=None):
+    """Select the generator used by the single-device archived trace, not a GPU UUID.
+
+    The archived trace CLI's bare 'cuda' used default logical cuda:0: the
+    original program/model loader never changes the process's current device.
+    Physical GPU IDs/CUDA_VISIBLE_DEVICES need not be unchanged for restoring
+    this generator; scalar archive fingerprints and the replay gate still apply.
+    """
+    states = state.get("cuda_rng")
+    count = len(states) if states is not None else 0
+    if not count:
+        raise RuntimeError("Archive has no CUDA RNG state; cannot replay it on CUDA")
+    if state.get("sampling_device", archived_device) == "cpu":
+        raise RuntimeError("Archive sampled on CPU; unused CUDA RNG cannot reproduce that path")
+    if override is not None:
+        index, reason = override, "explicit --saved-cuda-index"
+    elif state.get("sampling_cuda_index") is not None:
+        index, reason = state["sampling_cuda_index"], "snapshot sampling_cuda_index"
+    else:
+        device = state.get("sampling_device", archived_device)
+        if device == "cuda":
+            index, reason = 0, "legacy trace CLI default logical cuda:0 (no set_device in source)"
+        elif isinstance(device, str) and device.startswith("cuda:") and device[5:].isdigit():
+            index, reason = int(device[5:]), "archived explicit CUDA device"
+        elif count == 1:
+            index, reason = 0, "only one archived CUDA generator"
+        else:
+            raise RuntimeError("Original sampling CUDA index is ambiguous; specify --saved-cuda-index "
+                               "only after checking the original --device argument")
+    if type(index) is not int or not 0 <= index < count:
+        raise RuntimeError(f"Saved CUDA index {index!r} outside archived generator count {count}")
+    return {"saved_generator_count": count, "saved_sampling_index": index, "selection_reason": reason}
+
+
+def restore_sampling_rng(state, device, saved_index):
+    """Restore CPU and the ONE sampling generator, leaving other current GPUs alone."""
+    import torch
+    torch.set_rng_state(state["cpu_rng"])
+    torch.cuda.set_rng_state(state["cuda_rng"][saved_index], device=device)
+
+
+def archive_fingerprint_check(observed_rows, archived_rows, atol=1e-6, rtol=2e-5, clip_atol=2e-5):
+    """Scalar fingerprint only, not proof of archived tensorwise equality."""
+    fields = ("input_x_rms", "residual_norm", "raw_x0_clip_fraction")
+    failures = []
+    if len(observed_rows) != len(archived_rows):
+        failures.append({"reason": "different row counts"})
+    for actual, expected in zip(observed_rows, archived_rows):
+        if actual["t"] != expected.get("t"):
+            failures.append({"t": actual["t"], "reason": "original time differs"})
+            continue
+        for key in fields:
+            left, right = actual[key], expected.get(key)
+            # Clip counts are quantized at 1/(3*256*256), unlike smooth norms.
+            absolute_limit = clip_atol if key == "raw_x0_clip_fraction" else atol
+            if (not isinstance(right, (int, float)) or not math.isfinite(left)
+                    or not math.isfinite(right) or abs(left-right) > absolute_limit + rtol * abs(right)):
+                failures.append({"t": actual["t"], "field": key, "current": left, "archived": right})
+    return {"passed": not failures, "atol": atol, "rtol": rtol, "clip_atol": clip_atol, "fields": list(fields),
+            "scope": "archived scalar fingerprints, not tensorwise equality", "failures": failures}
 
 
 def probe_indices(grid, requested_times):
@@ -141,6 +205,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--trace-dir", required=True)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--saved-cuda-index", type=int, default=None,
+                        help="override original logical CUDA RNG index only if original device metadata is missing")
     parser.add_argument("--probe-times", type=int, nargs="+", default=[999, 916, 833, 667, 333, 143, 0])
     args = parser.parse_args()
     trace_dir = Path(args.trace_dir).resolve()
@@ -163,6 +229,9 @@ def main():
     from modules.degradations import get_operator
     from modules.zaps_algorithm import ZAPS
     from utils.diag_zaps_trace_audit import classify_parity, relative_error
+
+    if not str(args.device).startswith("cuda"):
+        parser.error("This archived CUDA-path diagnostic must run on CUDA")
 
     model = load_diffusion_model("imagenet", args.device)
     model.model.eval()
@@ -193,6 +262,9 @@ def main():
         "objective": "L=0.5*sum((y-H(clamp(x0_raw)))^2); directions are -dL/dx_t",
         "mask_order": "B^T(M H^T r), not M(B^T H^T r)",
         "limits": "No GT, output selection, training or replacement trajectory; VJP agreement is not a PSNR gain",
+        "runtime": {"torch": torch.__version__, "cuda_runtime": torch.version.cuda,
+                    "CUDA_VISIBLE_DEVICES": os.environ.get("CUDA_VISIBLE_DEVICES"),
+                    "current_visible_cuda_count": torch.cuda.device_count()},
         "results": {}, "new_nfe": 0,
     }
 
@@ -207,6 +279,12 @@ def main():
     try:
         for name, arm in saved["results"].items():
             state = torch.load(trace_dir / f"{name}_last_unroll_state.pt", map_location="cpu", weights_only=True)
+            rng_mapping = saved_cuda_selection(state, saved["arguments"].get("device"), args.saved_cuda_index)
+            target = torch.device(args.device)
+            target_index = target.index if target.index is not None else torch.cuda.current_device()
+            rng_mapping.update(current_sampling_device=f"cuda:{target_index}",
+                               current_visible_cuda_count=torch.cuda.device_count())
+            print("RNG mapping:", json.dumps(rng_mapping), flush=True)
             zaps = ZAPS(model, operator, img_size=IMG_SIZE[0], **arm["config"])
             zaps.tau = state["tau"].to(args.device)
             with torch.no_grad():
@@ -215,26 +293,31 @@ def main():
             grid = zaps.tau.tolist()
             selected = set(probe_indices(grid, args.probe_times))
             init_noise = state["init_noise"].to(args.device)
-            snapshots, visited = [], []
+            snapshots, visited, fingerprints = [], [], []
             original_tweedie = zaps._tweedie_estimate
 
             def observe(x, eps, ab, index):
                 t = int(zaps.tau[index])
                 visited.append(t)
+                result = original_tweedie(x, eps, ab, index)
+                raw = (x - (1-ab).sqrt() * eps.detach()) / ab.sqrt().clamp(min=1e-8)
+                fingerprints.append({"t": t, "input_x_rms": float(x.square().mean().sqrt()),
+                                     "residual_norm": float((y-zaps.A.H(result)).norm()),
+                                     "raw_x0_clip_fraction": float((raw.abs() > 1).float().mean())})
                 if index in selected:
                     snapshots.append({"index": index, "t": t,
                                       "x": x.detach().cpu().clone(),
                                       "epsilon": eps.detach().cpu().clone()})
-                return original_tweedie(x, eps, ab, index)
+                return result
 
             print(f"\n--- {name}: three 30-step passive replays, then {len(selected)} gradient probes ---", flush=True)
-            restore_rng(state, args.device)
+            restore_sampling_rng(state, args.device, rng_mapping["saved_sampling_index"])
             reference, nfe_a, _ = zaps.sample(y, init_noise=init_noise)
             end_a = rng_state(args.device)
-            restore_rng(state, args.device)
+            restore_sampling_rng(state, args.device, rng_mapping["saved_sampling_index"])
             repeat, nfe_b, _ = zaps.sample(y, init_noise=init_noise)
             end_b = rng_state(args.device)
-            restore_rng(state, args.device)
+            restore_sampling_rng(state, args.device, rng_mapping["saved_sampling_index"])
             with patch.object(zaps, "_tweedie_estimate", side_effect=observe):
                 observed, nfe_c, _ = zaps.sample(y, init_noise=init_noise)
             end_c = rng_state(args.device)
@@ -245,11 +328,16 @@ def main():
                 and visited == list(reversed(grid)) and len(snapshots) == len(selected)
                 and same_rng(end_a, end_b) and same_rng(end_a, end_c),
             )
+            fingerprint_gate = archive_fingerprint_check(fingerprints, arm["rows"])
             record["results"][name] = {"replay_gate": parity, "probe_gates": [], "rows": [],
+                                       "rng_mapping": rng_mapping, "archive_fingerprint_gate": fingerprint_gate,
                                        "archived_psnr": arm["metrics"]["psnr"]}
             save_record()
             if not parity["passed"]:
                 raise RuntimeError(f"Passive replay gate failed: {parity}")
+            if not fingerprint_gate["passed"]:
+                raise RuntimeError(f"Archived trajectory fingerprints differ: {fingerprint_gate}; "
+                                   "check original GPU selection and software environment before interpreting probes")
             print("Passive output/RNG/time-map gate passed; original reconstruction unchanged.", flush=True)
             del reference, repeat, observed
             torch.save(snapshots, output_dir / f"{name}_probe_inputs.pt")
