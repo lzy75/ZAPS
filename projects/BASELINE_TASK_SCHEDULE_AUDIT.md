@@ -458,3 +458,56 @@ python -u utils/diag_dps_lowstep_variance.py \
   --device cuda \
   | tee ../imagenet_gaussian_dps_lowstep_variance.log
 ```
+
+## 2026-10-09：方差回报与裁剪/引导 VJP 核查
+
+用户回报 `dps_lowstep_variance_20261009_121908`：DPS30 fixed_small 的
+不规则/均匀 PSNR 为15.5670/16.6235，存档ZAPS为19.5987/21.5069。
+ZAPS相对分别高4.0317/4.8833dB，但300NFE与30NFE不是等预算比较。
+learned_range - fixed_small 的PSNR为-0.0097/-0.0080，SSIM为
+-0.0069/-0.0022，LPIPS为-0.0641/-0.0134。因此方差不是当前30步DPS
+PSNR差距的主要解释，不能全局排除其感知影响或外推至ZAPS/其他图像。
+相同输入DPS1000为23.1528，低步数与引导/优化仍需分开验证。
+
+停止扩大学习率、步数或降噪搜索，新增单图被动诊断
+`utils/diag_zaps_guidance_clipping.py`。复用第10轮更新前的参数、x_T、
+RNG、保存的观测及两条原网格，不优化、不生成替代重建、不读取GT做
+指标或输出选择。权重/观测/H/图像身份先与已完成DPS存档核对。
+
+核查目标统一为 L=0.5*sum((y-H(clamp(x0_raw)))^2)，避免将官方DPS
+L2范数归一化与ZAPS平方残差的差异误判为Jacobian误差。记
+v=H^T(y-H(clamp(x0_raw)))，M为clamp导数掩码，B为当前小波近似Jacobian：
+
+```text
+exact        = -autograd.grad(L, x_t)
+approx_raw   = B^T v
+approx_mask  = B^T (M v)        # 不能写成 M(B^T v)
+exact_raw_v  = J_raw^T v        # 同一个裁剪后残差，仅移除Jacobian中的裁剪
+```
+
+同图同时间步报告裁剪比例、方向余弦、相对误差、范数比及掩码引起的
+变化。额外用冻结epsilon的实际autograd验证 Mv/sqrt(alpha_bar)，确认
+掩码顺序和H^T链式求导；零梯度的余弦/相对误差标记undefined而非PASS。
+原guided-diffusion自定义checkpoint在backward中删除ctx缓存，两个
+真实VJP使用独立UNet计算图并核对输出相同，不能靠retain_graph重复求导。
+模型参数requires_grad保留以兼容checkpoint，但不积累参数梯度或更新权重。
+
+每网格两次无观察核心回放+一次原函数输入观察回放，共90NFE；仅捕获
+默认7个指定原时间步的最近网格点，每个两次UNet计算图共14NFE。
+两网格默认共208NFE。先通过重复校准的输出/RNG/原时间步一致性门控，
+再做梯度诊断；保存probe输入、CSV、检查门控、源码/权重指纹及中间记录。
+所有probe均在原轨迹结束后运行，不可能影响后续采样随机数。
+
+更好的masked方向一致性支持“裁剪路径差异”假设，不证明PSNR改善或
+原文实现错误；两种近似都差才优先查score-Jacobian近似。当前不把mask
+写入ZAPS核心、FFHQ或批量默认设置。本地无PyTorch：CLI/语法及契约
+测试通过，真实VJP与checkpoint数值回归明确跳过；服务器运行后判读。
+
+```bash
+cd ~/ZAPS/projects
+python -m unittest utils.test_diag_zaps_guidance_clipping -v
+python -u utils/diag_zaps_guidance_clipping.py \
+  --trace-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857 \
+  --device cuda \
+  | tee ../imagenet_gaussian_guidance_clipping.log
+```
