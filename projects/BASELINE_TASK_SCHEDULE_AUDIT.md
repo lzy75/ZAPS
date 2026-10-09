@@ -537,3 +537,59 @@ GPU/软件环境改变仍可能影响浮点结果，超限时核查原环境，�
 新增无PyTorch测试覆盖多卡到单卡恢复、默认/显式索引、来源歧义拒绝、
 其他GPU不被写入、错误路径指纹拒绝。11项当前脚本测试中7项通过，
 4项真实VJP数值测试因本地无PyTorch明确跳过；服务器复跑仍待验证。
+
+## 2026-10-09：裁剪梯度核查回报及单因素重建验证
+
+用户回报 `guidance_clipping_20261009_142630`，两条存档路径的回放、
+身份/标量指纹与真实VJP检查完成。高噪声且裁剪近100%的步骤：
+
+| 网格/时间 | 裁剪比例 | raw余弦 → masked余弦 | raw范数/真实 → masked范数/真实 |
+| --- | --- | --- | --- |
+| irregular / 916 | 99.9% | 0.0325 → 0.9463 | 105.9494 → 2.2178 |
+| irregular / 833 | 99.8% | 0.0375 → 0.9785 | 89.0107 → 2.1122 |
+| uniform / 930 | 100.0% | 0.0141 → 0.9945 | 163.7512 → 1.7069 |
+| uniform / 827 | 99.5% | 0.0916 → 0.9407 | 56.1179 → 2.7458 |
+
+四个高噪声探针的相对误差中位数：不规则52.4602→1.7033，均匀
+33.8221→1.8850。说明当前 `B(v)` 与实际裁剪平方残差的链式梯度
+不一致，缺少clamp导数掩码是一个具体且严重的嫌疑，不能据此直接
+宣布PSNR改善、复现完成或原文存在bug。t=999没有明显裁剪，两个
+近似的余弦仍约0.69、范数比约5；t≈667的masked近似仍有较大误差。
+因此mask不是全部解释，score-Jacobian近似误差尚未排除。
+
+新增 `utils/diag_zaps_clamp_ablation.py`，只在独立诊断入口临时加入
+`B(Mv)`，M在H^T残差之后、非对角小波B之前。不是 `M B(v)`，也不
+改变真实H/H^T定义。M是分段常值、detach；残差保留原计算图，ζ和D
+仍联合学习。没有修改正式核心、默认参数、FFHQ或批量代码。
+
+每条网格三组：
+
+1. `raw_baseline`：恢复原第10轮参数/RNG，复用原last_opt轨迹，不重训。
+2. `frozen_raw_to_mask`：同参数/RNG仅加mask，检验冻结路径敏感性。
+3. `matched_mask_training`：原lr=.001、30×10、joint ζ+D和eta=1重新
+   优化，只加mask；输出第10轮更新前last_opt，不新增随机最终采样。
+
+启用前必须通过原核心重复校准、无mask包装入口输出/RNG、全部30步
+存档标量指纹门控；训练后检查x_T及第10轮CPU/实际采样GPU RNG相同，
+再通过mask训练last_opt回放门控。环境可见CUDA数量可以不同，但只
+映射已核实的采样卡状态，不放宽原容差。GT仅算指标，不选参数或轮次。
+同时比较PSNR/SSIM/LPIPS，不能仅因观测损失下降宣布成功。
+
+两条网格各480新NFE：核心重复60+null30+冻结mask30+mask优化300+
+mask输出回放重复60，共960，其中新优化600，回放/敏感性360。
+正式比较raw和matched的名义方法预算均300；冻结组另用原300+新30，
+不冒充等预算新方法。保存运行设置/源码指纹、RNG映射、门控、训练
+损失、图像/张量和CSV。原DPS1000和原ZAPS优化不重新跑。
+
+本地没有PyTorch/CUDA，契约测试、CLI和语法检查通过；掩码顺序、
+梯度保留、RNG配对的数值单测以及完整GPU重建需服务器验证。
+先运行单测；失败时停止，不继续主实验。
+
+```bash
+cd ~/ZAPS/projects
+python -m unittest utils.test_diag_zaps_clamp_ablation -v
+python -u utils/diag_zaps_clamp_ablation.py \
+  --guidance-dir /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/guidance_clipping_20261009_142630 \
+  --device cuda \
+  | tee ../imagenet_gaussian_clamp_ablation.log
+```
