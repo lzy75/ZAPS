@@ -1,6 +1,10 @@
 # 任务拆分与去重检查：优先 ImageNet 复现
 
 日期：2026-10-13。状态：分析存档与待办，不是新 GPU 结果。
+后续更新：[终端ζ审计已完成结果](PARAMETER_DIRECTION_RESULT_20261013.md)。
+用户已确认 [首步幅度单因素验证](experiment_cards/R_first_guidance.md)：
+独立入口已实现，60诊断NFE，真实GPU待运行。下文待运行描述保留原计划历史，
+当前执行项以本段及新实验卡为准；不启动倍率/学习率扫描或改共享核心。
 用户确认主服务器仓库为 `/home/lzy/ZAPS`。本地 SSH 密钥认证失败，
 由用户手动同步文本记录；随后已通过 GitHub/HTTPS 读取结果分支 `d2c8122`。
 最新去重证据及 0-NFE 裁剪排除见 [上传记录审计](SERVER_RECORD_AUDIT_20261013.md)。
