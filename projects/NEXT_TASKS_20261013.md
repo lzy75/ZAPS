@@ -10,12 +10,14 @@
 | 子任务 | 当前状态 | 交付及解锁条件 |
 | --- | --- | --- |
 | R-record：服务器记录同步与跨对话去重 | 已上传并完成重点审计 | 940 个 run 与关键日志已检索；旧状态缺失需按证据判断，不重复运行 |
-| R-ImageNet：复现差距定位 | 首要研究任务 | 优先 Gaussian Deblur 的已存档轨迹；先讨论下一项诊断的必要性，再由用户决定是否改代码 |
+| R-ImageNet：复现差距定位 | 首要研究任务；参数方向诊断已获确认 | 独立入口已实现，先门控再检查三个ζ方向；真实GPU结果待服务器运行 |
 | I-literature：新初始化调度文献 | 后续任务 | 找不同于已扫 uniform/power/Karras 的机制；无条件生成最优不直接等于当前逆问题最优 |
 | A-fixed30：状态表达与组合 | 后续任务 | 保留物理一致性和余弦两指标，固定每轮 30 步；逐项改表达、权重或响应幅度 |
 | A-budget：更少步数或自动步数 | 后置 | 固定 30 步机制和综合质量证据成立后，才讨论自由步数与总 NFE |
 
-不启动倍率扫描、学习率扫描、降晚期噪声扫描或新的 GPU 实验。
+不启动倍率扫描、学习率扫描或降晚期噪声扫描。
+用户已确认的下一项仅为 [Gaussian终端ζ方向诊断](experiment_cards/R_parameter_gradient.md)：
+600诊断NFE，不重训、不改核心；本机无PyTorch/CUDA，服务器数值结果待运行。
 不修改 shared core、FFHQ、batch 与默认参数；文档中的候选不是执行授权。
 
 ## 2. 原文主要超参数下的当前 ImageNet 参考
@@ -53,6 +55,10 @@ FFHQ 既有同图对照：exact H^T 约 22.82 dB，legacy_bicubic 约 29.60 dB�
 legacy+fixed variance 约 29.81 dB。固定方差下 legacy 相对 exact 约 +6.96 dB，
 而 exact 下方差切换约 .02 dB。因此 FFHQ 当前较好结果含不同引导映射，
 不能以“FFHQ 没问题”推导完全相同流程已验证、ImageNet 仅有加载问题。
+
+用户已确认可保留表现较好的 legacy_bicubic 作为 FFHQ 固定开发基线。
+它应称经验上采样引导 T，不声称是精确 H^T；null/refined 使用同一 T。
+不逐图按 GT 挑映射，不把此设置直接同步到 ImageNet 或冒称原文复现。
 
 模型输出一致、DWT 正交、H^T 正确均已有证据；它们不证明 score 输入
 Jacobian 的近似或 unroll 参数梯度正确。ImageNet 的高噪声探针仍显示
