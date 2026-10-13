@@ -1,6 +1,10 @@
 # 任务拆分与去重检查：优先 ImageNet 复现
 
 日期：2026-10-13。状态：分析存档与待办，不是新 GPU 结果。
+最新：[首步幅度实验已完成摘要](FIRST_GUIDANCE_RESULT_20261013.md)，用户回报
+单图+1.1491dB、SSIM/LPIPS共同改善；并非原文修复。用户已确认
+[同幅度首步方向验证](experiment_cards/R_first_direction.md)，31诊断NFE，
+独立入口已实现，真实GPU待运行。以下各段保留当时状态，以本段为最新队列。
 后续更新：[终端ζ审计已完成结果](PARAMETER_DIRECTION_RESULT_20261013.md)。
 用户已确认 [首步幅度单因素验证](experiment_cards/R_first_guidance.md)：
 独立入口已实现，60诊断NFE，真实GPU待运行。下文待运行描述保留原计划历史，
