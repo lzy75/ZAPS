@@ -8,7 +8,9 @@
     "paper": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/11114.pdf",
     "supplement": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/11114-supp.pdf",
     "author_repository": "https://github.com/ualcalar17/ZAPS",
-    "author_code_available_at_check": false
+    "author_code_available_at_check": false,
+    "uploaded_records_commit": "d2c8122086db7e05ecd00a94c01d2915e6125f3c",
+    "uploaded_metrics_path": "projects/server_records/20261013/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/metrics.csv"
   },
   "archived_reference": {
     "run_dir": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549",
@@ -57,9 +59,9 @@
       "scale": 4,
       "transpose": "exact",
       "psnr": 19.9209,
-      "ssim": null,
-      "lpips": null,
-      "missing_metrics_note": "Not supplied in the current user-reported matched-task table; read the archived run, do not invent values."
+      "ssim": 0.4798184931278229,
+      "lpips": 0.5472151637077332,
+      "metrics_note": "Filled from the uploaded matched-task metrics.csv at records commit d2c8122086db7e05ecd00a94c01d2915e6125f3c; not a new run."
     }
   },
   "author_alignment": {
@@ -73,6 +75,14 @@
     "final_output_timing": "undocumented",
     "metric_quantization_and_subset": "not_matched",
     "completely_identical_claim_permitted": false
+  },
+  "gradient_clip_audit": {
+    "scope": "40 epochs across two tasks and two grids in the current single-image reference only",
+    "evidence": "uploaded logs/imagenet_two_task_schedule_audit.log; gz/gd are printed after clipping",
+    "maximum_logged_joint_norm": 0.4846504926232924,
+    "maximum_rounding_upper_bound": 0.4847122290596762,
+    "threshold": 1.0,
+    "conclusion": "Clipping did not materially activate on these reference runs; no same-setting on/off rerun needed. Not generalized to other branches or settings."
   },
   "excluded_from_paper_reference": [
     "uniform_or_other_initial_schedule",
