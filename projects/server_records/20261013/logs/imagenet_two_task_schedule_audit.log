@@ -1,0 +1,71 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Fixed ZAPS task x schedule audit ===
+dataset=imagenet; 30 steps x 10 epochs=300 NFE; lr=[0.001]; SR transpose=exact; learned_var=False; joint zeta+D; sigma=0.05
+Records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549
+
+--- gaussian_deblur | lr=0.001 | irregular_15_10_5 ---
+timesteps ascending: [0, 24, 48, 71, 95, 119, 143, 166, 190, 214, 238, 262, 285, 309, 333, 334, 371, 408, 445, 482, 518, 555, 592, 629, 666, 667, 750, 833, 916, 999]
+  [ZAPS] Epoch  1/10  loss=0.003059  NFE=30  time=6.6s  zeta=0.2008  gz=0.0021  D=0.2000  gd=0.0010  PSNR=19.26
+  [ZAPS] Epoch  2/10  loss=0.003052  NFE=60  time=12.7s  zeta=0.2016  gz=0.0028  D=0.2000  gd=0.0003  PSNR=18.53
+  [ZAPS] Epoch  3/10  loss=0.002949  NFE=90  time=18.9s  zeta=0.2025  gz=0.0023  D=0.2000  gd=0.0003  PSNR=20.03
+  [ZAPS] Epoch  4/10  loss=0.002996  NFE=120  time=25.1s  zeta=0.2033  gz=0.0024  D=0.2000  gd=0.0003  PSNR=18.40
+  [ZAPS] Epoch  5/10  loss=0.002986  NFE=150  time=31.2s  zeta=0.2041  gz=0.0023  D=0.2000  gd=0.0005  PSNR=20.02
+  [ZAPS] Epoch  6/10  loss=0.002962  NFE=180  time=37.5s  zeta=0.2050  gz=0.0021  D=0.2000  gd=0.0004  PSNR=19.25
+  [ZAPS] Epoch  7/10  loss=0.003016  NFE=210  time=43.8s  zeta=0.2058  gz=0.0017  D=0.2000  gd=0.0008  PSNR=18.93
+  [ZAPS] Epoch  8/10  loss=0.003003  NFE=240  time=50.2s  zeta=0.2066  gz=0.0020  D=0.2000  gd=0.0004  PSNR=19.93
+  [ZAPS] Epoch  9/10  loss=0.002962  NFE=270  time=56.4s  zeta=0.2075  gz=0.0027  D=0.2000  gd=0.0004  PSNR=20.55
+  [ZAPS] Epoch 10/10  loss=0.002969  NFE=300  time=62.8s  zeta=0.2083  gz=0.0041  D=0.2000  gd=0.0007  PSNR=19.60
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+RESULT gaussian_deblur irregular_15_10_5 lr=0.001: PSNR=19.5987 SSIM=0.3168 LPIPS=0.6505 NFE=300
+
+--- gaussian_deblur | lr=0.001 | uniform_30 ---
+timesteps ascending: [0, 34, 69, 103, 138, 172, 207, 241, 276, 310, 344, 379, 413, 448, 482, 517, 551, 586, 620, 655, 689, 723, 758, 792, 827, 861, 896, 930, 965, 999]
+  [ZAPS] Epoch  1/10  loss=0.003240  NFE=30  time=6.4s  zeta=0.2005  gz=0.0517  D=0.2000  gd=0.0420  PSNR=20.07
+  [ZAPS] Epoch  2/10  loss=0.003223  NFE=60  time=12.6s  zeta=0.2010  gz=0.4663  D=0.2000  gd=0.1321  PSNR=20.17
+  [ZAPS] Epoch  3/10  loss=0.003053  NFE=90  time=19.1s  zeta=0.2015  gz=0.0691  D=0.2000  gd=0.0353  PSNR=21.73
+  [ZAPS] Epoch  4/10  loss=0.003139  NFE=120  time=25.6s  zeta=0.2021  gz=0.0544  D=0.2000  gd=0.0124  PSNR=20.83
+  [ZAPS] Epoch  5/10  loss=0.003058  NFE=150  time=31.9s  zeta=0.2026  gz=0.1421  D=0.2000  gd=0.0294  PSNR=22.96
+  [ZAPS] Epoch  6/10  loss=0.003108  NFE=180  time=38.2s  zeta=0.2031  gz=0.1133  D=0.2000  gd=0.0267  PSNR=21.75
+  [ZAPS] Epoch  7/10  loss=0.003189  NFE=210  time=44.3s  zeta=0.2037  gz=0.1750  D=0.2000  gd=0.0797  PSNR=21.55
+  [ZAPS] Epoch  8/10  loss=0.003127  NFE=240  time=53.4s  zeta=0.2042  gz=0.1527  D=0.2000  gd=0.0698  PSNR=21.21
+  [ZAPS] Epoch  9/10  loss=0.003119  NFE=270  time=64.3s  zeta=0.2048  gz=0.0286  D=0.2000  gd=0.0085  PSNR=21.33
+  [ZAPS] Epoch 10/10  loss=0.003136  NFE=300  time=75.4s  zeta=0.2053  gz=0.2573  D=0.2000  gd=0.0508  PSNR=21.51
+RESULT gaussian_deblur uniform_30 lr=0.001: PSNR=21.5069 SSIM=0.5510 LPIPS=0.3432 NFE=300
+
+--- super_resolution | lr=0.001 | irregular_15_10_5 ---
+timesteps ascending: [0, 24, 48, 71, 95, 119, 143, 166, 190, 214, 238, 262, 285, 309, 333, 334, 371, 408, 445, 482, 518, 555, 592, 629, 666, 667, 750, 833, 916, 999]
+  [ZAPS] Epoch  1/10  loss=0.029149  NFE=30  time=10.8s  zeta=0.1009  gz=0.2685  D=0.2000  gd=0.0035  PSNR=19.20
+  [ZAPS] Epoch  2/10  loss=0.026619  NFE=60  time=21.7s  zeta=0.1017  gz=0.3735  D=0.2001  gd=0.0029  PSNR=19.55
+  [ZAPS] Epoch  3/10  loss=0.025876  NFE=90  time=32.4s  zeta=0.1026  gz=0.2570  D=0.2001  gd=0.0022  PSNR=19.96
+  [ZAPS] Epoch  4/10  loss=0.028781  NFE=120  time=43.0s  zeta=0.1035  gz=0.1032  D=0.2001  gd=0.0025  PSNR=19.30
+  [ZAPS] Epoch  5/10  loss=0.025258  NFE=150  time=53.7s  zeta=0.1043  gz=0.0872  D=0.2002  gd=0.0016  PSNR=19.77
+  [ZAPS] Epoch  6/10  loss=0.022816  NFE=180  time=64.5s  zeta=0.1052  gz=0.0922  D=0.2002  gd=0.0017  PSNR=20.50
+  [ZAPS] Epoch  7/10  loss=0.024561  NFE=210  time=75.2s  zeta=0.1060  gz=0.0982  D=0.2002  gd=0.0015  PSNR=19.57
+  [ZAPS] Epoch  8/10  loss=0.027719  NFE=240  time=86.0s  zeta=0.1069  gz=0.0980  D=0.2003  gd=0.0015  PSNR=19.52
+  [ZAPS] Epoch  9/10  loss=0.022761  NFE=270  time=96.6s  zeta=0.1078  gz=0.0756  D=0.2003  gd=0.0012  PSNR=20.19
+  [ZAPS] Epoch 10/10  loss=0.023509  NFE=300  time=107.4s  zeta=0.1086  gz=0.0769  D=0.2003  gd=0.0013  PSNR=19.91
+RESULT super_resolution irregular_15_10_5 lr=0.001: PSNR=19.9209 SSIM=0.4798 LPIPS=0.5472 NFE=300
+
+--- super_resolution | lr=0.001 | uniform_30 ---
+timesteps ascending: [0, 34, 69, 103, 138, 172, 207, 241, 276, 310, 344, 379, 413, 448, 482, 517, 551, 586, 620, 655, 689, 723, 758, 792, 827, 861, 896, 930, 965, 999]
+  [ZAPS] Epoch  1/10  loss=0.028648  NFE=30  time=9.9s  zeta=0.1008  gz=0.0999  D=0.2000  gd=0.0020  PSNR=19.11
+  [ZAPS] Epoch  2/10  loss=0.027158  NFE=60  time=19.4s  zeta=0.1016  gz=0.0909  D=0.2001  gd=0.0025  PSNR=19.77
+  [ZAPS] Epoch  3/10  loss=0.026726  NFE=90  time=29.4s  zeta=0.1025  gz=0.1011  D=0.2001  gd=0.0022  PSNR=19.66
+  [ZAPS] Epoch  4/10  loss=0.029022  NFE=120  time=39.8s  zeta=0.1033  gz=0.1140  D=0.2001  gd=0.0021  PSNR=19.51
+  [ZAPS] Epoch  5/10  loss=0.024564  NFE=150  time=50.6s  zeta=0.1042  gz=0.0946  D=0.2002  gd=0.0018  PSNR=20.10
+  [ZAPS] Epoch  6/10  loss=0.025445  NFE=180  time=61.4s  zeta=0.1050  gz=0.0870  D=0.2002  gd=0.0021  PSNR=19.90
+  [ZAPS] Epoch  7/10  loss=0.028780  NFE=210  time=72.2s  zeta=0.1058  gz=0.0946  D=0.2002  gd=0.0029  PSNR=19.27
+  [ZAPS] Epoch  8/10  loss=0.026506  NFE=240  time=82.8s  zeta=0.1067  gz=0.0819  D=0.2003  gd=0.0039  PSNR=19.95
+  [ZAPS] Epoch  9/10  loss=0.023102  NFE=270  time=93.6s  zeta=0.1075  gz=0.0791  D=0.2003  gd=0.0017  PSNR=20.40
+  [ZAPS] Epoch 10/10  loss=0.025047  NFE=300  time=104.4s  zeta=0.1083  gz=0.0992  D=0.2003  gd=0.0017  PSNR=20.04
+RESULT super_resolution uniform_30 lr=0.001: PSNR=20.0485 SSIM=0.5275 LPIPS=0.5358 NFE=300
+
+=== Irregular minus uniform (matched task and LR) ===
+              task      lr  irregular    uniform     dPSNR     dSSIM    dLPIPS
+   gaussian_deblur   0.001    19.5987    21.5069   -1.9082   -0.2342   +0.3072
+  super_resolution   0.001    19.9209    20.0485   -0.1275   -0.0477   +0.0114
+Positive dPSNR/dSSIM and negative dLPIPS favor irregular.
+A single-image result checks the implementation/trend; it is not the paper's 1000-image mean.
+Records saved to: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549

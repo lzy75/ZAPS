@@ -1,0 +1,71 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda
+
+=== FFHQ shared-code regression: paired 2x2 ablation ===
+All variants share current H, y, x_T, 15-10-5 timesteps, and every DDPM transition-noise draw.
+Observed bicubic PSNR: 28.8716 dB
+
+--- current: transpose=exact, learned_var=True ---
+  [ZAPS] Epoch  1/10  loss=0.018213  NFE=30  time=2.6s  zeta=0.1009  gz=0.0671  D=0.2000  gd=0.0006  PSNR=22.79
+  [ZAPS] Epoch  2/10  loss=0.023127  NFE=60  time=4.4s  zeta=0.1019  gz=0.0778  D=0.2001  gd=0.0006  PSNR=21.72
+  [ZAPS] Epoch  3/10  loss=0.020541  NFE=90  time=6.3s  zeta=0.1028  gz=0.0751  D=0.2001  gd=0.0006  PSNR=22.19
+  [ZAPS] Epoch  4/10  loss=0.021178  NFE=120  time=8.3s  zeta=0.1037  gz=0.0832  D=0.2001  gd=0.0006  PSNR=22.20
+  [ZAPS] Epoch  5/10  loss=0.020715  NFE=150  time=10.3s  zeta=0.1046  gz=0.0713  D=0.2001  gd=0.0006  PSNR=22.32
+  [ZAPS] Epoch  6/10  loss=0.019214  NFE=180  time=12.3s  zeta=0.1055  gz=0.0711  D=0.2002  gd=0.0005  PSNR=22.43
+  [ZAPS] Epoch  7/10  loss=0.018554  NFE=210  time=14.2s  zeta=0.1064  gz=0.0763  D=0.2002  gd=0.0006  PSNR=22.68
+  [ZAPS] Epoch  8/10  loss=0.018205  NFE=240  time=16.2s  zeta=0.1073  gz=0.0673  D=0.2002  gd=0.0005  PSNR=22.81
+  [ZAPS] Epoch  9/10  loss=0.019625  NFE=270  time=18.0s  zeta=0.1082  gz=0.0680  D=0.2003  gd=0.0005  PSNR=22.55
+  [ZAPS] Epoch 10/10  loss=0.018554  NFE=300  time=19.7s  zeta=0.1091  gz=0.0663  D=0.2003  gd=0.0005  PSNR=22.82
+
+--- variance_revert: transpose=exact, learned_var=False ---
+  [ZAPS] Epoch  1/10  loss=0.018190  NFE=30  time=1.7s  zeta=0.1009  gz=0.0672  D=0.2000  gd=0.0006  PSNR=22.81
+  [ZAPS] Epoch  2/10  loss=0.023068  NFE=60  time=3.5s  zeta=0.1019  gz=0.0777  D=0.2001  gd=0.0006  PSNR=21.75
+  [ZAPS] Epoch  3/10  loss=0.020516  NFE=90  time=5.2s  zeta=0.1028  gz=0.0752  D=0.2001  gd=0.0006  PSNR=22.22
+  [ZAPS] Epoch  4/10  loss=0.021141  NFE=120  time=6.9s  zeta=0.1037  gz=0.0833  D=0.2001  gd=0.0006  PSNR=22.22
+  [ZAPS] Epoch  5/10  loss=0.020672  NFE=150  time=8.9s  zeta=0.1046  gz=0.0713  D=0.2001  gd=0.0006  PSNR=22.34
+  [ZAPS] Epoch  6/10  loss=0.019152  NFE=180  time=10.8s  zeta=0.1055  gz=0.0712  D=0.2002  gd=0.0005  PSNR=22.48
+  [ZAPS] Epoch  7/10  loss=0.018520  NFE=210  time=12.7s  zeta=0.1064  gz=0.0763  D=0.2002  gd=0.0006  PSNR=22.71
+  [ZAPS] Epoch  8/10  loss=0.018170  NFE=240  time=14.8s  zeta=0.1073  gz=0.0673  D=0.2002  gd=0.0005  PSNR=22.83
+  [ZAPS] Epoch  9/10  loss=0.019592  NFE=270  time=16.6s  zeta=0.1082  gz=0.0680  D=0.2003  gd=0.0005  PSNR=22.57
+  [ZAPS] Epoch 10/10  loss=0.018522  NFE=300  time=18.6s  zeta=0.1091  gz=0.0662  D=0.2003  gd=0.0005  PSNR=22.84
+
+--- transpose_revert: transpose=legacy_bicubic, learned_var=True ---
+  [ZAPS] Epoch  1/10  loss=0.002492  NFE=30  time=1.9s  zeta=0.1008  gz=0.0122  D=0.2000  gd=0.0003  PSNR=29.01
+  [ZAPS] Epoch  2/10  loss=0.002476  NFE=60  time=3.8s  zeta=0.1017  gz=0.0197  D=0.2000  gd=0.0013  PSNR=29.23
+  [ZAPS] Epoch  3/10  loss=0.002490  NFE=90  time=5.7s  zeta=0.1025  gz=0.0126  D=0.2000  gd=0.0005  PSNR=29.38
+  [ZAPS] Epoch  4/10  loss=0.002400  NFE=120  time=7.6s  zeta=0.1034  gz=0.0114  D=0.2001  gd=0.0005  PSNR=29.41
+  [ZAPS] Epoch  5/10  loss=0.002435  NFE=150  time=9.5s  zeta=0.1043  gz=0.0163  D=0.2001  gd=0.0007  PSNR=29.42
+  [ZAPS] Epoch  6/10  loss=0.002389  NFE=180  time=11.4s  zeta=0.1051  gz=0.0121  D=0.2001  gd=0.0009  PSNR=29.37
+  [ZAPS] Epoch  7/10  loss=0.002299  NFE=210  time=13.3s  zeta=0.1060  gz=0.0109  D=0.2001  gd=0.0018  PSNR=29.32
+  [ZAPS] Epoch  8/10  loss=0.002439  NFE=240  time=15.2s  zeta=0.1068  gz=0.0128  D=0.2001  gd=0.0004  PSNR=28.97
+  [ZAPS] Epoch  9/10  loss=0.002385  NFE=270  time=17.0s  zeta=0.1077  gz=0.0110  D=0.2001  gd=0.0002  PSNR=29.39
+  [ZAPS] Epoch 10/10  loss=0.002291  NFE=300  time=18.9s  zeta=0.1085  gz=0.0108  D=0.2001  gd=0.0004  PSNR=29.60
+
+--- historical_pair: transpose=legacy_bicubic, learned_var=False ---
+  [ZAPS] Epoch  1/10  loss=0.002494  NFE=30  time=1.8s  zeta=0.1008  gz=0.0122  D=0.2000  gd=0.0003  PSNR=29.21
+  [ZAPS] Epoch  2/10  loss=0.002478  NFE=60  time=3.8s  zeta=0.1017  gz=0.0192  D=0.2000  gd=0.0012  PSNR=29.42
+  [ZAPS] Epoch  3/10  loss=0.002492  NFE=90  time=5.7s  zeta=0.1025  gz=0.0118  D=0.2000  gd=0.0004  PSNR=29.56
+  [ZAPS] Epoch  4/10  loss=0.002405  NFE=120  time=7.7s  zeta=0.1034  gz=0.0117  D=0.2001  gd=0.0003  PSNR=29.60
+  [ZAPS] Epoch  5/10  loss=0.002439  NFE=150  time=9.7s  zeta=0.1043  gz=0.0122  D=0.2001  gd=0.0003  PSNR=29.58
+  [ZAPS] Epoch  6/10  loss=0.002394  NFE=180  time=11.6s  zeta=0.1051  gz=0.0112  D=0.2001  gd=0.0004  PSNR=29.56
+  [ZAPS] Epoch  7/10  loss=0.002305  NFE=210  time=13.6s  zeta=0.1060  gz=0.0119  D=0.2001  gd=0.0007  PSNR=29.59
+  [ZAPS] Epoch  8/10  loss=0.002440  NFE=240  time=15.5s  zeta=0.1068  gz=0.0113  D=0.2001  gd=0.0003  PSNR=29.22
+  [ZAPS] Epoch  9/10  loss=0.002389  NFE=270  time=17.4s  zeta=0.1076  gz=0.0114  D=0.2001  gd=0.0003  PSNR=29.54
+  [ZAPS] Epoch 10/10  loss=0.002297  NFE=300  time=19.4s  zeta=0.1085  gz=0.0105  D=0.2001  gd=0.0003  PSNR=29.81
+
+=== Summary ===
+           variant        transpose  learned      PSNR  delta_obs    final MSE   final ||r||            zeta range     D dRMS   seconds
+           current            exact     True   22.8224    -6.0492     0.018554       15.0995        0.0903..0.1100   0.001257      19.7
+   variance_revert            exact    False   22.8447    -6.0269     0.018522       15.0865        0.0902..0.1100   0.001258      18.6
+  transpose_revert   legacy_bicubic     True   29.5963    +0.7247     0.002291        5.3059        0.0935..0.1100   0.000831      18.9
+   historical_pair   legacy_bicubic    False   29.8071    +0.9355     0.002297        5.3124        0.0931..0.1100   0.000833      19.4
+
+Paired effects (positive means the first named choice is better):
+  learned variance effect with exact H^T: -0.0223 dB
+  legacy transpose effect with fixed variance: +6.9624 dB
+  transpose x variance interaction: -0.1885 dB
+
+Decision rule:
+  historical_pair recovers ~29 dB: the regression is fully explained by these shared-code changes.
+  only transpose_revert/historical_pair recover: the exact-adjoint normalization is incompatible with the historical zeta scale.
+  only fixed-variance variants recover: learned-range variance on large skipped steps is the regression.
+  none recover: next isolate the old forward H and old timestep grid; do not tune learning rates yet.

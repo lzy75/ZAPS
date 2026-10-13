@@ -1,0 +1,91 @@
+{
+  "exp_id": "20260917_011029_super_resolution_ffhq_00000",
+  "purpose": "FFHQ current-code paper baseline: 15-10-5, Adam default lr=0.001",
+  "git": {
+    "commit": "3f7692c",
+    "branch": "master",
+    "dirty": true
+  },
+  "config": {
+    "num_steps": 30,
+    "schedule": [
+      15,
+      10,
+      5
+    ],
+    "timesteps": [
+      0,
+      24,
+      48,
+      71,
+      95,
+      119,
+      143,
+      166,
+      190,
+      214,
+      238,
+      262,
+      285,
+      309,
+      333,
+      334,
+      371,
+      408,
+      445,
+      482,
+      518,
+      555,
+      592,
+      629,
+      666,
+      667,
+      750,
+      833,
+      916,
+      999
+    ],
+    "timestep_spacing": "linear",
+    "schedule_power": 2.0,
+    "num_epochs": 10,
+    "lr": 0.001,
+    "zeta_init": 0.1,
+    "d_init": 0.2,
+    "wave": "db4",
+    "level": 3,
+    "eta": 1.0,
+    "sampler_mode": "ddpm",
+    "use_learned_var": true,
+    "final_mode": "last_opt",
+    "sample_eta": 1.0,
+    "sample_init": "random",
+    "noise_sigma": 0.05,
+    "adaptive": false,
+    "w_cos": null,
+    "beta": null,
+    "mod_max": null,
+    "p_schedule": null,
+    "schedule_mode": null,
+    "omega": null,
+    "theta": null,
+    "seed": 1000,
+    "model_precision": "fp32"
+  },
+  "metrics": {
+    "psnr": 22.66578894122258,
+    "ssim": 0.7142729759216309,
+    "lpips": 0.2008512318134308
+  },
+  "obs_psnr": 28.74823760986328,
+  "nfe": {
+    "opt": 300,
+    "sample": 0,
+    "total": 300
+  },
+  "times": {
+    "opt_s": 19.420737266540527,
+    "sample_s": 0.0,
+    "total_s": 19.420737266540527
+  },
+  "indicators": []
+}

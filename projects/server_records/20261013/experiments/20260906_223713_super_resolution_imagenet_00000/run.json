@@ -1,0 +1,88 @@
+{
+  "exp_id": "20260906_223713_super_resolution_imagenet_00000",
+  "purpose": "ablation-02: exact SR adjoint only",
+  "git": {
+    "commit": "1c78ab3",
+    "branch": "master",
+    "dirty": true
+  },
+  "config": {
+    "num_steps": 30,
+    "schedule": [
+      15,
+      10,
+      5
+    ],
+    "timesteps": [
+      0,
+      24,
+      48,
+      71,
+      95,
+      119,
+      143,
+      166,
+      190,
+      214,
+      238,
+      262,
+      285,
+      309,
+      333,
+      334,
+      371,
+      408,
+      445,
+      482,
+      518,
+      555,
+      592,
+      629,
+      666,
+      667,
+      750,
+      833,
+      916,
+      999
+    ],
+    "timestep_spacing": "linear",
+    "schedule_power": 2.0,
+    "num_epochs": 10,
+    "lr": 0.001,
+    "zeta_init": 0.1,
+    "d_init": 0.2,
+    "wave": "db4",
+    "level": 3,
+    "eta": 1.0,
+    "final_mode": "last_opt",
+    "sample_eta": 1.0,
+    "sample_init": "random",
+    "noise_sigma": 0.05,
+    "adaptive": false,
+    "w_cos": null,
+    "beta": null,
+    "mod_max": null,
+    "p_schedule": null,
+    "schedule_mode": null,
+    "omega": null,
+    "theta": null,
+    "seed": 1000
+  },
+  "metrics": {
+    "psnr": 19.020084366067856,
+    "ssim": 0.403544545173645,
+    "lpips": 0.36270809173583984
+  },
+  "obs_psnr": 22.595394134521484,
+  "nfe": {
+    "opt": 300,
+    "sample": 0,
+    "total": 300
+  },
+  "times": {
+    "opt_s": 43.1085159778595,
+    "sample_s": 0.0,
+    "total_s": 43.1085159778595
+  },
+  "indicators": []
+}

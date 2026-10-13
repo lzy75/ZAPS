@@ -1,0 +1,212 @@
+{
+  "git": {
+    "commit": "2584bb0",
+    "branch": "master",
+    "dirty": true
+  },
+  "arguments": {
+    "trace_dir": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+    "late_start": 333,
+    "noise_scales": [
+      0.0,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "device": "cuda"
+  },
+  "source_trace": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+  "semantics": "frozen trained parameters; interventions only at t<=late_start; no reoptimization",
+  "results": [
+    {
+      "schedule": "irregular_15_10_5",
+      "variant": "baseline",
+      "psnr": 19.59868338039635,
+      "ssim": 0.31679025292396545,
+      "lpips": 0.650459885597229,
+      "dPSNR": 0.0,
+      "dSSIM": 0.0,
+      "dLPIPS": 0.0,
+      "noise_scale": 1.0,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 21.766130447387695,
+      "t0_x0_psnr": 19.578964233398438,
+      "late_drop": 2.187166213989258,
+      "residual": 24.160625457763672,
+      "nfe": 30,
+      "rng_draws_equal": true
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "variant": "late_noise_off",
+      "psnr": 23.55265033491992,
+      "ssim": 0.633063793182373,
+      "lpips": 0.6883519887924194,
+      "dPSNR": 3.9539669545235725,
+      "dSSIM": 0.3162735402584076,
+      "dLPIPS": 0.03789210319519043,
+      "noise_scale": 0.0,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 23.525331497192383,
+      "t0_x0_psnr": 23.450576782226562,
+      "late_drop": 0.07475471496582031,
+      "residual": 25.79658317565918,
+      "nfe": 30,
+      "rng_draws_equal": true
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "variant": "late_noise_0.5",
+      "psnr": 23.955736793254502,
+      "ssim": 0.6330724954605103,
+      "lpips": 0.5543645024299622,
+      "dPSNR": 4.3570534128581535,
+      "dSSIM": 0.3162822425365448,
+      "dLPIPS": -0.09609538316726685,
+      "noise_scale": 0.5,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 23.90386962890625,
+      "t0_x0_psnr": 23.90386962890625,
+      "late_drop": 0.0,
+      "residual": 24.11309814453125,
+      "nfe": 30,
+      "rng_draws_equal": true
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "variant": "late_noise_0.75",
+      "psnr": 24.268708223678036,
+      "ssim": 0.675325870513916,
+      "lpips": 0.49851372838020325,
+      "dPSNR": 4.670024843281688,
+      "dSSIM": 0.35853561758995056,
+      "dLPIPS": -0.15194615721702576,
+      "noise_scale": 0.75,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 24.23343276977539,
+      "t0_x0_psnr": 24.23343276977539,
+      "late_drop": 0.0,
+      "residual": 23.50341033935547,
+      "nfe": 30,
+      "rng_draws_equal": true
+    },
+    {
+      "schedule": "uniform_30",
+      "variant": "baseline",
+      "psnr": 21.506852206242556,
+      "ssim": 0.5509742498397827,
+      "lpips": 0.34323835372924805,
+      "dPSNR": 0.0,
+      "dSSIM": 0.0,
+      "dLPIPS": 0.0,
+      "noise_scale": 1.0,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 22.082347869873047,
+      "t0_x0_psnr": 21.464393615722656,
+      "late_drop": 0.6179542541503906,
+      "residual": 24.829111099243164,
+      "nfe": 30,
+      "rng_draws_equal": true
+    },
+    {
+      "schedule": "uniform_30",
+      "variant": "late_noise_off",
+      "psnr": 23.694667821741024,
+      "ssim": 0.6442437171936035,
+      "lpips": 0.6574646234512329,
+      "dPSNR": 2.1878156154984687,
+      "dSSIM": 0.0932694673538208,
+      "dLPIPS": 0.31422626972198486,
+      "noise_scale": 0.0,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 23.580528259277344,
+      "t0_x0_psnr": 23.580528259277344,
+      "late_drop": 0.0,
+      "residual": 25.95358657836914,
+      "nfe": 30,
+      "rng_draws_equal": true
+    },
+    {
+      "schedule": "uniform_30",
+      "variant": "late_noise_0.5",
+      "psnr": 23.769956863880527,
+      "ssim": 0.6120938658714294,
+      "lpips": 0.5000406503677368,
+      "dPSNR": 2.263104657637971,
+      "dSSIM": 0.06111961603164673,
+      "dLPIPS": 0.15680229663848877,
+      "noise_scale": 0.5,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 23.710296630859375,
+      "t0_x0_psnr": 23.710296630859375,
+      "late_drop": 0.0,
+      "residual": 24.431503295898438,
+      "nfe": 30,
+      "rng_draws_equal": true
+    },
+    {
+      "schedule": "uniform_30",
+      "variant": "late_noise_0.75",
+      "psnr": 23.59707408941282,
+      "ssim": 0.6493803262710571,
+      "lpips": 0.4559817910194397,
+      "dPSNR": 2.0902218831702655,
+      "dSSIM": 0.09840607643127441,
+      "dLPIPS": 0.11274343729019165,
+      "noise_scale": 0.75,
+      "guidance_scale": 1.0,
+      "late_peak_x0_psnr": 23.547901153564453,
+      "t0_x0_psnr": 23.547901153564453,
+      "late_drop": 0.0,
+      "residual": 24.17511749267578,
+      "nfe": 30,
+      "rng_draws_equal": true
+    }
+  ],
+  "gates": {
+    "irregular_15_10_5": {
+      "passed": true,
+      "classification": "PASS_NUMERICAL_PARITY",
+      "core_repeat_relative_error": 0.0,
+      "trace_core_relative_error": 0.0,
+      "metadata_equal": true,
+      "absolute_tolerance": 1e-07,
+      "hard_relative_error_ceiling": 1e-05,
+      "effective_relative_error_limit": 1e-07,
+      "archived_psnr_absolute_delta": 0.0
+    },
+    "uniform_30": {
+      "passed": true,
+      "classification": "PASS_NUMERICAL_PARITY",
+      "core_repeat_relative_error": 0.0,
+      "trace_core_relative_error": 0.0,
+      "metadata_equal": true,
+      "absolute_tolerance": 1e-07,
+      "hard_relative_error_ceiling": 1e-05,
+      "effective_relative_error_limit": 1e-07,
+      "archived_psnr_absolute_delta": 0.0
+    }
+  },
+  "variants": [
+    [
+      "baseline",
+      1.0,
+      1.0
+    ],
+    [
+      "late_noise_off",
+      0.0,
+      1.0
+    ],
+    [
+      "late_noise_0.5",
+      0.5,
+      1.0
+    ],
+    [
+      "late_noise_0.75",
+      0.75,
+      1.0
+    ]
+  ]
+}

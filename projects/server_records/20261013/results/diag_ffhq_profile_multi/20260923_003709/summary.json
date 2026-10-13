@@ -1,0 +1,73 @@
+{
+  "experiment": "ffhq_profile_schedule_multi",
+  "created_at": "2026-09-23 00:57:45",
+  "git": {
+    "commit": "1b60f88",
+    "branch": "master",
+    "dirty": true
+  },
+  "data_dir": "/home/lzy/FFHQ/00000/00000",
+  "images": [
+    "/home/lzy/FFHQ/00000/00000/00000.png",
+    "/home/lzy/FFHQ/00000/00000/00001.png",
+    "/home/lzy/FFHQ/00000/00000/00002.png",
+    "/home/lzy/FFHQ/00000/00000/00003.png",
+    "/home/lzy/FFHQ/00000/00000/00004.png",
+    "/home/lzy/FFHQ/00000/00000/00005.png",
+    "/home/lzy/FFHQ/00000/00000/00006.png",
+    "/home/lzy/FFHQ/00000/00000/00007.png",
+    "/home/lzy/FFHQ/00000/00000/00008.png",
+    "/home/lzy/FFHQ/00000/00000/00009.png"
+  ],
+  "seed_base": 1000,
+  "design": {
+    "response_strength": 0.2,
+    "profile_center_decay": 0.8,
+    "profile_residual_scale": 0.15,
+    "profile_cosine_scale": 0.2,
+    "profile_cosine_gate": 0.35,
+    "profile_gate_mode": "veto_only",
+    "modifier_bounds": [
+      0.8,
+      1.2
+    ]
+  },
+  "summaries": [
+    {
+      "base_schedule": "uniform_30",
+      "count": 10,
+      "null_psnr_mean": 28.307517111510883,
+      "refined_psnr_mean": 28.339637032630062,
+      "delta_psnr_mean": 0.032119921119179294,
+      "delta_psnr_std": 0.06292386977450395,
+      "delta_psnr_median": 0.035044727861754055,
+      "psnr_wins": 7,
+      "delta_ssim_mean": -0.00023120641708374023,
+      "delta_lpips_mean": 0.0016686186194419862
+    },
+    {
+      "base_schedule": "paper_15_10_5",
+      "count": 10,
+      "null_psnr_mean": 28.18693654562687,
+      "refined_psnr_mean": 28.22763872670999,
+      "delta_psnr_mean": 0.040702181083120695,
+      "delta_psnr_std": 0.0748570498442554,
+      "delta_psnr_median": 0.02824970284241246,
+      "psnr_wins": 6,
+      "delta_ssim_mean": 0.00011397004127502441,
+      "delta_lpips_mean": 0.000361468642950058
+    },
+    {
+      "base_schedule": "karras_rho_3",
+      "count": 10,
+      "null_psnr_mean": 28.1685548587433,
+      "refined_psnr_mean": 28.3083219224813,
+      "delta_psnr_mean": 0.13976706373799958,
+      "delta_psnr_std": 0.08555405748128804,
+      "delta_psnr_median": 0.14894508094506698,
+      "psnr_wins": 9,
+      "delta_ssim_mean": 0.0008955776691436767,
+      "delta_lpips_mean": 0.006710110604763031
+    }
+  ]
+}

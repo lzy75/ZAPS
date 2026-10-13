@@ -1,0 +1,24 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== ImageNet multi-image validation ===
+images=10; lr=0.001; sigma=0.05; DDPM; learned-range variance; joint zeta+D
+CSV: /home/lzy/ZAPS/projects/results/diag_imagenet_multi/20260917_001744/metrics.csv
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+[01/10] 00000.png seed=1000 PSNR=19.227 SSIM=0.4766 LPIPS=0.3642 obs=22.546 time=61.3s
+[02/10] 00001.png seed=1001 PSNR=19.652 SSIM=0.4538 LPIPS=0.5396 obs=24.259 time=58.9s
+[03/10] 00002.png seed=1002 PSNR=22.743 SSIM=0.6166 LPIPS=0.2825 obs=26.786 time=60.2s
+[04/10] 00003.png seed=1003 PSNR=18.603 SSIM=0.4614 LPIPS=0.4643 obs=22.559 time=58.5s
+[05/10] 00004.png seed=1004 PSNR=23.897 SSIM=0.5623 LPIPS=0.5214 obs=29.181 time=60.8s
+[06/10] 00005.png seed=1005 PSNR=13.051 SSIM=0.1731 LPIPS=0.9294 obs=13.622 time=57.8s
+[07/10] 00006.png seed=1006 PSNR=14.612 SSIM=0.2623 LPIPS=0.6015 obs=17.414 time=60.3s
+[08/10] 00007.png seed=1007 PSNR=18.117 SSIM=0.4860 LPIPS=0.3196 obs=23.049 time=58.3s
+[09/10] 00008.png seed=1008 PSNR=20.755 SSIM=0.3797 LPIPS=0.5751 obs=24.480 time=60.3s
+[10/10] 00009.png seed=1009 PSNR=22.350 SSIM=0.4779 LPIPS=0.1350 obs=24.643 time=58.0s
+
+=== Summary ===
+          psnr: mean=19.3007 std=3.4551 median=19.4395 range=[13.0513, 23.8971]
+          ssim: mean=0.4350 std=0.1324 median=0.4690 range=[0.1731, 0.6166]
+         lpips: mean=0.4732 std=0.2181 median=0.4928 range=[0.1350, 0.9294]
+ observed_psnr: mean=22.8539 std=4.4517 median=23.6542 range=[13.6218, 29.1808]
+results: /home/lzy/ZAPS/projects/results/diag_imagenet_multi/20260917_001744

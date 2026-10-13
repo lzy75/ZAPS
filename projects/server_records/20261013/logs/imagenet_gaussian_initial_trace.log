@@ -1,0 +1,117 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+irregular_15_10_5: tracing and checking two identical core repeats...
+{
+  "passed": true,
+  "classification": "PASS_NUMERICAL_PARITY",
+  "core_repeat_relative_error": 0.0,
+  "trace_core_relative_error": 0.0,
+  "metadata_equal": true,
+  "absolute_tolerance": 1e-07,
+  "hard_relative_error_ceiling": 1e-05,
+  "effective_relative_error_limit": 1e-07,
+  "trace_core_max_absolute_error": 0.0,
+  "trace_core_psnr_absolute_delta": 0.0,
+  "core_repeat_psnr_absolute_delta": 0.0,
+  "reference_nfe": 30,
+  "repeat_nfe": 30,
+  "trace_nfe": 30,
+  "audit_total_nfe": 90
+}
+
+--- irregular_15_10_5 (initial parameters, no training) ---
+core parity relative error: 0.000e+00; core repeat: 0.000e+00
+  k    t  jump  corr/unc  corr/dunc     resid   clip%   x0PSNR  nextRMS
+  0  999    83    16.684     15.857    204.98     0.0    11.77   16.744
+  1  916    83     1.349      1.249    301.70    99.9     8.03    8.946
+  2  833    83     1.520      1.626    410.58    99.8     5.67    4.780
+  3  750    83     0.906      1.121    286.91    99.0     8.22    1.943
+  4  667     1     0.824     13.719    331.37    94.1     6.77    1.573
+  5  666    37     0.908      1.839    271.19    90.6     8.10    1.361
+  6  629    37     1.127      2.170    374.99    90.1     6.23    1.409
+  7  592    37     0.713      1.466    308.68    88.7     7.82    1.138
+  8  555    37     0.657      1.208    301.86    74.7     8.04    1.086
+  9  518    36     0.582      1.081    310.49    54.9     8.17    1.049
+ 10  482    37     0.434      0.797    266.50    46.4     9.67    0.989
+ 11  445    37     0.292      0.527    201.67     9.4    12.10    0.944
+ 12  408    37     0.103      0.183     82.18     1.2    18.31    0.915
+ 13  371    37     0.023      0.042     32.61     0.9    21.51    0.881
+ 14  334     1     0.016      0.172     29.86     0.5    21.43    0.879
+ 15  333    24     0.011      0.024     26.63     0.4    21.71    0.854
+ 16  309    24     0.011      0.026     27.17     0.4    21.43    0.826
+ 17  285    23     0.010      0.024     26.92     0.2    21.16    0.796
+ 18  262    24     0.010      0.022     26.68     0.2    21.03    0.764
+ 19  238    24     0.009      0.021     26.67     0.3    20.78    0.729
+ 20  214    24     0.009      0.020     26.44     0.3    20.60    0.693
+ 21  190    24     0.009      0.020     26.60     0.3    20.36    0.654
+ 22  166    23     0.009      0.020     26.45     0.2    20.15    0.617
+ 23  143    24     0.008      0.020     26.32     0.2    19.93    0.579
+ 24  119    24     0.009      0.021     26.29     0.1    19.72    0.543
+ 25   95    24     0.008      0.022     26.06     0.2    19.53    0.510
+ 26   71    23     0.008      0.024     25.83     0.1    19.38    0.483
+ 27   48    24     0.008      0.028     25.57     0.0    19.26    0.463
+ 28   24    24     0.007      0.043     25.23     0.0    19.21    0.452
+ 29    0     1     0.006      0.434     24.84     0.0    19.23    0.452
+initial final PSNR: 19.2585
+saved optimized PSNR: 19.5987; loss 0.003059 -> 0.002969; zeta range [0.19770, 0.20998]
+saved high-noise zeta: [(999, 0.20828264951705933), (916, 0.1976982206106186), (833, 0.19973912835121155), (750, 0.20148369669914246), (667, 0.20165257155895233)]
+
+uniform_30: tracing and checking two identical core repeats...
+{
+  "passed": true,
+  "classification": "PASS_NUMERICAL_PARITY",
+  "core_repeat_relative_error": 0.0,
+  "trace_core_relative_error": 0.0,
+  "metadata_equal": true,
+  "absolute_tolerance": 1e-07,
+  "hard_relative_error_ceiling": 1e-05,
+  "effective_relative_error_limit": 1e-07,
+  "trace_core_max_absolute_error": 0.0,
+  "trace_core_psnr_absolute_delta": 0.0,
+  "core_repeat_psnr_absolute_delta": 0.0,
+  "reference_nfe": 30,
+  "repeat_nfe": 30,
+  "trace_nfe": 30,
+  "audit_total_nfe": 90
+}
+
+--- uniform_30 (initial parameters, no training) ---
+core parity relative error: 0.000e+00; core repeat: 0.000e+00
+  k    t  jump  corr/unc  corr/dunc     resid   clip%   x0PSNR  nextRMS
+  0  999    34    16.703     22.006    204.98     0.0    11.77   16.742
+  1  965    35     1.451      3.610    301.71    99.9     8.03   14.103
+  2  930    34     1.663      4.456    415.30   100.0     5.59   11.196
+  3  896    35     1.061      2.852    293.16    99.9     8.04    5.681
+  4  861    34     1.769      4.855    352.59    99.6     6.22    5.565
+  5  827    35     1.331      3.706    345.38    99.4     6.73    4.155
+  6  792    34     1.166      3.290    313.07    98.7     7.19    2.736
+  7  758    35     1.400      3.523    333.99    98.4     6.89    2.179
+  8  723    34     1.321      3.171    336.22    95.9     6.79    1.930
+  9  689    34     1.334      3.110    383.78    95.5     6.26    1.936
+ 10  655    35     0.919      2.199    338.11    92.5     7.12    1.458
+ 11  620    34     0.812      1.719    304.45    87.9     7.83    1.241
+ 12  586    35     0.794      1.548    326.51    82.4     7.22    1.179
+ 13  551    34     0.665      1.306    317.53    79.9     7.84    1.103
+ 14  517    35     0.576      1.098    309.94    62.7     8.24    1.041
+ 15  482    34     0.481      0.915    291.82    45.9     9.06    1.006
+ 16  448    35     0.347      0.650    239.58    36.2    10.75    0.948
+ 17  413    34     0.146      0.269    111.51     5.6    16.52    0.916
+ 18  379    35     0.028      0.050     34.46     0.2    21.23    0.886
+ 19  344    34     0.016      0.029     29.39     0.2    21.28    0.852
+ 20  310    34     0.012      0.023     28.12     0.2    21.21    0.813
+ 21  276    35     0.012      0.022     28.19     0.1    20.99    0.765
+ 22  241    34     0.011      0.021     27.96     0.1    20.81    0.714
+ 23  207    35     0.010      0.019     27.71     0.1    20.63    0.659
+ 24  172    34     0.010      0.020     27.67     0.0    20.41    0.603
+ 25  138    35     0.010      0.020     27.39     0.1    20.26    0.547
+ 26  103    34     0.010      0.021     27.05     0.0    20.13    0.499
+ 27   69    35     0.010      0.024     26.72     0.0    20.01    0.462
+ 28   34    34     0.009      0.037     26.24     0.0    19.99    0.444
+ 29    0     1     0.008      0.502     25.69     0.0    20.03    0.444
+initial final PSNR: 20.0651
+saved optimized PSNR: 21.5069; loss 0.003240 -> 0.003136; zeta range [0.19279, 0.21004]
+saved high-noise zeta: [(999, 0.19735760986804962), (965, 0.19738821685314178), (930, 0.19946429133415222), (896, 0.19982831180095673), (861, 0.20624352991580963), (827, 0.19279205799102783), (792, 0.20036566257476807), (758, 0.20024263858795166), (723, 0.2011519819498062), (689, 0.19405557215213776)]
+
+Trace PSNR is initialization behavior, not the optimized baseline.
+No single norm threshold proves overshoot; inspect the shared first-step response and subsequent residual/clipping/PSNR together.
+Records saved to: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/initial_trace_gaussian_deblur_20261008_175658

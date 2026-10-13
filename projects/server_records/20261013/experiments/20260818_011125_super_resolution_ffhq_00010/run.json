@@ -1,0 +1,56 @@
+{
+  "exp_id": "20260818_011125_super_resolution_ffhq_00010",
+  "purpose": "方案1 baseline 四任务 eta1 last_opt NFE300",
+  "git": {
+    "commit": "d5d65fc",
+    "branch": "master",
+    "dirty": true
+  },
+  "config": {
+    "num_steps": 30,
+    "schedule": [
+      15,
+      10,
+      5
+    ],
+    "timestep_spacing": "linear",
+    "schedule_power": 2.0,
+    "num_epochs": 10,
+    "lr": 0.001,
+    "zeta_init": 0.1,
+    "d_init": 0.2,
+    "wave": "db4",
+    "level": 3,
+    "eta": 1.0,
+    "final_mode": "last_opt",
+    "sample_eta": 1.0,
+    "sample_init": "random",
+    "noise_sigma": 0.05,
+    "adaptive": false,
+    "w_cos": null,
+    "beta": null,
+    "mod_max": null,
+    "p_schedule": null,
+    "schedule_mode": null,
+    "omega": null,
+    "theta": null,
+    "seed": 1010
+  },
+  "metrics": {
+    "psnr": 25.122553157042663,
+    "ssim": 0.8362470269203186,
+    "lpips": 0.10332214087247849
+  },
+  "obs_psnr": 24.15536117553711,
+  "nfe": {
+    "opt": 300,
+    "sample": 0,
+    "total": 300
+  },
+  "times": {
+    "opt_s": 30.479738235473633,
+    "sample_s": 0.0,
+    "total_s": 30.479738235473633
+  },
+  "indicators": []
+}

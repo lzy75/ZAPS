@@ -1,0 +1,52 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda
+
+=== Paired FFHQ initialization ablation ===
+lr=0.01; transpose=legacy_bicubic; variance=fixed; schedule=15-10-5
+All runs share y, x_T, and every DDPM transition-noise draw.
+
+--- zeta_init=0.05, D_init=0.2 ---
+  [ZAPS] Epoch  1/10  loss=0.004153  NFE=30  time=2.5s  zeta=0.0587  gz=0.0338  D=0.2002  gd=0.0003  PSNR=28.16
+  [ZAPS] Epoch  2/10  loss=0.003685  NFE=60  time=4.4s  zeta=0.0672  gz=0.0268  D=0.2004  gd=0.0007  PSNR=28.56
+  [ZAPS] Epoch  3/10  loss=0.003333  NFE=90  time=6.3s  zeta=0.0756  gz=0.0220  D=0.2006  gd=0.0012  PSNR=28.92
+  [ZAPS] Epoch  4/10  loss=0.002907  NFE=120  time=8.1s  zeta=0.0836  gz=0.0179  D=0.2008  gd=0.0003  PSNR=29.38
+  [ZAPS] Epoch  5/10  loss=0.002736  NFE=150  time=10.0s  zeta=0.0914  gz=0.0145  D=0.2010  gd=0.0003  PSNR=29.37
+  [ZAPS] Epoch  6/10  loss=0.002497  NFE=180  time=11.9s  zeta=0.0988  gz=0.0128  D=0.2011  gd=0.0002  PSNR=29.54
+  [ZAPS] Epoch  7/10  loss=0.002269  NFE=210  time=13.8s  zeta=0.1058  gz=0.0117  D=0.2013  gd=0.0002  PSNR=29.70
+  [ZAPS] Epoch  8/10  loss=0.002246  NFE=240  time=15.7s  zeta=0.1125  gz=0.0111  D=0.2015  gd=0.0002  PSNR=29.44
+  [ZAPS] Epoch  9/10  loss=0.002088  NFE=270  time=17.5s  zeta=0.1189  gz=0.0133  D=0.2016  gd=0.0004  PSNR=29.72
+  [ZAPS] Epoch 10/10  loss=0.001907  NFE=300  time=19.2s  zeta=0.1250  gz=0.0081  D=0.2018  gd=0.0002  PSNR=30.04
+
+--- zeta_init=0.1, D_init=0.2 ---
+  [ZAPS] Epoch  1/10  loss=0.002494  NFE=30  time=1.7s  zeta=0.1080  gz=0.0122  D=0.2001  gd=0.0003  PSNR=29.21
+  [ZAPS] Epoch  2/10  loss=0.002314  NFE=60  time=3.6s  zeta=0.1166  gz=0.0107  D=0.2003  gd=0.0003  PSNR=29.49
+  [ZAPS] Epoch  3/10  loss=0.002175  NFE=90  time=5.4s  zeta=0.1252  gz=0.0096  D=0.2004  gd=0.0004  PSNR=29.74
+  [ZAPS] Epoch  4/10  loss=0.001983  NFE=120  time=7.1s  zeta=0.1333  gz=0.0088  D=0.2006  gd=0.0005  PSNR=29.82
+  [ZAPS] Epoch  5/10  loss=0.001898  NFE=150  time=8.9s  zeta=0.1412  gz=0.0143  D=0.2007  gd=0.0011  PSNR=29.90
+  [ZAPS] Epoch  6/10  loss=0.001755  NFE=180  time=10.6s  zeta=0.1487  gz=0.0072  D=0.2008  gd=0.0005  PSNR=29.94
+  [ZAPS] Epoch  7/10  loss=0.001614  NFE=210  time=12.3s  zeta=0.1561  gz=0.0063  D=0.2009  gd=0.0003  PSNR=29.89
+  [ZAPS] Epoch  8/10  loss=0.001609  NFE=240  time=13.9s  zeta=0.1633  gz=0.0061  D=0.2010  gd=0.0003  PSNR=29.64
+  [ZAPS] Epoch  9/10  loss=0.001500  NFE=270  time=15.6s  zeta=0.1701  gz=0.0054  D=0.2011  gd=0.0006  PSNR=29.92
+  [ZAPS] Epoch 10/10  loss=0.001389  NFE=300  time=17.1s  zeta=0.1768  gz=0.0050  D=0.2012  gd=0.0002  PSNR=30.06
+
+--- zeta_init=0.2, D_init=0.2 ---
+  [ZAPS] Epoch  1/10  loss=0.001308  NFE=30  time=1.7s  zeta=0.2080  gz=0.0081  D=0.2001  gd=0.0027  PSNR=29.45
+  [ZAPS] Epoch  2/10  loss=0.001227  NFE=60  time=3.4s  zeta=0.2159  gz=0.0043  D=0.2001  gd=0.0011  PSNR=29.58
+  [ZAPS] Epoch  3/10  loss=0.001178  NFE=90  time=5.1s  zeta=0.2238  gz=0.0051  D=0.2002  gd=0.0006  PSNR=29.85
+  [ZAPS] Epoch  4/10  loss=0.001097  NFE=120  time=7.0s  zeta=0.2317  gz=0.0037  D=0.2003  gd=0.0007  PSNR=29.72
+  [ZAPS] Epoch  5/10  loss=0.001052  NFE=150  time=8.8s  zeta=0.2396  gz=0.0034  D=0.2003  gd=0.0006  PSNR=29.92
+  [ZAPS] Epoch  6/10  loss=0.000986  NFE=180  time=10.7s  zeta=0.2472  gz=0.0031  D=0.2004  gd=0.0004  PSNR=29.83
+  [ZAPS] Epoch  7/10  loss=0.000925  NFE=210  time=12.5s  zeta=0.2545  gz=0.0031  D=0.2005  gd=0.0005  PSNR=29.63
+  [ZAPS] Epoch  8/10  loss=0.000910  NFE=240  time=14.4s  zeta=0.2617  gz=0.0035  D=0.2005  gd=0.0007  PSNR=29.52
+  [ZAPS] Epoch  9/10  loss=0.000850  NFE=270  time=16.2s  zeta=0.2686  gz=0.0034  D=0.2006  gd=0.0018  PSNR=29.60
+  [ZAPS] Epoch 10/10  loss=0.000788  NFE=300  time=18.0s  zeta=0.2754  gz=0.0025  D=0.2006  gd=0.0008  PSNR=29.59
+
+=== Summary ===
+  zeta init    D init       PSNR    final MSE    final ||r||    zeta min    zeta max   D delta RMS   D delta max    seconds
+       0.05       0.2    30.0449     0.001907         4.8412     0.04374     0.14519      0.009090      0.092016       19.2
+        0.1       0.2    30.0564     0.001389         4.1308     0.05970     0.19698      0.007433      0.094107       17.1
+        0.2       0.2    29.5863     0.000788         3.1114     0.14453     0.29771      0.005638      0.090009       18.1
+
+Interpretation:
+  choose by reconstruction PSNR, not by the lowest measurement MSE alone
+  if the best value is an endpoint, expand only in that direction once
+  after zeta is selected, keep it fixed and run the D-init screen

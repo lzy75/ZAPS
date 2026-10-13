@@ -1,0 +1,79 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda
+
+=== Stage 1: strict code gate ===
+nominal timesteps: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+
+--- fixed_uniform ---
+  [ZAPS] Epoch  1/10  loss=0.002917  NFE=30  time=2.6s  zeta=0.1060  gz=0.9931  D=0.2001  gd=0.1171  PSNR=28.71
+  [ZAPS] Epoch  2/10  loss=0.002714  NFE=60  time=4.4s  zeta=0.1119  gz=0.9330  D=0.2002  gd=0.0855  PSNR=29.23
+  [ZAPS] Epoch  3/10  loss=0.002543  NFE=90  time=6.3s  zeta=0.1181  gz=0.2245  D=0.2003  gd=0.0472  PSNR=29.46
+  [ZAPS] Epoch  4/10  loss=0.002365  NFE=120  time=8.2s  zeta=0.1236  gz=0.9978  D=0.2004  gd=0.0668  PSNR=29.73
+  [ZAPS] Epoch  5/10  loss=0.002244  NFE=150  time=10.0s  zeta=0.1296  gz=0.2098  D=0.2005  gd=0.0496  PSNR=29.78
+  [ZAPS] Epoch  6/10  loss=0.002090  NFE=180  time=11.9s  zeta=0.1356  gz=0.9921  D=0.2006  gd=0.1255  PSNR=29.89
+  [ZAPS] Epoch  7/10  loss=0.001941  NFE=210  time=13.8s  zeta=0.1414  gz=0.1231  D=0.2007  gd=0.0281  PSNR=29.82
+  [ZAPS] Epoch  8/10  loss=0.001931  NFE=240  time=15.7s  zeta=0.1472  gz=0.9806  D=0.2008  gd=0.0612  PSNR=29.64
+  [ZAPS] Epoch  9/10  loss=0.001820  NFE=270  time=17.6s  zeta=0.1530  gz=0.2880  D=0.2009  gd=0.0272  PSNR=29.67
+  [ZAPS] Epoch 10/10  loss=0.001683  NFE=300  time=19.6s  zeta=0.1588  gz=0.0879  D=0.2010  gd=0.0408  PSNR=30.16
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+
+--- adaptive_null_parity ---
+  [ZAPS] Epoch  1/10  loss=0.002917  NFE=30  time=2.2s  zeta=0.1060  gz=0.9931  D=0.2001  gd=0.1171  PSNR=28.71
+  [ZAPS] Epoch  2/10  loss=0.002713  NFE=60  time=4.3s  zeta=0.1119  gz=0.1814  D=0.2002  gd=0.0581  PSNR=29.23
+  [ZAPS] Epoch  3/10  loss=0.002543  NFE=90  time=6.3s  zeta=0.1181  gz=0.8861  D=0.2003  gd=0.0545  PSNR=29.46
+  [ZAPS] Epoch  4/10  loss=0.002367  NFE=120  time=8.5s  zeta=0.1245  gz=0.1124  D=0.2004  gd=0.0402  PSNR=29.73
+  [ZAPS] Epoch  5/10  loss=0.002218  NFE=150  time=10.5s  zeta=0.1308  gz=0.2627  D=0.2005  gd=0.0423  PSNR=29.85
+  [ZAPS] Epoch  6/10  loss=0.002065  NFE=180  time=12.6s  zeta=0.1372  gz=0.7437  D=0.2006  gd=0.1937  PSNR=29.87
+  [ZAPS] Epoch  7/10  loss=0.001907  NFE=210  time=14.8s  zeta=0.1433  gz=0.6443  D=0.2008  gd=0.0470  PSNR=29.84
+  [ZAPS] Epoch  8/10  loss=0.001887  NFE=240  time=16.9s  zeta=0.1487  gz=0.9995  D=0.2009  gd=0.0317  PSNR=29.67
+  [ZAPS] Epoch  9/10  loss=0.001787  NFE=270  time=19.0s  zeta=0.1538  gz=0.9917  D=0.2010  gd=0.1285  PSNR=29.67
+  [ZAPS] Epoch 10/10  loss=0.001665  NFE=300  time=21.2s  zeta=0.1587  gz=0.9986  D=0.2011  gd=0.0519  PSNR=30.17
+
+=== Gate result ===
+{
+  "passed": true,
+  "decision_basis": "one-unroll output/loss exact; adaptive gradient error below fixed-repeat CUDA floor; full-optimization output equivalence",
+  "output_relative_error_tolerance": 0.01,
+  "psnr_absolute_delta_tolerance": 0.03,
+  "parameter_differences_diagnostic_only": true,
+  "timesteps_equal": true,
+  "nfe_equal": true,
+  "output_relative_error": 0.0064046483521899575,
+  "zeta_relative_error": 0.14200099047457862,
+  "D_relative_error": 0.04196971967518221,
+  "psnr_absolute_delta": 0.007542986908966043
+}
+
+=== Stage 2: paired state-indicator screen ===
+
+--- posthoc_identity (frozen post-hoc inference) ---
+
+--- posthoc_residual_only (frozen post-hoc inference) ---
+
+--- posthoc_residual_cos (frozen post-hoc inference) ---
+
+=== Summary ===
+observed PSNR: 28.8716 dB
+delta reference: posthoc_identity
+                   variant      PSNR     delta     SSIM     LPIPS         MSE   residual    NFE   seconds
+             fixed_uniform   30.0954       n/a   0.8804    0.1057    0.001683     4.5482    300      19.6
+  visited t: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+      adaptive_null_parity   30.1030       n/a   0.8807    0.1055    0.001665     4.5230    300      21.2
+  visited t: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+  trace: negative_drop=0.310  E_r@0=0.400  E_r@1=0.300  mod@low=0.000  mod@high=0.000  g_mean=1.000  g_std=0.000  g@low=0.000  g@high=0.000  h_std=6.024
+          posthoc_identity   29.4246   +0.0000   0.8702    0.1060    0.001620     4.4614     30       1.7
+  visited t: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+  trace: negative_drop=0.276  E_r@0=0.000  E_r@1=0.000  mod@low=0.000  mod@high=0.000  g_mean=1.000  g_std=0.000  g@low=0.000  g@high=0.000  h_std=6.024
+     posthoc_residual_only   29.4438   +0.0193   0.8711    0.1065    0.001641     4.4903     30       1.7
+  visited t: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+  trace: negative_drop=0.241  E_r@0=0.000  E_r@1=0.000  mod@low=0.000  mod@high=0.000  g_mean=0.995  g_std=0.033  g@low=0.000  g@high=0.000  h_std=6.024
+      posthoc_residual_cos   29.4417   +0.0171   0.8710    0.1065    0.001644     4.4942     30       1.7
+  visited t: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+  trace: negative_drop=0.241  E_r@0=0.000  E_r@1=0.000  mod@low=0.000  mod@high=0.000  g_mean=0.982  g_std=0.037  g@low=0.000  g@high=0.000  h_std=6.024
+
+Records saved to: /home/lzy/ZAPS/projects/results/diag_ffhq_state_schedule/20260922_013353
+Decision order:
+  1) gate must PASS before interpreting any adaptive result
+  2) all post-hoc arms reuse identical trained zeta/D and DDPM randomness
+  3) compare only against posthoc_identity, not the optimization outputs
+  4) >0.05 dB means learning compensated the state factor; otherwise reject it

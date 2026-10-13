@@ -1,0 +1,38 @@
+{
+  "experiment": "passive_clamp_guidance_VJP",
+  "status": "failed",
+  "source_trace": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+  "task": "gaussian_deblur",
+  "seed": 1001,
+  "checkpoint_sha256": "a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1",
+  "measurement_sha256": "05dfeb5de98056640c6e553c428ccf961a49dfffd8098fcd4f531c32864faae4",
+  "image_sha256": "1d65095a3afcd0f54d93156ba264afaf4c668ad4134045db3f7d45cee1bb7ccb",
+  "operator_config": {
+    "kernel_size": 61,
+    "sigma": 3.0,
+    "noise_sigma": 0.05
+  },
+  "operator_source_sha256": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696",
+  "arguments": {
+    "trace_dir": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+    "device": "cuda",
+    "probe_times": [
+      999,
+      916,
+      833,
+      667,
+      333,
+      143,
+      0
+    ]
+  },
+  "identity_baseline": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/dps_same_observation_20261008_235302",
+  "git_revision": "173c274b56e0581bbb49cd3120cee5cad25d0ddf",
+  "core_sha256": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427",
+  "objective": "L=0.5*sum((y-H(clamp(x0_raw)))^2); directions are -dL/dx_t",
+  "mask_order": "B^T(M H^T r), not M(B^T H^T r)",
+  "limits": "No GT, output selection, training or replacement trajectory; VJP agreement is not a PSNR gain",
+  "results": {},
+  "new_nfe": 0,
+  "error": "RuntimeError('Saved/current CUDA device counts differ; RNG replay cannot be guaranteed')"
+}

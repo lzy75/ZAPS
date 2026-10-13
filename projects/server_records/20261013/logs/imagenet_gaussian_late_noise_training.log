@@ -1,0 +1,56 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Train/evaluate late noise consistency; rho=0.75, t<=333 ===
+Original settings remain archived. One new training per schedule; lr/zeta/D/observation unchanged.
+Records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/late_noise_training_20261008_190416
+irregular_15_10_5_train_1 gate: {"passed": true, "classification": "PASS_NUMERICAL_PARITY", "core_repeat_relative_error": 0.0, "trace_core_relative_error": 0.0, "metadata_equal": true, "absolute_tolerance": 1e-07, "hard_relative_error_ceiling": 1e-05, "effective_relative_error_limit": 1e-07}
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+irregular_15_10_5 train=1 eval=1: PSNR=19.5987 SSIM=0.3168 LPIPS=0.6505
+irregular_15_10_5 train=1 eval=0.75: PSNR=24.2688 SSIM=0.6753 LPIPS=0.4985
+
+irregular_15_10_5: optimize rho=0.75 (joint zeta+D)...
+  [ZAPS] Epoch  1/10  loss=0.002859  NFE=30  time=6.5s  zeta=0.2009  gz=0.0013  D=0.2000  gd=0.0005  PSNR=24.13
+  [ZAPS] Epoch  2/10  loss=0.002853  NFE=60  time=12.9s  zeta=0.2017  gz=0.0015  D=0.2000  gd=0.0003  PSNR=24.04
+  [ZAPS] Epoch  3/10  loss=0.002838  NFE=90  time=19.2s  zeta=0.2026  gz=0.0010  D=0.2000  gd=0.0003  PSNR=24.17
+  [ZAPS] Epoch  4/10  loss=0.002833  NFE=120  time=25.4s  zeta=0.2035  gz=0.0027  D=0.2000  gd=0.0009  PSNR=24.02
+  [ZAPS] Epoch  5/10  loss=0.002856  NFE=150  time=31.4s  zeta=0.2044  gz=0.0021  D=0.2000  gd=0.0003  PSNR=24.27
+  [ZAPS] Epoch  6/10  loss=0.002833  NFE=180  time=36.8s  zeta=0.2052  gz=0.0035  D=0.2000  gd=0.0004  PSNR=24.20
+  [ZAPS] Epoch  7/10  loss=0.002859  NFE=210  time=42.6s  zeta=0.2061  gz=0.0024  D=0.2000  gd=0.0004  PSNR=24.09
+  [ZAPS] Epoch  8/10  loss=0.002832  NFE=240  time=49.2s  zeta=0.2069  gz=0.0026  D=0.2000  gd=0.0011  PSNR=24.09
+  [ZAPS] Epoch  9/10  loss=0.002802  NFE=270  time=55.3s  zeta=0.2078  gz=0.0017  D=0.2000  gd=0.0004  PSNR=24.24
+  [ZAPS] Epoch 10/10  loss=0.002814  NFE=300  time=61.5s  zeta=0.2087  gz=0.0019  D=0.2000  gd=0.0004  PSNR=24.24
+irregular_15_10_5_train_0.75 gate: {"passed": true, "classification": "PASS_NUMERICAL_PARITY", "core_repeat_relative_error": 0.0, "trace_core_relative_error": 0.0, "metadata_equal": true, "absolute_tolerance": 1e-07, "hard_relative_error_ceiling": 1e-05, "effective_relative_error_limit": 1e-07}
+irregular_15_10_5 train=0.75 eval=0.75: PSNR=24.2327 SSIM=0.6743 LPIPS=0.4914
+irregular_15_10_5 train=0.75 eval=1: PSNR=19.5173 SSIM=0.3138 LPIPS=0.6502
+uniform_30_train_1 gate: {"passed": true, "classification": "PASS_NUMERICAL_PARITY", "core_repeat_relative_error": 0.0, "trace_core_relative_error": 0.0, "metadata_equal": true, "absolute_tolerance": 1e-07, "hard_relative_error_ceiling": 1e-05, "effective_relative_error_limit": 1e-07}
+uniform_30 train=1 eval=1: PSNR=21.5069 SSIM=0.5510 LPIPS=0.3432
+uniform_30 train=1 eval=0.75: PSNR=23.5971 SSIM=0.6494 LPIPS=0.4560
+
+uniform_30: optimize rho=0.75 (joint zeta+D)...
+  [ZAPS] Epoch  1/10  loss=0.002998  NFE=30  time=6.2s  zeta=0.2005  gz=0.1519  D=0.2000  gd=0.0474  PSNR=23.39
+  [ZAPS] Epoch  2/10  loss=0.003028  NFE=60  time=12.7s  zeta=0.2011  gz=0.1268  D=0.2000  gd=0.0192  PSNR=23.31
+  [ZAPS] Epoch  3/10  loss=0.002978  NFE=90  time=19.2s  zeta=0.2017  gz=0.4416  D=0.2000  gd=0.0723  PSNR=23.90
+  [ZAPS] Epoch  4/10  loss=0.002987  NFE=120  time=25.4s  zeta=0.2023  gz=0.1894  D=0.2000  gd=0.0200  PSNR=23.57
+  [ZAPS] Epoch  5/10  loss=0.002958  NFE=150  time=31.9s  zeta=0.2029  gz=0.0701  D=0.2000  gd=0.0203  PSNR=23.98
+  [ZAPS] Epoch  6/10  loss=0.002991  NFE=180  time=38.2s  zeta=0.2035  gz=0.1409  D=0.2000  gd=0.0222  PSNR=23.46
+  [ZAPS] Epoch  7/10  loss=0.003017  NFE=210  time=44.3s  zeta=0.2042  gz=0.1848  D=0.2000  gd=0.0568  PSNR=23.59
+  [ZAPS] Epoch  8/10  loss=0.002967  NFE=240  time=49.9s  zeta=0.2048  gz=0.1747  D=0.2000  gd=0.0248  PSNR=23.86
+  [ZAPS] Epoch  9/10  loss=0.002927  NFE=270  time=55.1s  zeta=0.2054  gz=0.0780  D=0.2000  gd=0.0372  PSNR=23.89
+  [ZAPS] Epoch 10/10  loss=0.002984  NFE=300  time=60.5s  zeta=0.2060  gz=0.2163  D=0.2000  gd=0.0541  PSNR=23.48
+uniform_30_train_0.75 gate: {"passed": true, "classification": "PASS_NUMERICAL_PARITY", "core_repeat_relative_error": 0.0, "trace_core_relative_error": 0.0, "metadata_equal": true, "absolute_tolerance": 1e-07, "hard_relative_error_ceiling": 1e-05, "effective_relative_error_limit": 1e-07}
+uniform_30 train=0.75 eval=0.75: PSNR=23.4764 SSIM=0.6480 LPIPS=0.4471
+uniform_30 train=0.75 eval=1: PSNR=20.4530 SSIM=0.4082 LPIPS=0.5085
+
+=== Paired training-policy summary ===
+            schedule   train    eval      PSNR     delta     SSIM    LPIPS    dLPIPS
+   irregular_15_10_5    1.00    1.00   19.5987   +0.0000   0.3168   0.6505   +0.0000
+   irregular_15_10_5    1.00    0.75   24.2688   +4.6701   0.6753   0.4985   -0.1519
+   irregular_15_10_5    0.75    0.75   24.2327   +4.6340   0.6743   0.4914   -0.1590
+   irregular_15_10_5    0.75    1.00   19.5173   -0.0814   0.3138   0.6502   -0.0003
+          uniform_30    1.00    1.00   21.5069   +0.0000   0.5510   0.3432   +0.0000
+          uniform_30    1.00    0.75   23.5971   +2.0902   0.6494   0.4560   +0.1127
+          uniform_30    0.75    0.75   23.4764   +1.9695   0.6480   0.4471   +0.1039
+          uniform_30    0.75    1.00   20.4530   -1.0538   0.4082   0.5085   +0.1652
+Matched rho<1 is a modified setting, not proof of original-paper reproduction or state-aware gain.
+Records saved to: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/late_noise_training_20261008_190416

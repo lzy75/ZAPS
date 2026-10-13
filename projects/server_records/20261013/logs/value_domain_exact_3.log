@@ -1,0 +1,35 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Exact value-domain ablation ===
+images=3; lr=0.001; joint zeta+D; DDPM; fixed variance; sigma=0.05
+CSV: /home/lzy/ZAPS/projects/results/diag_value_domain_exact/20260917_003237/metrics.csv
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+[01/03] 00000.png model_domain PSNR=19.512 SSIM=0.4909 LPIPS=0.3934 obs=22.546 time=58.5s
+[01/03] 00000.png  unit_domain PSNR=17.901 SSIM=0.3308 LPIPS=0.6524 obs=22.057 time=59.9s
+[02/03] 00001.png model_domain PSNR=19.921 SSIM=0.4798 LPIPS=0.5472 obs=24.259 time=58.6s
+[02/03] 00001.png  unit_domain PSNR=16.023 SSIM=0.3252 LPIPS=0.7018 obs=23.417 time=59.6s
+[03/03] 00002.png model_domain PSNR=22.932 SSIM=0.6217 LPIPS=0.3015 obs=26.786 time=59.4s
+[03/03] 00002.png  unit_domain PSNR=19.511 SSIM=0.5337 LPIPS=0.4081 obs=25.414 time=58.3s
+
+=== Summary ===
+model_domain          psnr: mean=20.7883 std=1.8680
+model_domain          ssim: mean=0.5308 std=0.0789
+model_domain         lpips: mean=0.4140 std=0.1242
+model_domain observed_psnr: mean=24.5301 std=2.1330
+model_domain     final_mse: mean=0.0194 std=0.0052
+model_domain final_residual: mean=15.3281 std=2.1588
+model_domain      zeta_min: mean=0.0927 std=0.0025
+model_domain      zeta_max: mean=0.1099 std=0.0000
+model_domain   d_delta_rms: mean=0.0013 std=0.0001
+ unit_domain          psnr: mean=17.8115 std=1.7456
+ unit_domain          ssim: mean=0.3966 std=0.1188
+ unit_domain         lpips: mean=0.5874 std=0.1573
+ unit_domain observed_psnr: mean=23.6295 std=1.6888
+ unit_domain     final_mse: mean=0.0155 std=0.0063
+ unit_domain final_residual: mean=13.6026 std=2.7196
+ unit_domain      zeta_min: mean=0.0935 std=0.0055
+ unit_domain      zeta_max: mean=0.1099 std=0.0001
+ unit_domain   d_delta_rms: mean=0.0011 std=0.0001
+PSNR delta (unit_domain - model_domain): -2.9768 dB
+results: /home/lzy/ZAPS/projects/results/diag_value_domain_exact/20260917_003237

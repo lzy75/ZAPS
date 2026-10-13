@@ -1,0 +1,20 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Official DPS, same H/y/image/x_T as archived ZAPS ===
+1000 DDPM steps; learned_range; PS scale=0.3; seed=1001
+No ZAPS optimization, no new measurement noise, no late-noise scaling.
+Observed PSNR: 22.5560; records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/dps_same_observation_20261008_235302
+Recording current checkpoint SHA256 (local file read, no download)...
+Checking official PS input gradient at t=999...
+Input-gradient check passed; starting official 1000-step loop...
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+
+=== Same-observation baseline summary ===
+                method      PSNR     SSIM    LPIPS    NFE
+     DPS_official_1000   23.1528   0.6301   0.3999   1000
+     irregular_15_10_5   19.5987   0.3168   0.6505    300
+            uniform_30   21.5069   0.5510   0.3432    300
+Archived ZAPS rows are not retrained. Different NFE/variance/guidance: not a one-factor ablation.
+A single-image comparison does not establish reproduction of paper dataset means.
+Records saved to: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/dps_same_observation_20261008_235302

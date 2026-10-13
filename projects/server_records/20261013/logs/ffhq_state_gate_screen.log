@@ -1,0 +1,131 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda
+
+=== Stage 1: strict code gate ===
+nominal timesteps: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+
+--- fixed_uniform ---
+  [ZAPS] Epoch  1/10  loss=0.002917  NFE=30  time=2.4s  zeta=0.1060  gz=0.9931  D=0.2001  gd=0.1171  PSNR=28.71
+  [ZAPS] Epoch  2/10  loss=0.002713  NFE=60  time=4.3s  zeta=0.1121  gz=0.9984  D=0.2001  gd=0.0556  PSNR=29.23
+  [ZAPS] Epoch  3/10  loss=0.002530  NFE=90  time=6.1s  zeta=0.1186  gz=0.8781  D=0.2002  gd=0.0898  PSNR=29.46
+  [ZAPS] Epoch  4/10  loss=0.002354  NFE=120  time=8.1s  zeta=0.1253  gz=0.4785  D=0.2004  gd=0.1196  PSNR=29.72
+  [ZAPS] Epoch  5/10  loss=0.002205  NFE=150  time=9.9s  zeta=0.1319  gz=0.7697  D=0.2005  gd=0.0739  PSNR=29.83
+  [ZAPS] Epoch  6/10  loss=0.002053  NFE=180  time=11.7s  zeta=0.1383  gz=0.9643  D=0.2006  gd=0.0954  PSNR=29.85
+  [ZAPS] Epoch  7/10  loss=0.001891  NFE=210  time=13.4s  zeta=0.1441  gz=0.9968  D=0.2007  gd=0.0802  PSNR=29.80
+  [ZAPS] Epoch  8/10  loss=0.001883  NFE=240  time=15.2s  zeta=0.1500  gz=0.1755  D=0.2008  gd=0.0605  PSNR=29.67
+  [ZAPS] Epoch  9/10  loss=0.001778  NFE=270  time=17.1s  zeta=0.1556  gz=0.9017  D=0.2009  gd=0.1262  PSNR=29.69
+  [ZAPS] Epoch 10/10  loss=0.001649  NFE=300  time=18.9s  zeta=0.1610  gz=0.6670  D=0.2010  gd=0.0408  PSNR=30.19
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+
+--- adaptive_null_parity ---
+  [ZAPS] Epoch  1/10  loss=0.002917  NFE=30  time=2.1s  zeta=0.1060  gz=0.9931  D=0.2001  gd=0.1171  PSNR=28.71
+  [ZAPS] Epoch  2/10  loss=0.002713  NFE=60  time=4.1s  zeta=0.1118  gz=0.9964  D=0.2002  gd=0.0846  PSNR=29.23
+  [ZAPS] Epoch  3/10  loss=0.002544  NFE=90  time=6.2s  zeta=0.1180  gz=0.5445  D=0.2003  gd=0.0438  PSNR=29.46
+  [ZAPS] Epoch  4/10  loss=0.002365  NFE=120  time=8.2s  zeta=0.1244  gz=0.1521  D=0.2004  gd=0.0618  PSNR=29.73
+  [ZAPS] Epoch  5/10  loss=0.002219  NFE=150  time=10.2s  zeta=0.1308  gz=0.5506  D=0.2005  gd=0.1631  PSNR=29.82
+  [ZAPS] Epoch  6/10  loss=0.002060  NFE=180  time=12.2s  zeta=0.1369  gz=0.3943  D=0.2006  gd=0.1531  PSNR=29.86
+  [ZAPS] Epoch  7/10  loss=0.001902  NFE=210  time=14.2s  zeta=0.1430  gz=0.3290  D=0.2007  gd=0.0904  PSNR=29.82
+  [ZAPS] Epoch  8/10  loss=0.001882  NFE=240  time=16.3s  zeta=0.1490  gz=0.5781  D=0.2009  gd=0.0766  PSNR=29.62
+  [ZAPS] Epoch  9/10  loss=0.001772  NFE=270  time=18.4s  zeta=0.1546  gz=0.1390  D=0.2010  gd=0.0871  PSNR=29.70
+  [ZAPS] Epoch 10/10  loss=0.001636  NFE=300  time=20.5s  zeta=0.1601  gz=0.9966  D=0.2011  gd=0.0825  PSNR=30.21
+
+=== Gate result ===
+{
+  "passed": true,
+  "decision_basis": "one-unroll output/loss exact; adaptive gradient error below fixed-repeat CUDA floor; full-optimization output equivalence",
+  "output_relative_error_tolerance": 0.01,
+  "psnr_absolute_delta_tolerance": 0.03,
+  "parameter_differences_diagnostic_only": true,
+  "timesteps_equal": true,
+  "nfe_equal": true,
+  "output_relative_error": 0.006025764618022155,
+  "zeta_relative_error": 0.09810451531056857,
+  "D_relative_error": 0.04506579592330313,
+  "psnr_absolute_delta": 0.020804168820177438
+}
+
+=== Stage 2: paired state-indicator screen ===
+
+--- residual_only ---
+  [ZAPS] Epoch  1/10  loss=0.002849  NFE=30  time=2.0s  zeta=0.1067  gz=0.9983  D=0.2001  gd=0.0588  PSNR=28.90
+  [ZAPS] Epoch  2/10  loss=0.002673  NFE=60  time=4.1s  zeta=0.1127  gz=0.9946  D=0.2002  gd=0.1034  PSNR=29.28
+  [ZAPS] Epoch  3/10  loss=0.002494  NFE=90  time=6.1s  zeta=0.1182  gz=0.9960  D=0.2003  gd=0.0891  PSNR=29.58
+  [ZAPS] Epoch  4/10  loss=0.002322  NFE=120  time=8.2s  zeta=0.1228  gz=0.9916  D=0.2003  gd=0.1291  PSNR=29.77
+  [ZAPS] Epoch  5/10  loss=0.002210  NFE=150  time=10.2s  zeta=0.1278  gz=0.9341  D=0.2004  gd=0.3571  PSNR=29.78
+  [ZAPS] Epoch  6/10  loss=0.002047  NFE=180  time=12.2s  zeta=0.1335  gz=0.9660  D=0.2005  gd=0.2585  PSNR=29.91
+  [ZAPS] Epoch  7/10  loss=0.001892  NFE=210  time=14.1s  zeta=0.1385  gz=0.9972  D=0.2005  gd=0.0742  PSNR=29.84
+  [ZAPS] Epoch  8/10  loss=0.001892  NFE=240  time=15.9s  zeta=0.1441  gz=0.8019  D=0.2006  gd=0.0850  PSNR=29.56
+  [ZAPS] Epoch  9/10  loss=0.001783  NFE=270  time=17.8s  zeta=0.1495  gz=0.9956  D=0.2007  gd=0.0938  PSNR=29.75
+  [ZAPS] Epoch 10/10  loss=0.001656  NFE=300  time=19.6s  zeta=0.1544  gz=0.9996  D=0.2007  gd=0.0281  PSNR=30.18
+
+--- cosine_only ---
+  [ZAPS] Epoch  1/10  loss=0.003256  NFE=30  time=1.8s  zeta=0.1060  gz=0.9899  D=0.2001  gd=0.1416  PSNR=28.45
+  [ZAPS] Epoch  2/10  loss=0.003067  NFE=60  time=3.7s  zeta=0.1114  gz=0.9938  D=0.2001  gd=0.1115  PSNR=29.00
+  [ZAPS] Epoch  3/10  loss=0.002828  NFE=90  time=5.7s  zeta=0.1164  gz=0.7987  D=0.2002  gd=0.6018  PSNR=29.22
+  [ZAPS] Epoch  4/10  loss=0.002659  NFE=120  time=7.6s  zeta=0.1218  gz=0.9981  D=0.2002  gd=0.0623  PSNR=29.48
+  [ZAPS] Epoch  5/10  loss=0.002480  NFE=150  time=9.7s  zeta=0.1267  gz=0.9815  D=0.2003  gd=0.1916  PSNR=29.64
+  [ZAPS] Epoch  6/10  loss=0.002319  NFE=180  time=11.8s  zeta=0.1312  gz=0.8756  D=0.2003  gd=0.4830  PSNR=29.59
+  [ZAPS] Epoch  7/10  loss=0.002177  NFE=210  time=13.9s  zeta=0.1360  gz=0.9904  D=0.2004  gd=0.1385  PSNR=29.56
+  [ZAPS] Epoch  8/10  loss=0.002159  NFE=240  time=15.9s  zeta=0.1404  gz=0.9855  D=0.2004  gd=0.1697  PSNR=29.38
+  [ZAPS] Epoch  9/10  loss=0.002024  NFE=270  time=17.8s  zeta=0.1451  gz=0.9898  D=0.2005  gd=0.1423  PSNR=29.56
+  [ZAPS] Epoch 10/10  loss=0.001886  NFE=300  time=19.8s  zeta=0.1496  gz=0.9880  D=0.2006  gd=0.1544  PSNR=29.99
+
+--- combined_r0.7_c0.3 ---
+  [ZAPS] Epoch  1/10  loss=0.002866  NFE=30  time=2.0s  zeta=0.1067  gz=0.9974  D=0.2000  gd=0.0719  PSNR=28.86
+  [ZAPS] Epoch  2/10  loss=0.002689  NFE=60  time=4.0s  zeta=0.1120  gz=0.3256  D=0.2001  gd=0.1648  PSNR=29.33
+  [ZAPS] Epoch  3/10  loss=0.002535  NFE=90  time=6.1s  zeta=0.1169  gz=0.9915  D=0.2002  gd=0.1303  PSNR=29.54
+  [ZAPS] Epoch  4/10  loss=0.002377  NFE=120  time=8.1s  zeta=0.1220  gz=0.9844  D=0.2003  gd=0.1758  PSNR=29.75
+  [ZAPS] Epoch  5/10  loss=0.002272  NFE=150  time=10.3s  zeta=0.1275  gz=0.3300  D=0.2004  gd=0.4185  PSNR=29.77
+  [ZAPS] Epoch  6/10  loss=0.002173  NFE=180  time=12.5s  zeta=0.1323  gz=0.9605  D=0.2004  gd=0.2784  PSNR=29.83
+  [ZAPS] Epoch  7/10  loss=0.001977  NFE=210  time=14.6s  zeta=0.1374  gz=0.9949  D=0.2005  gd=0.1008  PSNR=29.84
+  [ZAPS] Epoch  8/10  loss=0.001982  NFE=240  time=16.7s  zeta=0.1426  gz=0.3839  D=0.2006  gd=0.1079  PSNR=29.63
+  [ZAPS] Epoch  9/10  loss=0.001860  NFE=270  time=18.8s  zeta=0.1478  gz=0.2929  D=0.2007  gd=0.0372  PSNR=29.70
+  [ZAPS] Epoch 10/10  loss=0.001711  NFE=300  time=20.8s  zeta=0.1532  gz=0.2746  D=0.2008  gd=0.0406  PSNR=30.22
+
+--- combined_r0.8_c0.2 ---
+  [ZAPS] Epoch  1/10  loss=0.002848  NFE=30  time=2.0s  zeta=0.1053  gz=0.9294  D=0.2001  gd=0.3692  PSNR=28.92
+  [ZAPS] Epoch  2/10  loss=0.002650  NFE=60  time=4.0s  zeta=0.1108  gz=0.9889  D=0.2002  gd=0.1483  PSNR=29.34
+  [ZAPS] Epoch  3/10  loss=0.002506  NFE=90  time=6.1s  zeta=0.1166  gz=0.9942  D=0.2002  gd=0.1076  PSNR=29.56
+  [ZAPS] Epoch  4/10  loss=0.002335  NFE=120  time=8.2s  zeta=0.1221  gz=0.9990  D=0.2003  gd=0.0439  PSNR=29.78
+  [ZAPS] Epoch  5/10  loss=0.002202  NFE=150  time=10.3s  zeta=0.1281  gz=0.9970  D=0.2004  gd=0.0777  PSNR=29.86
+  [ZAPS] Epoch  6/10  loss=0.001997  NFE=180  time=12.3s  zeta=0.1343  gz=0.8628  D=0.2005  gd=0.0774  PSNR=29.99
+  [ZAPS] Epoch  7/10  loss=0.001846  NFE=210  time=14.3s  zeta=0.1403  gz=0.9982  D=0.2006  gd=0.0605  PSNR=29.90
+  [ZAPS] Epoch  8/10  loss=0.001850  NFE=240  time=16.3s  zeta=0.1459  gz=0.9989  D=0.2007  gd=0.0472  PSNR=29.69
+  [ZAPS] Epoch  9/10  loss=0.001757  NFE=270  time=18.4s  zeta=0.1511  gz=0.9995  D=0.2008  gd=0.0305  PSNR=29.65
+  [ZAPS] Epoch 10/10  loss=0.001594  NFE=300  time=20.4s  zeta=0.1559  gz=0.9996  D=0.2009  gd=0.0290  PSNR=30.23
+
+--- combined_r0.9_c0.1 ---
+  [ZAPS] Epoch  1/10  loss=0.002845  NFE=30  time=2.1s  zeta=0.1060  gz=0.3483  D=0.2001  gd=0.1200  PSNR=28.91
+  [ZAPS] Epoch  2/10  loss=0.002712  NFE=60  time=4.2s  zeta=0.1127  gz=0.7531  D=0.2003  gd=0.1462  PSNR=29.29
+  [ZAPS] Epoch  3/10  loss=0.002527  NFE=90  time=6.3s  zeta=0.1180  gz=0.9963  D=0.2004  gd=0.0858  PSNR=29.55
+  [ZAPS] Epoch  4/10  loss=0.002319  NFE=120  time=8.4s  zeta=0.1231  gz=0.9976  D=0.2005  gd=0.0690  PSNR=29.78
+  [ZAPS] Epoch  5/10  loss=0.002246  NFE=150  time=10.5s  zeta=0.1280  gz=0.9941  D=0.2006  gd=0.1083  PSNR=29.80
+  [ZAPS] Epoch  6/10  loss=0.002060  NFE=180  time=12.5s  zeta=0.1331  gz=0.9968  D=0.2007  gd=0.0793  PSNR=29.92
+  [ZAPS] Epoch  7/10  loss=0.001924  NFE=210  time=14.6s  zeta=0.1382  gz=0.3111  D=0.2008  gd=0.0422  PSNR=29.88
+  [ZAPS] Epoch  8/10  loss=0.001915  NFE=240  time=16.7s  zeta=0.1433  gz=0.6247  D=0.2009  gd=0.0517  PSNR=29.65
+  [ZAPS] Epoch  9/10  loss=0.001811  NFE=270  time=18.9s  zeta=0.1485  gz=0.1844  D=0.2010  gd=0.0292  PSNR=29.69
+  [ZAPS] Epoch 10/10  loss=0.001656  NFE=300  time=21.0s  zeta=0.1536  gz=0.2879  D=0.2011  gd=0.1008  PSNR=30.20
+
+=== Summary ===
+observed PSNR: 28.8716 dB
+                   variant      PSNR     delta     SSIM     LPIPS         MSE   residual    NFE   seconds
+             fixed_uniform   30.1256   +0.0000   0.8810    0.1050    0.001649     4.5017    300      18.9
+  visited t: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+      adaptive_null_parity   30.1464   +0.0208   0.8802    0.1067    0.001636     4.4837    300      20.5
+  visited t: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+             residual_only   30.1138   -0.0118   0.8802    0.1051    0.001656     4.5105    300      19.6
+  visited t: [999, 965, 939, 896, 870, 827, 801, 758, 732, 689, 647, 604, 579, 536, 511, 468, 427, 385, 345, 305, 271, 234, 210, 178, 155, 131, 99, 67, 39, 0]
+               cosine_only   29.9244   -0.2012   0.8802    0.1089    0.001886     4.8140    300      19.8
+  visited t: [999, 965, 930, 904, 878, 851, 821, 795, 767, 740, 712, 680, 652, 618, 583, 553, 524, 493, 463, 431, 399, 366, 331, 290, 246, 201, 153, 105, 54, 0]
+        combined_r0.7_c0.3   30.1585   +0.0330   0.8820    0.1040    0.001711     4.5849    300      20.8
+  visited t: [999, 965, 939, 913, 869, 826, 800, 758, 732, 690, 664, 620, 594, 551, 523, 480, 439, 397, 357, 316, 280, 242, 216, 184, 158, 133, 100, 67, 37, 0]
+        combined_r0.8_c0.2   30.1651   +0.0395   0.8801    0.1076    0.001594     4.4255    300      20.5
+  visited t: [999, 965, 939, 913, 886, 842, 815, 771, 733, 707, 681, 636, 610, 564, 538, 492, 449, 405, 363, 321, 281, 242, 213, 182, 155, 131, 97, 65, 35, 0]
+        combined_r0.9_c0.1   30.1348   +0.0092   0.8803    0.1071    0.001656     4.5114    300      21.0
+  visited t: [999, 965, 939, 913, 868, 842, 797, 771, 726, 700, 657, 631, 588, 562, 519, 493, 450, 406, 364, 322, 282, 243, 215, 184, 157, 134, 98, 67, 36, 0]
+
+Records saved to: /home/lzy/ZAPS/projects/results/diag_ffhq_state_schedule/20260922_004642
+Decision order:
+  1) gate must PASS before interpreting any adaptive result
+  2) residual_only vs cosine_only identifies the useful signal
+  3) only if a combined variant beats fixed_uniform do we tune strength

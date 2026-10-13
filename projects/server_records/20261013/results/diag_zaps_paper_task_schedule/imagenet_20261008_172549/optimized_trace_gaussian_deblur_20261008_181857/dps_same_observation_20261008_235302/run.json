@@ -1,0 +1,148 @@
+{
+  "experiment": "official_DPS_same_observation",
+  "status": "complete",
+  "arguments": {
+    "trace_dir": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+    "device": "cuda",
+    "dps_root": "/home/lzy/ZAPS/DPS"
+  },
+  "git_revision": "10d0180a8e6753cbb347a18e87bfd4861499927c",
+  "source_trace": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+  "source_git": {
+    "commit": "b626296",
+    "branch": "master",
+    "dirty": true
+  },
+  "source_trace_git": {
+    "commit": "8de3f99",
+    "branch": "master",
+    "dirty": true
+  },
+  "reference": {
+    "root": "/home/lzy/ZAPS/DPS",
+    "source_sha256": {
+      "/home/lzy/ZAPS/DPS/guided_diffusion/gaussian_diffusion.py": "73ac99d0b89a8a23a855b6dfe797b334be541014fc5abf04cf812434befdad0d",
+      "/home/lzy/ZAPS/DPS/guided_diffusion/posterior_mean_variance.py": "142158469a747c5b7fb2e63d06a7963a486807d9fd195a37cbbca5d90e7fbc6a",
+      "/home/lzy/ZAPS/DPS/guided_diffusion/condition_methods.py": "8738434de01dc16684551cb1bc7038ba544a3af80e144ac2875693fdfaf8d1bd"
+    },
+    "import_policy": "unmodified source; private package; real DPS utility imports"
+  },
+  "diffusion_config": {
+    "sampler": "ddpm",
+    "steps": 1000,
+    "noise_schedule": "linear",
+    "model_mean_type": "epsilon",
+    "model_var_type": "learned_range",
+    "dynamic_threshold": false,
+    "clip_denoised": true,
+    "rescale_timesteps": false,
+    "timestep_respacing": 1000
+  },
+  "conditioning_config": {
+    "method": "ps",
+    "params": {
+      "scale": 0.3
+    }
+  },
+  "task": "gaussian_deblur",
+  "seed": 1001,
+  "operator_config": {
+    "kernel_size": 61,
+    "sigma": 3.0,
+    "noise_sigma": 0.05
+  },
+  "operator_source_sha256": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696",
+  "operator_semantics": "source ZAPS H (including its zero-padding), NOT stock DPS blur H",
+  "paired_scope": "same H, saved y, source image, model loader and x_T; not same full noise sequence",
+  "measurement_path": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/gaussian_deblur/measurement.pt",
+  "measurement_sha256": "05dfeb5de98056640c6e553c428ccf961a49dfffd8098fcd4f531c32864faae4",
+  "image_path": "/home/lzy/imagenet/256x256/00001.png",
+  "image_sha256": "1d65095a3afcd0f54d93156ba264afaf4c668ad4134045db3f7d45cee1bb7ccb",
+  "checkpoint_path": "/home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt",
+  "checkpoint_identity_limit": "source archive did not store a checkpoint hash; current hash recorded",
+  "observed_psnr": 22.555950982786904,
+  "inferred_measurement_noise_mean": -9.304704144597054e-05,
+  "inferred_measurement_noise_std": 0.050001952797174454,
+  "metric_convention": "same compute_all_metrics as ZAPS; clamp/unit-range conversion, no min-max stretch",
+  "gates": {
+    "source_xT_equal": true,
+    "seed_xT_equal": true,
+    "pure_H_equal": true,
+    "full_timestep_grid": true,
+    "model_grad_not_accumulated": true
+  },
+  "zaps_archived": {
+    "irregular_15_10_5": {
+      "metrics": {
+        "psnr": 19.59868338039635,
+        "ssim": 0.31679025292396545,
+        "lpips": 0.650459885597229
+      },
+      "config": {
+        "num_steps": 30,
+        "schedule": [
+          15,
+          10,
+          5
+        ],
+        "timestep_spacing": "linear",
+        "schedule_power": 2.0,
+        "num_epochs": 10,
+        "lr": 0.001,
+        "zeta_init": 0.2,
+        "d_init": 0.2,
+        "eta": 1.0,
+        "use_learned_var": false,
+        "sampler_mode": "ddpm",
+        "wave": "db4",
+        "level": 3,
+        "surrogate_score_jacobian": false
+      },
+      "nfe": 300,
+      "float_psnr": 19.60143280029297
+    },
+    "uniform_30": {
+      "metrics": {
+        "psnr": 21.506852206242556,
+        "ssim": 0.5509742498397827,
+        "lpips": 0.34323835372924805
+      },
+      "config": {
+        "num_steps": 30,
+        "schedule": [
+          15,
+          10,
+          5
+        ],
+        "timestep_spacing": "linear",
+        "schedule_power": 2.0,
+        "num_epochs": 10,
+        "lr": 0.001,
+        "zeta_init": 0.2,
+        "d_init": 0.2,
+        "eta": 1.0,
+        "use_learned_var": false,
+        "sampler_mode": "ddpm",
+        "wave": "db4",
+        "level": 3,
+        "surrogate_score_jacobian": false
+      },
+      "nfe": 300,
+      "float_psnr": 21.51114273071289
+    }
+  },
+  "checkpoint_sha256": "a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1",
+  "preflight_gradient_norm": 36.19677734375,
+  "preflight_residual_norm": 204.97738647460938,
+  "dps": {
+    "psnr": 23.15278263227354,
+    "ssim": 0.6301016211509705,
+    "lpips": 0.39993804693222046,
+    "float_psnr": 23.158889770507812,
+    "nfe": 1000,
+    "preflight_nfe": 1,
+    "total_nfe": 1001,
+    "seconds": 401.24302649497986,
+    "residual_norm": 25.229656219482422
+  }
+}

@@ -1,0 +1,40 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Paired DPS 30-step grid x variance audit ===
+Four runs only; scale=0.3; no ZAPS retraining/no new y/no noise scaling.
+Fingerprinting checkpoint and locating matching completed DPS-1000 record...
+Reusing DPS-1000: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/dps_same_observation_20261008_235302; PSNR=23.1528
+
+--- irregular_15_10_5 | fixed_small | 30 DPS steps ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /data0/lzy/conda/envs/TriPS_from_base/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+RESULT PSNR=15.5670 SSIM=0.2866 LPIPS=0.7658 NFE=30
+
+--- irregular_15_10_5 | learned_range | 30 DPS steps ---
+RESULT PSNR=15.5573 SSIM=0.2797 LPIPS=0.7017 NFE=30
+
+--- uniform_30 | fixed_small | 30 DPS steps ---
+RESULT PSNR=16.6235 SSIM=0.3242 LPIPS=0.7508 NFE=30
+
+--- uniform_30 | learned_range | 30 DPS steps ---
+RESULT PSNR=16.6156 SSIM=0.3221 LPIPS=0.7375 NFE=30
+
+=== DPS 30-step schedule x variance summary ===
+            schedule      variance      PSNR     d1000     SSIM    LPIPS   NFE
+   irregular_15_10_5   fixed_small   15.5670   -7.5858   0.2866   0.7658    30
+   irregular_15_10_5 learned_range   15.5573   -7.5955   0.2797   0.7017    30
+          uniform_30   fixed_small   16.6235   -6.5292   0.3242   0.7508    30
+          uniform_30 learned_range   16.6156   -6.5372   0.3221   0.7375    30
+
+=== Paired variance effect: learned_range minus fixed_small ===
+            schedule     dPSNR     dSSIM    dLPIPS
+   irregular_15_10_5   -0.0097   -0.0069   -0.0641
+          uniform_30   -0.0080   -0.0022   -0.0134
+
+=== DPS30 fixed versus archived ZAPS (same grid/fixed variance) ===
+            schedule     DPS30      ZAPS   DPS-ZAPS
+   irregular_15_10_5   15.5670   19.5987    -4.0317
+          uniform_30   16.6235   21.5069    -4.8833
+DPS30 is one 30-step trajectory; ZAPS is 30 steps x 10 optimization epochs=300 NFE.
+Do not attribute DPS/ZAPS differences to the approximate Jacobian alone.
+New NFE: 120; no DPS1000/ZAPS reruns. Records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/dps_lowstep_variance_20261009_121908

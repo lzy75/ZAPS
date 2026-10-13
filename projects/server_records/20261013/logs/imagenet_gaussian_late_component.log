@@ -1,0 +1,52 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Late DDPM noise x guidance diagnostic; t<=333 ===
+No optimizer runs; same saved zeta/D, x_T and posterior draws.
+Records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/late_components_20261008_183753
+
+irregular_15_10_5: baseline replay gate...
+{
+  "passed": true,
+  "classification": "PASS_NUMERICAL_PARITY",
+  "core_repeat_relative_error": 0.0,
+  "trace_core_relative_error": 0.0,
+  "metadata_equal": true,
+  "absolute_tolerance": 1e-07,
+  "hard_relative_error_ceiling": 1e-05,
+  "effective_relative_error_limit": 1e-07
+}
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+irregular_15_10_5 baseline: PSNR=19.5987 delta=+0.0000 SSIM=0.3168 LPIPS=0.6505
+irregular_15_10_5 late_noise_off: PSNR=23.5527 delta=+3.9540 SSIM=0.6331 LPIPS=0.6884
+irregular_15_10_5 late_guidance_off: PSNR=18.8771 delta=-0.7216 SSIM=0.2917 LPIPS=0.6384
+irregular_15_10_5 late_both_off: PSNR=22.5121 delta=+2.9135 SSIM=0.5852 LPIPS=0.7422
+
+uniform_30: baseline replay gate...
+{
+  "passed": true,
+  "classification": "PASS_NUMERICAL_PARITY",
+  "core_repeat_relative_error": 0.0,
+  "trace_core_relative_error": 0.0,
+  "metadata_equal": true,
+  "absolute_tolerance": 1e-07,
+  "hard_relative_error_ceiling": 1e-05,
+  "effective_relative_error_limit": 1e-07
+}
+uniform_30 baseline: PSNR=21.5069 delta=+0.0000 SSIM=0.5510 LPIPS=0.3432
+uniform_30 late_noise_off: PSNR=23.6947 delta=+2.1878 SSIM=0.6442 LPIPS=0.6575
+uniform_30 late_guidance_off: PSNR=20.5280 delta=-0.9789 SSIM=0.5123 LPIPS=0.3605
+uniform_30 late_both_off: PSNR=22.7676 delta=+1.2607 SSIM=0.6047 LPIPS=0.7000
+
+=== Paired late-component summary ===
+            schedule             variant      PSNR     delta     SSIM    LPIPS     drop     resid
+   irregular_15_10_5            baseline   19.5987   +0.0000   0.3168   0.6505   2.1872    24.161
+   irregular_15_10_5      late_noise_off   23.5527   +3.9540   0.6331   0.6884   0.0748    25.797
+   irregular_15_10_5   late_guidance_off   18.8771   -0.7216   0.2917   0.6384   2.8876    34.332
+   irregular_15_10_5       late_both_off   22.5121   +2.9135   0.5852   0.7422   0.8041    35.764
+          uniform_30            baseline   21.5069   +0.0000   0.5510   0.3432   0.6180    24.829
+          uniform_30      late_noise_off   23.6947   +2.1878   0.6442   0.6575   0.0000    25.954
+          uniform_30   late_guidance_off   20.5280   -0.9789   0.5123   0.3605   1.5464    34.358
+          uniform_30       late_both_off   22.7676   +1.2607   0.6047   0.7000   0.0000    34.363
+Interventions test frozen-path sensitivity; they are not a newly trained ZAPS baseline or proof of an implementation bug.
+Records saved to: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/late_components_20261008_183753

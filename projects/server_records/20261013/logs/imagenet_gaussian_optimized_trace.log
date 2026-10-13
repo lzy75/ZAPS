@@ -1,0 +1,151 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Last optimization unroll audit (joint zeta+D, no parameter sweep) ===
+Records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857
+
+--- irregular_15_10_5: replay original optimization ---
+  [ZAPS] Epoch  1/10  loss=0.003059  NFE=30  time=11.6s  zeta=0.2008  gz=0.0021  D=0.2000  gd=0.0010  PSNR=19.26
+  [ZAPS] Epoch  2/10  loss=0.003052  NFE=60  time=21.9s  zeta=0.2016  gz=0.0028  D=0.2000  gd=0.0003  PSNR=18.53
+  [ZAPS] Epoch  3/10  loss=0.002949  NFE=90  time=32.2s  zeta=0.2025  gz=0.0023  D=0.2000  gd=0.0003  PSNR=20.03
+  [ZAPS] Epoch  4/10  loss=0.002996  NFE=120  time=43.0s  zeta=0.2033  gz=0.0024  D=0.2000  gd=0.0003  PSNR=18.40
+  [ZAPS] Epoch  5/10  loss=0.002986  NFE=150  time=54.0s  zeta=0.2041  gz=0.0023  D=0.2000  gd=0.0005  PSNR=20.02
+  [ZAPS] Epoch  6/10  loss=0.002962  NFE=180  time=64.9s  zeta=0.2050  gz=0.0021  D=0.2000  gd=0.0004  PSNR=19.25
+  [ZAPS] Epoch  7/10  loss=0.003016  NFE=210  time=75.8s  zeta=0.2058  gz=0.0017  D=0.2000  gd=0.0008  PSNR=18.93
+  [ZAPS] Epoch  8/10  loss=0.003003  NFE=240  time=86.7s  zeta=0.2066  gz=0.0020  D=0.2000  gd=0.0004  PSNR=19.93
+  [ZAPS] Epoch  9/10  loss=0.002962  NFE=270  time=97.7s  zeta=0.2075  gz=0.0027  D=0.2000  gd=0.0004  PSNR=20.55
+  [ZAPS] Epoch 10/10  loss=0.002969  NFE=300  time=108.7s  zeta=0.2083  gz=0.0041  D=0.2000  gd=0.0007  PSNR=19.60
+irregular_15_10_5: tracing epoch 10 and checking replay...
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+Gate: {
+  "passed": true,
+  "trace_vs_core": {
+    "passed": true,
+    "classification": "PASS_NUMERICAL_PARITY",
+    "core_repeat_relative_error": 0.0,
+    "trace_core_relative_error": 0.0,
+    "metadata_equal": true,
+    "absolute_tolerance": 1e-07,
+    "hard_relative_error_ceiling": 1e-05,
+    "effective_relative_error_limit": 1e-07
+  },
+  "last_opt_vs_core_replay": {
+    "passed": true,
+    "classification": "PASS_NUMERICAL_PARITY",
+    "core_repeat_relative_error": 0.0,
+    "trace_core_relative_error": 0.0,
+    "metadata_equal": true,
+    "absolute_tolerance": 1e-07,
+    "hard_relative_error_ceiling": 1e-05,
+    "effective_relative_error_limit": 1e-07
+  }
+}
+  k    t     zeta  corr/dunc     resid   clip%   x0PSNR
+  0  999  0.20806     16.497    204.98     0.0    11.77
+  1  916  0.19714      1.185    301.82    99.9     8.04
+  2  833  0.20014      1.618    407.09    99.8     5.72
+  3  750  0.20176      1.113    285.22    99.0     8.23
+  4  667  0.20139     13.753    330.57    94.1     6.79
+  5  666  0.20774      1.901    270.23    90.6     8.10
+  6  629  0.20801      2.269    378.15    89.8     6.10
+  7  592  0.20276      1.457    304.77    89.9     7.92
+  8  555  0.20877      1.243    299.60    75.2     7.95
+  9  518  0.20880      1.137    314.83    60.9     8.02
+ 10  482  0.20895      0.840    269.57    48.2     9.53
+ 11  445  0.20894      0.545    200.17     8.9    12.11
+ 12  408  0.20899      0.184     79.67     0.6    18.37
+ 13  371  0.20898      0.047     33.68     0.7    21.36
+ 14  334  0.20898      0.189     30.37     0.4    21.42
+ 15  333  0.20899      0.024     26.42     0.3    21.77
+ 16  309  0.20898      0.024     26.45     0.3    21.61
+ 17  285  0.20898      0.024     26.57     0.3    21.41
+ 18  262  0.20898      0.022     26.33     0.4    21.37
+ 19  238  0.20896      0.021     26.27     0.4    21.11
+ 20  214  0.20896      0.020     26.34     0.4    20.84
+ 21  190  0.20895      0.021     26.30     0.3    20.70
+ 22  166  0.20894      0.021     26.16     0.2    20.50
+ 23  143  0.20895      0.020     25.99     0.2    20.29
+ 24  119  0.20894      0.021     25.79     0.1    20.09
+ 25   95  0.20894      0.021     25.55     0.1    19.91
+ 26   71  0.20895      0.024     25.40     0.1    19.73
+ 27   48  0.20895      0.028     25.13     0.0    19.61
+ 28   24  0.20895      0.042     24.83     0.0    19.56
+ 29    0  0.20895      0.428     24.46     0.0    19.58
+Final optimized PSNR: 19.5987; archived: 19.5987
+
+--- uniform_30: replay original optimization ---
+  [ZAPS] Epoch  1/10  loss=0.003240  NFE=30  time=10.9s  zeta=0.2005  gz=0.0517  D=0.2000  gd=0.0420  PSNR=20.07
+  [ZAPS] Epoch  2/10  loss=0.003223  NFE=60  time=21.9s  zeta=0.2010  gz=0.4663  D=0.2000  gd=0.1321  PSNR=20.17
+  [ZAPS] Epoch  3/10  loss=0.003053  NFE=90  time=32.8s  zeta=0.2015  gz=0.0691  D=0.2000  gd=0.0353  PSNR=21.73
+  [ZAPS] Epoch  4/10  loss=0.003139  NFE=120  time=42.6s  zeta=0.2021  gz=0.0544  D=0.2000  gd=0.0124  PSNR=20.83
+  [ZAPS] Epoch  5/10  loss=0.003058  NFE=150  time=53.1s  zeta=0.2026  gz=0.1421  D=0.2000  gd=0.0294  PSNR=22.96
+  [ZAPS] Epoch  6/10  loss=0.003108  NFE=180  time=64.0s  zeta=0.2031  gz=0.1133  D=0.2000  gd=0.0267  PSNR=21.75
+  [ZAPS] Epoch  7/10  loss=0.003189  NFE=210  time=75.0s  zeta=0.2037  gz=0.1750  D=0.2000  gd=0.0797  PSNR=21.55
+  [ZAPS] Epoch  8/10  loss=0.003127  NFE=240  time=86.0s  zeta=0.2042  gz=0.1527  D=0.2000  gd=0.0698  PSNR=21.21
+  [ZAPS] Epoch  9/10  loss=0.003119  NFE=270  time=96.9s  zeta=0.2048  gz=0.0286  D=0.2000  gd=0.0085  PSNR=21.33
+  [ZAPS] Epoch 10/10  loss=0.003136  NFE=300  time=108.0s  zeta=0.2053  gz=0.2573  D=0.2000  gd=0.0508  PSNR=21.51
+uniform_30: tracing epoch 10 and checking replay...
+Gate: {
+  "passed": true,
+  "trace_vs_core": {
+    "passed": true,
+    "classification": "PASS_NUMERICAL_PARITY",
+    "core_repeat_relative_error": 0.0,
+    "trace_core_relative_error": 0.0,
+    "metadata_equal": true,
+    "absolute_tolerance": 1e-07,
+    "hard_relative_error_ceiling": 1e-05,
+    "effective_relative_error_limit": 1e-07
+  },
+  "last_opt_vs_core_replay": {
+    "passed": true,
+    "classification": "PASS_NUMERICAL_PARITY",
+    "core_repeat_relative_error": 0.0,
+    "trace_core_relative_error": 0.0,
+    "metadata_equal": true,
+    "absolute_tolerance": 1e-07,
+    "hard_relative_error_ceiling": 1e-05,
+    "effective_relative_error_limit": 1e-07
+  }
+}
+  k    t     zeta  corr/dunc     resid   clip%   x0PSNR
+  0  999  0.19786     21.779    204.98     0.0    11.77
+  1  965  0.19700      3.598    301.84    99.9     8.04
+  2  930  0.19971      4.509    415.22   100.0     5.59
+  3  896  0.20028      2.858    294.06    99.9     8.03
+  4  861  0.20560      4.967    352.61    99.6     6.21
+  5  827  0.19333      3.557    350.76    99.5     6.66
+  6  792  0.20043      3.276    308.04    98.9     7.39
+  7  758  0.19979      3.669    345.54    98.3     6.70
+  8  723  0.20141      3.245    344.35    96.2     6.75
+  9  689  0.19440      3.073    392.06    95.2     6.24
+ 10  655  0.20649      2.244    335.63    93.6     7.22
+ 11  620  0.20053      1.723    304.05    87.8     7.84
+ 12  586  0.20768      1.572    320.02    82.2     7.35
+ 13  551  0.19717      1.292    318.39    80.3     7.78
+ 14  517  0.20827      1.128    305.56    62.1     8.38
+ 15  482  0.20862      1.083    329.15    54.4     8.14
+ 16  448  0.20903      0.771    270.00    52.5     9.80
+ 17  413  0.20899      0.351    138.83     6.8    15.07
+ 18  379  0.20900      0.068     39.17     0.3    21.49
+ 19  344  0.20898      0.030     29.06     0.3    22.08
+ 20  310  0.20897      0.025     28.52     0.2    22.01
+ 21  276  0.20895      0.024     28.40     0.2    21.95
+ 22  241  0.20895      0.022     27.95     0.1    21.85
+ 23  207  0.20895      0.020     27.50     0.1    21.73
+ 24  172  0.20894      0.020     27.28     0.0    21.60
+ 25  138  0.20894      0.019     26.89     0.0    21.53
+ 26  103  0.20894      0.021     26.61     0.0    21.45
+ 27   69  0.20894      0.024     26.21     0.0    21.40
+ 28   34  0.20894      0.036     25.79     0.0    21.41
+ 29    0  0.20894      0.479     25.26     0.0    21.46
+Final optimized PSNR: 21.5069; archived: 21.5069
+
+=== Paired optimized trace summary ===
+            schedule  finalPSNR     SSIM    LPIPS  peak_t  latePeak      t0x0     drop        MSE
+   irregular_15_10_5    19.5987   0.3168   0.6505     333   21.7661   19.5790   2.1872   0.002969
+          uniform_30    21.5069   0.5510   0.3432     344   22.0823   21.4644   0.6180   0.003136
+Irregular - uniform: final dPSNR=-1.9082; late-drop difference=+1.5692
+Late peak is a GT-only diagnostic, NOT an early-stopping result. Both outputs are the original last_opt output.
+Replay uses epoch-10 inputs/noises and pre-update parameters; it is NOT a fresh final sample.
+Records saved to: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857

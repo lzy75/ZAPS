@@ -1,0 +1,42 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda
+
+=== Stage 1: strict code gate ===
+nominal timesteps: [999, 965, 930, 896, 861, 827, 792, 758, 723, 689, 655, 620, 586, 551, 517, 482, 448, 413, 379, 344, 310, 276, 241, 207, 172, 138, 103, 69, 34, 0]
+
+--- fixed_uniform ---
+  [ZAPS] Epoch  1/10  loss=0.002917  NFE=30  time=2.4s  zeta=0.1060  gz=0.9931  D=0.2001  gd=0.1171  PSNR=28.71
+  [ZAPS] Epoch  2/10  loss=0.002713  NFE=60  time=4.4s  zeta=0.1120  gz=0.6350  D=0.2002  gd=0.0721  PSNR=29.23
+  [ZAPS] Epoch  3/10  loss=0.002546  NFE=90  time=6.3s  zeta=0.1175  gz=0.9967  D=0.2002  gd=0.0817  PSNR=29.46
+  [ZAPS] Epoch  4/10  loss=0.002383  NFE=120  time=8.2s  zeta=0.1235  gz=0.0950  D=0.2003  gd=0.0303  PSNR=29.72
+  [ZAPS] Epoch  5/10  loss=0.002249  NFE=150  time=10.1s  zeta=0.1300  gz=0.4309  D=0.2005  gd=0.0459  PSNR=29.80
+  [ZAPS] Epoch  6/10  loss=0.002091  NFE=180  time=12.1s  zeta=0.1365  gz=0.6586  D=0.2006  gd=0.4417  PSNR=29.82
+  [ZAPS] Epoch  7/10  loss=0.001933  NFE=210  time=13.9s  zeta=0.1431  gz=0.3655  D=0.2007  gd=0.0566  PSNR=29.83
+  [ZAPS] Epoch  8/10  loss=0.001917  NFE=240  time=15.8s  zeta=0.1495  gz=0.4717  D=0.2008  gd=0.0409  PSNR=29.66
+  [ZAPS] Epoch  9/10  loss=0.001798  NFE=270  time=17.7s  zeta=0.1557  gz=0.8131  D=0.2009  gd=0.0567  PSNR=29.70
+  [ZAPS] Epoch 10/10  loss=0.001664  NFE=300  time=19.6s  zeta=0.1618  gz=0.4056  D=0.2010  gd=0.0824  PSNR=30.18
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+
+--- adaptive_null_parity ---
+  [ZAPS] Epoch  1/10  loss=0.002917  NFE=30  time=2.1s  zeta=0.1060  gz=0.9931  D=0.2001  gd=0.1171  PSNR=28.71
+  [ZAPS] Epoch  2/10  loss=0.002714  NFE=60  time=4.3s  zeta=0.1119  gz=0.2614  D=0.2002  gd=0.0625  PSNR=29.23
+  [ZAPS] Epoch  3/10  loss=0.002543  NFE=90  time=6.4s  zeta=0.1182  gz=0.0949  D=0.2003  gd=0.0973  PSNR=29.47
+  [ZAPS] Epoch  4/10  loss=0.002367  NFE=120  time=8.6s  zeta=0.1249  gz=0.1543  D=0.2004  gd=0.0410  PSNR=29.73
+  [ZAPS] Epoch  5/10  loss=0.002220  NFE=150  time=10.9s  zeta=0.1314  gz=0.0453  D=0.2005  gd=0.0549  PSNR=29.83
+  [ZAPS] Epoch  6/10  loss=0.002063  NFE=180  time=13.1s  zeta=0.1379  gz=0.9795  D=0.2006  gd=0.2014  PSNR=29.85
+  [ZAPS] Epoch  7/10  loss=0.001901  NFE=210  time=15.3s  zeta=0.1441  gz=0.4156  D=0.2008  gd=0.0364  PSNR=29.81
+  [ZAPS] Epoch  8/10  loss=0.001886  NFE=240  time=17.4s  zeta=0.1500  gz=0.6982  D=0.2009  gd=0.0762  PSNR=29.65
+  [ZAPS] Epoch  9/10  loss=0.001778  NFE=270  time=19.5s  zeta=0.1558  gz=0.2401  D=0.2010  gd=0.0328  PSNR=29.66
+  [ZAPS] Epoch 10/10  loss=0.001642  NFE=300  time=21.7s  zeta=0.1614  gz=0.3733  D=0.2011  gd=0.0753  PSNR=30.19
+
+=== Gate result ===
+{
+  "passed": false,
+  "tolerance": 1e-07,
+  "timesteps_equal": true,
+  "nfe_equal": true,
+  "output_relative_error": 0.005444656018724367,
+  "zeta_relative_error": 0.09351433065188999,
+  "D_relative_error": 0.04189224203778135,
+  "psnr_absolute_delta": 0.007907924729295246
+}

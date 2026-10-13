@@ -1,0 +1,62 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+
+=== Archived ZAPS guidance/clamp VJP audit ===
+Checking checkpoint/observation/H identities against completed DPS baseline...
+RNG mapping: {"saved_generator_count": 2, "saved_sampling_index": 0, "selection_reason": "legacy trace CLI default logical cuda:0 (no set_device in source)", "current_sampling_device": "cuda:0", "current_visible_cuda_count": 1}
+
+--- irregular_15_10_5: three 30-step passive replays, then 7 gradient probes ---
+Passive output/RNG/time-map gate passed; original reconstruction unchanged.
+Probing original t=999...
+t=999 clip=0.0% cos raw/masked=0.6903/0.6902 rel raw/masked=4.3663/4.3663
+Probing original t=916...
+t=916 clip=99.9% cos raw/masked=0.0325/0.9463 rel raw/masked=105.9217/1.3120
+Probing original t=833...
+t=833 clip=99.8% cos raw/masked=0.0375/0.9785 rel raw/masked=88.9788/1.1522
+Probing original t=667...
+t=667 clip=94.1% cos raw/masked=0.2980/0.7077 rel raw/masked=15.9416/2.0946
+Probing original t=333...
+t=333 clip=0.3% cos raw/masked=0.6276/0.6303 rel raw/masked=0.9964/0.9910
+Probing original t=143...
+t=143 clip=0.2% cos raw/masked=0.8974/0.8975 rel raw/masked=0.5462/0.5456
+Probing original t=0...
+t=0 clip=0.0% cos raw/masked=0.9966/0.9966 rel raw/masked=0.0835/0.0835
+RNG mapping: {"saved_generator_count": 2, "saved_sampling_index": 0, "selection_reason": "legacy trace CLI default logical cuda:0 (no set_device in source)", "current_sampling_device": "cuda:0", "current_visible_cuda_count": 1}
+
+--- uniform_30: three 30-step passive replays, then 7 gradient probes ---
+Passive output/RNG/time-map gate passed; original reconstruction unchanged.
+Probing original t=999...
+t=999 clip=0.0% cos raw/masked=0.6903/0.6902 rel raw/masked=4.3656/4.3655
+Probing original t=930...
+t=930 clip=100.0% cos raw/masked=0.0141/0.9945 rel raw/masked=163.7402/0.7200
+Probing original t=827...
+t=827 clip=99.5% cos raw/masked=0.0916/0.9407 rel raw/masked=56.0351/1.8366
+Probing original t=655...
+t=655 clip=93.6% cos raw/masked=0.3850/0.7044 rel raw/masked=11.6091/1.9333
+Probing original t=344...
+t=344 clip=0.3% cos raw/masked=0.8074/0.8093 rel raw/masked=0.7794/0.7745
+Probing original t=138...
+t=138 clip=0.0% cos raw/masked=0.8949/0.8949 rel raw/masked=0.5471/0.5470
+Probing original t=0...
+t=0 clip=0.0% cos raw/masked=0.9967/0.9967 rel raw/masked=0.0819/0.0819
+
+=== Guidance/clamp summary (same clipped squared-residual objective) ===
+            schedule    t   clip%    cosRaw   cosMask     relRaw    relMask  normRaw/exact  normMask/exact
+   irregular_15_10_5  999     0.0    0.6903    0.6902     4.3663     4.3663         4.9963          4.9962
+   irregular_15_10_5  916    99.9    0.0325    0.9463   105.9217     1.3120       105.9494          2.2178
+   irregular_15_10_5  833    99.8    0.0375    0.9785    88.9788     1.1522        89.0107          2.1122
+   irregular_15_10_5  667    94.1    0.2980    0.7077    15.9416     2.0946        16.2110          2.6796
+   irregular_15_10_5  333     0.3    0.6276    0.6303     0.9964     0.9910         1.2495          1.2463
+   irregular_15_10_5  143     0.2    0.8974    0.8975     0.5462     0.5456         1.2193          1.2188
+   irregular_15_10_5    0     0.0    0.9966    0.9966     0.0835     0.0835         1.0102          1.0102
+irregular_15_10_5 high-noise summary: {"count": 4, "times": [999, 916, 833, 667], "mean_clip_fraction": 0.7344958136491186, "median_raw_relative_error": 52.460176656892635, "median_masked_relative_error": 1.703301764446604, "masked_relative_error_improved_count": 4}
+          uniform_30  999     0.0    0.6903    0.6902     4.3656     4.3655         4.9955          4.9954
+          uniform_30  930   100.0    0.0141    0.9945   163.7402     0.7200       163.7512          1.7069
+          uniform_30  827    99.5    0.0916    0.9407    56.0351     1.8366        56.1179          2.7458
+          uniform_30  655    93.6    0.3850    0.7044    11.6091     1.9333        11.9574          2.5026
+          uniform_30  344     0.3    0.8074    0.8093     0.7794     0.7745         1.3166          1.3142
+          uniform_30  138     0.0    0.8949    0.8949     0.5471     0.5470         1.2114          1.2113
+          uniform_30    0     0.0    0.9967    0.9967     0.0819     0.0819         1.0087          1.0087
+uniform_30 high-noise summary: {"count": 4, "times": [999, 930, 827, 655], "mean_clip_fraction": 0.7326901952437765, "median_raw_relative_error": 33.82210534339948, "median_masked_relative_error": 1.884958624232261, "masked_relative_error_improved_count": 4}
+Smaller relative error/better cosine supports a clipping-path discrepancy; not proof of a PSNR gain or paper bug.
+Both approximations poor: examine the score-Jacobian approximation before changing sampling noise or learning rate.
+No training/replacement reconstruction; new NFE=208; records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/guidance_clipping_20261009_142630

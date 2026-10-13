@@ -1,0 +1,215 @@
+{
+  "git": {
+    "commit": "33f300f",
+    "branch": "master",
+    "dirty": true
+  },
+  "arguments": {
+    "trace_dir": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+    "late_start": 333,
+    "noise_scale": 0.75,
+    "device": "cuda"
+  },
+  "source_trace": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+  "semantics": "train and evaluate with same fixed late-noise policy; original baseline retained",
+  "formula": "DDPM mean + (eta*rho)*sigma*z + original correction at t<=late_start",
+  "ground_truth_usage": "report metrics only; no output selection or early stopping",
+  "results": [
+    {
+      "schedule": "irregular_15_10_5",
+      "train_noise_scale": 1.0,
+      "eval_noise_scale": 1.0,
+      "matched_policy": true,
+      "psnr": 19.59868338039635,
+      "ssim": 0.31679025292396545,
+      "lpips": 0.650459885597229,
+      "dPSNR": 0.0,
+      "dSSIM": 0.0,
+      "dLPIPS": 0.0,
+      "residual": 24.160625457763672,
+      "eval_nfe": 30
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "train_noise_scale": 1.0,
+      "eval_noise_scale": 0.75,
+      "matched_policy": false,
+      "psnr": 24.268760060361952,
+      "ssim": 0.6753294467926025,
+      "lpips": 0.49851110577583313,
+      "dPSNR": 4.670076679965604,
+      "dSSIM": 0.3585391938686371,
+      "dLPIPS": -0.15194877982139587,
+      "residual": 23.50341796875,
+      "eval_nfe": 30
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "train_noise_scale": 0.75,
+      "eval_noise_scale": 0.75,
+      "matched_policy": true,
+      "psnr": 24.23272789811471,
+      "ssim": 0.6742573380470276,
+      "lpips": 0.49142196774482727,
+      "dPSNR": 4.634044517718362,
+      "dSSIM": 0.35746708512306213,
+      "dLPIPS": -0.15903791785240173,
+      "residual": 23.51949691772461,
+      "eval_nfe": 30
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "train_noise_scale": 0.75,
+      "eval_noise_scale": 1.0,
+      "matched_policy": false,
+      "psnr": 19.51726595164565,
+      "ssim": 0.31380632519721985,
+      "lpips": 0.6501773595809937,
+      "dPSNR": -0.08141742875069724,
+      "dSSIM": -0.0029839277267456055,
+      "dLPIPS": -0.00028252601623535156,
+      "residual": 24.2097225189209,
+      "eval_nfe": 30
+    },
+    {
+      "schedule": "uniform_30",
+      "train_noise_scale": 1.0,
+      "eval_noise_scale": 1.0,
+      "matched_policy": true,
+      "psnr": 21.506852206242556,
+      "ssim": 0.5509742498397827,
+      "lpips": 0.34323835372924805,
+      "dPSNR": 0.0,
+      "dSSIM": 0.0,
+      "dLPIPS": 0.0,
+      "residual": 24.829111099243164,
+      "eval_nfe": 30
+    },
+    {
+      "schedule": "uniform_30",
+      "train_noise_scale": 1.0,
+      "eval_noise_scale": 0.75,
+      "matched_policy": false,
+      "psnr": 23.59705254769807,
+      "ssim": 0.6493774056434631,
+      "lpips": 0.45597806572914124,
+      "dPSNR": 2.090200341455514,
+      "dSSIM": 0.09840315580368042,
+      "dLPIPS": 0.11273971199989319,
+      "residual": 24.17510414123535,
+      "eval_nfe": 30
+    },
+    {
+      "schedule": "uniform_30",
+      "train_noise_scale": 0.75,
+      "eval_noise_scale": 0.75,
+      "matched_policy": true,
+      "psnr": 23.476383850308906,
+      "ssim": 0.6480201482772827,
+      "lpips": 0.44712284207344055,
+      "dPSNR": 1.9695316440663504,
+      "dSSIM": 0.0970458984375,
+      "dLPIPS": 0.1038844883441925,
+      "residual": 24.219724655151367,
+      "eval_nfe": 30
+    },
+    {
+      "schedule": "uniform_30",
+      "train_noise_scale": 0.75,
+      "eval_noise_scale": 1.0,
+      "matched_policy": false,
+      "psnr": 20.453031362005216,
+      "ssim": 0.40820741653442383,
+      "lpips": 0.5084755420684814,
+      "dPSNR": -1.0538208442373396,
+      "dSSIM": -0.1427668333053589,
+      "dLPIPS": 0.1652371883392334,
+      "residual": 24.93770408630371,
+      "eval_nfe": 30
+    }
+  ],
+  "gates": {
+    "irregular_15_10_5_train_1": {
+      "passed": true,
+      "classification": "PASS_NUMERICAL_PARITY",
+      "core_repeat_relative_error": 0.0,
+      "trace_core_relative_error": 0.0,
+      "metadata_equal": true,
+      "absolute_tolerance": 1e-07,
+      "hard_relative_error_ceiling": 1e-05,
+      "effective_relative_error_limit": 1e-07,
+      "archived_psnr_absolute_delta": 0.0
+    },
+    "irregular_15_10_5_train_0.75": {
+      "passed": true,
+      "classification": "PASS_NUMERICAL_PARITY",
+      "core_repeat_relative_error": 0.0,
+      "trace_core_relative_error": 0.0,
+      "metadata_equal": true,
+      "absolute_tolerance": 1e-07,
+      "hard_relative_error_ceiling": 1e-05,
+      "effective_relative_error_limit": 1e-07
+    },
+    "uniform_30_train_1": {
+      "passed": true,
+      "classification": "PASS_NUMERICAL_PARITY",
+      "core_repeat_relative_error": 0.0,
+      "trace_core_relative_error": 0.0,
+      "metadata_equal": true,
+      "absolute_tolerance": 1e-07,
+      "hard_relative_error_ceiling": 1e-05,
+      "effective_relative_error_limit": 1e-07,
+      "archived_psnr_absolute_delta": 0.0
+    },
+    "uniform_30_train_0.75": {
+      "passed": true,
+      "classification": "PASS_NUMERICAL_PARITY",
+      "core_repeat_relative_error": 0.0,
+      "trace_core_relative_error": 0.0,
+      "metadata_equal": true,
+      "absolute_tolerance": 1e-07,
+      "hard_relative_error_ceiling": 1e-05,
+      "effective_relative_error_limit": 1e-07
+    }
+  },
+  "pairing": {
+    "irregular_15_10_5": {
+      "x_T_equal": true,
+      "epoch10_rng_equal": true
+    },
+    "uniform_30": {
+      "x_T_equal": true,
+      "epoch10_rng_equal": true
+    }
+  },
+  "optimization_nfe": {
+    "irregular_15_10_5": 300,
+    "uniform_30": 300
+  },
+  "new_loss_history": {
+    "irregular_15_10_5": [
+      0.0028585586696863174,
+      0.0028526349924504757,
+      0.002837643725797534,
+      0.0028329561464488506,
+      0.0028561106882989407,
+      0.0028325608000159264,
+      0.002858573105186224,
+      0.002831509802490473,
+      0.002802364295348525,
+      0.00281355157494545
+    ],
+    "uniform_30": [
+      0.0029979762621223927,
+      0.003028480801731348,
+      0.002977549796923995,
+      0.0029874704778194427,
+      0.002958307508379221,
+      0.002991456538438797,
+      0.0030172904953360558,
+      0.0029666624031960964,
+      0.002927299588918686,
+      0.0029835770837962627
+    ]
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "experiment": "clamp_VJP_mask_one_change",
+  "status": "complete",
+  "arguments": {
+    "guidance_dir": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/guidance_clipping_20261009_142630",
+    "device": "cuda",
+    "saved_cuda_index": null
+  },
+  "source_guidance": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/guidance_clipping_20261009_142630",
+  "source_trace": "/home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857",
+  "seed": 1001,
+  "git_revision": "3ba2a599bfa8f20697eb9938bbf2f1718d4b8966",
+  "runtime": {
+    "torch_version": "2.6.0+cu118",
+    "cuda_runtime": "11.8",
+    "cuda_visible_devices": "0",
+    "visible_cuda_count": 1,
+    "sampling_cuda_index": 0
+  },
+  "settings": "same y/H/x_T/grid/lr=.001/eta=1/fixed variance/joint zeta+D/last_opt",
+  "formula": "current B(v) versus B(Mv), v=H^T(y-H(clamp(x0_raw)))",
+  "limits": "frozen raw->mask is sensitivity only; matched mask->mask is a diagnostic variant, not state-aware gain or proof of the authors' implementation",
+  "ground_truth_usage": "metrics only, no schedule/output/epoch selection",
+  "new_nfe": 960,
+  "results": [
+    {
+      "schedule": "irregular_15_10_5",
+      "policy": "raw_baseline",
+      "psnr": 19.59868338039635,
+      "ssim": 0.31679025292396545,
+      "lpips": 0.650459885597229,
+      "dPSNR": 0.0,
+      "dSSIM": 0.0,
+      "dLPIPS": 0.0,
+      "residual_norm": 24.160625457763672,
+      "new_policy_nfe": 0,
+      "method_budget_nfe": 300,
+      "seconds": 0.0
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "policy": "frozen_raw_to_mask",
+      "psnr": 9.38943810205948,
+      "ssim": 0.11471864581108093,
+      "lpips": 0.9711302518844604,
+      "dPSNR": -10.20924527833687,
+      "dSSIM": -0.20207160711288452,
+      "dLPIPS": 0.32067036628723145,
+      "residual_norm": 103.59696197509766,
+      "new_policy_nfe": 30,
+      "method_budget_nfe": 330,
+      "seconds": 6.304964542388916
+    },
+    {
+      "schedule": "irregular_15_10_5",
+      "policy": "matched_mask_training",
+      "psnr": 9.374857575774657,
+      "ssim": 0.11470253020524979,
+      "lpips": 0.9735702276229858,
+      "dPSNR": -10.223825804621692,
+      "dSSIM": -0.20208772271871567,
+      "dLPIPS": 0.32311034202575684,
+      "residual_norm": 101.32269287109375,
+      "new_policy_nfe": 300,
+      "method_budget_nfe": 300,
+      "seconds": 65.53520965576172
+    },
+    {
+      "schedule": "uniform_30",
+      "policy": "raw_baseline",
+      "psnr": 21.506852206242556,
+      "ssim": 0.5509742498397827,
+      "lpips": 0.34323835372924805,
+      "dPSNR": 0.0,
+      "dSSIM": 0.0,
+      "dLPIPS": 0.0,
+      "residual_norm": 24.829111099243164,
+      "new_policy_nfe": 0,
+      "method_budget_nfe": 300,
+      "seconds": 0.0
+    },
+    {
+      "schedule": "uniform_30",
+      "policy": "frozen_raw_to_mask",
+      "psnr": 9.31762196543884,
+      "ssim": 0.11078198999166489,
+      "lpips": 0.9473831057548523,
+      "dPSNR": -12.189230240803715,
+      "dSSIM": -0.44019225984811783,
+      "dLPIPS": 0.6041447520256042,
+      "residual_norm": 107.09200286865234,
+      "new_policy_nfe": 30,
+      "method_budget_nfe": 330,
+      "seconds": 6.33881402015686
+    },
+    {
+      "schedule": "uniform_30",
+      "policy": "matched_mask_training",
+      "psnr": 9.283584833621056,
+      "ssim": 0.10986270755529404,
+      "lpips": 0.9505727291107178,
+      "dPSNR": -12.2232673726215,
+      "dSSIM": -0.4411115422844887,
+      "dLPIPS": 0.6073343753814697,
+      "residual_norm": 108.15789794921875,
+      "new_policy_nfe": 300,
+      "method_budget_nfe": 300,
+      "seconds": 63.63124942779541
+    }
+  ],
+  "gates": {
+    "irregular_15_10_5": {
+      "null_wrapper": {
+        "passed": true,
+        "classification": "PASS_NUMERICAL_PARITY",
+        "core_repeat_relative_error": 0.0,
+        "trace_core_relative_error": 0.0,
+        "metadata_equal": true,
+        "absolute_tolerance": 1e-07,
+        "hard_relative_error_ceiling": 1e-05,
+        "effective_relative_error_limit": 1e-07
+      },
+      "archive_fingerprint": {
+        "passed": true,
+        "atol": 1e-06,
+        "rtol": 2e-05,
+        "clip_atol": 2e-05,
+        "fields": [
+          "input_x_rms",
+          "residual_norm",
+          "raw_x0_clip_fraction"
+        ],
+        "scope": "archived scalar fingerprints, not tensorwise equality",
+        "failures": []
+      },
+      "rng_mapping": {
+        "saved_generator_count": 2,
+        "saved_sampling_index": 0,
+        "selection_reason": "legacy trace CLI default logical cuda:0 (no set_device in source)"
+      },
+      "archived_psnr_delta": 0.0,
+      "training_randomness": {
+        "x_T_equal": true,
+        "epoch10_cpu_rng_equal": true,
+        "epoch10_sampling_cuda_rng_equal": true
+      },
+      "masked_last_opt_replay": {
+        "passed": true,
+        "classification": "PASS_NUMERICAL_PARITY",
+        "core_repeat_relative_error": 0.0,
+        "trace_core_relative_error": 0.0,
+        "metadata_equal": true,
+        "absolute_tolerance": 1e-07,
+        "hard_relative_error_ceiling": 1e-05,
+        "effective_relative_error_limit": 1e-07
+      }
+    },
+    "uniform_30": {
+      "null_wrapper": {
+        "passed": true,
+        "classification": "PASS_NUMERICAL_PARITY",
+        "core_repeat_relative_error": 0.0,
+        "trace_core_relative_error": 0.0,
+        "metadata_equal": true,
+        "absolute_tolerance": 1e-07,
+        "hard_relative_error_ceiling": 1e-05,
+        "effective_relative_error_limit": 1e-07
+      },
+      "archive_fingerprint": {
+        "passed": true,
+        "atol": 1e-06,
+        "rtol": 2e-05,
+        "clip_atol": 2e-05,
+        "fields": [
+          "input_x_rms",
+          "residual_norm",
+          "raw_x0_clip_fraction"
+        ],
+        "scope": "archived scalar fingerprints, not tensorwise equality",
+        "failures": []
+      },
+      "rng_mapping": {
+        "saved_generator_count": 2,
+        "saved_sampling_index": 0,
+        "selection_reason": "legacy trace CLI default logical cuda:0 (no set_device in source)"
+      },
+      "archived_psnr_delta": 0.0,
+      "training_randomness": {
+        "x_T_equal": true,
+        "epoch10_cpu_rng_equal": true,
+        "epoch10_sampling_cuda_rng_equal": true
+      },
+      "masked_last_opt_replay": {
+        "passed": true,
+        "classification": "PASS_NUMERICAL_PARITY",
+        "core_repeat_relative_error": 0.0,
+        "trace_core_relative_error": 0.0,
+        "metadata_equal": true,
+        "absolute_tolerance": 1e-07,
+        "hard_relative_error_ceiling": 1e-05,
+        "effective_relative_error_limit": 1e-07
+      }
+    }
+  },
+  "loss_histories": {
+    "irregular_15_10_5": [
+      0.05410517752170563,
+      0.056888602674007416,
+      0.06018636375665665,
+      0.05927261710166931,
+      0.05639525502920151,
+      0.05078896880149841,
+      0.0502665638923645,
+      0.053339239209890366,
+      0.047689661383628845,
+      0.052217043936252594
+    ],
+    "uniform_30": [
+      0.058043114840984344,
+      0.058504290878772736,
+      0.06430389732122421,
+      0.061383992433547974,
+      0.06454773247241974,
+      0.05666341632604599,
+      0.05674663186073303,
+      0.061597488820552826,
+      0.05722619593143463,
+      0.059499770402908325
+    ]
+  },
+  "configs": {
+    "irregular_15_10_5": {
+      "num_steps": 30,
+      "schedule": [
+        15,
+        10,
+        5
+      ],
+      "timestep_spacing": "linear",
+      "schedule_power": 2.0,
+      "num_epochs": 10,
+      "lr": 0.001,
+      "zeta_init": 0.2,
+      "d_init": 0.2,
+      "eta": 1.0,
+      "use_learned_var": false,
+      "sampler_mode": "ddpm",
+      "wave": "db4",
+      "level": 3,
+      "surrogate_score_jacobian": false
+    },
+    "uniform_30": {
+      "num_steps": 30,
+      "schedule": [
+        15,
+        10,
+        5
+      ],
+      "timestep_spacing": "linear",
+      "schedule_power": 2.0,
+      "num_epochs": 10,
+      "lr": 0.001,
+      "zeta_init": 0.2,
+      "d_init": 0.2,
+      "eta": 1.0,
+      "use_learned_var": false,
+      "sampler_mode": "ddpm",
+      "wave": "db4",
+      "level": 3,
+      "surrogate_score_jacobian": false
+    }
+  },
+  "identity": {
+    "checkpoint_sha256": "a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1",
+    "measurement_sha256": "05dfeb5de98056640c6e553c428ccf961a49dfffd8098fcd4f531c32864faae4",
+    "operator_source_sha256": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696",
+    "core_sha256": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427",
+    "image_sha256": "1d65095a3afcd0f54d93156ba264afaf4c668ad4134045db3f7d45cee1bb7ccb"
+  }
+}

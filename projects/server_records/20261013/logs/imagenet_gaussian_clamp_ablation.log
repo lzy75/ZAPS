@@ -1,0 +1,51 @@
+[ImageNet] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/256x256_diffusion_uncond.pt  device=cuda  precision=fp32
+Checking audited checkpoint/H/measurement/core identities...
+
+=== Clamp guidance ablation: no LR/grid/noise/default changes ===
+Records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/clamp_ablation_20261009_151823
+
+--- irregular_15_10_5; saved RNG 0 -> current cuda:0 ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /data0/lzy/conda/envs/TriPS_from_base/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+irregular_15_10_5 raw_baseline: PSNR=19.5987 dPSNR=+0.0000 SSIM=0.3168 LPIPS=0.6505
+irregular_15_10_5 frozen_raw_to_mask: PSNR=9.3894 dPSNR=-10.2092 SSIM=0.1147 LPIPS=0.9711
+irregular_15_10_5: train matched clamp mask, original lr=0.001, joint zeta+D...
+  [ZAPS] Epoch  1/10  loss=0.054105  NFE=30  time=6.7s  zeta=0.2007  gz=0.1257  D=0.2000  gd=0.0011  PSNR=9.44
+  [ZAPS] Epoch  2/10  loss=0.056889  NFE=60  time=13.3s  zeta=0.2015  gz=0.1206  D=0.2000  gd=0.0005  PSNR=9.39
+  [ZAPS] Epoch  3/10  loss=0.060186  NFE=90  time=20.1s  zeta=0.2022  gz=0.1172  D=0.2000  gd=0.0006  PSNR=9.32
+  [ZAPS] Epoch  4/10  loss=0.059273  NFE=120  time=26.4s  zeta=0.2029  gz=0.1237  D=0.2000  gd=0.0013  PSNR=9.31
+  [ZAPS] Epoch  5/10  loss=0.056395  NFE=150  time=32.8s  zeta=0.2036  gz=0.1231  D=0.2000  gd=0.0005  PSNR=9.31
+  [ZAPS] Epoch  6/10  loss=0.050789  NFE=180  time=39.3s  zeta=0.2043  gz=0.1166  D=0.2000  gd=0.0005  PSNR=9.34
+  [ZAPS] Epoch  7/10  loss=0.050267  NFE=210  time=45.7s  zeta=0.2050  gz=0.1185  D=0.2001  gd=0.0007  PSNR=9.40
+  [ZAPS] Epoch  8/10  loss=0.053339  NFE=240  time=52.3s  zeta=0.2057  gz=0.1143  D=0.2001  gd=0.0007  PSNR=9.39
+  [ZAPS] Epoch  9/10  loss=0.047690  NFE=270  time=58.8s  zeta=0.2065  gz=0.1177  D=0.2001  gd=0.0109  PSNR=9.46
+  [ZAPS] Epoch 10/10  loss=0.052217  NFE=300  time=65.5s  zeta=0.2072  gz=0.1172  D=0.2001  gd=0.0017  PSNR=9.37
+irregular_15_10_5 matched_mask_training: PSNR=9.3749 dPSNR=-10.2238 SSIM=0.1147 LPIPS=0.9736
+
+--- uniform_30; saved RNG 0 -> current cuda:0 ---
+uniform_30 raw_baseline: PSNR=21.5069 dPSNR=+0.0000 SSIM=0.5510 LPIPS=0.3432
+uniform_30 frozen_raw_to_mask: PSNR=9.3176 dPSNR=-12.1892 SSIM=0.1108 LPIPS=0.9474
+uniform_30: train matched clamp mask, original lr=0.001, joint zeta+D...
+  [ZAPS] Epoch  1/10  loss=0.058043  NFE=30  time=6.3s  zeta=0.2007  gz=0.4388  D=0.2000  gd=0.1961  PSNR=9.21
+  [ZAPS] Epoch  2/10  loss=0.058504  NFE=60  time=12.6s  zeta=0.2015  gz=0.8667  D=0.2000  gd=0.4988  PSNR=9.20
+  [ZAPS] Epoch  3/10  loss=0.064304  NFE=90  time=18.8s  zeta=0.2021  gz=0.9831  D=0.2000  gd=0.1829  PSNR=9.21
+  [ZAPS] Epoch  4/10  loss=0.061384  NFE=120  time=25.2s  zeta=0.2027  gz=0.8513  D=0.2000  gd=0.5246  PSNR=9.15
+  [ZAPS] Epoch  5/10  loss=0.064548  NFE=150  time=31.4s  zeta=0.2033  gz=0.6297  D=0.2000  gd=0.1200  PSNR=9.16
+  [ZAPS] Epoch  6/10  loss=0.056663  NFE=180  time=37.7s  zeta=0.2039  gz=0.9906  D=0.2000  gd=0.1369  PSNR=9.15
+  [ZAPS] Epoch  7/10  loss=0.056747  NFE=210  time=44.1s  zeta=0.2044  gz=0.9392  D=0.2000  gd=0.3433  PSNR=9.28
+  [ZAPS] Epoch  8/10  loss=0.061597  NFE=240  time=50.6s  zeta=0.2049  gz=0.9821  D=0.2001  gd=0.1882  PSNR=9.14
+  [ZAPS] Epoch  9/10  loss=0.057226  NFE=270  time=57.1s  zeta=0.2054  gz=0.3609  D=0.2001  gd=0.9326  PSNR=9.23
+  [ZAPS] Epoch 10/10  loss=0.059500  NFE=300  time=63.6s  zeta=0.2059  gz=0.9932  D=0.2001  gd=0.1165  PSNR=9.27
+uniform_30 matched_mask_training: PSNR=9.2836 dPSNR=-12.2233 SSIM=0.1099 LPIPS=0.9506
+
+=== Paired clamp-guidance reconstruction summary ===
+            schedule                  policy      PSNR     delta     SSIM    LPIPS    dLPIPS
+   irregular_15_10_5            raw_baseline   19.5987   +0.0000   0.3168   0.6505   +0.0000
+   irregular_15_10_5      frozen_raw_to_mask    9.3894  -10.2092   0.1147   0.9711   +0.3207
+   irregular_15_10_5   matched_mask_training    9.3749  -10.2238   0.1147   0.9736   +0.3231
+          uniform_30            raw_baseline   21.5069   +0.0000   0.5510   0.3432   +0.0000
+          uniform_30      frozen_raw_to_mask    9.3176  -12.1892   0.1108   0.9474   +0.6041
+          uniform_30   matched_mask_training    9.2836  -12.2233   0.1099   0.9506   +0.6073
+Frozen raw->mask is sensitivity only; matched mask training tests this one implementation choice.
+No original-paper recovery/state-aware gain claim from one image. Formal defaults and FFHQ unchanged.
+New NFE=960 (default 960); records: /home/lzy/ZAPS/projects/results/diag_zaps_paper_task_schedule/imagenet_20261008_172549/optimized_trace_gaussian_deblur_20261008_181857/clamp_ablation_20261009_151823
