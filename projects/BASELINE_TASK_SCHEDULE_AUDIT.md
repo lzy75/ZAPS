@@ -2,6 +2,9 @@
 
 > 当前阶段结论见 [2026-10-09 存档](PROGRESS_ARCHIVE_20261009.md)。
 > 下文保留历史过程；最新硬mask重建已失败，不是成功修复或正式默认配置。
+> 后续实验按 [2026-10-13 标准](EXPERIMENT_STANDARD_20261013.md) 和
+> [参考基线manifest](IMAGENET_BASELINE_MANIFEST_20261013.json) 分账，
+> 目前不能称原文完整实现“完全一致”。
 
 ## 目的与已有证据
 
