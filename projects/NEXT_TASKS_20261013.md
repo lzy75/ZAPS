@@ -1,6 +1,12 @@
 # 任务拆分与去重检查：优先 ImageNet 复现
 
 日期：2026-10-13。状态：分析存档与待办，不是新 GPU 结果。
+2026-10-14更新：[收束前进度](IMAGENET_DIAGNOSTIC_CLOSEOUT_20261014.md)。
+首步同幅度精确方向已完成且变差；最后一个获确认候选为
+[仅首步ζ初始化消融](experiment_cards/R_first_init.md)，联合优化300新NFE，
+真实GPU待运行；不改共享核心。并行[初始化调度研究](INITIAL_SCHEDULE_RESEARCH_20261013.md)
+已形成两种模型成本候选，仍是待确认提案，未启动GPU搜索。
+下列13日段落的“待运行”保留历史状态，最新执行项以本更新为准。
 最新：[首步幅度实验已完成摘要](FIRST_GUIDANCE_RESULT_20261013.md)，用户回报
 单图+1.1491dB、SSIM/LPIPS共同改善；并非原文修复。用户已确认
 [同幅度首步方向验证](experiment_cards/R_first_direction.md)，31诊断NFE，
