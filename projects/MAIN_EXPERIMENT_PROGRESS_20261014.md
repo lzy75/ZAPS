@@ -5,6 +5,22 @@
 
 ## 用户最新决定：返回原文公开初值的复现主线
 
+### 当前执行：FFHQ四任务公开配置＋unit测量协议（入口已实现，GPU待运行）
+
+用户已回传[状态/域结果](STATE_DOMAIN_RESULT_20261014.md)：ImageNet unit state
+较null下降.1797dB且SSIM/LPIPS均变差；FFHQ model +.0830dB但LPIPS退化，
+FFHQ unit −.0407dB，未获综合收益。FFHQ unit null较model null下降2.9916dB。
+这些FFHQ结果是Karras rho3、lr=.01、经验T，不是原文公开配置参考。
+
+用户现请求[四任务paper配置对照](experiment_cards/R_ffhq_four_tasks_unit.md)：
+Gaussian / random70% / motion / SR×4，paper15/10/5、30×10、Adam默认lr=.001，
+blur ζ=.2，inpaint/SR ζ=.1，全D=.2；unit物理σ=.05，UNet仍[-1,1]。
+独立入口使用真实伴随和论文引用的motionblur生成器，不沿用简化直线核或legacy T。
+每图四任务1200新方法NFE，0额外score诊断；图像数量显式选择，不自动扩样。
+单图或小子集只能与论文1000图均值作量级背景比较，不认证benchmark复现。
+共享核心/默认设置保持不动，本轮也不加入状态或调参。
+以下保留历史进程，以本段为最新执行项。
+
 ### 最新执行项：状态收益验证优先（独立入口已实现，GPU待服务器运行）
 
 用户已回传同unit协议paper/uniform21.7256/21.2757，paper的PSNR+.4499、

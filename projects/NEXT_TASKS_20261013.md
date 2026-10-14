@@ -1,6 +1,10 @@
 # 任务拆分与去重检查：优先 ImageNet 复现
 
 日期：2026-10-13。状态：分析存档与待办，不是新 GPU 结果。
+2026-10-14当前执行：用户已回传两组state/domain摘要，当前候选未获综合收益，
+详见[结果存档](STATE_DOMAIN_RESULT_20261014.md)。新请求为[FFHQ四任务公开配置＋unit域](experiment_cards/R_ffhq_four_tasks_unit.md)，
+独立入口已实现，1200NFE/图，不用Karras/lr=.01/legacy T，不自动扩样或扫描。
+论文Table1/2四任务基线已核对；服务器待运行，状态trace离线分析待后续。
 2026-10-14最新：同unit协议paper21.7256、uniform21.2757已由用户回传，
 paper PSNR/LPIPS更好而SSIM较低。现优先[固定30状态收益/域交互](experiment_cards/A_state_domain_paired.md)，
 用户已授权ImageNet unit null/state和FFHQ两域四臂，共1800方法+270诊断NFE；
