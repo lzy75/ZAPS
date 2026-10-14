@@ -1,6 +1,11 @@
 # 任务拆分与去重检查：优先 ImageNet 复现
 
 日期：2026-10-13。状态：分析存档与待办，不是新 GPU 结果。
+2026-10-14最新：同unit协议paper21.7256、uniform21.2757已由用户回传，
+paper PSNR/LPIPS更好而SSIM较低。现优先[固定30状态收益/域交互](experiment_cards/A_state_domain_paired.md)，
+用户已授权ImageNet unit null/state和FFHQ两域四臂，共1800方法+270诊断NFE；
+独立入口已实现，服务器待运行。不补第二张纯基线、不扫描lr/初值/噪声。
+旧队列保留历史，以本段及[主体进度](MAIN_EXPERIMENT_PROGRESS_20261014.md)为准。
 2026-10-14当前：unit Gaussian候选已由用户回传21.7256/.5387/.3958，
 相对原model域缓存三指标共同改善（+2.1269dB）；原manifest仍保留。
 用户已同意[同unit协议uniform单因素对照](experiment_cards/R_gaussian_unit_uniform.md)，

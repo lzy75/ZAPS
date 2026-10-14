@@ -5,6 +5,24 @@
 
 ## 用户最新决定：返回原文公开初值的复现主线
 
+### 最新执行项：状态收益验证优先（独立入口已实现，GPU待服务器运行）
+
+用户已回传同unit协议paper/uniform21.7256/21.2757，paper的PSNR+.4499、
+LPIPS−.0482，但SSIM−.0184；不是全指标优胜，也不是状态收益。
+相比旧协议paper落后1.9082，当前单图PSNR排序反转；支持协议影响比较结论。
+
+用户已授权[状态/值域配对实验卡](experiment_cards/A_state_domain_paired.md)：
+ImageNet unit Gaussian、paper初始网格，fresh null/state，600方法+90诊断NFE；
+FFHQ SR×4、Karras rho3、历史经验引导，两个域各null/state，1200方法+180诊断NFE。
+合计2070新UNet NFE。原初值和各模型已有lr不再扫描；pilot计入300每臂。
+ImageNet沿用noise-coordinate参考（gamma=.25），FFHQ保留历史步序参考
+（gamma=.35），两域内表达相同，不同时改余弦特征。FFHQ经验T保持，不称精确伴随。
+先0响应前向/VJP门控；记录全部epoch t/h/r/c/索引与RNG，只有同域state-null
+差值计状态收益。域效应和交互单列，辅助指标恶化不得宣称综合提升。
+独立入口`utils/diag_state_domain_paired.py`，共享核心/默认/旧入口未改。
+本机契约测试与服务器GPU结果分开；无PyTorch数值测试不能称通过。
+以下保留本周历史进程，新执行项以上段为准。
+
 已完成：[原设置缓存确认](experiment_cards/R_original_reference.md)，新增UNet NFE=0。
 复用原始输出/14个存储状态，检查身份、指标、共同x0后验及FP64代数；
 原FP32失败保留，物理噪声值域和近似反向未认证项显式报告。
