@@ -1,6 +1,11 @@
 # 任务拆分与去重检查：优先 ImageNet 复现
 
 日期：2026-10-13。状态：分析存档与待办，不是新 GPU 结果。
+2026-10-14当前：unit Gaussian候选已由用户回传21.7256/.5387/.3958，
+相对原model域缓存三指标共同改善（+2.1269dB）；原manifest仍保留。
+用户已同意[同unit协议uniform单因素对照](experiment_cards/R_gaussian_unit_uniform.md)，
+只补uniform一臂300新NFE，旧paper缓存0新NFE；无状态、初值/lr/噪声扫描。
+详见[结果边界](GAUSSIAN_UNIT_DOMAIN_RESULT_20261014.md)。以下按时间保留旧队列。
 2026-10-14最新执行：原设置0-UNet审计已由服务器完成，原Gaussian
 19.5987/.3168/.6505确认，实测物理噪声unit等效σ=.0250009133，
 公开协议缺口仍在。用户已确认[Gaussian unit物理测量候选](experiment_cards/R_gaussian_unit_domain.md)：

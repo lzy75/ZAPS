@@ -13,7 +13,7 @@
 unit等效σ=.0250009133。分类为原缓存确认且公开协议对齐仍有缺口，
 不是作者完全一致/数据集均值复现认证。
 
-### 当前获确认下一项：Gaussian unit物理测量域（入口已实现/服务器待运行）
+### Gaussian unit物理测量域已完成；下一项仅补同协议uniform
 
 见[独立实验卡](experiment_cards/R_gaussian_unit_domain.md)和入口
 `utils/diag_imagenet_gaussian_unit_domain.py`。新增只有一臂300方法NFE；
@@ -21,10 +21,18 @@ unit等效σ=.0250009133。分类为原缓存确认且公开协议对齐仍有�
 正确保留zero-padding H(1)项；使用旧标准噪声场构造unit域σ=.05。
 UNet仍在[-1,1]，全步ζ/D=.2、lr=.001及原30×10设置不动。
 这是物理SNR和引导/loss单位随测量协议一起改变，不是同y对照或单纯重命名。
-先0-UNet算子/噪声/RNG门控，再300训练；未运行不填候选分数。
+用户已回传300-NFE结果：21.7256/.5387/.3958，相对原model域缓存
++2.1268989dB/+.2219597/-.2547061；支持测量协议敏感性，不认证作者实现，
+不把成套协议变化误解为只隔离噪声或梯度尺度。
 不重跑旧SR值域实验，不自动解锁状态/调参，不因高分选择所谓正确物理域。
 新增3项本机契约测试通过；3项张量/VJP/微型训练测试因无PyTorch跳过，
 须服务器先运行测试，再启动真实权重300-NFE实验。未修改共享核心或默认值。
+完整结果边界见[新增结果摘要](GAUSSIAN_UNIT_DOMAIN_RESULT_20261014.md)。
+用户已同意[同unit协议paper/uniform对照](experiment_cards/R_gaussian_unit_uniform.md)：
+复用新y和缓存paper，只补uniform30一臂300NFE；初值/lr/其他设置不变。
+同x_T和按轮次/步序配对标准正态数，不声称不同跨度上同物理Brownian路径。
+独立入口`utils/diag_imagenet_gaussian_unit_uniform.py`，服务器待运行；
+历史model域uniform21.5069不能拿来代替本次同协议对照。
 
 用户明确不同意以改初值21.3650作为复现/主体状态实验基座。
 恢复原始manifest：Gaussian全步ζ初值=.2、D=.2，paper15/10/5、
