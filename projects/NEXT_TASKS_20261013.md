@@ -1,6 +1,11 @@
 # 任务拆分与去重检查：优先 ImageNet 复现
 
 日期：2026-10-13。状态：分析存档与待办，不是新 GPU 结果。
+2026-10-14最新：用户已回传首步初始化联合训练21.3650/.4417/.5092，
+相对原设置+1.7663dB，支持初始化敏感，R线本轮收束；非唯一根因/原文认证。
+已确认下一项为[A线固定30步null/state](experiment_cards/A_imagenet_tuned_state.md)，
+600方法NFE+90诊断NFE，真实GPU待运行；[主体进度存档](MAIN_EXPERIMENT_PROGRESS_20261014.md)。
+用户已将初始化调度研究手动移至另一聊天，本聊天不再启动I线搜索。
 2026-10-14更新：[收束前进度](IMAGENET_DIAGNOSTIC_CLOSEOUT_20261014.md)。
 首步同幅度精确方向已完成且变差；最后一个获确认候选为
 [仅首步ζ初始化消融](experiment_cards/R_first_init.md)，联合优化300新NFE，
