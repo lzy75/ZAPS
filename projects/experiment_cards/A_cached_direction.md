@@ -1,6 +1,7 @@
 # A0b：存档轨迹上的条件均值方向与转向敏感度
 
-日期2026-10-16，Asia/Shanghai。状态implemented，GPU/张量检查待服务器。
+日期2026-10-16，Asia/Shanghai。状态：用户已回传缓存重构门控通过与分析输出。
+结果：[A0b回传分析](../CACHED_DIRECTION_RESULT_20261016.md)；原始Records仍待补全。
 父实验：[A0结果](../STATE_TRAJECTORY_RESULT_20261015.md)，代码1af8535；
 用户回传observer/archive误差均0，最终26.70129265/.82015914/.16083704。
 自动寻找服务器`results/diag_state_trajectory/*/run.json`中的最近completed兼容源，
