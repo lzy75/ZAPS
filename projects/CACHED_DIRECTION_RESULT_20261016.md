@@ -1,5 +1,8 @@
 # A0b回传：条件均值方向改善阶段可读性，尚不支持控制收益
 
+追加组成与共同配对核查已完成，见[单图验证阶段结论](STATE_INDICATOR_CLOSEOUT_20261016.md)。
+以下为第一次A0b回传的分析存档，不覆盖原始结论与数字。
+
 日期2026-10-16，Asia/Shanghai。用户回传b643685的30点表及Gates/Summary。
 证据：[终端回传结构化记录](experiment_cards/evidence/A_cached_direction_20261016_user_report.json)。
 不是本机GPU结果；原始Records路径、完整run.json/CSV尚未回传，不杜撰。
