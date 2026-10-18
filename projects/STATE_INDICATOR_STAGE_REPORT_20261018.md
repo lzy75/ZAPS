@@ -342,3 +342,12 @@ AdamDPS Fig9支持观察相邻引导方向；GITS是ODE轨迹几何，Gotta Go F
 - [AdamDPS，2026](https://www.cs.cornell.edu/gomes/pdf/2026_belardi_arxiv_adam.pdf)
 - [GITS，2024](https://arxiv.org/abs/2405.11326)
 - [Gotta Go Fast，2021](https://arxiv.org/abs/2105.14080)
+
+## 10. 下一阶段执行计划（尚未运行）
+
+A2a独立入口与实验卡已实现：固定候选00020–00022，每图采样seed1000/2000，
+每图两个seed共用一份观测。先审计历史使用、文件与来源hash，不自动替换缺图/用过的ID。
+每条300方法+120诊断NFE，先一条再补齐六条，总1800方法+720诊断；保持原固定网格。
+本机32项检查23项通过、9项因无Torch跳过，不能称GPU验证完成；服务器须全部通过。
+命令、判据及后续增量信息/固定网格干预路线见
+[下一阶段计划](GUIDANCE_REPLICATION_PLAN_20261018.md)。当前未新增重建结果。
