@@ -1,8 +1,11 @@
 # A1a回传：引导方向具有清晰阶段结构，尚不能指导步数
 
 日期2026-10-18，证据为用户回贴30点表、Gates、Summary和最终指标。
-预期入口779d1ce；回贴没有实际运行commit、Report source/SHA、Records和测试输出，
-不声称本机已核对完整服务器目录身份或15项服务器测试。
+初稿回贴缺运行身份；现已从结果提交711da42核对完整文本归档。
+实际运行commit为779d1cec96e98c6d91f825250f4963f84823a564，run.json SHA256为
+aafc669728477d1ba241b1e4dcaed7ed05e605cb120ba10f0669b6789dd191e9；来源链接、
+源码身份和分段中位数均匹配。未在本机重跑CUDA门控或认证服务器15项单测输出。
+[归档审计及CSV换行说明](STATE_INDICATOR_ARCHIVE_AUDIT_20261018.md)
 [结构化回传](experiment_cards/evidence/A_guidance_geometry_20261018_user_report.json)
 保存终端舍入表与原精度Summary，不能用舍入数据替代原CSV/张量。
 

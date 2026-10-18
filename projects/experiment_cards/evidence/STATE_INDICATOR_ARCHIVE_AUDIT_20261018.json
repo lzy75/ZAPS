@@ -1,0 +1,731 @@
+{
+  "experiment": "state_indicator_archive_local_audit",
+  "status": "PASS_WITH_DOCUMENTED_CSV_EOL_NORMALIZATION",
+  "audited_date": "2026-10-18",
+  "source_commit": "711da429a60bf31476078f51879f14d24f877df6",
+  "source_ref": "origin/results/state-indicators-20261018",
+  "audit_script_sha256": "7e36db87e1025f27bcbef28326159881bb6fda7688ce084763c2e02d1c42cd5c",
+  "manifests": [
+    {
+      "path": "projects/server_records/20261018_state_indicators_20261018_165219_689497/manifest.json",
+      "sha256": "769a2fa4d62ceae99585ae4db81412dd8294158213ccc608e9d4873a77352d10",
+      "archived_at": "2026-10-18T16:52:19.689532+08:00",
+      "files_verified": 30,
+      "copied_bytes": 3960211,
+      "excluded_count": 18,
+      "provenance": [
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+          "source_sha256": "7e60a041cc53f0766a1b657389ead84820a038f7a70daef97088e5674260f2c6",
+          "bundled_run": "00_frozen_time_guidance_local_probe/run.json",
+          "git_revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+          "source_sha256": "aafc669728477d1ba241b1e4dcaed7ed05e605cb120ba10f0669b6789dd191e9",
+          "bundled_run": "01_cached_guidance_geometry/run.json",
+          "git_revision": "779d1cec96e98c6d91f825250f4963f84823a564"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/run.json",
+          "source_sha256": "298b348b495e3ad782359f0ec162218e2cc2490f95f27f2dbe34631c714b73f6",
+          "bundled_run": "02_passive_fixed_parent_state_trajectory/run.json",
+          "git_revision": "1af8535033ca67f85174a77a4bc8f49de0450d10"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/run.json",
+          "source_sha256": "ff1d82667770e83041349b0604cf171e7d2f545b90923f1acd5c07eddd78b1cc",
+          "bundled_run": "03_fixed30_state_measurement_domain_paired/run.json",
+          "git_revision": "60761c6c5db3707010be293fea62c1119a830ef9"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+          "source_sha256": "22490e184773db107e56b7590787b3022850ba25faa43b34a50217ad12c6e6fa",
+          "bundled_run": "04_cached_conditional_mean_direction/run.json",
+          "git_revision": "b643685601026d8e0a8740c77d88f4433f3f5234"
+        }
+      ],
+      "verbatim_git_files": 24,
+      "normalized_csv": [
+        {
+          "path": "00_frozen_time_guidance_local_probe/probes.csv",
+          "git_bytes": 5379,
+          "git_sha256": "e984105a67e91c67c96b65902738939c7d53a769149b3a562e3c5b6c007771c9",
+          "original_bytes": 5390,
+          "original_sha256": "25aafe4bcb09a81d979bbe0698315b48a3da229efb63d8510eb491c04d250c0e",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "01_cached_guidance_geometry/geometry.csv",
+          "git_bytes": 23188,
+          "git_sha256": "87f0bd78e9cc730354cbfd70f1d17d4a5a63e6802d52b28591668e4431547e1b",
+          "original_bytes": 23219,
+          "original_sha256": "c53eed9ffab4c4b3e61dbd7eaaefe688ada372f5d3e45b640b0567aba80e9137",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "02_passive_fixed_parent_state_trajectory/trajectory.csv",
+          "git_bytes": 10245,
+          "git_sha256": "b26c80860cdf19cd3337b7a2e53c7613d105a680bd711771a7ccee2349ca1926",
+          "original_bytes": 10276,
+          "original_sha256": "df2aa337fab64675d50e7f36216d41c0b24cb288727f708db6024d4e0deecad6",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "03_fixed30_state_measurement_domain_paired/summary.csv",
+          "git_bytes": 524,
+          "git_sha256": "501d3d9d791a86af98e83df3bf872cce3eb47ccb14b340c4b8acac3d17cb0293",
+          "original_bytes": 529,
+          "original_sha256": "f78880c0f15699c0711ad6f552be0e1c04eebfa4cc81f424e52f9e69b42ea1de",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "03_fixed30_state_measurement_domain_paired/trace.csv",
+          "git_bytes": 377550,
+          "git_sha256": "56ed501fa0b517db527182667f2fbf266c8c89283c056bce99a88e07ea384031",
+          "original_bytes": 378751,
+          "original_sha256": "9fa3a113c66ce5b22b3de2a8060518bd2291e4d4c8adaf153f55fa39b4cd83a4",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "04_cached_conditional_mean_direction/directions.csv",
+          "git_bytes": 16519,
+          "git_sha256": "339904fde0a594caaa88665dd25a3f29fd525db1ee4830e010c72afbd306b0a6",
+          "original_bytes": 16550,
+          "original_sha256": "8369f4085d3cab5329d9655246737dde166c183ce6d7cf45780efee87b86d7b2",
+          "exact_crlf_inverse_verified": true
+        }
+      ]
+    },
+    {
+      "path": "projects/server_records/20261018_state_indicators_20261018_170217_248796/manifest.json",
+      "sha256": "1f34d88d5060b678671ce00c3127e8070638d9375e19d387a4155811f026a855",
+      "archived_at": "2026-10-18T17:02:17.248823+08:00",
+      "files_verified": 30,
+      "copied_bytes": 3960211,
+      "excluded_count": 18,
+      "provenance": [
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+          "source_sha256": "7e60a041cc53f0766a1b657389ead84820a038f7a70daef97088e5674260f2c6",
+          "bundled_run": "00_frozen_time_guidance_local_probe/run.json",
+          "git_revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+          "source_sha256": "aafc669728477d1ba241b1e4dcaed7ed05e605cb120ba10f0669b6789dd191e9",
+          "bundled_run": "01_cached_guidance_geometry/run.json",
+          "git_revision": "779d1cec96e98c6d91f825250f4963f84823a564"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/run.json",
+          "source_sha256": "298b348b495e3ad782359f0ec162218e2cc2490f95f27f2dbe34631c714b73f6",
+          "bundled_run": "02_passive_fixed_parent_state_trajectory/run.json",
+          "git_revision": "1af8535033ca67f85174a77a4bc8f49de0450d10"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/run.json",
+          "source_sha256": "ff1d82667770e83041349b0604cf171e7d2f545b90923f1acd5c07eddd78b1cc",
+          "bundled_run": "03_fixed30_state_measurement_domain_paired/run.json",
+          "git_revision": "60761c6c5db3707010be293fea62c1119a830ef9"
+        },
+        {
+          "source": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+          "source_sha256": "22490e184773db107e56b7590787b3022850ba25faa43b34a50217ad12c6e6fa",
+          "bundled_run": "04_cached_conditional_mean_direction/run.json",
+          "git_revision": "b643685601026d8e0a8740c77d88f4433f3f5234"
+        }
+      ],
+      "verbatim_git_files": 24,
+      "normalized_csv": [
+        {
+          "path": "00_frozen_time_guidance_local_probe/probes.csv",
+          "git_bytes": 5379,
+          "git_sha256": "e984105a67e91c67c96b65902738939c7d53a769149b3a562e3c5b6c007771c9",
+          "original_bytes": 5390,
+          "original_sha256": "25aafe4bcb09a81d979bbe0698315b48a3da229efb63d8510eb491c04d250c0e",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "01_cached_guidance_geometry/geometry.csv",
+          "git_bytes": 23188,
+          "git_sha256": "87f0bd78e9cc730354cbfd70f1d17d4a5a63e6802d52b28591668e4431547e1b",
+          "original_bytes": 23219,
+          "original_sha256": "c53eed9ffab4c4b3e61dbd7eaaefe688ada372f5d3e45b640b0567aba80e9137",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "02_passive_fixed_parent_state_trajectory/trajectory.csv",
+          "git_bytes": 10245,
+          "git_sha256": "b26c80860cdf19cd3337b7a2e53c7613d105a680bd711771a7ccee2349ca1926",
+          "original_bytes": 10276,
+          "original_sha256": "df2aa337fab64675d50e7f36216d41c0b24cb288727f708db6024d4e0deecad6",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "03_fixed30_state_measurement_domain_paired/summary.csv",
+          "git_bytes": 524,
+          "git_sha256": "501d3d9d791a86af98e83df3bf872cce3eb47ccb14b340c4b8acac3d17cb0293",
+          "original_bytes": 529,
+          "original_sha256": "f78880c0f15699c0711ad6f552be0e1c04eebfa4cc81f424e52f9e69b42ea1de",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "03_fixed30_state_measurement_domain_paired/trace.csv",
+          "git_bytes": 377550,
+          "git_sha256": "56ed501fa0b517db527182667f2fbf266c8c89283c056bce99a88e07ea384031",
+          "original_bytes": 378751,
+          "original_sha256": "9fa3a113c66ce5b22b3de2a8060518bd2291e4d4c8adaf153f55fa39b4cd83a4",
+          "exact_crlf_inverse_verified": true
+        },
+        {
+          "path": "04_cached_conditional_mean_direction/directions.csv",
+          "git_bytes": 16519,
+          "git_sha256": "339904fde0a594caaa88665dd25a3f29fd525db1ee4830e010c72afbd306b0a6",
+          "original_bytes": 16550,
+          "original_sha256": "8369f4085d3cab5329d9655246737dde166c183ce6d7cf45780efee87b86d7b2",
+          "exact_crlf_inverse_verified": true
+        }
+      ]
+    }
+  ],
+  "duplicate_payloads_identical": true,
+  "unique_experiment_bundle_count": 1,
+  "source_links": [
+    {
+      "child": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "parent": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "sha256": "aafc669728477d1ba241b1e4dcaed7ed05e605cb120ba10f0669b6789dd191e9"
+    },
+    {
+      "child": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "parent": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/run.json",
+      "sha256": "298b348b495e3ad782359f0ec162218e2cc2490f95f27f2dbe34631c714b73f6"
+    },
+    {
+      "child": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/run.json",
+      "parent": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/run.json",
+      "sha256": "ff1d82667770e83041349b0604cf171e7d2f545b90923f1acd5c07eddd78b1cc"
+    },
+    {
+      "child": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "parent": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/run.json",
+      "sha256": "298b348b495e3ad782359f0ec162218e2cc2490f95f27f2dbe34631c714b73f6"
+    }
+  ],
+  "code_hash_checks": [
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/modules/zaps_algorithm.py",
+      "sha256": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/modules/degradations.py",
+      "sha256": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/modules/diffusion_model.py",
+      "sha256": "1c1ffd561699cea98f86feef616be412e68ec7f3650d4cc086de4ce0b1d9d473"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/modules/wavelet.py",
+      "sha256": "fd29252c73263aa379f3085089d054e6be6777fd7ef674e88036dfffed43459b"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/modules/main_single.py",
+      "sha256": "8dcc7a36bed335178bb00126345897381dd3eb98a0d1c314d8d734c46a6bf39f"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/modules/dataset_loader.py",
+      "sha256": "dee0a4fad32a518223507836b9af2acf2c56e2419a4c487b7b0183514bfd63e2"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/modules/adaptive_scheduler.py",
+      "sha256": "070cb7eefc23526e93e229fc4b88feb2057afa74bb03d6d77c70fe187a1fd092"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_state_domain_paired.py",
+      "sha256": "683b05d96ba32356d33a51e5c29046e449e2f1d5127c472575da84f7e68117e9"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_imagenet_tuned_state.py",
+      "sha256": "5c33f0b40dd9744f15be874d35fdace89018fc191b67b5f3ba899b2edf086e0d"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_ffhq_regression.py",
+      "sha256": "b2a6f25afbabf574f774bb97d3963b2bb00ccb45c3c50ebfdcf138722eb6283a"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_ffhq_timestep_ablation.py",
+      "sha256": "282a9ef26373719f9f7f2728ed3256f54891c6aa8225a8debb6bb14f2b385595"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/metrics.py",
+      "sha256": "1bca2cc769a43eaa3c7a07c038c967be2dc89dc2e9089f00b4b48dac9579ca45"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_imagenet_gaussian_unit_domain.py",
+      "sha256": "d37a1a9c0c21925b54851091186ee2cc3c4c1d459ee654a128aa7127af3dcc78"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_imagenet_gaussian_unit_uniform.py",
+      "sha256": "f51d55115a01a0b4ebc223ca151439f1d009ddd5ed6c88a697383caa98ee9d68"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_zaps_first_init.py",
+      "sha256": "a81fdbea53b23f89d855ec4a0a54e61912486353324ebc4d043c84c0f91e5a6b"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_zaps_first_direction.py",
+      "sha256": "4a265b1c8469e37d2e7eaec00a329c8e51874540c5c572fbdda09e7a9982982e"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_zaps_sampler_parity.py",
+      "sha256": "e55b23ac35954be401e84ee3b8fa12e3fd0e454e580c8451b24385a23a7b10ae"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_cached_guidance_geometry.py",
+      "sha256": "0f3b9b94dadb3f56c5c0d7febe1e89d289c36e08870d9a5fc2dabe7e70fcae29"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_cached_direction.py",
+      "sha256": "738bdf6e66f3d460a4110f1c4159c031601973d2fcffed1ff8cecdd4d5313451"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "revision": "bdc165a6aa524cb58d891cfafd733d187a2560e1",
+      "path": "projects/utils/diag_guidance_local_probe.py",
+      "sha256": "017a44a28fa7597628f1359dfe16ffa35032f0bc657e3c01a6f094555170618b"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/modules/zaps_algorithm.py",
+      "sha256": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/modules/degradations.py",
+      "sha256": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/modules/diffusion_model.py",
+      "sha256": "1c1ffd561699cea98f86feef616be412e68ec7f3650d4cc086de4ce0b1d9d473"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/modules/wavelet.py",
+      "sha256": "fd29252c73263aa379f3085089d054e6be6777fd7ef674e88036dfffed43459b"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/modules/main_single.py",
+      "sha256": "8dcc7a36bed335178bb00126345897381dd3eb98a0d1c314d8d734c46a6bf39f"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/modules/dataset_loader.py",
+      "sha256": "dee0a4fad32a518223507836b9af2acf2c56e2419a4c487b7b0183514bfd63e2"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/modules/adaptive_scheduler.py",
+      "sha256": "070cb7eefc23526e93e229fc4b88feb2057afa74bb03d6d77c70fe187a1fd092"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_state_domain_paired.py",
+      "sha256": "683b05d96ba32356d33a51e5c29046e449e2f1d5127c472575da84f7e68117e9"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_imagenet_tuned_state.py",
+      "sha256": "5c33f0b40dd9744f15be874d35fdace89018fc191b67b5f3ba899b2edf086e0d"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_ffhq_regression.py",
+      "sha256": "b2a6f25afbabf574f774bb97d3963b2bb00ccb45c3c50ebfdcf138722eb6283a"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_ffhq_timestep_ablation.py",
+      "sha256": "282a9ef26373719f9f7f2728ed3256f54891c6aa8225a8debb6bb14f2b385595"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/metrics.py",
+      "sha256": "1bca2cc769a43eaa3c7a07c038c967be2dc89dc2e9089f00b4b48dac9579ca45"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_imagenet_gaussian_unit_domain.py",
+      "sha256": "d37a1a9c0c21925b54851091186ee2cc3c4c1d459ee654a128aa7127af3dcc78"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_imagenet_gaussian_unit_uniform.py",
+      "sha256": "f51d55115a01a0b4ebc223ca151439f1d009ddd5ed6c88a697383caa98ee9d68"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_zaps_first_init.py",
+      "sha256": "a81fdbea53b23f89d855ec4a0a54e61912486353324ebc4d043c84c0f91e5a6b"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_zaps_first_direction.py",
+      "sha256": "4a265b1c8469e37d2e7eaec00a329c8e51874540c5c572fbdda09e7a9982982e"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_zaps_sampler_parity.py",
+      "sha256": "e55b23ac35954be401e84ee3b8fa12e3fd0e454e580c8451b24385a23a7b10ae"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_cached_guidance_geometry.py",
+      "sha256": "0f3b9b94dadb3f56c5c0d7febe1e89d289c36e08870d9a5fc2dabe7e70fcae29"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "revision": "779d1cec96e98c6d91f825250f4963f84823a564",
+      "path": "projects/utils/diag_cached_direction.py",
+      "sha256": "738bdf6e66f3d460a4110f1c4159c031601973d2fcffed1ff8cecdd4d5313451"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/run.json",
+      "revision": "1af8535033ca67f85174a77a4bc8f49de0450d10",
+      "path": "projects/utils/diag_state_trajectory.py",
+      "sha256": "8c096423ed65bcfbbcd9348b8fa428016fafa29ff49eb0373752c5c31a0ce49d"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/modules/zaps_algorithm.py",
+      "sha256": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/modules/degradations.py",
+      "sha256": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/modules/diffusion_model.py",
+      "sha256": "1c1ffd561699cea98f86feef616be412e68ec7f3650d4cc086de4ce0b1d9d473"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/modules/wavelet.py",
+      "sha256": "fd29252c73263aa379f3085089d054e6be6777fd7ef674e88036dfffed43459b"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/modules/main_single.py",
+      "sha256": "8dcc7a36bed335178bb00126345897381dd3eb98a0d1c314d8d734c46a6bf39f"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/modules/dataset_loader.py",
+      "sha256": "dee0a4fad32a518223507836b9af2acf2c56e2419a4c487b7b0183514bfd63e2"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/modules/adaptive_scheduler.py",
+      "sha256": "070cb7eefc23526e93e229fc4b88feb2057afa74bb03d6d77c70fe187a1fd092"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_state_domain_paired.py",
+      "sha256": "683b05d96ba32356d33a51e5c29046e449e2f1d5127c472575da84f7e68117e9"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_imagenet_tuned_state.py",
+      "sha256": "5c33f0b40dd9744f15be874d35fdace89018fc191b67b5f3ba899b2edf086e0d"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_ffhq_regression.py",
+      "sha256": "b2a6f25afbabf574f774bb97d3963b2bb00ccb45c3c50ebfdcf138722eb6283a"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_ffhq_timestep_ablation.py",
+      "sha256": "282a9ef26373719f9f7f2728ed3256f54891c6aa8225a8debb6bb14f2b385595"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/metrics.py",
+      "sha256": "1bca2cc769a43eaa3c7a07c038c967be2dc89dc2e9089f00b4b48dac9579ca45"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_imagenet_gaussian_unit_domain.py",
+      "sha256": "d37a1a9c0c21925b54851091186ee2cc3c4c1d459ee654a128aa7127af3dcc78"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_imagenet_gaussian_unit_uniform.py",
+      "sha256": "f51d55115a01a0b4ebc223ca151439f1d009ddd5ed6c88a697383caa98ee9d68"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_zaps_first_init.py",
+      "sha256": "a81fdbea53b23f89d855ec4a0a54e61912486353324ebc4d043c84c0f91e5a6b"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_zaps_first_direction.py",
+      "sha256": "4a265b1c8469e37d2e7eaec00a329c8e51874540c5c572fbdda09e7a9982982e"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_direction/20261016_111927_306641/run.json",
+      "revision": "b643685601026d8e0a8740c77d88f4433f3f5234",
+      "path": "projects/utils/diag_zaps_sampler_parity.py",
+      "sha256": "e55b23ac35954be401e84ee3b8fa12e3fd0e454e580c8451b24385a23a7b10ae"
+    }
+  ],
+  "excluded_hash_metadata_cross_checks": [
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/trajectory.pt",
+      "sha256": "2e01a1176555c86032dc652fd3b46081580e162d8d2ad7de57df502a9117d9d9"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/unit_measurement.pt",
+      "sha256": "e56fc5201cd0e2584d02dba589324eca39b2f579478a6dd34aaa964915022dba"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/unit_null_pre_last_state.pt",
+      "sha256": "1f5e5c2975062e9287e2c85728bd4049cbae22e249751ebf47c4c162f030b902"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/unit_null_last_opt.pt",
+      "sha256": "35e7416d92b6f942796c2b3e5ca5c1da60da21f8c535352954e7708ef0e173f2"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/geometry.pt",
+      "sha256": "c1ede74db75976a5078b2d53d51d332f73ffa9caa7fea07782cc1f8d0ec0603e"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_trajectory/20261015_235031_135309/trajectory.pt",
+      "sha256": "2e01a1176555c86032dc652fd3b46081580e162d8d2ad7de57df502a9117d9d9"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/unit_measurement.pt",
+      "sha256": "e56fc5201cd0e2584d02dba589324eca39b2f579478a6dd34aaa964915022dba"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/unit_null_pre_last_state.pt",
+      "sha256": "1f5e5c2975062e9287e2c85728bd4049cbae22e249751ebf47c4c162f030b902"
+    },
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_cached_guidance_geometry/20261018_160358_781525/run.json",
+      "path": "/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/unit_null_last_opt.pt",
+      "sha256": "35e7416d92b6f942796c2b3e5ca5c1da60da21f8c535352954e7708ef0e173f2"
+    }
+  ],
+  "unavailable_binary_payloads": [
+    {
+      "run": "/home/lzy/ZAPS/projects/results/diag_guidance_local_probe/20261018_162902_899938/run.json",
+      "path": "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt",
+      "recorded_sha256": "81d535743156ec6be34d8668e6920da94f0614074d7793a16c8fa9e306237faa"
+    }
+  ],
+  "csv_checks": [
+    {
+      "path": "00_frozen_time_guidance_local_probe/probes.csv",
+      "rows": 10,
+      "exact_string_roundtrip": true
+    },
+    {
+      "path": "01_cached_guidance_geometry/geometry.csv",
+      "rows": 30,
+      "exact_string_roundtrip": true
+    },
+    {
+      "path": "02_passive_fixed_parent_state_trajectory/trajectory.csv",
+      "rows": 30,
+      "exact_string_roundtrip": true
+    },
+    {
+      "path": "04_cached_conditional_mean_direction/directions.csv",
+      "rows": 30,
+      "exact_string_roundtrip": true
+    }
+  ],
+  "pasted_evidence_checks": [
+    {
+      "path": "projects/experiment_cards/evidence/A_guidance_local_probe_20261018_user_report.json",
+      "sha256": "dc7a52846f950fe0e45ecbff739c6dae8da9b797266742bad9fd123eba692d20",
+      "compared": [
+        "gates",
+        "summary",
+        "final_metrics_unchanged",
+        "rows"
+      ]
+    },
+    {
+      "path": "projects/experiment_cards/evidence/A_guidance_geometry_20261018_user_report.json",
+      "sha256": "089c7188bccd2dc78d64199d4882aa5af00cb5a9ebce45cf04b807f41c621c28",
+      "compared": [
+        "gates",
+        "summary",
+        "final_metrics_unchanged"
+      ]
+    }
+  ],
+  "probe_classifications_recomputed": 5,
+  "probe_finite_scale_positive_direction_loss_drops": 10,
+  "geometry_phase_medians_recomputed": true,
+  "unit_decomposition": [
+    {
+      "t": 903,
+      "q_rms": 0.7195616343705015,
+      "s_dir": [
+        1.0563344170820803,
+        0.9913267071423948
+      ],
+      "per_state_rms": [
+        1.4680249288251725,
+        1.377681437962772
+      ]
+    },
+    {
+      "t": 641,
+      "q_rms": 0.27339831875422216,
+      "s_dir": [
+        0.7069568807973443,
+        0.7065409198195909
+      ],
+      "per_state_rms": [
+        2.585812831690746,
+        2.584291384961853
+      ]
+    },
+    {
+      "t": 319,
+      "q_rms": 0.009787522353186065,
+      "s_dir": [
+        0.059581434109671684,
+        0.05902416847159729
+      ],
+      "per_state_rms": [
+        6.087488943540093,
+        6.0305526099139435
+      ]
+    },
+    {
+      "t": 54,
+      "q_rms": 0.005027144669014529,
+      "s_dir": [
+        0.019593063511699118,
+        0.01938150757308163
+      ],
+      "per_state_rms": [
+        3.8974536842879326,
+        3.855370960884041
+      ]
+    },
+    {
+      "t": 14,
+      "q_rms": 0.004802107433111338,
+      "s_dir": [
+        0.01764136306497874,
+        0.017567819855557887
+      ],
+      "per_state_rms": [
+        3.673671051867473,
+        3.658356273836111
+      ]
+    }
+  ],
+  "final_metrics": {
+    "psnr": 26.701292650989096,
+    "ssim": 0.8201591372489929,
+    "lpips": 0.16083703935146332
+  },
+  "stage_diagnostic_unet_nfe": 120,
+  "new_audit_unet_nfe": 0,
+  "scope": "Per bundle: 24 Git files match server hashes verbatim; 6 CSV files match exactly only after inverse LF-to-CRLF restoration. Materialized CSV files restore server bytes. Provenance and recorded statistics checked locally. Server tensor/checkpoint payloads and CUDA gates not rerun; binary hash metadata alone is not independent binary verification. Parent multi-arm experiment cost excluded from new indicator diagnostics.",
+  "materialized_bundle": "/Users/liziyue.22/ZAPS-deliverables/state-indicator-archive-20261018/20261018_state_indicators_20261018_170217_248796"
+}

@@ -105,6 +105,11 @@ def export_bundle(chain, projects=PROJECTS):
                 if sha256(dest) != item['sha256']: raise RuntimeError('Copy hash mismatch')
                 manifest['files'].append(item)
         manifest['copied_bytes'] = total
+        # Root *.csv text eol=lf would otherwise invalidate the recorded CRLF
+        # hashes on git add. Keep every archived payload's original bytes.
+        (work/'.gitattributes').write_bytes(b'* -text\n')
+        manifest['git_attributes'] = dict(relative_path='.gitattributes',
+                                          sha256=sha256(work/'.gitattributes'))
         (work/'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
         final = parent/name
         work.rename(final)
@@ -125,6 +130,13 @@ def commit_results(bundle, branch, repo=REPO):
         subprocess.run(['git', 'read-tree', base], cwd=repo, env=env, check=True)
         subprocess.run(['git', 'add', '-f', '--', str(bundle.relative_to(repo))], cwd=repo, env=env, check=True)
         tree = subprocess.check_output(['git', 'write-tree'], cwd=repo, env=env, text=True).strip()
+        # Check the actual Git objects too; copy verification alone cannot
+        # detect newline conversion or other clean filters during git add.
+        for path in sorted(bundle.rglob('*')):
+            if not path.is_file(): continue
+            stored = subprocess.check_output(['git', 'show', tree+':'+str(path.relative_to(repo))], cwd=repo, env=env)
+            if hashlib.sha256(stored).hexdigest() != sha256(path):
+                raise RuntimeError('Git changed archived bytes; results ref not updated: '+str(path))
         commit = subprocess.check_output(['git', 'commit-tree', tree, '-p', base], cwd=repo, env=env,
             input='Archive state indicator A0-A1b stage records\n', text=True).strip()
     # Compare-and-swap; never overwrite a concurrently changed ref.

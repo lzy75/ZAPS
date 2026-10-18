@@ -1,6 +1,6 @@
 # A1a：存档测量引导方向的阶段变化
 
-日期2026-10-18，工作线A，状态completed（用户回传生产结果；原始目录待归档审计）。
+日期2026-10-18，工作线A，状态completed（生产结果已回传，轻量归档已审计）。
 完整定义：../GUIDANCE_STABILITY_DESIGN_20261018.md。
 
 ## 1. 问题、父run与假设
@@ -74,3 +74,9 @@ Records和测试输出，完整服务器目录身份仍待下一入口绑定；�
 
 2026-10-18后续A1b补充了A1a实际路径及SHA（见GUIDANCE_LOCAL_PROBE_RESULT_20261018.md），
 其五个中心重算clean/q/loss误差均0；A1a原始目录尚待阶段归档下载。
+
+## 7. 归档审计追加
+
+结果提交711da42已拉取；实际运行779d1ce及父源hash已确认，CSV/JSON一致，
+阶段中位数重算匹配。六个归档CSV存在已精确核实的CRLF→LF转换；原张量未下载。
+见../STATE_INDICATOR_ARCHIVE_AUDIT_20261018.md。不改变原假设或升级控制收益。

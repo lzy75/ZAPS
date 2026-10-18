@@ -1,8 +1,11 @@
 # A1b回传与单图指标测量阶段结论
 
 日期2026-10-18。证据：用户回贴五个Snapshot、十组Pair、全部Gates及Summary。
-这是服务器结果回传，不是本机GPU运行。实际运行commit和本run.json的SHA未回贴；
-预期入口bdc165a，不据此声称已下载完整原始目录或看过服务器单测输出。
+初稿依据服务器回传；现已拉取结果提交711da42并独立核对文本归档。
+实际运行commit为bdc165a6aa524cb58d891cfafd733d187a2560e1，本run.json SHA256为
+7e60a041cc53f0766a1b657389ead84820a038f7a70daef97088e5674260f2c6。
+完整五点十组rows、gates、summary均与回传一致；未在本机重跑GPU或读取服务器张量。
+[归档审计及CSV换行说明](STATE_INDICATOR_ARCHIVE_AUDIT_20261018.md)
 [原始回传转录](experiment_cards/evidence/A_guidance_local_probe_20261018_user_report.json)
 [事后单位分解](experiment_cards/evidence/A_guidance_local_probe_20261018_units.json)
 
@@ -94,7 +97,9 @@ S_dir随这五个快照显著降低，但单位位移响应不单调降低，所
 
 ## 5. 一次性服务器归档
 
-当前只有回传文本与派生表已进代码分支，原始服务器目录仍待统一同步。
+2026-10-18更新：轻量文本/曲线归档已同步并完成审计，结果提交711da42。
+两次导出内容重复，只计一份实验；六个CSV经可逆换行恢复后精确匹配服务器hash。
+原张量/权重仍在服务器，未作二进制备份。以下命令保留为历史操作记录，当前无需重跑。
 独立归档入口utils/archive_state_indicator_stage.py沿A1b→A1a→A0→父run验证
 status和source SHA，并附带同一A0来源、已完成且门控通过的A0b记录。
 复制JSON/CSV/实验卡/曲线；binary张量不上传，清单保留其原路径、大小及可用hash。

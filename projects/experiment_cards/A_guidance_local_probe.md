@@ -1,6 +1,6 @@
 # A1b：固定时间快照的引导方向局部敏感度
 
-日期2026-10-18，工作线A，状态completed（用户回传生产结果；原始目录待归档审计）。
+日期2026-10-18，工作线A，状态completed（生产结果已回传，轻量归档已审计）。
 A1a门控已由用户回传passed，读数可分辨，但控制有效性未建立。
 完整定义：../GUIDANCE_STABILITY_DESIGN_20261018.md §3。
 
@@ -72,3 +72,10 @@ python -u utils/diag_guidance_local_probe.py --device cuda | tee ../guidance_loc
 来源、单位分解和证据边界见../GUIDANCE_LOCAL_PROBE_RESULT_20261018.md。
 当前为用户回传生产运行完成；服务器单测输出和本run.json SHA尚未回贴。
 不将本结果升级为控制收益，不增加GPU扫描；进入阶段性结果统一归档。
+
+## 7. 归档审计追加
+
+结果提交711da42已拉取；实际运行bdc165a，run.json SHA256为
+7e60a041cc53f0766a1b657389ead84820a038f7a70daef97088e5674260f2c6。
+五点分类/十组算式本机复核，全部完整rows与此前回传一致，30次累计调用编号完整。
+见../STATE_INDICATOR_ARCHIVE_AUDIT_20261018.md。未在本机读取服务器张量或重新执行GPU门控。

@@ -21,6 +21,23 @@ def fixture(projects):
 
 
 class ArchiveTests(unittest.TestCase):
+    def test_committed_csv_bytes_match_manifest_despite_root_lf_rule(self):
+        with tempfile.TemporaryDirectory() as folder:
+            repo = Path(folder)
+            def git(*args): return subprocess.check_output(['git', *args], cwd=repo)
+            git('init', '-q'); git('config', 'user.name', 'Archive Test'); git('config', 'user.email', 'archive-test@example.invalid')
+            (repo/'.gitattributes').write_bytes(b'*.csv text eol=lf\n')
+            git('add', '.gitattributes'); git('commit', '-qm', 'base')
+            projects = repo/'projects'; probe = fixture(projects)
+            (probe/'probes.csv').write_bytes(b't,s_dir\r\n903,1\r\n')
+            bundle, manifest = archive.export_bundle(archive.source_chain(probe, projects), projects)
+            commit = archive.commit_results(bundle, 'results/indicator-test', repo)
+            for entry in manifest['files']:
+                path = bundle/entry['relative_path']
+                stored = git('show', commit+':'+str(path.relative_to(repo.resolve())))
+                self.assertEqual(stored, path.read_bytes())
+                self.assertEqual(archive.hashlib.sha256(stored).hexdigest(), entry['sha256'])
+
     def test_only_completed_a0b_siblings_of_the_same_trace_are_added(self):
         with tempfile.TemporaryDirectory() as folder:
             projects = Path(folder)/'projects'; probe = fixture(projects)
