@@ -1,13 +1,14 @@
 # A1b：固定时间快照的引导方向局部敏感度
 
-日期2026-10-18，工作线A，状态planned；无新脚本/结果，A1a门控通过后进入。
+日期2026-10-18，工作线A，状态planned（独立入口已实现，服务器待运行）。
+A1a门控已由用户回传passed，读数可分辨，但控制有效性未建立。
 完整定义：../GUIDANCE_STABILITY_DESIGN_20261018.md §3。
 
 ## 1. 问题与身份
 
 目标：区分轨迹上方向变化与固定t的输入敏感度，并核验q的实际局部下降性质。
 复用A1a同一completed父run的x、y、PRE ζ/D、模型和所有hash，不按质量挑快照。
-当前绝对Records待运行前绑定；历史终端摘要不代替原始张量和权重身份。
+当前绝对Records待inspect绑定；历史终端摘要不代替原始张量和权重身份。
 假设：沿当前q的方向响应可由两尺度中央差分分辨，且能指出阶段差异。
 若可靠Phi>0，否定该点q是复合物理损失局部下降方向的解释。
 只允许mechanism_only，不允许更优重建、完整Hessian或已建立自适应步长结论。
@@ -25,6 +26,9 @@ GT不参与，不训练、不形成新完整轨迹，也不改变原输出。
 每点2次原输入重复+4次扰动，共30新增诊断UNet NFE；方法新增0，父历史300。
 所有失败/重复额外调用计数，超出30不自动追加。无需UNet输入反传。
 原输入clean/q必须匹配存档；沿用父回放校准的精度界限，不能事后放宽。
+实现固定原输入clean/q的relative ceiling=1e-6；loss绝对误差≤1e-7+2e-5*abs(loss)，
+clip比例差≤1e-5。记录浮点扰动实际投影跨度；相对请求跨度误差或正交量化误差
+超过1%则该点记输入表示不确定。这些是新探针执行前固定的数值准则，不是画质阈值。
 记录实际浮点扰动跨度、所有clip活动集合变化、S_dir、L_path及Phi。
 信号需>10倍原输入重复噪声；可分辨两尺度相对差≤20%，Phi符号一致；
 不足分辨率或尺度不一致记inconclusive，不扩大η追信号。
@@ -40,6 +44,22 @@ q/扰动后q近零时方向NA；原参数、RNG、y及输出文件hash前后不�
 
 ## 5. 执行与归档
 
-当前只有实验设计，没有可运行命令。实现时建立独立入口，不改共享核心。
-先完成A1a及源身份绑定，再实现并给用户服务器命令；结果写新目录，保存卡片、
+入口utils/diag_guidance_local_probe.py独立实现，不改共享核心；A1a源码保持不动以
+保留父hash。先完成源身份绑定，结果写新目录，保存卡片、
 所有配置/源码/模型/张量hash、逐调用NFE、全快照CSV及failed/complete状态。
+本机7项合同检查通过，2项张量/真实ZAPS二次函数检查因缺PyTorch待服务器。
+探针读数为有限尺度局部响应；记录所有裁剪活动集合变化，不认证无限小导数。
+下降与上升响应都保留为可读结果，不因方向为上升而丢弃该快照。
+
+```bash
+cd /home/lzy/ZAPS/projects
+python -m unittest utils.test_diag_guidance_local_probe -v
+python -u utils/diag_guidance_local_probe.py --inspect
+set -o pipefail
+python -u utils/diag_guidance_local_probe.py --device cuda | tee ../guidance_local_probe_20261018.log
+```
+
+测试应9项全部通过、无skip。--geometry-dir可固定A1a目录；默认只按兼容协议/
+完成状态/目录时间选择，不按质量挑选。--inspect不加载Torch/权重，打印五个原点。
+输出results/diag_guidance_local_probe/<时间戳>/，含run.json、probes.csv及实验卡。
+回贴Snapshot/Pair、Gates、Summary、Report source/Source SHA256、Records。

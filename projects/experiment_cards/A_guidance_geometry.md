@@ -63,3 +63,11 @@ python -u utils/diag_cached_guidance_geometry.py --device cuda | tee ../guidance
 保存run.json、geometry.csv、geometry.pt（实际q和真实g_z序列）、PNG/SVG及本卡。
 报告原输出三指标、完整逐点表、全部门控及描述性关联，不输出控制增益。
 若缺matplotlib，JSON/CSV/张量仍完整；补图用--plot-only <本次A1a目录>，不重算。
+
+## 6. 2026-10-18用户回传（只追加结果）
+
+用户已回传全部门控passed，逐步输出/q重复误差0、RNG末状态一致。
+30/30方向有效，分类READABLE_GUIDANCE_DIRECTION_CHANGE；高/中/低相邻qCos
+中位数-.711957/-.096962/.985711。质量关联未认证控制方向。
+详见../GUIDANCE_GEOMETRY_RESULT_20261018.md。回贴缺实际运行commit、Source/SHA、
+Records和测试输出，完整服务器目录身份仍待下一入口绑定；本机没有GPU执行。
