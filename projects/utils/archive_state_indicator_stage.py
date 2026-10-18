@@ -116,7 +116,7 @@ def export_bundle(chain, projects=PROJECTS):
     return final, manifest
 
 
-def commit_results(bundle, branch, repo=REPO):
+def commit_results(bundle, branch, repo=REPO, message='Archive state indicator A0-A1b stage records\n'):
     repo = Path(repo).resolve(); bundle = Path(bundle).resolve()
     if not branch.startswith('results/') or not bundle.is_relative_to(repo/'projects/server_records'):
         raise ValueError('Only a results/* ref and projects/server_records bundle are permitted')
@@ -138,7 +138,7 @@ def commit_results(bundle, branch, repo=REPO):
             if hashlib.sha256(stored).hexdigest() != sha256(path):
                 raise RuntimeError('Git changed archived bytes; results ref not updated: '+str(path))
         commit = subprocess.check_output(['git', 'commit-tree', tree, '-p', base], cwd=repo, env=env,
-            input='Archive state indicator A0-A1b stage records\n', text=True).strip()
+            input=message, text=True).strip()
     # Compare-and-swap; never overwrite a concurrently changed ref.
     subprocess.run(['git', 'update-ref', ref, commit, old_sha or '0'*40], cwd=repo, check=True)
     return commit

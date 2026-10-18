@@ -1,10 +1,13 @@
 # 状态指标下一阶段：三图、双种子确认
 
-状态：已回传三条complete；第四条00021_s2000因磁盘满在保存阶段中断，尚缺最终门控。
-当前操作见[迁移与恢复命令](A2A_STORAGE_RECOVERY_20261018.md)，恢复后统一用新入口续跑。
+状态：六条已全部回传complete，第四条独立恢复及所有生产门控通过，H1分类PILOT_READABILITY_SUPPORTED。
+实际1800方法+840诊断=2640 NFE，包含原中断与额外恢复成本。
+当前不再续跑GPU；见[完整结果](GUIDANCE_REPLICATION_RESULT_20261018.md)及
+[一次性轻量归档](A2A_ARCHIVE_AND_NEXT_20261018.md)。原故障及恢复过程保留在
+[迁移与恢复命令](A2A_STORAGE_RECOVERY_20261018.md)。
 [首条结果](GUIDANCE_REPLICATION_SMOKE_RESULT_20261018.md)保留历史观察。本机32项检查中23项通过、
 9项因缺PyTorch/PyWavelets跳过；服务器32项单测输出未回贴，不认证其已全部通过。
-以下初始同步/prepare/旧remaining命令保留作历史操作记录，当前按恢复文档执行。
+以下初始同步/prepare/旧remaining命令保留作历史操作记录，当前不要重复执行。
 完整预注册条件：[A2a实验卡](experiment_cards/A_guidance_replication_20261018.md)。
 
 ## 当前结论
