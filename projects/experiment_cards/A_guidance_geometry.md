@@ -1,6 +1,6 @@
 # A1a：存档测量引导方向的阶段变化
 
-日期2026-10-18，工作线A，状态planned（入口已实现，待服务器执行）；无新GPU结果。
+日期2026-10-18，工作线A，状态completed（用户回传生产结果；原始目录待归档审计）。
 完整定义：../GUIDANCE_STABILITY_DESIGN_20261018.md。
 
 ## 1. 问题、父run与假设
@@ -71,3 +71,6 @@ python -u utils/diag_cached_guidance_geometry.py --device cuda | tee ../guidance
 中位数-.711957/-.096962/.985711。质量关联未认证控制方向。
 详见../GUIDANCE_GEOMETRY_RESULT_20261018.md。回贴缺实际运行commit、Source/SHA、
 Records和测试输出，完整服务器目录身份仍待下一入口绑定；本机没有GPU执行。
+
+2026-10-18后续A1b补充了A1a实际路径及SHA（见GUIDANCE_LOCAL_PROBE_RESULT_20261018.md），
+其五个中心重算clean/q/loss误差均0；A1a原始目录尚待阶段归档下载。

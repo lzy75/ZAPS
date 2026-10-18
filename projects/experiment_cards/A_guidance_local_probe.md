@@ -1,6 +1,6 @@
 # A1b：固定时间快照的引导方向局部敏感度
 
-日期2026-10-18，工作线A，状态planned（独立入口已实现，服务器待运行）。
+日期2026-10-18，工作线A，状态completed（用户回传生产结果；原始目录待归档审计）。
 A1a门控已由用户回传passed，读数可分辨，但控制有效性未建立。
 完整定义：../GUIDANCE_STABILITY_DESIGN_20261018.md §3。
 
@@ -63,3 +63,12 @@ python -u utils/diag_guidance_local_probe.py --device cuda | tee ../guidance_loc
 完成状态/目录时间选择，不按质量挑选。--inspect不加载Torch/权重，打印五个原点。
 输出results/diag_guidance_local_probe/<时间戳>/，含run.json、probes.csv及实验卡。
 回贴Snapshot/Pair、Gates、Summary、Report source/Source SHA256、Records。
+
+## 6. 2026-10-18用户回传（只追加结果）
+
+五点、两尺度全部可用，LOCAL_FINITE_SCALE_DESCENT=5，ASCENT=0；
+全部中心/参数/RNG/文件身份/30调用预算门控passed，中心clean/q/loss误差0。
+方向相对差最大6.1541%、loss相对差最大.8236%，达到原≥4/5点可用要求。
+来源、单位分解和证据边界见../GUIDANCE_LOCAL_PROBE_RESULT_20261018.md。
+当前为用户回传生产运行完成；服务器单测输出和本run.json SHA尚未回贴。
+不将本结果升级为控制收益，不增加GPU扫描；进入阶段性结果统一归档。
