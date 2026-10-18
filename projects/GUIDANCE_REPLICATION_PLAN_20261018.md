@@ -5,6 +5,10 @@
 当前不再续跑GPU；见[完整结果](GUIDANCE_REPLICATION_RESULT_20261018.md)及
 [一次性轻量归档](A2A_ARCHIVE_AND_NEXT_20261018.md)。原故障及恢复过程保留在
 [迁移与恢复命令](A2A_STORAGE_RECOVERY_20261018.md)。
+后续已回传40项同t关联与分段统计：阶段结构可重复，Omega3–kappa五点两尺度均负；
+暂不进入简单方向控制。新增[A2b0零NFE缓存坐标/轴向分解](experiment_cards/A2b0_cached_state_path_20261018.md)
+为事后机制分析，尚未运行。原表中更大样本A2b候选继续后置；
+完整分析见[同t关联复核](GUIDANCE_REPLICATION_ASSOCIATIONS_20261018.md)。
 [首条结果](GUIDANCE_REPLICATION_SMOKE_RESULT_20261018.md)保留历史观察。本机32项检查中23项通过、
 9项因缺PyTorch/PyWavelets跳过；服务器32项单测输出未回贴，不认证其已全部通过。
 以下初始同步/prepare/旧remaining命令保留作历史操作记录，当前不要重复执行。
