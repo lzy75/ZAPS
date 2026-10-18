@@ -1,0 +1,58 @@
+{
+  "experiment": "guidance_replication_smoke_user_report",
+  "evidence_kind": "user_pasted_terminal_not_downloaded_run_json",
+  "reported_records": "/home/lzy/ZAPS/projects/results/diag_guidance_replication/A2a_20261018",
+  "expected_entry_commit": "c8ebf0a66b917b487e7b1ce8feda41cba13c7f4a",
+  "reported_entry_commit": null,
+  "reported_plan_sha256": null,
+  "reported_run_sha256": null,
+  "server_unit_test_output_supplied": false,
+  "summary": {
+    "completed_cases": 1,
+    "planned_cases": 6,
+    "readable_cases": 1,
+    "classification": "INCOMPLETE_PILOT",
+    "method_nfe": 300,
+    "diagnostic_nfe": 120,
+    "rows": [{
+      "case": "00020_s1000",
+      "metrics": {"psnr": 25.123948614331034, "ssim": 0.7211341261863708, "lpips": 0.2285727858543396},
+      "status": "complete", "valid_q": 30, "usable": 5, "descents": 5, "ascents": 0
+    }],
+    "limits": "3 images x 2 seeds; dependent time points. No state intervention, control benefit or improved reconstruction claim. All ascents and unresolved points retained."
+  },
+  "gates": {
+    "training": {"passed": true, "nfe": 300, "optimizer_updates": 10},
+    "observer": {"passed": true, "classification": "PASS_NUMERICAL_PARITY", "core_repeat_relative_error": 0.0, "trace_core_relative_error": 0.0, "metadata_equal": true, "absolute_tolerance": 1e-7, "hard_relative_error_ceiling": 1e-5, "effective_relative_error_limit": 1e-7},
+    "archive": {"passed": true, "classification": "PASS_NUMERICAL_PARITY", "core_repeat_relative_error": 0.0, "trace_core_relative_error": 0.0, "metadata_equal": true, "absolute_tolerance": 1e-7, "hard_relative_error_ceiling": 1e-5, "effective_relative_error_limit": 1e-7},
+    "cached_geometry": {"passed": true, "max_relative_error": 0.0, "noise_draws": 29},
+    "probe": {
+      "passed": true,
+      "center_fingerprints": [
+        {"step": 8, "repeat": 0, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 8, "repeat": 1, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 19, "repeat": 0, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 19, "repeat": 1, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 24, "repeat": 0, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 24, "repeat": 1, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 27, "repeat": 0, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 27, "repeat": 1, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 28, "repeat": 0, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0},
+        {"step": 28, "repeat": 1, "clean_error": 0.0, "q_error": 0.0, "loss_error": 0.0}
+      ],
+      "parameters_grid_frozen": true,
+      "rng_unchanged": true
+    },
+    "identities_and_budget": {"passed": true, "method_nfe": 300, "diagnostic_nfe": 120}
+  },
+  "table_precision": "Rounded console values; not full-precision probe pairs or input-representation records.",
+  "probe_rows": [
+    {"step": 8, "t": 903, "q_rms": 0.751903, "clip": 0.993118, "s_dir": [1.00911, 0.934419], "per_state_rms": [1.34208, 1.24274], "phi": [-7.1781, -7.07961], "usable": true, "loss_status": "LOCAL_FINITE_SCALE_DESCENT"},
+    {"step": 19, "t": 641, "q_rms": 0.245491, "clip": 0.698629, "s_dir": [1.39368, 1.3907], "per_state_rms": [5.67711, 5.66497], "phi": [-35.1065, -35.0972], "usable": true, "loss_status": "LOCAL_FINITE_SCALE_DESCENT"},
+    {"step": 24, "t": 319, "q_rms": 0.00994456, "clip": 0.00575765, "s_dir": [0.0616357, 0.0611757], "per_state_rms": [6.19793, 6.15167], "phi": [-0.080567, -0.0806305], "usable": true, "loss_status": "LOCAL_FINITE_SCALE_DESCENT"},
+    {"step": 27, "t": 54, "q_rms": 0.00510582, "clip": 2.54313e-5, "s_dir": [0.0185442, 0.0184626], "per_state_rms": [3.63198, 3.616], "phi": [-0.0311084, -0.0310686], "usable": true, "loss_status": "LOCAL_FINITE_SCALE_DESCENT"},
+    {"step": 28, "t": 14, "q_rms": 0.00487683, "clip": 2.03451e-5, "s_dir": [0.0167048, 0.0166474], "per_state_rms": [3.42535, 3.41358], "phi": [-0.0351069, -0.0351139], "usable": true, "loss_status": "LOCAL_FINITE_SCALE_DESCENT"}
+  ],
+  "eta_order": [0.01, 0.02],
+  "interpretation_limits": "Only the first of six cases. Phi<0 certifies the reported central finite-scale slope classification, not that every positive perturbation loss is below its center; plus/center/minus losses were not pasted. Full trajectory geometry, same-t associations and raw hashes remain pending stage archive."
+}

@@ -1,7 +1,10 @@
 # 状态指标下一阶段：三图、双种子确认
 
-状态：代码及实验卡已实现，尚未运行服务器GPU。本机32项检查中23项通过、9项因
-缺PyTorch/PyWavelets跳过；服务器须32项全部通过且无skip，再运行真实任务。
+状态：已回传三条complete；第四条00021_s2000因磁盘满在保存阶段中断，尚缺最终门控。
+当前操作见[迁移与恢复命令](A2A_STORAGE_RECOVERY_20261018.md)，恢复后统一用新入口续跑。
+[首条结果](GUIDANCE_REPLICATION_SMOKE_RESULT_20261018.md)保留历史观察。本机32项检查中23项通过、
+9项因缺PyTorch/PyWavelets跳过；服务器32项单测输出未回贴，不认证其已全部通过。
+以下初始同步/prepare/旧remaining命令保留作历史操作记录，当前按恢复文档执行。
 完整预注册条件：[A2a实验卡](experiment_cards/A_guidance_replication_20261018.md)。
 
 ## 当前结论
