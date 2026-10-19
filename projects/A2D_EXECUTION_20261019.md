@@ -1,5 +1,8 @@
 # A2d执行：一次提交，六例自动完成
 
+完成更新：A2d已回传6/6完成、180诊断NFE，H4分类LOCAL_DIRECTION_REFRESH_NOT_SUPPORTED。
+不要再执行下方历史GPU启动命令。当前只做[结果核验及零NFE统一归档](GUIDANCE_DIRECTION_REFRESH_RESULT_20261019.md)。
+
 状态2026-10-19：独立入口已实现，本机数值/判定检查已执行，生产GPU实验未运行。
 用户明确恢复Mac主控流程，不等待Windows Codex任务。共享核心及旧冻结工件保持不变。
 
