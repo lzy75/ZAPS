@@ -67,6 +67,10 @@ def main(source):
         require(wait('ops_ok')['status'] == 'complete', 'CPU smoke failed')
         rejected(template)
         print('PASS detached CPU completion and duplicate ID rejection')
+        tree = subprocess.check_output(['git', '-C', str(repo), 'rev-parse', 'HEAD^{tree}'], text=True).strip()
+        rejected(dict(template, run_id='ops_tree', commit=tree))
+        require(not (jobs / 'ops_tree').exists(), 'Tree object accepted as commit')
+        print('PASS commit object type gate')
         import fcntl
         with (jobs / '.single-task.lock').open('a') as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -92,6 +96,32 @@ def main(source):
             for entry in manifest['files']:
                 require(scope['sha'](tar.extractfile(entry['path']).read()) == entry['sha256'], 'Collection hash mismatch')
         print('PASS result collection hashes')
+        orphan = jobs / 'ops_orphan'
+        orphan.mkdir()
+        scope['save'](orphan / 'status.json', dict(status='running', supervisor_pid=999999999))
+        require(scope['status'](orphan)['status'] == 'orphaned', 'Missing supervisor not detected')
+        try:
+            scope['collect'](orphan)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('Orphaned result collection accepted')
+        job = jobs / 'ops_ok'
+        (job / 'results/cache.pt').write_bytes(b'CPU fake binary; no tensor load')
+        original_sha = scope['file_sha']
+        def concurrent_write(path):
+            value = original_sha(path)
+            with (job / 'stdout.log').open('a') as log:
+                log.write('concurrent writer\n')
+            return value
+        scope['file_sha'] = concurrent_write
+        try:
+            scope['collect'](job)
+        except ValueError as error:
+            require('changed during collection' in str(error), 'Unexpected collection failure')
+        else:
+            raise AssertionError('Concurrent result mutation accepted')
+        print('PASS orphaned process and concurrent writer rejection')
         print('Infrastructure smoke only; method/diagnostic model NFE=0; temporary fixtures removed.')
 
 

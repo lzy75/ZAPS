@@ -97,6 +97,7 @@ def validate(spec):
     require(entry.endswith('.py') and PurePosixPath(entry).name not in FROZEN, 'Frozen diagnostic entrypoint is blocked')
     require(not re.match(r'A2(?:a|b0|c)[_.]', PurePosixPath(card).name, re.I), 'Completed A2 card is blocked')
     require(isinstance(spec['arguments'], list) and all(isinstance(a, str) and '\x00' not in a for a in spec['arguments']), 'Arguments must be strings')
+    require(git('cat-file', '-t', spec['commit']).strip() == b'commit', 'Version must be a commit object')
     resolved = dict(spec)
     for key, path in [('entrypoint_sha256', entry), ('card_sha256', card)]:
         resolved[key] = sha(git('show', spec['commit'] + ':projects/' + path))
@@ -193,21 +194,34 @@ def status(job):
         if pid is None:
             return dict(value, retry_allowed=False)
         command = Path('/proc') / str(pid) / 'cmdline'
-        if not command.exists() or str(job / 'controller.py').encode() not in command.read_bytes():
+        try:
+            live_command = command.read_bytes()
+        except (FileNotFoundError, ProcessLookupError):
+            live_command = b''
+        if str(job / 'controller.py').encode() not in live_command:
             value = dict(value, status='orphaned', retry_allowed=False)
     return value
 
 
-def collect(job):
-    require(status(job)['status'] in ('complete', 'failed', 'orphaned'), 'Collect requires terminal state')
-    payload, excluded, total = {}, [], 0
+def result_inventory(job):
+    result = {}
     for path in sorted(job.rglob('*')):
         if 'checkout' in path.relative_to(job).parts:
             continue
         require(not path.is_symlink(), 'Result symlinks are not allowed')
-        if not path.is_file():
-            continue
-        name = path.relative_to(job).as_posix()
+        if path.is_file():
+            s = path.stat()
+            result[path.relative_to(job).as_posix()] = (s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns)
+    return result
+
+
+def collect(job):
+    job_status = status(job)
+    require(job_status['status'] in ('complete', 'failed'), 'Collect requires confirmed complete/failed state; inspect orphaned processes first')
+    before = result_inventory(job)
+    payload, excluded, total = {}, [], 0
+    for name in before:
+        path = job / name
         if path.suffix.lower() not in {'.json', '.csv', '.md', '.txt', '.log', '.sha256', '.py'}:
             excluded.append(dict(path=name, bytes=path.stat().st_size, sha256=file_sha(path)))
             continue
@@ -216,8 +230,9 @@ def collect(job):
         total += len(data)
         require(total <= 100 * 1024**2, 'Archive exceeds 100 MiB')
         payload[name] = data
+    require(result_inventory(job) == before and status(job) == job_status, 'Results changed during collection; no archive emitted')
     manifest = dict(files=[dict(path=k, bytes=len(v), sha256=sha(v)) for k, v in payload.items()],
-                    excluded=excluded, run_id=job.name, binary_backup=False)
+                    excluded=excluded, run_id=job.name, status=job_status['status'], binary_backup=False)
     payload['MANIFEST.json'] = (json.dumps(manifest, indent=2) + '\n').encode()
     with tarfile.open(fileobj=sys.stdout.buffer, mode='w|gz') as tar:
         for name, data in payload.items():
