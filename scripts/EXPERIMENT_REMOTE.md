@@ -18,6 +18,13 @@ pwsh -File D:\ZAPS\scripts\experiment_remote.ps1 -Action AuditExisting -OutputDi
 失败的 `.partial` 文件保留，既不覆盖结果，也不启动任何实验。
 原始来源目录较深，Windows 检出含完整归档的 Git 分支时需使用 `git -c core.longpaths=true ...`。
 本机 Python 收集器已实际提取这些路径；直接读取 Git 对象使用 `git cat-file`，避免 `git show` 的 Windows 路径长度检查。
+本机已验证的 GitHub SSH 通道是 Windows 原生 OpenSSH；Git 发布时可按下列方式明确指定，
+避免依赖 Git 自带 SSH 的配置环境。此命令发布代码/结果分支，不提交 GPU 任务：
+
+```powershell
+$env:GIT_SSH_COMMAND = 'C:/Windows/System32/OpenSSH/ssh.exe -o BatchMode=yes -o ConnectTimeout=10'
+git push -u origin codex/windows-experiment-ops-20261019
+```
 
 ## 新实验的前提
 
