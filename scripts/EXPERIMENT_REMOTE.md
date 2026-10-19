@@ -16,6 +16,8 @@ pwsh -File D:\ZAPS\scripts\experiment_remote.ps1 -Action AuditExisting -OutputDi
 输出目录必须不存在。归档只读取文本、原有图表和身份信息，对留在服务器的张量/权重分块计算 SHA256。
 下载成功后，自动验证 tar 内路径、完整文件清单、大小及 SHA256，再提取到 `verified`。
 失败的 `.partial` 文件保留，既不覆盖结果，也不启动任何实验。
+原始来源目录较深，Windows 检出含完整归档的 Git 分支时需使用 `git -c core.longpaths=true ...`。
+本机 Python 收集器已实际提取这些路径；直接读取 Git 对象使用 `git cat-file`，避免 `git show` 的 Windows 路径长度检查。
 
 ## 新实验的前提
 
