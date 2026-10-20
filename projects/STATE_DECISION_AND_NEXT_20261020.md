@@ -1,5 +1,9 @@
 # 当前结论与下一步：直接检验细化收益，不继续扫描余弦或引导剂量
 
+2026-10-20 A4更新：固定t14分支的最终输出六例两桥全部通过H6，平均约+.10 dB PSNR、+.00392 SSIM、-.00270 LPIPS。
+诊断24 NFE，最终物理loss下降；复算12项比较与回传均值一致。固定终局候选成立，余弦/状态选择收益仍未建立。
+[完整结果及下一项提案](GUIDANCE_TERMINAL_CONTINUATION_RESULT_20261020.md)。
+
 2026-10-20 A3回传更新：六例完成180诊断NFE，汇总H5通过，分类LOCAL_COUPLED_REFINEMENT_CANDIDATE_ONLY。
 t641有2/3图、t54及t14有3/3图的两seed两桥均满足联合条件；局部候选成立，尚无最终输出或余弦增量选择结论。
 本机当前仅独立复算末例五点，完整其余点待归档。[A3结果与证据边界](GUIDANCE_COUPLED_REFINEMENT_RESULT_20261020.md)。
