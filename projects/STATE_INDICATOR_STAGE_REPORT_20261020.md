@@ -133,3 +133,25 @@ A20已回传24例：新图队列B相对C的PSNR+0.148478、SSIM+0.002441、LPIPS
 下一步归因见 [A19实验卡](experiment_cards/A19_terminal_failure_attribution_20261020.md)。
 当前消融见 [A20实验卡](experiment_cards/A20_cached_prior_displacement_ablation_20261020.md)。
 主线实验见 [A21实验卡](experiment_cards/A21_equal_nfe_state_guidance_20261020.md)。
+
+A21已完成12例、6图，所有候选均原300 NFE，新增UNet调用0。
+transfer六例的固定、仅物理和完整状态均选择原t0 gamma2：相对原C平均
+PSNR +0.129699 dB、SSIM +0.002487、LPIPS +0.000288、物理loss −0.048430。
+三个策略完全相同，状态相对固定/物理的增量均0，GT oracle相对最强固定的余量也0。
+因此分类 NO_USEFUL_STATE_SELECTION_HEADROOM_IN_THIS_ACTION_SET，关闭本末步动作集的
+状态选择分支，不继续修改窗口/ridge/系数范围追分；不能把这0.13 dB计为状态收益。
+它支持固定引导强度的同预算改动，未建立状态指标指导的收益。
+Mac只核对回传汇总的相等性与预算，未重放原张量，见
+[A21摘要核验](experiment_cards/evidence/A21_user_summary_audit_20261020.json)。
+
+下一轮[A22实验卡](experiment_cards/A22_equal_nfe_path_opportunity_20261020.md)先检查动作空间：
+在原t903/641/319/54/14各做一次gamma .5或2的引导pulse，并续跑整个剩余原轨迹。
+每个科学候选仍300 NFE；复用12条旧轨迹，不重训，新增1296 diagnostic NFE，原t0 gamma2
+作为强固定对照。A2c只看下一时刻，这里看最终PSNR/SSIM/LPIPS/物理损失。
+分别报告两个3图队列全部固定动作，以及相同平均保护线下的诊断oracle上界。
+oracle余量≥.01 dB只解锁后续指标验证，不能当成状态策略、在线选输出或泛化证据。
+跨阶段oracle可以利用完整离线结果，是宽松上界；未来因果策略只能使用当前及之前状态，
+不能用尚未观测的后续状态回选较早动作。各固定t的三动作余量同时报告。
+若五点/本单pulse范围均无余量，停止这个动作集，不扩大扫描；若有余量，再独立设计
+固定t下物理状态与加入方向变化状态的因果对照，比较同成本固定规则与最终重建收益。
+当前状态感知收益仍未建立，工程里程碑不因A21/A22代码完成自动增加。
