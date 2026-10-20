@@ -1,0 +1,327 @@
+{
+  "experiment": "fixed_position_continuation_case",
+  "status": "complete",
+  "case": {
+    "key": "00021_s2000",
+    "image": "/home/lzy/FFHQ/00000/00000/00021.png",
+    "image_id": "00021",
+    "measurement_seed": 1021,
+    "sampling_seed": 2000,
+    "image_sha256": "07faf5fefb8589e88f922b41816d88573c02a192356696f6206ab89afcd5a443"
+  },
+  "plan_sha256": "a028fb58ca5ecac2f504f5e8563294b48e7429881f103302ac2ade6a7354e69a",
+  "method_nfe": 0,
+  "diagnostic_nfe": 6,
+  "calls": [
+    {
+      "arm": "C",
+      "repeat": 0,
+      "parameter_index": 0,
+      "eval_t": 0,
+      "t": 0
+    },
+    {
+      "arm": "C",
+      "repeat": 1,
+      "parameter_index": 0,
+      "eval_t": 0,
+      "t": 0
+    },
+    {
+      "arm": "F0",
+      "repeat": 0,
+      "parameter_index": 1,
+      "eval_t": 14,
+      "t": 14
+    },
+    {
+      "arm": "F0",
+      "repeat": 0,
+      "parameter_index": 0,
+      "eval_t": 0,
+      "t": 0
+    },
+    {
+      "arm": "F1",
+      "repeat": 0,
+      "parameter_index": 1,
+      "eval_t": 14,
+      "t": 14
+    },
+    {
+      "arm": "F1",
+      "repeat": 0,
+      "parameter_index": 0,
+      "eval_t": 0,
+      "t": 0
+    }
+  ],
+  "gates": {
+    "final_baseline": {
+      "passed": true,
+      "checks": {
+        "clean_error": 0.0,
+        "q_error": 0.0,
+        "final_error": 0.0,
+        "repeat_error": 0.0
+      },
+      "metric_drifts": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      }
+    },
+    "cached_A3": {
+      "passed": true,
+      "endpoint_metric_drifts": {
+        "F0": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        },
+        "F1": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        }
+      }
+    },
+    "cached_A4": {
+      "passed": true,
+      "baseline_drifts": {
+        "loss": 0.0,
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      }
+    },
+    "original_suffix_noise": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "terminal_no_draw": {
+      "passed": true
+    },
+    "parameters_grid_rng": {
+      "passed": true
+    },
+    "identity_and_budget": {
+      "passed": true,
+      "method_nfe": 0,
+      "diagnostic_nfe": 6
+    }
+  },
+  "experiment_card": "# A5：固定t54细化的终局延续及与固定t14的同成本位置对照\n\n2026-10-20，用户授权执行。独立诊断，local_reference开发验证，不是独立确认集。\n目标：固定t54的局部收益能否延续到最终输出，是否存在值得由状态选择的位置差异。\n父源A3六例原五快照及完整A4六例。绑定原代码/卡、PRE参数、观测、原始噪声、各run和张量SHA。\n只改变细化位置：A3已存t54→28→14的两个F分支，按原t14→0→终端走完；\n与A4的t14→3→0→终端结果比较。不重训，不改正式网格，不新增细化层或扫描阈值。\n\n## 固定条件及预算\n\n三图00020/21/22×seed1000/2000，原两桥全部保留；原unit sigma_y=.05、legacy_bicubic、\nDDPM fixed variance eta1、clamp、PRE joint zeta/D及原uint8/SSIM/alex LPIPS评价不变。\n后续t14→0使用原第28步的raw Z，取自同例A3已存t14点Z，不以差分反推，也不重新抽噪声。\n该后续步使用原alpha14/参数索引1的原生引导，t0使用索引0；不得继续冻结G54。\n两种固定位置若从完整原轨迹实施都增加一次中点评估；本轮离线延续诊断成本单独记账。\n每例原C在t0重复2次，两F各在t14和t0评估2次，共6；六例36诊断NFE，新增方法0。\nA4的24次为已用成本，不重新运行A4，所有失败调用计账，无额外warmup或自动覆盖重试。\n\n## H7及位置判定\n\nH7与A4同标准：至少2/3图的两个seed、两桥，相对原C最终三质量非劣、最终物理loss不升，\n且PSNR>=+.1 dB或SSIM>=+.001或LPIPS<=-.001至少一项。非劣沿用10倍重复/漂移数值地板。\n原C及两F的最终物理loss均由实际输出重算，不沿用clean loss。\n\n与t14按2×2全部四种桥组合比较，避免把相同桥编号当相同独立随机样本、或选最好桥。\n跨位置数值地板为两次实验各指标地板的较大者，沿用原effect判定；\n某位置须对另一位置的两条桥全部四比较均三质量非劣、至少一项可分辨改善且loss不升，\n才标记该案例的位置Pareto优势；否则记TRADEOFF_OR_UNRESOLVED。\n分别报告两位置优势案例数及图像双seed计数，不以跨例平均或GT挑选位置形成在线策略。\n若两个位置各有案例稳定优势，仅支持位置差异候选，不证明任何状态变量能够预测优劣。\n若固定位置一致占优，优先保留简单固定候选，不强行建立方向控制。\nH7不通过或质量取舍则保留负结果，不继续扫描位置追成功；后续状态/残差对照另卡由用户判断。\n\n## 门控和持久化\n\n先零NFE审计完整A3/A4的SHA、算式、汇总；完整兼容completed复用，failed不覆盖。\n原C clean/q/最终输出/指标及A4 C须一致；原raw Z须精确重建原t14→0状态；\n两F在t14的clean loss/指标须与A3t54点相符，t0终端不抽噪声；参数网格及外部RNG不变。\nGT在所有调用和最终状态确定后加载，不用于选臂/位置/桥/seed。\n独立/data0目录，两级锁；逐例记录cost、gates、SHA和最终张量，突发终止成本为下界。\n前台一段命令等待结束后集中打印摘要，完整日志保存；技术失败输出具体错误并停止。\n新增36后此队列方法1800/诊断1380=3180；早期单图阶段另列。无GPU结果前不称门控或科学通过。\n",
+  "git_revision": "f53bf11872cf0d41b1a88242decc5158805af52c",
+  "seconds": 3.5022130021825433,
+  "output_archive": {
+    "path": "/data0/lzy/ZAPS-results/diag_fixed_position_continuation/A5_20261020/00021_s2000/final_outputs.pt",
+    "sha256": "6ead131c3818c1eb902dfdb8f62467a0239a8e674e0b491633f79d1882ea4ed8"
+  },
+  "branches": {
+    "C": {
+      "loss": 0.6850227597867334,
+      "psnr": 25.95378750978588,
+      "ssim": 0.7656895518302917,
+      "lpips": 0.23301130533218384
+    },
+    "F0": {
+      "loss": 0.674406408410689,
+      "psnr": 26.01757941659265,
+      "ssim": 0.7666390538215637,
+      "lpips": 0.22352203726768494
+    },
+    "F1": {
+      "loss": 0.6758897046018714,
+      "psnr": 25.992852328986395,
+      "ssim": 0.7661151885986328,
+      "lpips": 0.22567403316497803
+    }
+  },
+  "floors": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "loss": 0.0
+  },
+  "effects": {
+    "F0_C": {
+      "delta": {
+        "loss": -0.010616351376044442,
+        "psnr": 0.06379190680677027,
+        "ssim": 0.0009495019912719727,
+        "lpips": -0.009489268064498901
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": true,
+      "joint_local_candidate": true
+    },
+    "F1_C": {
+      "delta": {
+        "loss": -0.009133055184862071,
+        "psnr": 0.03906481920051519,
+        "ssim": 0.00042563676834106445,
+        "lpips": -0.0073372721672058105
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": true,
+      "joint_local_candidate": true
+    }
+  },
+  "bridge_candidates": {
+    "F0": true,
+    "F1": true
+  },
+  "both_bridges_candidate": true,
+  "position_comparison": {
+    "readout": "TRADEOFF_OR_UNRESOLVED",
+    "floors": {
+      "loss": 0.0,
+      "psnr": 0.0,
+      "ssim": 0.0,
+      "lpips": 0.0
+    },
+    "T54_minus_T14": {
+      "F0_F0": {
+        "delta": {
+          "loss": 0.01092549330424919,
+          "psnr": -0.04663558782875299,
+          "ssim": -0.0023255348205566406,
+          "lpips": -0.004663288593292236
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      },
+      "F0_F1": {
+        "delta": {
+          "loss": 0.011097553626852164,
+          "psnr": -0.04901965648441475,
+          "ssim": -0.00270688533782959,
+          "lpips": -0.0062049031257629395
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      },
+      "F1_F0": {
+        "delta": {
+          "loss": 0.01240878949543156,
+          "psnr": -0.07136267543500807,
+          "ssim": -0.002849400043487549,
+          "lpips": -0.0025112926959991455
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      },
+      "F1_F1": {
+        "delta": {
+          "loss": 0.012580849818034534,
+          "psnr": -0.07374674409066984,
+          "ssim": -0.003230750560760498,
+          "lpips": -0.004052907228469849
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      }
+    },
+    "T14_minus_T54": {
+      "F0_F0": {
+        "delta": {
+          "loss": -0.01092549330424919,
+          "psnr": 0.04663558782875299,
+          "ssim": 0.0023255348205566406,
+          "lpips": 0.004663288593292236
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      },
+      "F1_F0": {
+        "delta": {
+          "loss": -0.011097553626852164,
+          "psnr": 0.04901965648441475,
+          "ssim": 0.00270688533782959,
+          "lpips": 0.0062049031257629395
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      },
+      "F0_F1": {
+        "delta": {
+          "loss": -0.01240878949543156,
+          "psnr": 0.07136267543500807,
+          "ssim": 0.002849400043487549,
+          "lpips": 0.0025112926959991455
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      },
+      "F1_F1": {
+        "delta": {
+          "loss": -0.012580849818034534,
+          "psnr": 0.07374674409066984,
+          "ssim": 0.003230750560760498,
+          "lpips": 0.004052907228469849
+        },
+        "numerical_limits": {
+          "loss": 1e-09,
+          "psnr": 9.999999999999999e-06,
+          "ssim": 1e-06,
+          "lpips": 1e-06
+        },
+        "quality_pareto": false,
+        "joint_local_candidate": false
+      }
+    }
+  }
+}

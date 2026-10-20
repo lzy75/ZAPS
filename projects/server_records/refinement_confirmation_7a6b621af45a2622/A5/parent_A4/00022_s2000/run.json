@@ -1,0 +1,160 @@
+{
+  "experiment": "terminal_continuation_case",
+  "status": "complete",
+  "case": {
+    "key": "00022_s2000",
+    "image": "/home/lzy/FFHQ/00000/00000/00022.png",
+    "image_id": "00022",
+    "measurement_seed": 1022,
+    "sampling_seed": 2000,
+    "image_sha256": "3355fe4eab895d1cd59121fe7f587a6cb5a074fd125e878807ab301d73a0c634"
+  },
+  "plan_sha256": "50ef91929fdfd56128ea3f645215110c98f93c31a1a5e98d7d5cb7dd00a54976",
+  "method_nfe": 0,
+  "diagnostic_nfe": 4,
+  "calls": [
+    {
+      "arm": "C",
+      "repeat": 0,
+      "parameter_index": 0,
+      "t": 0
+    },
+    {
+      "arm": "C",
+      "repeat": 1,
+      "parameter_index": 0,
+      "t": 0
+    },
+    {
+      "arm": "F0",
+      "repeat": 0,
+      "parameter_index": 0,
+      "t": 0
+    },
+    {
+      "arm": "F1",
+      "repeat": 0,
+      "parameter_index": 0,
+      "t": 0
+    }
+  ],
+  "gates": {
+    "final_baseline": {
+      "passed": true,
+      "checks": {
+        "clean_error": 0.0,
+        "q_error": 0.0,
+        "final_error": 0.0,
+        "repeat_error": 0.0
+      },
+      "metric_drifts": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      }
+    },
+    "cached_A3": {
+      "passed": true,
+      "endpoint_metric_drifts": {
+        "C": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        },
+        "F0": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        },
+        "F1": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        }
+      }
+    },
+    "terminal_no_draw": {
+      "passed": true
+    },
+    "parameters_grid_rng": {
+      "passed": true
+    },
+    "identity_and_budget": {
+      "passed": true,
+      "method_nfe": 0,
+      "diagnostic_nfe": 4
+    }
+  },
+  "experiment_card": "# A4：固定t14细化分支到最终输出的最小验证\n\n2026-10-20，用户授权执行。local_reference/mechanism_only；不是作者实现认证或独立泛化验证。\n父源A3_20261020（六例完整SHA/门控/60项比较/汇总须先零NFE复算）及其冻结A2a父源。\n00020/21/22×seed1000/2000，原同图共享观测与原GT口径不变。\n唯一变量：复用A3预定t14→3→0的F0/F1输入，完成原t0→终端更新，不重训、不改正式调度。\n选择t14因终端延续成本最低，仍为既有开发样本验证，不称新确认集，不选最好桥/seed/输出。\n\n## H6、固定条件和判定\n\n原C为A2a last_opt，F0/F1均为原A3已存分支；原PRE参数、t0参数索引0、\nDDPM eta1 fixed variance、clamp、unit sigma_y=.05、legacy_bicubic、joint zeta/D、\nuint8 PSNR/SSIM与alex LPIPS固定。最终输出为实际核心terminal posterior(clean)+q，不把clean当最终图。\n最终物理loss重新由最终输出计算 ||y-A(output)||²/(2*.05²*m)，不沿用clean上的中间loss。\nH6：至少2/3图的两seed、两桥均满足最终PSNR/SSIM/LPIPS非劣、最终loss不升，\n且至少一项达到+.1 dB PSNR/+.001 SSIM/-.001 LPIPS。沿用10倍重复/漂移数值地板，\n不得放宽实用退化带，全部六例两桥保留。均值不替代跨图seed桥判定。\n\n## 门控和预算\n\n每例C在t0重复2次，F0/F1各在t0评估1次，共4；六例24诊断NFE，新增方法0。\n原t14中点及t0 clean虽然曾计算过，本轮重算均入账。无warmup、额外UNet或自动失败重试。\n首先复算完整A3并绑定所有来源SHA；原C clean/q、原最终输出/指标及每臂A3 clean loss/指标均须一致。\nterminal不得draw新噪声，原参数/网格及外部RNG不变；GT在所有网络调用及最终状态确定后加载。\n逐例run.json/sha/最终张量持久化。新run独立/data0目录、锁保护；completed兼容复用，failed不覆盖。\n失败计成本；突然终止计为下界。首例技术过门后连续其余五例，负向科学结果也保留全部案例。\n\n## 停止分支\n\n通过只支持开发样本固定位置的最终候选；不能证明余弦预测、状态控制或泛化。\n未通过则不进入本候选的状态控制，不扫描终端位置或门槛追成功。\n后续固定位置/残差/双状态的等成本比较必须另立卡并经用户判断。\n新增预算24与A3的180分开；完成后此队列合计方法1800/诊断1344=3144，早期单图另列。\n",
+  "git_revision": "5c13bfed08dbbccaefad5ad89b05bcf8262de89a",
+  "seconds": 2.190260506235063,
+  "output_archive": {
+    "path": "/data0/lzy/ZAPS-results/diag_terminal_continuation/A4_20261020/00022_s2000/final_outputs.pt",
+    "sha256": "84b05ba38fd83bb67f1dcc6f24a67bc50795342b7fbcc2af45fe4731de7503f8"
+  },
+  "branches": {
+    "C": {
+      "loss": 0.9521038311940336,
+      "psnr": 21.401444275845527,
+      "ssim": 0.6794875264167786,
+      "lpips": 0.23852452635765076
+    },
+    "F0": {
+      "loss": 0.9190522895643483,
+      "psnr": 21.481721006174727,
+      "ssim": 0.6836049556732178,
+      "lpips": 0.23608112335205078
+    },
+    "F1": {
+      "loss": 0.9190971898930977,
+      "psnr": 21.482338882850783,
+      "ssim": 0.6835651397705078,
+      "lpips": 0.23627415299415588
+    }
+  },
+  "floors": {
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0,
+    "loss": 0.0
+  },
+  "effects": {
+    "F0_C": {
+      "delta": {
+        "loss": -0.03305154162968538,
+        "psnr": 0.08027673032919935,
+        "ssim": 0.004117429256439209,
+        "lpips": -0.0024434030055999756
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": true,
+      "joint_local_candidate": true
+    },
+    "F1_C": {
+      "delta": {
+        "loss": -0.03300664130093589,
+        "psnr": 0.08089460700525564,
+        "ssim": 0.004077613353729248,
+        "lpips": -0.002250373363494873
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": true,
+      "joint_local_candidate": true
+    }
+  },
+  "bridge_candidates": {
+    "F0": true,
+    "F1": true
+  },
+  "both_bridges_candidate": true
+}
