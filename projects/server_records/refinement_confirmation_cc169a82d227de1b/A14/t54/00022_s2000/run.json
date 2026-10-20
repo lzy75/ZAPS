@@ -1,0 +1,165 @@
+{
+  "status": "complete",
+  "case": {
+    "key": "00022_s2000",
+    "image": "/home/lzy/FFHQ/00000/00000/00022.png",
+    "image_id": "00022",
+    "measurement_seed": 1022,
+    "sampling_seed": 2000,
+    "image_sha256": "3355fe4eab895d1cd59121fe7f587a6cb5a074fd125e878807ab301d73a0c634",
+    "cohort": "development"
+  },
+  "source_t": 54,
+  "plan_sha256": "1b42b6966fa5fd104793914ca087ff9e8ab155841c425d2abd6cea3ddeaf9266",
+  "method_nfe": 0,
+  "diagnostic_nfe": 10,
+  "calls": [
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    },
+    {
+      "t": 54
+    }
+  ],
+  "reused_A13": false,
+  "gates": {
+    "repeat": {
+      "passed": true,
+      "checks": {
+        "clean": 0.0,
+        "q": 0.0
+      }
+    },
+    "parameters_rng_policy": {
+      "passed": true
+    },
+    "budget": {
+      "passed": true,
+      "nfe": 10
+    }
+  },
+  "policy": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest"
+  },
+  "runtime": {
+    "torch": "2.6.0+cu118",
+    "cuda": "11.8",
+    "cudnn": 90100,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "NVIDIA_TF32_OVERRIDE": null,
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null
+  },
+  "seconds": 1.0352543462067842,
+  "orthogonal": {
+    "abs_cosine": 6.983559921829252e-11,
+    "rms_relative_error": 1.4372780743343583e-10,
+    "seed": 811574
+  },
+  "native_cache_center_drift": {
+    "clean": 3.824424057066344e-05,
+    "q": 4.515902164634765e-05
+  },
+  "response": {
+    "center_clean_repeat_rms": 0.0,
+    "directions": {
+      "q": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.020000008152339044,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 8.683472205093775e-05,
+            "gain": 0.8040590450498473,
+            "response_input_cosine": 0.8653297551948645,
+            "phi": -0.05008685648039714,
+            "plus_clip": 0.0005289713735692203,
+            "minus_clip": 0.0005289713735692203
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.040000001381195124,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 0.00017366859734709015,
+            "gain": 0.8040554247063707,
+            "response_input_cosine": 0.8653289972639923,
+            "phi": -0.0500879174357684,
+            "plus_clip": 0.0005289713735692203,
+            "minus_clip": 0.0005340576171875
+          }
+        ],
+        "relative_vector_spread": 0.0008462545438944787,
+        "cross_scale_cosine": 0.9999996419351477,
+        "usable": true
+      },
+      "orthogonal": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.020000012029562385,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 1.692980444171389e-05,
+            "gain": 0.15676401598096656,
+            "response_input_cosine": 0.35160049927846304,
+            "phi": 7.38561579754406e-05,
+            "plus_clip": 0.0005289713735692203,
+            "minus_clip": 0.0005289713735692203
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.04000000117251194,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 3.385964976647284e-05,
+            "gain": 0.1567642949572922,
+            "response_input_cosine": 0.3515952083880211,
+            "phi": 7.400854529324749e-05,
+            "plus_clip": 0.0005289713735692203,
+            "minus_clip": 0.0005289713735692203
+          }
+        ],
+        "relative_vector_spread": 0.004289483916061503,
+        "cross_scale_cosine": 0.9999908001490783,
+        "usable": true
+      }
+    },
+    "usable": true,
+    "q_over_orthogonal_gain": [
+      5.129104661030576,
+      5.129072439138148
+    ],
+    "readout": "GUIDANCE_MORE_SENSITIVE"
+  },
+  "fields_path": "/data0/lzy/ZAPS-results/diag_ieee_response_value/A14_20261020/t54/00022_s2000/fields.pt",
+  "fields_key": null,
+  "fields_sha256": "de855ff43f48f9ea371fb613e00da3d8d0200b349ac1179124f3efab40b293e4"
+}

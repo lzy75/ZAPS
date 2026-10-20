@@ -1,0 +1,116 @@
+{
+  "status": "complete",
+  "case": {
+    "key": "00024_s1000",
+    "image": "/home/lzy/FFHQ/00000/00000/00024.png",
+    "image_id": "00024",
+    "sampling_seed": 1000,
+    "measurement_seed": 1024,
+    "image_sha256": "d77efc0e79ba17ba9ae54d221d8477b067e51e72f36d10ba3f06459647ecd560",
+    "cohort": "transfer"
+  },
+  "source_t": 54,
+  "plan_sha256": "1b42b6966fa5fd104793914ca087ff9e8ab155841c425d2abd6cea3ddeaf9266",
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "calls": [],
+  "reused_A13": true,
+  "response": {
+    "center_clean_repeat_rms": 0.0,
+    "directions": {
+      "q": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.019999995128359746,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 7.822033082745716e-05,
+            "gain": 0.7329350531659661,
+            "response_input_cosine": 0.8084015342543382,
+            "phi": -0.036944900364006064,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.04000000596583431,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 0.00015644035620384793,
+            "gain": 0.732933334263697,
+            "response_input_cosine": 0.8084013715590568,
+            "phi": -0.03694548162766657,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          }
+        ],
+        "relative_vector_spread": 0.0009490579524355029,
+        "cross_scale_cosine": 0.9999995496461951,
+        "usable": true
+      },
+      "orthogonal": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.019999997817623752,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 1.3581141448846211e-05,
+            "gain": 0.1272571106180798,
+            "response_input_cosine": 0.364941273823544,
+            "phi": -1.3999839816293376e-05,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.040000026256267474,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 2.716270993769057e-05,
+            "gain": 0.12725901390897923,
+            "response_input_cosine": 0.36492914577179936,
+            "phi": -1.4462796642563248e-05,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          }
+        ],
+        "relative_vector_spread": 0.005461401003772226,
+        "cross_scale_cosine": 0.9999850864383317,
+        "usable": true
+      }
+    },
+    "usable": true,
+    "q_over_orthogonal_gain": [
+      5.759482119357783,
+      5.759382473196911
+    ],
+    "readout": "GUIDANCE_MORE_SENSITIVE"
+  },
+  "policy": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest"
+  },
+  "runtime": {
+    "torch": "2.6.0+cu118",
+    "cuda": "11.8",
+    "cudnn": 90100,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "NVIDIA_TF32_OVERRIDE": null,
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null
+  },
+  "fields_path": "/data0/lzy/ZAPS-results/diag_clean_response_precision/A13_20261020/t54/fields.pt",
+  "fields_sha256": "d75fc197c220fa53fef785abe4f59f3a194982a84f428b18586964f48fe41368",
+  "fields_key": "ieee",
+  "gates": {
+    "source_A13": {
+      "passed": true
+    },
+    "identity": {
+      "passed": true
+    }
+  }
+}
