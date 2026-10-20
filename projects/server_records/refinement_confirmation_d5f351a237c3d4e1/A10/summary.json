@@ -1,0 +1,104 @@
+{
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "status": "complete",
+  "case_position_points": 12,
+  "image_clusters": 6,
+  "source_t": 14,
+  "classification": "CLEAN_ROUGHNESS_INCREMENT_NOT_SUPPORTED",
+  "all_quality_mae_nonworse": false,
+  "quality_targets_meeting_threshold": 0,
+  "targets": {
+    "gain_psnr": {
+      "mae": {
+        "physical": 0.022682382344109544,
+        "speed": 0.020029863093948795,
+        "roughness": 0.019755385601087166,
+        "stage_mean": 0.01776838613957181
+      },
+      "comparisons": {
+        "physical": {
+          "relative_mae_reduction": 0.12904273892475404,
+          "images_better": 3,
+          "threshold_passed": true
+        },
+        "speed": {
+          "relative_mae_reduction": 0.013703413327101122,
+          "images_better": 2,
+          "threshold_passed": false
+        }
+      },
+      "engineering_threshold_passed": false
+    },
+    "gain_ssim": {
+      "mae": {
+        "physical": 0.0017194671177970427,
+        "speed": 0.0017680939084932447,
+        "roughness": 0.0017716381871371114,
+        "stage_mean": 0.0017506976922353108
+      },
+      "comparisons": {
+        "physical": {
+          "relative_mae_reduction": -0.030341417291485984,
+          "images_better": 0,
+          "threshold_passed": false
+        },
+        "speed": {
+          "relative_mae_reduction": -0.002004576016489512,
+          "images_better": 1,
+          "threshold_passed": false
+        }
+      },
+      "engineering_threshold_passed": false
+    },
+    "gain_lpips": {
+      "mae": {
+        "physical": 0.0003037901709499095,
+        "speed": 0.0002601056438352745,
+        "roughness": 0.00024107431118368521,
+        "stage_mean": 0.00029009994533326896
+      },
+      "comparisons": {
+        "physical": {
+          "relative_mae_reduction": 0.20644466399331007,
+          "images_better": 2,
+          "threshold_passed": true
+        },
+        "speed": {
+          "relative_mae_reduction": 0.07316770359524327,
+          "images_better": 2,
+          "threshold_passed": false
+        }
+      },
+      "engineering_threshold_passed": false
+    },
+    "gain_loss": {
+      "mae": {
+        "physical": 0.0008136981085911042,
+        "speed": 0.0013962489745308383,
+        "roughness": 0.0014762447165540566,
+        "stage_mean": 0.0029245463245757184
+      },
+      "comparisons": {
+        "physical": {
+          "relative_mae_reduction": -0.8142413027236031,
+          "images_better": 0,
+          "threshold_passed": false
+        },
+        "speed": {
+          "relative_mae_reduction": -0.05729332195219561,
+          "images_better": 1,
+          "threshold_passed": false
+        }
+      },
+      "engineering_threshold_passed": false
+    }
+  },
+  "progress_percent": 45,
+  "cumulative_queue_cost": {
+    "method_nfe": 3600,
+    "diagnostic_nfe": 1884,
+    "total": 5484
+  },
+  "limits": "Previously observed outcomes, three training and three transfer image clusters; stochastic-path finite differences, not fixed-time sensitivity or proven curvature. No online action or control benefit."
+}
