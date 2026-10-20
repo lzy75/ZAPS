@@ -1,0 +1,251 @@
+{
+  "experiment": "terminal_polish_control_case",
+  "status": "complete",
+  "case": {
+    "key": "00023_s2000",
+    "image": "/home/lzy/FFHQ/00000/00000/00023.png",
+    "image_id": "00023",
+    "sampling_seed": 2000,
+    "measurement_seed": 1023,
+    "image_sha256": "000a6cbc57b074446571c72bb42f92aa7b2df3ec98e9ef507801399e530bfc8b"
+  },
+  "plan_sha256": "f486e1bec6392826a1ed9d02776ccd8566664181a1406827af338a0aa3a33024",
+  "method_nfe": 0,
+  "diagnostic_nfe": 2,
+  "calls": [
+    {
+      "repeat": 0,
+      "t": 0,
+      "parameter_index": 0
+    },
+    {
+      "repeat": 1,
+      "t": 0,
+      "parameter_index": 0
+    }
+  ],
+  "gates": {
+    "polish_repeat": {
+      "passed": true,
+      "checks": {
+        "clean_repeat": 0.0,
+        "q_repeat": 0.0,
+        "output_repeat": 0.0
+      }
+    },
+    "baseline_C": {
+      "passed": true,
+      "metric_drifts": {
+        "loss": 0.0,
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      }
+    },
+    "parameters_grid_rng_no_draw": {
+      "passed": true
+    },
+    "identity_budget": {
+      "passed": true,
+      "method_nfe": 0,
+      "diagnostic_nfe": 2
+    }
+  },
+  "seconds": 2.7331712404266,
+  "output_sha256": "c734ae95068d0399a0dd3100487816308273576ec671775e6492c03f9b18079c",
+  "branches": {
+    "F0": {
+      "loss": 0.600847791643776,
+      "psnr": 25.595031335848564,
+      "ssim": 0.7580008506774902,
+      "lpips": 0.22248196601867676
+    },
+    "F1": {
+      "loss": 0.6004584973681116,
+      "psnr": 25.595960008089268,
+      "ssim": 0.7575616836547852,
+      "lpips": 0.22184085845947266
+    },
+    "P0": {
+      "loss": 0.6001196744345297,
+      "psnr": 25.5981018172997,
+      "ssim": 0.758044958114624,
+      "lpips": 0.22250282764434814
+    },
+    "P1": {
+      "loss": 0.5997160768422857,
+      "psnr": 25.599169529239873,
+      "ssim": 0.7576096653938293,
+      "lpips": 0.2218743860721588
+    },
+    "C": {
+      "loss": 0.6199577896403067,
+      "psnr": 25.522636342840205,
+      "ssim": 0.7568573951721191,
+      "lpips": 0.22498679161071777
+    },
+    "S": {
+      "loss": 0.5869877822748507,
+      "psnr": 25.64567493107335,
+      "ssim": 0.7594857811927795,
+      "lpips": 0.2300456166267395
+    }
+  },
+  "floors": {
+    "loss": 0.0,
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0
+  },
+  "effects": {
+    "S_C": {
+      "delta": {
+        "loss": -0.03297000736545597,
+        "psnr": 0.12303858823314684,
+        "ssim": 0.0026283860206604004,
+        "lpips": 0.0050588250160217285
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "S_P0": {
+      "delta": {
+        "loss": -0.013131892159679026,
+        "psnr": 0.0475731137736517,
+        "ssim": 0.0014408230781555176,
+        "lpips": 0.007542788982391357
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "P0_S": {
+      "delta": {
+        "loss": 0.013131892159679026,
+        "psnr": -0.0475731137736517,
+        "ssim": -0.0014408230781555176,
+        "lpips": -0.007542788982391357
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "S_P1": {
+      "delta": {
+        "loss": -0.012728294567434961,
+        "psnr": 0.04650540183347829,
+        "ssim": 0.0018761157989501953,
+        "lpips": 0.008171230554580688
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "P1_S": {
+      "delta": {
+        "loss": 0.012728294567434961,
+        "psnr": -0.04650540183347829,
+        "ssim": -0.0018761157989501953,
+        "lpips": -0.008171230554580688
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "S_F0": {
+      "delta": {
+        "loss": -0.013860009368925286,
+        "psnr": 0.050643595224787674,
+        "ssim": 0.0014849305152893066,
+        "lpips": 0.007563650608062744
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "F0_S": {
+      "delta": {
+        "loss": 0.013860009368925286,
+        "psnr": -0.050643595224787674,
+        "ssim": -0.0014849305152893066,
+        "lpips": -0.007563650608062744
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "S_F1": {
+      "delta": {
+        "loss": -0.013470715093260921,
+        "psnr": 0.04971492298408364,
+        "ssim": 0.0019240975379943848,
+        "lpips": 0.008204758167266846
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    },
+    "F1_S": {
+      "delta": {
+        "loss": 0.013470715093260921,
+        "psnr": -0.04971492298408364,
+        "ssim": -0.0019240975379943848,
+        "lpips": -0.008204758167266846
+      },
+      "numerical_limits": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_pareto": false,
+      "joint_local_candidate": false
+    }
+  },
+  "readouts": {
+    "P": "TRADEOFF_OR_UNRESOLVED",
+    "F": "TRADEOFF_OR_UNRESOLVED"
+  },
+  "S_joint_vs_C": false
+}
