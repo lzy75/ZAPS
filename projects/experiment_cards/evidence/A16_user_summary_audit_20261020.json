@@ -1,0 +1,96 @@
+{
+  "status": "USER_SUMMARY_ARITHMETIC_VERIFIED_NOT_RAW_ARCHIVE",
+  "source_sha256": "86aa738057b5a362563e6121a43f6da118faf89ce343c96980131e4506fad25a",
+  "completed_cases": 6,
+  "diagnostic_nfe": 12,
+  "classification": "FIXED_STRENGTH_CANDIDATE_ONLY",
+  "comparisons": {
+    "F1_C": {
+      "mean_delta": {
+        "loss": -0.040527819090098116,
+        "psnr": 0.1317127802114205,
+        "ssim": 0.0038871963818868003,
+        "lpips": 0.0026445587476094565
+      },
+      "mean_numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "psnr_positive_resolved": true,
+      "images_psnr_better": 3,
+      "acceptable_vs_C": true,
+      "pair_advantage": true
+    },
+    "F2_C": {
+      "mean_delta": {
+        "loss": -0.08579874287330619,
+        "psnr": 0.24805811226770777,
+        "ssim": 0.0051991939544677734,
+        "lpips": 0.004520796239376068
+      },
+      "mean_numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "psnr_positive_resolved": true,
+      "images_psnr_better": 3,
+      "acceptable_vs_C": true,
+      "pair_advantage": true
+    },
+    "A_C": {
+      "mean_delta": {
+        "loss": -0.08427522864007651,
+        "psnr": 0.2445681251707382,
+        "ssim": 0.005141615867614746,
+        "lpips": 0.00450171281894048
+      },
+      "mean_numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "psnr_positive_resolved": true,
+      "images_psnr_better": 3,
+      "acceptable_vs_C": true,
+      "pair_advantage": true
+    },
+    "A_F2": {
+      "mean_delta": {
+        "loss": 0.0015235142332296798,
+        "psnr": -0.003489987096969571,
+        "ssim": -5.7578086853027344e-05,
+        "lpips": -1.9083420435587566e-05
+      },
+      "mean_numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "psnr_positive_resolved": false,
+      "images_psnr_better": 0,
+      "acceptable_vs_C": false,
+      "pair_advantage": false
+    }
+  },
+  "all_reported_gates_passed": true,
+  "line_search_all_at_upper_bound": true,
+  "raw_alpha_range": [
+    25.85618143452099,
+    28.961904780104554
+  ],
+  "F2_individual_lpips_over_mean_tolerance": [
+    "00023_s1000",
+    "00023_s2000"
+  ],
+  "limits": "Full posted summary arithmetically recomputed; no raw tensor, CUDA or Git archive replay. Server A17 preparation separately verifies saved A16 SHA and artifacts."
+}
