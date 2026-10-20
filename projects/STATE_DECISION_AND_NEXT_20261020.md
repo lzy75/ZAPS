@@ -115,20 +115,17 @@ PSNR +.1 dB，或SSIM +.001，或LPIPS -.001。
 
 ## 6. 立即执行的工作和阶段状态
 
-现在先做实际Torch核心零NFE门控，并统一取回A2a–A2d完整轻量工件。
-不修改A2a/A2b0/A2c/A2d已冻结代码或卡，不重跑GPU以补日志。
+完整A2a–A2d轻量工件已由结果分支48f2b372取回并复算，结论不变。
+独立A3b入口`utils/diag_coupled_refinement.py`和`run_a3_20261020.sh`已实现。
+本机9项协议/代数检查通过；4项Torch检查留给服务器。服务器启动先要求13项全部通过且无skip，
+随后审计原工件、冻结新plan并连续运行六例。新增方法0、诊断预算180，不重训。
+GPU门控或科学判定均未提前宣称通过；生产float32门控随实际工件逐例验证。
+原始Z、辅助噪声、中间输入及F端点逐点保存在/data0；重复提交加锁，completed复用、failed不覆盖。
 
 ```bash
-cd /home/lzy/ZAPS &&
-git fetch origin refs/heads/master:refs/remotes/origin/master &&
-git merge --ff-only origin/master &&
-cd projects &&
-python -m unittest utils.test_diag_ddpm_refinement_contract utils.test_archive_guidance_feasibility -v &&
-python -u utils/archive_guidance_feasibility.py &&
-git push origin results/guidance-feasibility-20261019
+cd /home/lzy/ZAPS/projects
+bash run_a3_20261020.sh
 ```
 
-服务器的8项应全部通过且无skip；本机7项通过、1项因缺Torch跳过。
-上述命令不调用UNet。A3b真实模型入口尚未实现或运行；其180诊断预算是计划，不是已用成本。
-下一步实施按[A3实验卡](experiment_cards/A3_coupled_refinement_20261020.md)，
-不用再花GPU验证“余弦能否计算”，也不把代数门控当作科研收益。
+后台运行与取摘要命令见[A3启动说明](A3_SERVER_RUN_20261020.md)。
+原核心、A2a/A2b0/A2c/A2d冻结文件不改动；180诊断预算是计划，未计为已用成本。
