@@ -4,6 +4,15 @@ from utils import test_diag_clean_field_response as fixture
 
 
 class ValueTests(unittest.TestCase):
+    def test_source_protocol_accepts_a2a_and_sha_bound_a6_without_imputation(self):
+        plan=dict(config={'sampler':'ddpm'},grid=[0,14,54,999]);sha='verified-plan-sha'
+        self.assertEqual(d.source_protocol(dict(plan)),(plan['config'],plan['grid']))
+        self.assertEqual(d.source_protocol({'plan_sha256':sha},plan,sha),(plan['config'],plan['grid']))
+        self.assertEqual(d.source_protocol({'plan_sha256':sha,'config':plan['config']},plan,sha),(plan['config'],plan['grid']))
+        with self.assertRaises(ValueError):d.source_protocol({'plan_sha256':sha})
+        with self.assertRaises(ValueError):d.source_protocol({'plan_sha256':'different'},plan,sha)
+        with self.assertRaises(ValueError):d.source_protocol({'plan_sha256':sha,'grid':[0,999]},plan,sha)
+
     def rows(self,t=14):
         rows=[]
         for cohort,ids in (('development',('00020','00021','00022')),('transfer',('00023','00024','00025'))):

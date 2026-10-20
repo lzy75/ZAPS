@@ -21,6 +21,16 @@ MODELS={'physical':old.BASE,'generic':old.BASE+('log_orthogonal_gain',),'directi
 def read(p):return field.read(p)
 
 
+def source_protocol(record,bound_plan=None,bound_plan_sha=None):
+    """A2a embeds config/grid; A6 stores them in its SHA-bound parent plan."""
+    if 'config' in record and 'grid' in record:return record['config'],record['grid']
+    if bound_plan is None or bound_plan_sha is None or record.get('plan_sha256')!=bound_plan_sha:
+        raise ValueError('Missing config/grid requires the verified source parent plan')
+    config=record.get('config',bound_plan['config']);grid=record.get('grid',bound_plan['grid'])
+    if config!=bound_plan['config'] or grid!=bound_plan['grid']:raise ValueError('Record and bound parent protocol differ')
+    return config,grid
+
+
 def prepare(args):
     p13root=Path(args.a13_dir).resolve();p13=read(p13root/'plan.json')
     if digest(p13root/'plan.json')!=(p13root/'plan.sha256').read_text().strip():raise ValueError('A13 plan changed')
@@ -48,8 +58,14 @@ def prepare(args):
     for point in [v for v in r7['rows'] if v['source_t']==14]:
         cohort,key=point['cohort'],point['case'];directory=Path(p5['source_cases'][key]) if cohort=='development' else a6/key
         record=read(directory/'run.json');case=dict(record['case'],cohort=cohort)
+        protocol_plan=None;protocol_sha=None
+        if 'config' not in record or 'grid' not in record:
+            protocol_path=directory.parent/'plan.json'
+            if str(protocol_path) not in identities:raise ValueError('Source parent plan not bound: '+str(protocol_path))
+            protocol_sha=identities[str(protocol_path)];verify(protocol_path,protocol_sha);protocol_plan=read(protocol_path)
+        config,grid=source_protocol(record,protocol_plan,protocol_sha)
         if (record['status']!='complete' or not record['gates'] or not all(v['passed'] for v in record['gates'].values()) or
-            record['config']!=p13['parent_plans']['14']['config'] or record['grid']!=p13['parent_plans']['14']['grid']):raise ValueError('Incompatible source case: '+key)
+            config!=p13['parent_plans']['14']['config'] or grid!=p13['parent_plans']['14']['grid']):raise ValueError('Incompatible source case: '+key)
         artifacts={name:record['artifacts_sha256'][name] for name in ('pre_last_state.pt','trajectory.pt')}
         verify(directory/'run.json',digest(directory/'run.json'))
         for name,sha in artifacts.items():verify(directory/name,sha)
@@ -66,6 +82,7 @@ def prepare(args):
                 verify(path,original['fields_sha256']);verify(stage/key/'run.json',digest(stage/key/'run.json'))
                 directions[str(t)]=dict(path=str(path),sha256=original['fields_sha256'])
         cases.append(case);sources[key]=dict(directory=str(directory),record_sha256=digest(directory/'run.json'),artifacts=artifacts,
+            protocol_source='embedded_record' if protocol_plan is None else str(directory.parent/'plan.json'),protocol_plan_sha256=protocol_sha,
             measurement=record['measurement'],observations=observations,directions=directions)
     expected={(i,s) for i in ('00020','00021','00022','00023','00024','00025') for s in (1000,2000)}
     if len(cases)!=12 or {(c['image_id'],c['sampling_seed']) for c in cases}!=expected:raise ValueError('Fixed cohort differs')
