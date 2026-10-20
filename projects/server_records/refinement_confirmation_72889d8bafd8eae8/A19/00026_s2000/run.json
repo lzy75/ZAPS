@@ -1,0 +1,125 @@
+{
+  "status": "complete",
+  "case": {
+    "key": "00026_s2000",
+    "image": "/home/lzy/FFHQ/00000/00000/00026.png",
+    "image_id": "00026",
+    "sampling_seed": 2000,
+    "measurement_seed": 1026,
+    "image_sha256": "bc9f6d00c6c3dd37071b88ad08c70ae6bbb9e3223f5ca52dc48760cc0992ae76"
+  },
+  "cohort": "A18",
+  "plan_sha256": "974526215fe6f453775f064b6841d4da596a6f956b8c587fd92e36be5b082f5d",
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "gates": {
+    "cached_fields": {
+      "passed": true,
+      "errors": {
+        "F1": 0.0,
+        "F2": 0.0
+      }
+    },
+    "source_metrics": {
+      "passed": true,
+      "drift": {
+        "C": {
+          "loss": 7.675157842612634e-09,
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        },
+        "F1": {
+          "loss": 8.112718274944086e-09,
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        },
+        "F2": {
+          "loss": 2.8736965029807493e-09,
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        }
+      }
+    },
+    "measurement_algebra": {
+      "passed": true
+    },
+    "zero_UNet": {
+      "passed": true
+    }
+  },
+  "seconds": 0.2225481430068612,
+  "branches": {
+    "C": {
+      "loss": 0.707287973712527,
+      "psnr": 25.46487717127753,
+      "ssim": 0.6390249729156494,
+      "lpips": 0.38693514466285706
+    },
+    "F1": {
+      "loss": 0.6660650927721538,
+      "psnr": 25.640650350038705,
+      "ssim": 0.6449110507965088,
+      "lpips": 0.3877648711204529
+    },
+    "F2": {
+      "loss": 0.6204064079181375,
+      "psnr": 25.805346136865268,
+      "ssim": 0.6491518020629883,
+      "lpips": 0.3869536221027374
+    },
+    "F0": {
+      "loss": 0.7135089570811419,
+      "psnr": 25.46603426919078,
+      "ssim": 0.6392823457717896,
+      "lpips": 0.3901865482330322
+    }
+  },
+  "decomposition": {
+    "F0": {
+      "observed_loss_delta": 0.0062209831873332455,
+      "true_measurement_error_delta": -2.5267333870948748e-05,
+      "noise_alignment_credit": -0.006246250521204194,
+      "identity_absolute_error": 8.673617379884035e-19,
+      "noise_rms_over_sigma": 1.000069119413618
+    },
+    "F1": {
+      "observed_loss_delta": -0.04122288064192221,
+      "true_measurement_error_delta": -0.020907321173147024,
+      "noise_alignment_credit": 0.020315559468775193,
+      "identity_absolute_error": 0.0,
+      "noise_rms_over_sigma": 1.000069119413618
+    },
+    "F2": {
+      "observed_loss_delta": -0.08688156558311647,
+      "true_measurement_error_delta": -0.04000419024965379,
+      "noise_alignment_credit": 0.04687737533346265,
+      "identity_absolute_error": 2.7755575615628914e-17,
+      "noise_rms_over_sigma": 1.000069119413618
+    }
+  },
+  "geometry": {
+    "C": {
+      "out_of_range_fraction": 0.0,
+      "displacement_rms": 0.0,
+      "residual_noise_ratio": 1.1893594693889036
+    },
+    "F1": {
+      "out_of_range_fraction": 0.0,
+      "displacement_rms": 0.005666087898665918,
+      "residual_noise_ratio": 1.154179442523695
+    },
+    "F2": {
+      "out_of_range_fraction": 0.0,
+      "displacement_rms": 0.009599990818977566,
+      "residual_noise_ratio": 1.1139177778616676
+    },
+    "F0": {
+      "out_of_range_fraction": 0.0,
+      "displacement_rms": 0.003988105683567842,
+      "residual_noise_ratio": 1.1945785508547706
+    }
+  }
+}
