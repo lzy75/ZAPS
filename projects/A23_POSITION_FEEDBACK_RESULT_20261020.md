@@ -52,3 +52,15 @@ RC相对A22固定T319_G2 PSNR −0.279061 dB。该强固定配方含不同权重
 复算证据：[A23回传摘要核验](experiment_cards/evidence/A23_user_summary_audit_20261020.json)。
 预注册规则：[A23–A27计划](experiment_cards/A23_A27_fixed_count_state_positions_20261020.md)，保留原卡不改。
 累计队列7200 method+4328 diagnostic=11528 NFE，更早历史另列；本次文本复算新增UNet0。
+
+## 用户要求继续定位后的A24（五轮中的第2轮）
+
+后续已取回完整轻量归档，17文件SHA、六例完整run与summary复算通过；
+见[A23完整归档核验](experiment_cards/evidence/A23_full_archive_audit_20261020.json)。未在Mac重放GPU张量。
+原“当前不扩大映射”的结论保留。用户进一步授权确认指标、反馈方式/权重和位置变动的原因，
+因此下一轮以[独立A24机制诊断卡](experiment_cards/A24_state_feedback_diagnosis_20261020.md)替代
+未实施的迁移扩样，不修改A23规则，不重置五轮计数。
+
+A23没有自适应的ζ乘数，E=.5e_R+.5e_C与rho=.25也是固定工程设定；
+但移动到新t后ζ/D按u插值，实际查值会改变。A24以同幅度残差对照、共享固定网格、
+固定源RC时钟的步序参数回放分别定位。最后一种是条件诊断，不能包装为同300-NFE在线方法。
