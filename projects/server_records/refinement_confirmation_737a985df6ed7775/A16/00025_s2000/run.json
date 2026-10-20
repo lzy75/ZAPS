@@ -1,0 +1,146 @@
+{
+  "status": "complete",
+  "case": {
+    "key": "00025_s2000",
+    "image": "/home/lzy/FFHQ/00000/00000/00025.png",
+    "image_id": "00025",
+    "sampling_seed": 2000,
+    "measurement_seed": 1025,
+    "image_sha256": "7b9b48cbed9e2d81c6b1b3ca17f74178043c2b0a632a808e6f9697ff925dc5d6"
+  },
+  "plan_sha256": "a68a1b84aed75a79dc24e2b01a3f79caea82c77db045d06e887a4cbb17d40e13",
+  "method_nfe": 0,
+  "diagnostic_nfe": 2,
+  "calls": [
+    {
+      "t": 0,
+      "parameter_index": 0
+    },
+    {
+      "t": 0,
+      "parameter_index": 0
+    }
+  ],
+  "gates": {
+    "repeat_core": {
+      "passed": true,
+      "errors": {
+        "clean_repeat": 0.0,
+        "q_repeat": 0.0,
+        "output_repeat": 0.0,
+        "core_F1": 0.0
+      }
+    },
+    "affine_loss": {
+      "passed": true,
+      "absolute_errors": {
+        "F0": 0.0,
+        "F05": 7.901677090416115e-10,
+        "F1": 2.2369306407199474e-10,
+        "F2": 3.978206430943487e-09,
+        "L": 3.978206430943487e-09,
+        "A": 3.615696630987486e-10
+      }
+    },
+    "historical_metrics": {
+      "passed": true,
+      "drift": {
+        "loss": 0.0,
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      }
+    },
+    "parameters_rng_budget": {
+      "passed": true
+    }
+  },
+  "policy": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest"
+  },
+  "runtime": {
+    "torch": "2.6.0+cu118",
+    "cuda": "11.8",
+    "cudnn": 90100,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "NVIDIA_TF32_OVERRIDE": null,
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null
+  },
+  "seconds": 0.582491566427052,
+  "outputs_sha256": "3ee6304efd16247781ce0b17ef2f1e711fe93e2c34b4fb5eb8579b642e82873d",
+  "state": {
+    "alpha": 1.8204382003506399,
+    "alpha_L": 2.0,
+    "alpha_raw": 25.85618143452099,
+    "alpha_cap": 1.8204382003506399,
+    "action_resolved": true,
+    "guard_active": true,
+    "prior_q_cosine": -0.18422090221787366,
+    "q_over_prior_norm": 1.4909228100316894,
+    "prior_norm2": 2.274615255035619,
+    "q_norm2": 5.056130397288924,
+    "prior_q_dot": -0.6247438816097957,
+    "action_norm2": 0.06359936310396405,
+    "prior_projection_after": 1.1373076275178096,
+    "required_projection": 1.1373076275178096
+  },
+  "branches": {
+    "F0": {
+      "loss": 0.752841838854336,
+      "psnr": 22.79880827885853,
+      "ssim": 0.755929172039032,
+      "lpips": 0.20953385531902313
+    },
+    "F05": {
+      "loss": 0.7263357063313512,
+      "psnr": 22.860917297012744,
+      "ssim": 0.7579324841499329,
+      "lpips": 0.20880788564682007
+    },
+    "F1": {
+      "loss": 0.7003471449462649,
+      "psnr": 22.921291099612652,
+      "ssim": 0.7595383524894714,
+      "lpips": 0.20831185579299927
+    },
+    "F2": {
+      "loss": 0.6499227392750806,
+      "psnr": 23.036452494976324,
+      "ssim": 0.7618252635002136,
+      "lpips": 0.20835570991039276
+    },
+    "L": {
+      "loss": 0.6499227392750806,
+      "psnr": 23.036452494976324,
+      "ssim": 0.7618252635002136,
+      "lpips": 0.20835570991039276
+    },
+    "A": {
+      "loss": 0.6588245422172541,
+      "psnr": 23.016069107365116,
+      "ssim": 0.7614881992340088,
+      "lpips": 0.20824214816093445
+    },
+    "C": {
+      "loss": 0.746314280705767,
+      "psnr": 22.794624681895304,
+      "ssim": 0.7550494074821472,
+      "lpips": 0.20716392993927002
+    },
+    "S_native": {
+      "loss": 0.7003473347245368,
+      "psnr": 22.9213209935876,
+      "ssim": 0.759540319442749,
+      "lpips": 0.20831136405467987
+    }
+  },
+  "floors": {
+    "loss": 0.0,
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0
+  }
+}
