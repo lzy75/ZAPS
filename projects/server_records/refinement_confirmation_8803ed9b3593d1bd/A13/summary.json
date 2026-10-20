@@ -1,0 +1,111 @@
+{
+  "completed_tasks": 2,
+  "planned_tasks": 2,
+  "method_nfe": 0,
+  "diagnostic_nfe": 40,
+  "rows": [
+    {
+      "source_t": 14,
+      "classification": "IEEE_POLICY_IMPROVES_METROLOGY_THIS_CASE",
+      "diagnostic_nfe": 20,
+      "native_policy": {
+        "api": "legacy",
+        "matmul": false,
+        "cudnn": true,
+        "matmul_precision": "highest"
+      },
+      "ieee_policy": {
+        "api": "legacy",
+        "matmul": false,
+        "cudnn": false,
+        "matmul_precision": "highest"
+      },
+      "policy_changed": true,
+      "native_reproduced": true,
+      "native_vector_replay_error": 0.0,
+      "ieee_vs_native_center_relative_error": {
+        "clean": 1.7365943791587394e-05,
+        "q": 2.3092855520864243e-05
+      },
+      "responses": {
+        "native": {
+          "usable": false,
+          "q_over_orthogonal_gain": [
+            3.6511661720619846,
+            4.036835705632238
+          ],
+          "spread": {
+            "q": 0.13505911429899797,
+            "orthogonal": 0.544298463227519
+          }
+        },
+        "ieee": {
+          "usable": true,
+          "q_over_orthogonal_gain": [
+            4.222065530990651,
+            4.222057169886879
+          ],
+          "spread": {
+            "q": 0.0004922285265303981,
+            "orthogonal": 0.001999313036424884
+          }
+        }
+      }
+    },
+    {
+      "source_t": 54,
+      "classification": "IEEE_POLICY_IMPROVES_METROLOGY_THIS_CASE",
+      "diagnostic_nfe": 20,
+      "native_policy": {
+        "api": "legacy",
+        "matmul": false,
+        "cudnn": true,
+        "matmul_precision": "highest"
+      },
+      "ieee_policy": {
+        "api": "legacy",
+        "matmul": false,
+        "cudnn": false,
+        "matmul_precision": "highest"
+      },
+      "policy_changed": true,
+      "native_reproduced": true,
+      "native_vector_replay_error": 0.0,
+      "ieee_vs_native_center_relative_error": {
+        "clean": 3.358529870089963e-05,
+        "q": 5.395459687961732e-05
+      },
+      "responses": {
+        "native": {
+          "usable": false,
+          "q_over_orthogonal_gain": [
+            3.293333737900348,
+            4.5354707344012875
+          ],
+          "spread": {
+            "q": 0.24209193189184502,
+            "orthogonal": 0.8331446370923213
+          }
+        },
+        "ieee": {
+          "usable": true,
+          "q_over_orthogonal_gain": [
+            5.759482119357783,
+            5.759382473196911
+          ],
+          "spread": {
+            "q": 0.0009490579524355029,
+            "orthogonal": 0.005461401003772226
+          }
+        }
+      }
+    }
+  ],
+  "cumulative_queue_cost": {
+    "method_nfe": 3600,
+    "diagnostic_nfe": 2044,
+    "total": 5644
+  },
+  "cost_is_lower_bound_if_abruptly_interrupted": false,
+  "limits": "One retrospectively selected image/seed at two states; precision-policy metrology only, no reconstruction or state-control benefit."
+}

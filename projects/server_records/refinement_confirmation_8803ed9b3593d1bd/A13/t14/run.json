@@ -1,0 +1,282 @@
+{
+  "status": "complete",
+  "source_t": 14,
+  "case": "00024_s1000",
+  "plan_sha256": "4a69b2cd2941caab36ec91ab5edb9e6ca857b924a05851d8e3442434c546fa76",
+  "method_nfe": 0,
+  "diagnostic_nfe": 20,
+  "calls": [
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "native",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    },
+    {
+      "arm": "ieee",
+      "t": 14
+    }
+  ],
+  "gates": {
+    "source_center": {
+      "passed": true,
+      "max_error": 0.0
+    },
+    "repeats": {
+      "passed": true
+    },
+    "parameters_rng_precision": {
+      "passed": true
+    },
+    "budget": {
+      "passed": true,
+      "nfe": 20
+    }
+  },
+  "seconds": 4.818638197146356,
+  "runtime": {
+    "torch": "2.6.0+cu118",
+    "cuda": "11.8",
+    "cudnn": 90100,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "NVIDIA_TF32_OVERRIDE": null,
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null
+  },
+  "native_policy": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": true,
+    "matmul_precision": "highest"
+  },
+  "ieee_policy": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest"
+  },
+  "policy_changed": true,
+  "native": {
+    "center_clean_repeat_rms": 0.0,
+    "directions": {
+      "q": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.020000011643893565,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 8.155425985075207e-05,
+            "gain": 0.8011549284073486,
+            "response_input_cosine": 0.8702607614153042,
+            "phi": -0.04027214308906603,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.03999998807988629,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 0.00016202112950810236,
+            "gain": 0.7958145957201084,
+            "response_input_cosine": 0.8759286340813205,
+            "phi": -0.04026245754849503,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          }
+        ],
+        "relative_vector_spread": 0.13505911429899797,
+        "cross_scale_cosine": 0.9908406800907136,
+        "usable": true
+      },
+      "orthogonal": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.0199999694760234,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 2.2336449249900733e-05,
+            "gain": 0.2194243950159351,
+            "response_input_cosine": 0.3690427764684065,
+            "phi": -2.9813279959934898e-05,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.04000000656495449,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 4.0135694440573155e-05,
+            "gain": 0.19713821759200628,
+            "response_input_cosine": 0.4102325424364028,
+            "phi": -3.805134160804095e-05,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          }
+        ],
+        "relative_vector_spread": 0.544298463227519,
+        "cross_scale_cosine": 0.8408646448563434,
+        "usable": false
+      }
+    },
+    "usable": false,
+    "q_over_orthogonal_gain": [
+      3.6511661720619846,
+      4.036835705632238
+    ],
+    "readout": "UNRESOLVED_OR_SCALE_DEPENDENT"
+  },
+  "ieee": {
+    "center_clean_repeat_rms": 0.0,
+    "directions": {
+      "q": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.020000011643893565,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 8.079132175013926e-05,
+            "gain": 0.7936601437021197,
+            "response_input_cosine": 0.8783932538113073,
+            "phi": -0.04026601410658228,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.03999998807988629,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 0.00016158287516558967,
+            "gain": 0.7936619801725671,
+            "response_input_cosine": 0.8783940814383476,
+            "phi": -0.040266013830527296,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          }
+        ],
+        "relative_vector_spread": 0.0004922285265303981,
+        "cross_scale_cosine": 0.9999998788579356,
+        "usable": true
+      },
+      "orthogonal": {
+        "pairs": [
+          {
+            "eta": 0.01,
+            "effective_span": 0.0199999694760234,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 1.9135456524805232e-05,
+            "gain": 0.18797911540607898,
+            "response_input_cosine": 0.43093353361286674,
+            "phi": -4.392729170506834e-05,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          },
+          {
+            "eta": 0.02,
+            "effective_span": 0.04000000656495449,
+            "input_resolved": true,
+            "resolved": true,
+            "clean_difference_rms": 3.827114208577219e-05,
+            "gain": 0.18797992263895172,
+            "response_input_cosine": 0.43093263187103314,
+            "phi": -4.408279217855361e-05,
+            "plus_clip": 0.0,
+            "minus_clip": 0.0
+          }
+        ],
+        "relative_vector_spread": 0.001999313036424884,
+        "cross_scale_cosine": 0.9999980013743274,
+        "usable": true
+      }
+    },
+    "usable": true,
+    "q_over_orthogonal_gain": [
+      4.222065530990651,
+      4.222057169886879
+    ],
+    "readout": "GUIDANCE_MORE_SENSITIVE"
+  },
+  "native_vector_replay_error": 0.0,
+  "native_reproduced": true,
+  "ieee_vs_native_center_relative_error": {
+    "clean": 1.7365943791587394e-05,
+    "q": 2.3092855520864243e-05
+  },
+  "classification": "IEEE_POLICY_IMPROVES_METROLOGY_THIS_CASE",
+  "fields_sha256": "f2c1f38a22f33a7d6f7f10251574e062b0b2c0fe8962a1e09d85fe2004454022"
+}
