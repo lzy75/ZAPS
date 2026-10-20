@@ -86,6 +86,20 @@ class TorchTests(unittest.TestCase):
         self.assertTrue(torch.equal(before,torch.get_rng_state()))
         with self.assertRaises(ValueError):d.posterior(x,clean,t,s,alpha,z.double())
 
+    def test_anchored_increment_matches_full_nonfrozen_two_substeps_in_double(self):
+        from modules.diffusion_model import _precompute_diffusion_params
+        alpha=_precompute_diffusion_params()['alphas_cumprod'].double()
+        gen=torch.Generator(device='cpu').manual_seed(201021)
+        for t,s in ((903,888),(641,597),(319,218),(54,14),(14,0)):
+            x,clean,q,z,aux,clean_mid,q_mid=torch.randn((7,1,3,8,8),generator=gen,dtype=torch.float64)
+            spec=d.interval_spec(alpha.numpy(),t,s)
+            mid,_,n1,n2=d.frozen_bridge(x,clean,q,z,aux,spec,alpha)
+            coarse=d.posterior(x,clean,t,s,alpha,z)+q
+            direct=d.posterior(mid,clean_mid,spec['m'],s,alpha,n2)+spec['local_guidance_factor']*q_mid
+            anchored=d.refined_endpoint(coarse,clean,q,clean_mid,q_mid,spec)
+            torch.testing.assert_close(anchored,direct,atol=1e-11,rtol=1e-11)
+            torch.testing.assert_close(d.refined_endpoint(coarse,clean,q,clean,q,spec),coarse,atol=0,rtol=0)
+
     def test_midpoint_guidance_uses_original_alpha_and_parameters(self):
         class Identity:
             H=staticmethod(lambda x:x);transpose=staticmethod(lambda x:x)

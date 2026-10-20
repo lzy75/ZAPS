@@ -96,7 +96,7 @@ def bind(args):
                 identity_files={**old['identity_files'],**{str(p):digest(p) for p in paths}},
                 bridge_seed_rule='322010+100*sorted_case_index+2*source_step+bridge_index',bridges=[0,1],
                 practical_thresholds=dict(psnr=.1,ssim=.001,lpips=-.001),
-                mapping='Original interval G_t, kappa=1/(1+A_ms), log-sigma nearest interior midpoint',
+                mapping='Original interval G_t, kappa=1/(1+A_ms), log-sigma nearest interior midpoint; endpoint-anchored affine increments',
                 planned_method_nfe=0,planned_diagnostic_nfe=180,
                 parent_cost=old['parent_cost'],preceding_a2c_cost=old['preceding_a2c_cost'],
                 preceding_a2d_cost={k:history.summarize(list(records.values()))[k] for k in ('method_nfe','diagnostic_nfe')})
@@ -154,11 +154,27 @@ def posterior(x, clean, t, s, alpha, noise):
     return result
 
 
+def refined_endpoint(coarse, clean0, q0, clean_mid, q_mid, spec):
+    """Exact affine difference from the frozen-field endpoint, stably evaluated.
+
+    In exact arithmetic the two substeps equal the coupled coarse endpoint
+    plus B_ms*(clean_mid-clean0)+kappa*(G_t(clean_mid)-q0). Subtracting
+    separately rounded posterior means loses this identity near alpha=1.
+    Coarse is the original cached endpoint, not a new high-precision baseline.
+    """
+    if any(v.shape != coarse.shape for v in (clean0,q0,clean_mid,q_mid)):
+        raise ValueError('Endpoint increment shapes differ')
+    correction = spec['second']['b']*(clean_mid.double()-clean0.double())
+    correction = correction+spec['local_guidance_factor']*(q_mid.double()-q0.double())
+    return (coarse.double()+correction).to(coarse.dtype)
+
+
 def frozen_bridge(x, clean, q, noise, auxiliary, spec, alpha):
     n1,n2 = contract.coupled_noises(noise,auxiliary,spec)
     t,m,s,dose = spec['t'],spec['m'],spec['s'],spec['local_guidance_factor']
     mid = posterior(x,clean,t,m,alpha,n1)+dose*q
-    fine = posterior(mid,clean,m,s,alpha,n2)+dose*q
+    coarse = posterior(x,clean,t,s,alpha,noise)+q
+    fine = refined_endpoint(coarse,clean,q,clean,q,spec)
     return mid,fine,n1,n2
 
 
@@ -278,7 +294,10 @@ def run_case(parent_plan, parent, source, directory, plan, model, device):
                         mid,null,n1,n2 = frozen_bridge(x,clean0,q0,noises[k],auxiliary,spec,alpha)
                         error = relative_error(x_next,null)
                         absolute = float((x_next.double()-null.double()).abs().max())
-                        null_check = dict(step=k,bridge=bridge,seed=seed,relative_error=error,max_abs=absolute)
+                        raw_null = posterior(mid,clean0,m,s,alpha,n2)+dose*q0
+                        null_check = dict(step=k,bridge=bridge,seed=seed,relative_error=error,max_abs=absolute,
+                                          raw_float32_substep_relative_defect=relative_error(x_next,raw_null),
+                                          raw_float32_substep_max_abs=float((x_next.double()-raw_null.double()).abs().max()))
                         if not math.isfinite(error+absolute) or error>1e-6 or absolute>1e-5:
                             raise RuntimeError('Frozen-field coupled endpoint gate failed: '+json.dumps(null_check))
                         null_checks.append(null_check)
@@ -305,7 +324,7 @@ def run_case(parent_plan, parent, source, directory, plan, model, device):
                         context.update(eval_t=m,parameter_index=current_index,guidance_t=t,guidance_index=current_index,arm=arm+'_mid',repeat=None,bridge=bridge)
                         middle = evaluate_field(z,y,mid,m,current_index)
                         q_mid_frozen = frozen_guidance(z,y,middle['clean'],t,current_index)
-                        fine = posterior(mid,middle['clean'],m,s,alpha,n2)+dose*q_mid_frozen
+                        fine = refined_endpoint(x_next,clean0,q0,middle['clean'],q_mid_frozen,spec)
                         if not torch.isfinite(q_mid_frozen).all() or not torch.isfinite(fine).all():
                             raise RuntimeError('Non-finite coupled branch')
                         context.update(eval_t=s,parameter_index=index,guidance_t=s,guidance_index=index,arm=arm)

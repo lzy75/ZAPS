@@ -15,7 +15,7 @@ cd projects &&
 bash -c 'nohup bash run_a3_20261020.sh >> /data0/lzy/ZAPS-results/diag_coupled_refinement/A3_20261020.log 2>&1 < /dev/null & echo "A3 PID=$!"'
 ```
 
-使用已修好的SSH/Clash链路和当前Python环境，不更改认证配置。启动器要求13项检查全部通过、
+使用已修好的SSH/Clash链路和当前Python环境，不更改认证配置。启动器要求14项检查全部通过、
 不得skip，再核对六例来源和冻结文件、绑定新plan。首例技术通过后自动补五例，科学负结果不删余例。
 GPU默认cuda；需要指定时可在启动前`export ZAPS_A3_DEVICE=cuda:0`，不自动占用另一张卡。
 
@@ -35,4 +35,4 @@ nohup可跨SSH终端断开保留进程，但不能抵御服务器重启或进程
 完整兼容case复用，failed保留成本并停止，不自动覆盖或重训。运行期间不要更新此冻结入口/卡。
 GT在全部分支及网络调用确定后才加载。真实raw Z、辅助draw、中间输入、F端点逐点持久化，
 每例先核对29次原draw及冻结场端点，技术失败先处理门控，不解读画质。
-本机9项通过、4项Torch未执行；所有真实Torch/CUDA门控由服务器完成。
+本机9项通过、5项Torch未执行；所有真实Torch/CUDA门控由服务器完成。
