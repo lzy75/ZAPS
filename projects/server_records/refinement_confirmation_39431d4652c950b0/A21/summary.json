@@ -1,0 +1,371 @@
+{
+  "completed_cases": 12,
+  "image_clusters": 6,
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "deployment_nfe_per_case": {
+    "original": 300,
+    "fixed": 300,
+    "physical": 300,
+    "state": 300
+  },
+  "classification": "NO_USEFUL_STATE_SELECTION_HEADROOM_IN_THIS_ACTION_SET",
+  "state_features": {
+    "physical": [
+      "log_R",
+      "log_a"
+    ],
+    "state": [
+      "log_R",
+      "log_a",
+      "turn",
+      "log1p_omega"
+    ]
+  },
+  "calibration_fixed_gamma": 2,
+  "strongest_fixed_gamma_on_transfer_for_evaluation_only": 2,
+  "fixed_controls": {
+    "0": {
+      "mean_delta": {
+        "loss": 0.05030999133944036,
+        "psnr": -0.13801227983139105,
+        "ssim": -0.004158238569895427,
+        "lpips": 0.0017432098587354024
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": false,
+      "positive_psnr": false,
+      "actions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "1": {
+      "mean_delta": {
+        "loss": 0.0,
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": false,
+      "actions": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "2": {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    }
+  },
+  "policy_evaluation": {
+    "calibration_fixed": {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    "physical": {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    "state": {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    }
+  },
+  "state_increment": {
+    "calibration_fixed": {
+      "mean_psnr_delta": 0.0,
+      "images_psnr_better": 0,
+      "passed": false
+    },
+    "strongest_fixed_on_transfer": {
+      "mean_psnr_delta": 0.0,
+      "images_psnr_better": 0,
+      "passed": false
+    },
+    "physical": {
+      "mean_psnr_delta": 0.0,
+      "images_psnr_better": 0,
+      "passed": false
+    }
+  },
+  "oracle_for_diagnosis_only": {
+    "mean_delta": {
+      "loss": -0.048430297248402664,
+      "psnr": 0.12969877962768273,
+      "ssim": 0.0024865070978800454,
+      "lpips": 0.00028840949138005573
+    },
+    "numerical_limit": {
+      "loss": 1e-09,
+      "psnr": 9.999999999999999e-06,
+      "ssim": 1e-06,
+      "lpips": 1e-06
+    },
+    "quality_guard": true,
+    "positive_psnr": true,
+    "actions": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ]
+  },
+  "oracle_psnr_headroom_over_strongest_fixed": 0.0,
+  "image_permutation_mean_psnr_gain": 0.12969877962768273,
+  "image_permutation_results": [
+    {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "mean_delta": {
+        "loss": -0.048430297248402664,
+        "psnr": 0.12969877962768273,
+        "ssim": 0.0024865070978800454,
+        "lpips": 0.00028840949138005573
+      },
+      "numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "quality_guard": true,
+      "positive_psnr": true,
+      "actions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    }
+  ],
+  "state_actions_vary": false,
+  "cumulative_queue_cost": {
+    "method_nfe": 7200,
+    "diagnostic_nfe": 2312,
+    "total": 9512
+  },
+  "limits": "Original final-step only, not an extra evaluation or full-trajectory controller. Reused 3 calibration+3 transfer images; GT used for calibration and offline evaluation only. Oracle/transfer-best-fixed are diagnostic references, never deployed policies. No independent confirmation or curvature claim."
+}
