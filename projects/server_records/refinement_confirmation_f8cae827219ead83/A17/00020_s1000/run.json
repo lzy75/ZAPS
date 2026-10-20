@@ -1,0 +1,93 @@
+{
+  "status": "complete",
+  "case": {
+    "key": "00020_s1000",
+    "image": "/home/lzy/FFHQ/00000/00000/00020.png",
+    "image_id": "00020",
+    "measurement_seed": 1020,
+    "sampling_seed": 1000,
+    "image_sha256": "04cec0a46fe8e192d2c0b27e08e030d3501953ff17dfa04f702f94cd20b34f62"
+  },
+  "plan_sha256": "f7af72b47e10dc2562ba858c31e7ab875028fb70023ef482b2cb236ca34b58c5",
+  "method_nfe": 0,
+  "diagnostic_nfe": 2,
+  "calls": [
+    {
+      "t": 0,
+      "parameter_index": 0
+    },
+    {
+      "t": 0,
+      "parameter_index": 0
+    }
+  ],
+  "gates": {
+    "repeat_core": {
+      "passed": true,
+      "errors": {
+        "clean_repeat": 0.0,
+        "q_repeat": 0.0,
+        "F1_repeat": 0.0,
+        "F2_repeat": 0.0,
+        "F1_core": 0.0
+      }
+    },
+    "historical_C": {
+      "passed": true,
+      "drift": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 1.4901161193847656e-08
+      }
+    },
+    "affine_loss": {
+      "passed": true,
+      "error": 6.572989486031133e-09
+    },
+    "parameters_rng_budget": {
+      "passed": true
+    }
+  },
+  "policy": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest"
+  },
+  "runtime": {
+    "torch": "2.6.0+cu118",
+    "cuda": "11.8",
+    "cudnn": 90100,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "NVIDIA_TF32_OVERRIDE": null,
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null
+  },
+  "seconds": 1.6230390053242445,
+  "outputs_sha256": "20dad5b26467040b71fd2908ca78a32e53780d97b263d943471af201d69e092e",
+  "branches": {
+    "C": {
+      "loss": 0.6970334178737662,
+      "psnr": 25.123948614331034,
+      "ssim": 0.7211341261863708,
+      "lpips": 0.2285727709531784
+    },
+    "F1": {
+      "loss": 0.6578476123135792,
+      "psnr": 25.288506671503402,
+      "ssim": 0.7278404831886292,
+      "lpips": 0.22914117574691772
+    },
+    "F2": {
+      "loss": 0.6139183850779599,
+      "psnr": 25.43786096799186,
+      "ssim": 0.7323649525642395,
+      "lpips": 0.22733186185359955
+    }
+  },
+  "floors": {
+    "loss": 0.0,
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 1.4901161193847656e-08
+  }
+}

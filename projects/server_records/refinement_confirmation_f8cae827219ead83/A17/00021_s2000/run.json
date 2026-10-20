@@ -1,0 +1,93 @@
+{
+  "status": "complete",
+  "case": {
+    "key": "00021_s2000",
+    "image": "/home/lzy/FFHQ/00000/00000/00021.png",
+    "image_id": "00021",
+    "measurement_seed": 1021,
+    "sampling_seed": 2000,
+    "image_sha256": "07faf5fefb8589e88f922b41816d88573c02a192356696f6206ab89afcd5a443"
+  },
+  "plan_sha256": "f7af72b47e10dc2562ba858c31e7ab875028fb70023ef482b2cb236ca34b58c5",
+  "method_nfe": 0,
+  "diagnostic_nfe": 2,
+  "calls": [
+    {
+      "t": 0,
+      "parameter_index": 0
+    },
+    {
+      "t": 0,
+      "parameter_index": 0
+    }
+  ],
+  "gates": {
+    "repeat_core": {
+      "passed": true,
+      "errors": {
+        "clean_repeat": 0.0,
+        "q_repeat": 0.0,
+        "F1_repeat": 0.0,
+        "F2_repeat": 0.0,
+        "F1_core": 0.0
+      }
+    },
+    "historical_C": {
+      "passed": true,
+      "drift": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      }
+    },
+    "affine_loss": {
+      "passed": true,
+      "error": 1.4733202435834869e-08
+    },
+    "parameters_rng_budget": {
+      "passed": true
+    }
+  },
+  "policy": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest"
+  },
+  "runtime": {
+    "torch": "2.6.0+cu118",
+    "cuda": "11.8",
+    "cudnn": 90100,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "NVIDIA_TF32_OVERRIDE": null,
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null
+  },
+  "seconds": 0.508244396187365,
+  "outputs_sha256": "9080d1489175e966ced15eb549080ea9f6f902cc083248f0dbc85af30b89f649",
+  "branches": {
+    "C": {
+      "loss": 0.6850227597867334,
+      "psnr": 25.95378750978588,
+      "ssim": 0.7656895518302917,
+      "lpips": 0.23301130533218384
+    },
+    "F1": {
+      "loss": 0.6487103676855912,
+      "psnr": 26.1286092565822,
+      "ssim": 0.7714855074882507,
+      "lpips": 0.23773784935474396
+    },
+    "F2": {
+      "loss": 0.606773471864664,
+      "psnr": 26.285471872677213,
+      "ssim": 0.7748704552650452,
+      "lpips": 0.2393897920846939
+    }
+  },
+  "floors": {
+    "loss": 0.0,
+    "psnr": 0.0,
+    "ssim": 0.0,
+    "lpips": 0.0
+  }
+}
