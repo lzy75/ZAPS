@@ -1,0 +1,72 @@
+{
+  "status": "USER_SUMMARY_ARITHMETIC_VERIFIED_NOT_RAW_ARCHIVE",
+  "source_sha256": "b678cd58f22aba49c78d0368ffa2ca720468157f41998dee2eb8454e24cab01a",
+  "completed_cases": 12,
+  "image_clusters": 6,
+  "new_method_nfe": 3600,
+  "new_diagnostic_nfe": 24,
+  "classification": "FROZEN_F2_NOT_SUPPORTED_ON_FRESH_COHORT",
+  "comparisons": {
+    "F1_C": {
+      "mean_delta": {
+        "loss": -0.03802977245631763,
+        "psnr": 0.15607795120291978,
+        "ssim": 0.004000450174013774,
+        "lpips": 0.004232867310444514
+      },
+      "mean_numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "images_psnr_better": 6,
+      "quality_guard": true,
+      "passed": true
+    },
+    "F2_C": {
+      "mean_delta": {
+        "loss": -0.08107350809892701,
+        "psnr": 0.29516039413585854,
+        "ssim": 0.005195558071136475,
+        "lpips": 0.007181622087955475
+      },
+      "mean_numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "images_psnr_better": 6,
+      "quality_guard": false,
+      "passed": false
+    },
+    "F2_F1": {
+      "mean_delta": {
+        "loss": -0.043043735642609375,
+        "psnr": 0.13908244293293878,
+        "ssim": 0.001195107897122701,
+        "lpips": 0.002948754777510961
+      },
+      "mean_numerical_limit": {
+        "loss": 1e-09,
+        "psnr": 9.999999999999999e-06,
+        "ssim": 1e-06,
+        "lpips": 1e-06
+      },
+      "images_psnr_better": 6,
+      "quality_guard": true,
+      "passed": true
+    }
+  },
+  "per_case_lpips_over_mean_tolerance": [
+    "00028_s1000",
+    "00028_s2000",
+    "00029_s1000",
+    "00029_s2000",
+    "00031_s1000",
+    "00031_s2000"
+  ],
+  "all_reported_gates_passed": true,
+  "limits": "Full posted summary recomputed; no raw tensor/CUDA or remote Git archive replay. A19 preparation separately validates saved sources and SHA."
+}
