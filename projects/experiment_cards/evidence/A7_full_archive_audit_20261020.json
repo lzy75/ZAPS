@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-20",
+  "results_commit": "39d60d329f3e163ad446e799d57cc3857a440f6a",
+  "bundles": [
+    {
+      "path": "/Users/liziyue.22/ZAPS-deliverables/analysis/refinement_confirmation_20261020/refinement_confirmation_7a6b621af45a2622",
+      "files": 104,
+      "excluded": 45,
+      "manifest_sha256": "80145e50f3fc74bf53ae380989dea6f18becaab03dfadec84d5876569bfbe181"
+    },
+    {
+      "path": "/Users/liziyue.22/ZAPS-deliverables/analysis/refinement_confirmation_20261020/refinement_confirmation_d7a502ced127d792",
+      "files": 6,
+      "excluded": 0,
+      "manifest_sha256": "afc67dbd9fefca4b7d5a337eaadd60cb0f60536310cb9142969d6b921cea86dc"
+    }
+  ],
+  "audit": {
+    "complete_stage_summaries_recomputed": [
+      "A3",
+      "A4",
+      "A5",
+      "A6"
+    ],
+    "complete_cases": 24,
+    "all_lightweight_byte_hashes_match": true,
+    "A7_observation_rows_rebuilt": 24,
+    "derived_feature_absolute_tolerance": 1e-14,
+    "A7_fixed_ridge_models_and_predictions_recomputed": true,
+    "A7_associations_recomputed": true,
+    "server_binary_tensors_independently_loaded": false,
+    "new_method_nfe": 0,
+    "new_diagnostic_nfe": 0
+  },
+  "A7_summary": {
+    "method_nfe": 0,
+    "diagnostic_nfe": 0,
+    "case_position_points": 24,
+    "image_clusters": 6,
+    "positions": [
+      {
+        "source_t": 14,
+        "training_images": 3,
+        "transfer_images": 3,
+        "classification": "DIRECTION_INCREMENT_NOT_SUPPORTED_IN_THIS_TRANSFER_TEST",
+        "all_quality_mae_nonworse": false,
+        "quality_targets_meeting_threshold": 0,
+        "targets": {
+          "gain_psnr": {
+            "baseline_MAE": 0.022682382344109544,
+            "direction_MAE": 0.02264952939433256,
+            "stage_mean_MAE": 0.01776838613957181,
+            "relative_MAE_reduction": 0.0014483906178186512,
+            "images_direction_better": 1,
+            "engineering_threshold_passed": false
+          },
+          "gain_ssim": {
+            "baseline_MAE": 0.0017194671177970427,
+            "direction_MAE": 0.001700891331742373,
+            "stage_mean_MAE": 0.0017506976922353108,
+            "relative_MAE_reduction": 0.010803222616125763,
+            "images_direction_better": 2,
+            "engineering_threshold_passed": false
+          },
+          "gain_lpips": {
+            "baseline_MAE": 0.0003037901709499095,
+            "direction_MAE": 0.0003090139806314448,
+            "stage_mean_MAE": 0.00029009994533326896,
+            "relative_MAE_reduction": -0.017195453247223824,
+            "images_direction_better": 1,
+            "engineering_threshold_passed": false
+          },
+          "gain_loss": {
+            "baseline_MAE": 0.0008136981085911042,
+            "direction_MAE": 0.0010117793214060422,
+            "stage_mean_MAE": 0.0029245463245757184,
+            "relative_MAE_reduction": -0.2434332963584125,
+            "images_direction_better": 0,
+            "engineering_threshold_passed": false
+          }
+        }
+      },
+      {
+        "source_t": 54,
+        "training_images": 3,
+        "transfer_images": 3,
+        "classification": "DIRECTION_INCREMENT_NOT_SUPPORTED_IN_THIS_TRANSFER_TEST",
+        "all_quality_mae_nonworse": false,
+        "quality_targets_meeting_threshold": 0,
+        "targets": {
+          "gain_psnr": {
+            "baseline_MAE": 0.013651756056593292,
+            "direction_MAE": 0.014265711284602049,
+            "stage_mean_MAE": 0.011881871813759068,
+            "relative_MAE_reduction": -0.044972619307260375,
+            "images_direction_better": 2,
+            "engineering_threshold_passed": false
+          },
+          "gain_ssim": {
+            "baseline_MAE": 0.0005543625168195358,
+            "direction_MAE": 0.000575220133157882,
+            "stage_mean_MAE": 0.0006403376658757528,
+            "relative_MAE_reduction": -0.0376245068984995,
+            "images_direction_better": 0,
+            "engineering_threshold_passed": false
+          },
+          "gain_lpips": {
+            "baseline_MAE": 0.0013757432362387812,
+            "direction_MAE": 0.000953202110574727,
+            "stage_mean_MAE": 0.001468977994389004,
+            "relative_MAE_reduction": 0.307136618617339,
+            "images_direction_better": 1,
+            "engineering_threshold_passed": false
+          },
+          "gain_loss": {
+            "baseline_MAE": 0.0007061827919054318,
+            "direction_MAE": 0.0007278827390916313,
+            "stage_mean_MAE": 0.0022222787915470877,
+            "relative_MAE_reduction": -0.03072851312002145,
+            "images_direction_better": 2,
+            "engineering_threshold_passed": false
+          }
+        }
+      }
+    ],
+    "progress": {
+      "percent": 45,
+      "rubric": [
+        {
+          "milestone": "基座协议与可回放",
+          "weight": 10,
+          "earned": 10
+        },
+        {
+          "milestone": "状态指标定义及可测性",
+          "weight": 15,
+          "earned": 15
+        },
+        {
+          "milestone": "细化动作终局与新图小样本确认",
+          "weight": 20,
+          "earned": 20
+        },
+        {
+          "milestone": "方向指标的增量预测证据",
+          "weight": 20,
+          "earned": 0
+        },
+        {
+          "milestone": "等成本在线状态控制收益",
+          "weight": 20,
+          "earned": 0
+        },
+        {
+          "milestone": "较大确认集、消融与论文验证",
+          "weight": 15,
+          "earned": 0
+        }
+      ],
+      "limits": "Transparent engineering milestone estimate, not probability of scientific success, elapsed-time estimate or proven innovation percentage. No new credit granted automatically by A7."
+    },
+    "cumulative_queue_cost": {
+      "method_nfe": 3600,
+      "diagnostic_nfe": 1812,
+      "total": 5412,
+      "scope": "A2a including recovery through A6; earlier single-image work excluded"
+    },
+    "limits": "Exploratory transfer diagnostic; A6 output summary was previously seen. No prospective validation or automatic online policy. Three training and three transfer image clusters; fixed regularization; no p-values/causal/control/generalization claims."
+  },
+  "limits": "Complete Git lightweight bytes, source-feature/endpoint arithmetic and fixed NumPy analysis verified. Source tensors remain on server; no Mac GPU replay."
+}
