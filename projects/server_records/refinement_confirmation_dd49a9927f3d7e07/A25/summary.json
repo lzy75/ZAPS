@@ -1,0 +1,492 @@
+{
+  "completed_cases": 6,
+  "planned_cases": 6,
+  "image_clusters": 3,
+  "method_nfe": 0,
+  "diagnostic_nfe": 360,
+  "round_in_user_limit": "3/5",
+  "classification": "CURRENT_STATE_CLOCK_MATCHING_NOT_SUPPORTED",
+  "cumulative_queue_cost": {
+    "method_nfe": 7200,
+    "diagnostic_nfe": 5408,
+    "total": 12608
+  },
+  "cost_is_lower_bound_if_abruptly_interrupted": false,
+  "limits": "Retrospective three-image diagnosis; donor clocks are fixed external inputs, not online state feedback. Two seeds/donors are dependent. DONOR_MEAN averages metrics, not pixels or best outputs. No generalization, curvature, acceleration or new state-policy claim.",
+  "relative_to_C": {
+    "C": {
+      "mean_delta": {
+        "loss": 0.0,
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0
+      },
+      "quality_guard": true,
+      "actions": [
+        "C",
+        "C",
+        "C",
+        "C",
+        "C",
+        "C"
+      ],
+      "per_image_psnr_delta": {
+        "00020": 0.0,
+        "00021": 0.0,
+        "00022": 0.0
+      },
+      "cases_worsened": {
+        "psnr": 0,
+        "ssim": 0,
+        "lpips": 0
+      }
+    },
+    "SELF": {
+      "mean_delta": {
+        "loss": 0.0005693744493580807,
+        "psnr": -0.015428165666918995,
+        "ssim": -0.001305222511291504,
+        "lpips": 0.0021845772862434387
+      },
+      "quality_guard": false,
+      "actions": [
+        "SELF",
+        "SELF",
+        "SELF",
+        "SELF",
+        "SELF",
+        "SELF"
+      ],
+      "per_image_psnr_delta": {
+        "00020": 0.0467113253072835,
+        "00021": -0.048522587017041374,
+        "00022": -0.044473235290999114
+      },
+      "cases_worsened": {
+        "psnr": 3,
+        "ssim": 4,
+        "lpips": 4
+      }
+    },
+    "FIXED_GRID": {
+      "mean_delta": {
+        "loss": 0.0013160501482060531,
+        "psnr": -0.028242898111495645,
+        "ssim": -0.0010399123032887776,
+        "lpips": -0.00019412984450658163
+      },
+      "quality_guard": false,
+      "actions": [
+        "FIXED_GRID",
+        "FIXED_GRID",
+        "FIXED_GRID",
+        "FIXED_GRID",
+        "FIXED_GRID",
+        "FIXED_GRID"
+      ],
+      "per_image_psnr_delta": {
+        "00020": -0.025300300690396682,
+        "00021": -0.05633856989866182,
+        "00022": -0.0030898237454284327
+      },
+      "cases_worsened": {
+        "psnr": 5,
+        "ssim": 5,
+        "lpips": 3
+      }
+    },
+    "DONOR_PLUS": {
+      "mean_delta": {
+        "loss": 0.003931627575384807,
+        "psnr": -0.02005322194267123,
+        "ssim": -0.0018665989240010579,
+        "lpips": 0.002122648060321808
+      },
+      "quality_guard": false,
+      "actions": [
+        "DONOR_PLUS",
+        "DONOR_PLUS",
+        "DONOR_PLUS",
+        "DONOR_PLUS",
+        "DONOR_PLUS",
+        "DONOR_PLUS"
+      ],
+      "per_image_psnr_delta": {
+        "00020": 0.024514416434282538,
+        "00021": -0.04703852897794292,
+        "00022": -0.03763555328435331
+      },
+      "cases_worsened": {
+        "psnr": 5,
+        "ssim": 5,
+        "lpips": 4
+      }
+    },
+    "DONOR_MINUS": {
+      "mean_delta": {
+        "loss": -0.000823865593166014,
+        "psnr": 0.0004669968880464855,
+        "ssim": -0.0020075440406799316,
+        "lpips": 0.0016966859499613445
+      },
+      "quality_guard": false,
+      "actions": [
+        "DONOR_MINUS",
+        "DONOR_MINUS",
+        "DONOR_MINUS",
+        "DONOR_MINUS",
+        "DONOR_MINUS",
+        "DONOR_MINUS"
+      ],
+      "per_image_psnr_delta": {
+        "00020": 0.049451890423075184,
+        "00021": -0.01929696531650471,
+        "00022": -0.028753934442431017
+      },
+      "cases_worsened": {
+        "psnr": 2,
+        "ssim": 3,
+        "lpips": 2
+      }
+    },
+    "DONOR_MEAN": {
+      "mean_delta": {
+        "loss": 0.0015538809911094058,
+        "psnr": -0.00979311252731326,
+        "ssim": -0.0019370714823404949,
+        "lpips": 0.001909667005141576
+      },
+      "quality_guard": false,
+      "actions": [
+        "DONOR_MEAN",
+        "DONOR_MEAN",
+        "DONOR_MEAN",
+        "DONOR_MEAN",
+        "DONOR_MEAN",
+        "DONOR_MEAN"
+      ],
+      "per_image_psnr_delta": {
+        "00020": 0.03698315342867886,
+        "00021": -0.0331677471472247,
+        "00022": -0.03319474386339394
+      },
+      "cases_worsened": {
+        "psnr": 3,
+        "ssim": 4,
+        "lpips": 3
+      }
+    }
+  },
+  "SELF_minus_donor": {
+    "DONOR_PLUS": {
+      "mean_delta": {
+        "loss": -0.0033622531260267263,
+        "psnr": 0.004625056275752233,
+        "ssim": 0.0005613764127095541,
+        "lpips": 6.192922592163086e-05
+      },
+      "per_image_psnr_delta": {
+        "00020": 0.022196908873000964,
+        "00021": -0.001484058039098457,
+        "00022": -0.006837682006645807
+      },
+      "images_psnr_better": 1,
+      "psnr_mechanism_hint": false
+    },
+    "DONOR_MINUS": {
+      "mean_delta": {
+        "loss": 0.0013932400425240947,
+        "psnr": -0.01589516255496548,
+        "ssim": 0.0007023215293884277,
+        "lpips": 0.0004878913362820943
+      },
+      "per_image_psnr_delta": {
+        "00020": -0.002740565115791682,
+        "00021": -0.029225621700536664,
+        "00022": -0.015719300848568096
+      },
+      "images_psnr_better": 0,
+      "psnr_mechanism_hint": false
+    },
+    "DONOR_MEAN": {
+      "mean_delta": {
+        "loss": -0.000984506541751325,
+        "psnr": -0.005635053139605735,
+        "ssim": 0.0006318489710489908,
+        "lpips": 0.0002749102811018626
+      },
+      "per_image_psnr_delta": {
+        "00020": 0.009728171878604641,
+        "00021": -0.015354839869816672,
+        "00022": -0.011278491427605175
+      },
+      "images_psnr_better": 1,
+      "psnr_mechanism_hint": false
+    }
+  },
+  "source_SELF_net_benefit_supported": false,
+  "clock_changes": {
+    "DONOR_PLUS": {
+      "mean_different_nodes": 20.666666666666668,
+      "mean_abs_delta_t": 1.511111111111111
+    },
+    "DONOR_MINUS": {
+      "mean_different_nodes": 20.666666666666668,
+      "mean_abs_delta_t": 1.511111111111111
+    }
+  },
+  "rows": [
+    {
+      "case": "00020_s1000",
+      "branches": {
+        "DONOR_PLUS": {
+          "loss": 0.6948670920387187,
+          "psnr": 25.12339122160641,
+          "ssim": 0.7204187512397766,
+          "lpips": 0.23137080669403076
+        },
+        "DONOR_MINUS": {
+          "loss": 0.692776738863446,
+          "psnr": 25.134157852555617,
+          "ssim": 0.7196955680847168,
+          "lpips": 0.22747281193733215
+        },
+        "C": {
+          "loss": 0.6970334178737662,
+          "psnr": 25.123948614331034,
+          "ssim": 0.7211341261863708,
+          "lpips": 0.2285727709531784
+        },
+        "SELF": {
+          "loss": 0.691671190625512,
+          "psnr": 25.14844908454814,
+          "ssim": 0.7206746935844421,
+          "lpips": 0.22659863531589508
+        },
+        "FIXED_GRID": {
+          "loss": 0.6989157408823473,
+          "psnr": 25.085426911078873,
+          "ssim": 0.7199856638908386,
+          "lpips": 0.2302931845188141
+        },
+        "DONOR_MEAN": {
+          "loss": 0.6938219154510823,
+          "psnr": 25.128774537081014,
+          "ssim": 0.7200571596622467,
+          "lpips": 0.22942180931568146
+        }
+      },
+      "gates_passed": true
+    },
+    {
+      "case": "00020_s2000",
+      "branches": {
+        "DONOR_PLUS": {
+          "loss": 0.6852357433845099,
+          "psnr": 25.069273024205245,
+          "ssim": 0.7196224331855774,
+          "lpips": 0.22699695825576782
+        },
+        "DONOR_MINUS": {
+          "loss": 0.6793683269289127,
+          "psnr": 25.108381341233624,
+          "ssim": 0.7219691276550293,
+          "lpips": 0.2256537675857544
+        },
+        "C": {
+          "loss": 0.6847169810926329,
+          "psnr": 25.019686798612057,
+          "ssim": 0.7189514636993408,
+          "lpips": 0.22816461324691772
+        },
+        "SELF": {
+          "loss": 0.6796539708936787,
+          "psnr": 25.088608979009518,
+          "ssim": 0.7206299901008606,
+          "lpips": 0.2296326756477356
+        },
+        "FIXED_GRID": {
+          "loss": 0.6870434728198155,
+          "psnr": 25.007607900483425,
+          "ssim": 0.71785569190979,
+          "lpips": 0.2252526879310608
+        },
+        "DONOR_MEAN": {
+          "loss": 0.6823020351567113,
+          "psnr": 25.088827182719434,
+          "ssim": 0.7207957804203033,
+          "lpips": 0.2263253629207611
+        }
+      },
+      "gates_passed": true
+    },
+    {
+      "case": "00021_s1000",
+      "branches": {
+        "DONOR_PLUS": {
+          "loss": 0.6714956351342557,
+          "psnr": 25.914533832077282,
+          "ssim": 0.7583248615264893,
+          "lpips": 0.24470914900302887
+        },
+        "DONOR_MINUS": {
+          "loss": 0.6698746864520558,
+          "psnr": 25.898561683216602,
+          "ssim": 0.7563848495483398,
+          "lpips": 0.2394491583108902
+        },
+        "C": {
+          "loss": 0.6662601056932709,
+          "psnr": 25.964173439977273,
+          "ssim": 0.7588292956352234,
+          "lpips": 0.2431483417749405
+        },
+        "SELF": {
+          "loss": 0.6771300320338403,
+          "psnr": 25.880599317237714,
+          "ssim": 0.7581577897071838,
+          "lpips": 0.2475414276123047
+        },
+        "FIXED_GRID": {
+          "loss": 0.6735821077902971,
+          "psnr": 25.861567069141437,
+          "ssim": 0.7554300427436829,
+          "lpips": 0.24607700109481812
+        },
+        "DONOR_MEAN": {
+          "loss": 0.6706851607931558,
+          "psnr": 25.90654775764694,
+          "ssim": 0.7573548555374146,
+          "lpips": 0.24207915365695953
+        }
+      },
+      "gates_passed": true
+    },
+    {
+      "case": "00021_s2000",
+      "branches": {
+        "DONOR_PLUS": {
+          "loss": 0.690775958633982,
+          "psnr": 25.909350059729984,
+          "ssim": 0.7655367851257324,
+          "lpips": 0.2298700213432312
+        },
+        "DONOR_MINUS": {
+          "loss": 0.6817595838424862,
+          "psnr": 25.98080533591354,
+          "ssim": 0.7665360569953918,
+          "lpips": 0.23148956894874573
+        },
+        "C": {
+          "loss": 0.6850227597867334,
+          "psnr": 25.95378750978588,
+          "ssim": 0.7656895518302917,
+          "lpips": 0.23301130533218384
+        },
+        "SELF": {
+          "loss": 0.6841003180803411,
+          "psnr": 25.940316458491356,
+          "ssim": 0.7663976550102234,
+          "lpips": 0.2314157336950302
+        },
+        "FIXED_GRID": {
+          "loss": 0.684631488462521,
+          "psnr": 25.943716740824392,
+          "ssim": 0.7654445171356201,
+          "lpips": 0.2297273874282837
+        },
+        "DONOR_MEAN": {
+          "loss": 0.6862677712382341,
+          "psnr": 25.945077697821763,
+          "ssim": 0.7660364210605621,
+          "lpips": 0.23067979514598846
+        }
+      },
+      "gates_passed": true
+    },
+    {
+      "case": "00022_s1000",
+      "branches": {
+        "DONOR_PLUS": {
+          "loss": 0.8774520604071941,
+          "psnr": 21.723311545641202,
+          "ssim": 0.6909077763557434,
+          "lpips": 0.23802416026592255
+        },
+        "DONOR_MINUS": {
+          "loss": 0.8648365013548798,
+          "psnr": 21.805306096329158,
+          "ssim": 0.6979393362998962,
+          "lpips": 0.23048418760299683
+        },
+        "C": {
+          "loss": 0.870572185504626,
+          "psnr": 21.752883060243917,
+          "ssim": 0.695851743221283,
+          "lpips": 0.2294449657201767
+        },
+        "SELF": {
+          "loss": 0.867346869395045,
+          "psnr": 21.75438693316023,
+          "ssim": 0.6929107308387756,
+          "lpips": 0.23721769452095032
+        },
+        "FIXED_GRID": {
+          "loss": 0.8658321390905168,
+          "psnr": 21.76240564737575,
+          "ssim": 0.6964433193206787,
+          "lpips": 0.230710968375206
+        },
+        "DONOR_MEAN": {
+          "loss": 0.871144280881037,
+          "psnr": 21.76430882098518,
+          "ssim": 0.6944235563278198,
+          "lpips": 0.2342541739344597
+        }
+      },
+      "gates_passed": true
+    },
+    {
+      "case": "00022_s2000",
+      "branches": {
+        "DONOR_PLUS": {
+          "loss": 0.9594725569987115,
+          "psnr": 21.355744683879536,
+          "ssim": 0.6739335060119629,
+          "lpips": 0.24263131618499756
+        },
+        "DONOR_MINUS": {
+          "loss": 0.9621502501442863,
+          "psnr": 21.291513370875425,
+          "ssim": 0.6653735041618347,
+          "lpips": 0.2564971446990967
+        },
+        "C": {
+          "loss": 0.9521038311940336,
+          "psnr": 21.401444275845527,
+          "ssim": 0.6794875264167786,
+          "lpips": 0.23852452635765076
+        },
+        "SELF": {
+          "loss": 0.9592231468127944,
+          "psnr": 21.310993932347216,
+          "ssim": 0.6733415126800537,
+          "lpips": 0.24156782031059265
+        },
+        "FIXED_GRID": {
+          "loss": 0.9536006329888016,
+          "psnr": 21.385742041222837,
+          "ssim": 0.6785449981689453,
+          "lpips": 0.23764051496982574
+        },
+        "DONOR_MEAN": {
+          "loss": 0.960811403571499,
+          "psnr": 21.32362902737748,
+          "ssim": 0.6696535050868988,
+          "lpips": 0.24956423044204712
+        }
+      },
+      "gates_passed": true
+    }
+  ]
+}
