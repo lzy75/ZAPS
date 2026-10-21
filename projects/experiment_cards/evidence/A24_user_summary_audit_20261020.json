@@ -1,0 +1,480 @@
+{
+  "source": "/Users/liziyue.22/.codex/attachments/f764b61c-10b0-45d6-bde0-7c69709c0792/已粘贴的文本.txt",
+  "sha256": "2af26814fc53b4fac61927d815cd4acc0c6e47bb65095b83de2608c1162b5efc",
+  "scope": "User-pasted six-case summary only; no full server run/tensor replay audit performed on Mac.",
+  "completed_cases": 6,
+  "reported_gates_passed": 6,
+  "all_mean_deltas_recomputed": true,
+  "all_image_psnr_deltas_recomputed": true,
+  "pairwise_deltas_and_preregistered_hints_recomputed": true,
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "server_reported_diagnostic_nfe": 720,
+  "server_summary": {
+    "completed_cases": 6,
+    "planned_cases": 6,
+    "image_clusters": 3,
+    "method_nfe": 0,
+    "diagnostic_nfe": 720,
+    "classification": "MECHANISM_DIAGNOSIS_ONLY",
+    "round_in_user_limit": "2/5",
+    "deployable_nfe_per_case": {
+      "original": 300,
+      "source_RC": 300,
+      "R_MATCHED": 300,
+      "FIXED_GRID": 300
+    },
+    "SLOT_REPLAY": "Offline conditional diagnostic, not a deployable 300-NFE policy; collecting its image-specific RC clock online then replaying costs 330 NFE.",
+    "cumulative_queue_cost": {
+      "method_nfe": 7200,
+      "diagnostic_nfe": 5048,
+      "total": 12248
+    },
+    "cost_is_lower_bound_if_abruptly_interrupted": false,
+    "limits": "Retrospective three-development-image diagnosis, two dependent seeds each. No new controller selection, threshold/rho search, independent confirmation or state-gainclaim; instrumented times are not acceleration evidence.",
+    "relative_to_C": {
+      "C": {
+        "mean_delta": {
+          "loss": 0.0,
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0
+        },
+        "quality_guard": true,
+        "actions": [
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C"
+        ],
+        "per_image_psnr_delta": {
+          "00020": 0.0,
+          "00021": 0.0,
+          "00022": 0.0
+        },
+        "cases_worsened": {
+          "psnr": 0,
+          "ssim": 0,
+          "lpips": 0
+        }
+      },
+      "RC": {
+        "mean_delta": {
+          "loss": 0.0005693744493580807,
+          "psnr": -0.015428165666918995,
+          "ssim": -0.001305222511291504,
+          "lpips": 0.0021845772862434387
+        },
+        "quality_guard": false,
+        "actions": [
+          "RC",
+          "RC",
+          "RC",
+          "RC",
+          "RC",
+          "RC"
+        ],
+        "per_image_psnr_delta": {
+          "00020": 0.0467113253072835,
+          "00021": -0.048522587017041374,
+          "00022": -0.044473235290999114
+        },
+        "cases_worsened": {
+          "psnr": 3,
+          "ssim": 4,
+          "lpips": 4
+        }
+      },
+      "R_MATCHED": {
+        "mean_delta": {
+          "loss": 0.002480511295029982,
+          "psnr": -0.023083029042985242,
+          "ssim": -0.0019922455151875815,
+          "lpips": 0.0012832432985305786
+        },
+        "quality_guard": false,
+        "actions": [
+          "R_MATCHED",
+          "R_MATCHED",
+          "R_MATCHED",
+          "R_MATCHED",
+          "R_MATCHED",
+          "R_MATCHED"
+        ],
+        "per_image_psnr_delta": {
+          "00020": -0.004631529466555762,
+          "00021": -0.046863343419341064,
+          "00022": -0.017754214243058897
+        },
+        "cases_worsened": {
+          "psnr": 4,
+          "ssim": 5,
+          "lpips": 4
+        }
+      },
+      "FIXED_GRID": {
+        "mean_delta": {
+          "loss": 0.0013160501482060531,
+          "psnr": -0.028242898111495645,
+          "ssim": -0.0010399123032887776,
+          "lpips": -0.00019412984450658163
+        },
+        "quality_guard": false,
+        "actions": [
+          "FIXED_GRID",
+          "FIXED_GRID",
+          "FIXED_GRID",
+          "FIXED_GRID",
+          "FIXED_GRID",
+          "FIXED_GRID"
+        ],
+        "per_image_psnr_delta": {
+          "00020": -0.025300300690396682,
+          "00021": -0.05633856989866182,
+          "00022": -0.0030898237454284327
+        },
+        "cases_worsened": {
+          "psnr": 5,
+          "ssim": 5,
+          "lpips": 3
+        }
+      },
+      "SLOT_REPLAY": {
+        "mean_delta": {
+          "loss": 0.0021327864981470026,
+          "psnr": -0.03722134487107098,
+          "ssim": -0.002889523903528849,
+          "lpips": 0.0026573588450749717
+        },
+        "quality_guard": false,
+        "actions": [
+          "SLOT_REPLAY",
+          "SLOT_REPLAY",
+          "SLOT_REPLAY",
+          "SLOT_REPLAY",
+          "SLOT_REPLAY",
+          "SLOT_REPLAY"
+        ],
+        "per_image_psnr_delta": {
+          "00020": 0.002387533997001867,
+          "00021": -0.0723428414938212,
+          "00022": -0.04170872711639362
+        },
+        "cases_worsened": {
+          "psnr": 4,
+          "ssim": 6,
+          "lpips": 5
+        }
+      }
+    },
+    "comparisons": {
+      "direction_after_residual_amplitude_match": {
+        "mean_delta": {
+          "loss": -0.0019111368456719013,
+          "psnr": 0.0076548633760662455,
+          "ssim": 0.0006870230038960775,
+          "lpips": 0.0009013339877128601
+        },
+        "per_image_psnr_delta": {
+          "00020": 0.051342854773839264,
+          "00021": -0.0016592435977003106,
+          "00022": -0.026719021047940217
+        },
+        "images_psnr_better": 1,
+        "psnr_mechanism_hint": false
+      },
+      "online_feedback_vs_shared_fixed_clock": {
+        "mean_delta": {
+          "loss": -0.0007466756988479725,
+          "psnr": 0.012814732444576649,
+          "ssim": -0.00026531020800272626,
+          "lpips": 0.0023787071307500205
+        },
+        "per_image_psnr_delta": {
+          "00020": 0.07201162599768018,
+          "00021": 0.007815982881620442,
+          "00022": -0.04138341154557068
+        },
+        "images_psnr_better": 2,
+        "psnr_mechanism_hint": true
+      },
+      "parameter_lookup_on_identical_clock": {
+        "mean_delta": {
+          "loss": 0.001563412048788922,
+          "psnr": -0.021793179204151986,
+          "ssim": -0.0015843013922373454,
+          "lpips": 0.0004727815588315328
+        },
+        "per_image_psnr_delta": {
+          "00020": -0.044323791310281635,
+          "00021": -0.023820254476779823,
+          "00022": 0.0027645081746054956
+        },
+        "images_psnr_better": 1,
+        "psnr_mechanism_hint": false
+      }
+    },
+    "source_RC_net_benefit_supported": false,
+    "source_RC_parameter_lookup": {
+      "mean_abs_relative_zeta_change": 0.012116432847326703,
+      "max_abs_relative_zeta_change": 0.14660659432411194,
+      "mean_D_relative_difference": 0.0013743879108196605
+    },
+    "rows": [
+      {
+        "case": "00020_s1000",
+        "branches": {
+          "RC_REPLAY": {
+            "loss": 0.691671190625512,
+            "psnr": 25.14844908454814,
+            "ssim": 0.7206746935844421,
+            "lpips": 0.22659863531589508
+          },
+          "R_MATCHED": {
+            "loss": 0.699669772163547,
+            "psnr": 25.102190764247347,
+            "ssim": 0.720287024974823,
+            "lpips": 0.22987911105155945
+          },
+          "FIXED_GRID": {
+            "loss": 0.6989157408823473,
+            "psnr": 25.085426911078873,
+            "ssim": 0.7199856638908386,
+            "lpips": 0.2302931845188141
+          },
+          "SLOT_REPLAY": {
+            "loss": 0.6950625889211162,
+            "psnr": 25.123467094952723,
+            "ssim": 0.7208762168884277,
+            "lpips": 0.22928392887115479
+          },
+          "C": {
+            "loss": 0.6970334178737662,
+            "psnr": 25.123948614331034,
+            "ssim": 0.7211341261863708,
+            "lpips": 0.2285727709531784
+          },
+          "RC": {
+            "loss": 0.691671190625512,
+            "psnr": 25.14844908454814,
+            "ssim": 0.7206746935844421,
+            "lpips": 0.22659863531589508
+          }
+        },
+        "gates_passed": true
+      },
+      {
+        "case": "00020_s2000",
+        "branches": {
+          "RC_REPLAY": {
+            "loss": 0.6796539708936787,
+            "psnr": 25.088608979009518,
+            "ssim": 0.7206299901008606,
+            "lpips": 0.2296326756477356
+          },
+          "R_MATCHED": {
+            "loss": 0.686480641356724,
+            "psnr": 25.032181589762633,
+            "ssim": 0.7198149561882019,
+            "lpips": 0.23027288913726807
+          },
+          "FIXED_GRID": {
+            "loss": 0.6870434728198155,
+            "psnr": 25.007607900483425,
+            "ssim": 0.71785569190979,
+            "lpips": 0.2252526879310608
+          },
+          "SLOT_REPLAY": {
+            "loss": 0.6882765184151142,
+            "psnr": 25.024943385984372,
+            "ssim": 0.7185077667236328,
+            "lpips": 0.22751246392726898
+          },
+          "C": {
+            "loss": 0.6847169810926329,
+            "psnr": 25.019686798612057,
+            "ssim": 0.7189514636993408,
+            "lpips": 0.22816461324691772
+          },
+          "RC": {
+            "loss": 0.6796539708936787,
+            "psnr": 25.088608979009518,
+            "ssim": 0.7206299901008606,
+            "lpips": 0.2296326756477356
+          }
+        },
+        "gates_passed": true
+      },
+      {
+        "case": "00021_s1000",
+        "branches": {
+          "RC_REPLAY": {
+            "loss": 0.6771300320338403,
+            "psnr": 25.880599317237714,
+            "ssim": 0.7581577897071838,
+            "lpips": 0.2475414276123047
+          },
+          "R_MATCHED": {
+            "loss": 0.6675551760747093,
+            "psnr": 25.9207506403525,
+            "ssim": 0.7564341425895691,
+            "lpips": 0.24106010794639587
+          },
+          "FIXED_GRID": {
+            "loss": 0.6735821077902971,
+            "psnr": 25.861567069141437,
+            "ssim": 0.7554300427436829,
+            "lpips": 0.24607700109481812
+          },
+          "SLOT_REPLAY": {
+            "loss": 0.6717105531879282,
+            "psnr": 25.88439102681978,
+            "ssim": 0.756031334400177,
+            "lpips": 0.2455410659313202
+          },
+          "C": {
+            "loss": 0.6662601056932709,
+            "psnr": 25.964173439977273,
+            "ssim": 0.7588292956352234,
+            "lpips": 0.2431483417749405
+          },
+          "RC": {
+            "loss": 0.6771300320338403,
+            "psnr": 25.880599317237714,
+            "ssim": 0.7581577897071838,
+            "lpips": 0.2475414276123047
+          }
+        },
+        "gates_passed": true
+      },
+      {
+        "case": "00021_s2000",
+        "branches": {
+          "RC_REPLAY": {
+            "loss": 0.6841003180803411,
+            "psnr": 25.940316458491356,
+            "ssim": 0.7663976550102234,
+            "lpips": 0.2314157336950302
+          },
+          "R_MATCHED": {
+            "loss": 0.6900123592965983,
+            "psnr": 25.90348362257197,
+            "ssim": 0.7641050815582275,
+            "lpips": 0.2315956950187683
+          },
+          "FIXED_GRID": {
+            "loss": 0.684631488462521,
+            "psnr": 25.943716740824392,
+            "ssim": 0.7654445171356201,
+            "lpips": 0.2297273874282837
+          },
+          "SLOT_REPLAY": {
+            "loss": 0.690472572390117,
+            "psnr": 25.88888423995573,
+            "ssim": 0.7649778723716736,
+            "lpips": 0.23311805725097656
+          },
+          "C": {
+            "loss": 0.6850227597867334,
+            "psnr": 25.95378750978588,
+            "ssim": 0.7656895518302917,
+            "lpips": 0.23301130533218384
+          },
+          "RC": {
+            "loss": 0.6841003180803411,
+            "psnr": 25.940316458491356,
+            "ssim": 0.7663976550102234,
+            "lpips": 0.2314157336950302
+          }
+        },
+        "gates_passed": true
+      },
+      {
+        "case": "00022_s1000",
+        "branches": {
+          "RC_REPLAY": {
+            "loss": 0.867346869395045,
+            "psnr": 21.75438693316023,
+            "ssim": 0.6929107308387756,
+            "lpips": 0.23721769452095032
+          },
+          "R_MATCHED": {
+            "loss": 0.8714538550858725,
+            "psnr": 21.756654717814136,
+            "ssim": 0.693416178226471,
+            "lpips": 0.23265796899795532
+          },
+          "FIXED_GRID": {
+            "loss": 0.8658321390905168,
+            "psnr": 21.76240564737575,
+            "ssim": 0.6964433193206787,
+            "lpips": 0.230710968375206
+          },
+          "SLOT_REPLAY": {
+            "loss": 0.8708897202190793,
+            "psnr": 21.764645395342747,
+            "ssim": 0.6939091086387634,
+            "lpips": 0.23252928256988525
+          },
+          "C": {
+            "loss": 0.870572185504626,
+            "psnr": 21.752883060243917,
+            "ssim": 0.695851743221283,
+            "lpips": 0.2294449657201767
+          },
+          "RC": {
+            "loss": 0.867346869395045,
+            "psnr": 21.75438693316023,
+            "ssim": 0.6929107308387756,
+            "lpips": 0.23721769452095032
+          }
+        },
+        "gates_passed": true
+      },
+      {
+        "case": "00022_s2000",
+        "branches": {
+          "RC_REPLAY": {
+            "loss": 0.9592231468127944,
+            "psnr": 21.310993932347216,
+            "ssim": 0.6733415126800537,
+            "lpips": 0.24156782031059265
+          },
+          "R_MATCHED": {
+            "loss": 0.9554205449377918,
+            "psnr": 21.36216418978919,
+            "ssim": 0.6739328503608704,
+            "lpips": 0.24310021102428436
+          },
+          "FIXED_GRID": {
+            "loss": 0.9536006329888016,
+            "psnr": 21.385742041222837,
+            "ssim": 0.6785449981689453,
+            "lpips": 0.23764051496982574
+          },
+          "SLOT_REPLAY": {
+            "loss": 0.9520940470005903,
+            "psnr": 21.30626448651391,
+            "ssim": 0.6683042645454407,
+            "lpips": 0.24882587790489197
+          },
+          "C": {
+            "loss": 0.9521038311940336,
+            "psnr": 21.401444275845527,
+            "ssim": 0.6794875264167786,
+            "lpips": 0.23852452635765076
+          },
+          "RC": {
+            "loss": 0.9592231468127944,
+            "psnr": 21.310993932347216,
+            "ssim": 0.6733415126800537,
+            "lpips": 0.24156782031059265
+          }
+        },
+        "gates_passed": true
+      }
+    ]
+  }
+}
