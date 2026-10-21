@@ -1,0 +1,440 @@
+{
+  "experiment": "A34_noise_target_response_feedback",
+  "completed_cases": 12,
+  "planned_cases": 12,
+  "image_clusters": 6,
+  "completed_tasks": 72,
+  "planned_tasks": 72,
+  "method_nfe": 0,
+  "diagnostic_nfe": 2160,
+  "planned_diagnostic_nfe": 2160,
+  "deployment_nfe_per_arm": 300,
+  "sensor_extra_unet": 0,
+  "partial_attempts": 0,
+  "cost_is_lower_bound_if_abruptly_interrupted": false,
+  "variants": [
+    {
+      "arm": "N090",
+      "R_target": 0.9,
+      "completed_feedback": 12,
+      "completed_time": 12,
+      "classification": "NO_CONFIRMED_STATE_INCREMENT",
+      "comparisons": {
+        "C": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 1.6735219306537976,
+            "ssim": 0.043826356530189514,
+            "lpips": 0.032589939733346306,
+            "loss": -0.329290499609274
+          },
+          "per_image_psnr": {
+            "00020": 1.815613503599522,
+            "00021": 1.8466037796719323,
+            "00022": 1.9699890770419035,
+            "00023": 1.3340507857815123,
+            "00024": 1.6389353029486369,
+            "00025": 1.4359391348792787
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        },
+        "F": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 1.425989755931498,
+            "ssim": 0.035512919227282204,
+            "lpips": 0.037054870277643204,
+            "loss": -0.2890555341381137
+          },
+          "per_image_psnr": {
+            "00020": 1.5312236007939486,
+            "00021": 1.556658312359664,
+            "00022": 1.7534270170897397,
+            "00023": 1.1004053131253926,
+            "00024": 1.4006837858835652,
+            "00025": 1.2135405063366775
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        },
+        "I_cont2": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.4379220773973224,
+            "ssim": 0.006275375684102376,
+            "lpips": 0.030945786585410435,
+            "loss": -0.09562376086477274
+          },
+          "per_image_psnr": {
+            "00020": 0.443868552715454,
+            "00021": 0.4469656701038982,
+            "00022": 0.7103109595819053,
+            "00023": 0.17408692163665052,
+            "00024": 0.45143135082746433,
+            "00025": 0.4008690095185621
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        },
+        "STAGE_cont2": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.4366809666222329,
+            "ssim": 0.006253764033317566,
+            "lpips": 0.031130816787481308,
+            "loss": -0.09567563188125021
+          },
+          "per_image_psnr": {
+            "00020": 0.4381131966163849,
+            "00021": 0.44699343766614774,
+            "00022": 0.7088718503476947,
+            "00023": 0.18011108564998501,
+            "00024": 0.4506156559977601,
+            "00025": 0.39538057345542477
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        },
+        "matched_STAGE": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.014197453847970998,
+            "ssim": 0.0017272531986236572,
+            "lpips": -0.00033231452107429504,
+            "loss": -0.009171745484817343
+          },
+          "per_image_psnr": {
+            "00020": -0.061818949428642966,
+            "00021": -0.06889822255033273,
+            "00022": 0.21477198042184042,
+            "00023": -0.11975490986683468,
+            "00024": 0.051373521215708706,
+            "00025": 0.06951130329608723
+          },
+          "images_positive": 3,
+          "quality_guard": true
+        },
+        "TIME_vs_C": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 1.6593244768058266,
+            "ssim": 0.04209910333156586,
+            "lpips": 0.0329222542544206,
+            "loss": -0.3201187541244566
+          },
+          "per_image_psnr": {
+            "00020": 1.877432453028165,
+            "00021": 1.915502002222265,
+            "00022": 1.755217096620063,
+            "00023": 1.453805695648347,
+            "00024": 1.5875617817329282,
+            "00025": 1.3664278315831915
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        }
+      },
+      "readout": {
+        "decisions": 360,
+        "gamma_min": 0.0007727266038513731,
+        "gamma_median": 0.046393560086851145,
+        "gamma_max": 7.192619854006712,
+        "final_residual_noise_rms": 0.9000000898119808,
+        "changed_vs_one": 360,
+        "reasons": {
+          "FIRST_NOISE_TARGET_CROSSING": 360
+        }
+      }
+    },
+    {
+      "arm": "N100",
+      "R_target": 1.0,
+      "completed_feedback": 12,
+      "completed_time": 12,
+      "classification": "NO_CONFIRMED_STATE_INCREMENT",
+      "comparisons": {
+        "C": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 1.3298007149439828,
+            "ssim": 0.04245361189047495,
+            "lpips": 0.023339319974184036,
+            "loss": -0.23429045826786613
+          },
+          "per_image_psnr": {
+            "00020": 1.400268992141223,
+            "00021": 1.39114995806821,
+            "00022": 1.7571433451889682,
+            "00023": 0.915612183351838,
+            "00024": 1.3428833736724517,
+            "00025": 1.1717464372412056
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        },
+        "F": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 1.0822685402216832,
+            "ssim": 0.03414017458756765,
+            "lpips": 0.027804250518480938,
+            "loss": -0.19405549279670584
+          },
+          "per_image_psnr": {
+            "00020": 1.1158790893356496,
+            "00021": 1.1012044907559417,
+            "00022": 1.5405812852368044,
+            "00023": 0.6819667106957183,
+            "00024": 1.10463185660738,
+            "00025": 0.9493478086986045
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        },
+        "I_cont2": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.09420086168750756,
+            "ssim": 0.004902631044387817,
+            "lpips": 0.02169516682624817,
+            "loss": -0.0006237195233649018
+          },
+          "per_image_psnr": {
+            "00020": 0.02852404125715502,
+            "00021": -0.00848815149982407,
+            "00022": 0.49746522772896995,
+            "00023": -0.24435168079302372,
+            "00024": 0.15537942155127915,
+            "00025": 0.136676311880489
+          },
+          "images_positive": 4,
+          "quality_guard": false
+        },
+        "STAGE_cont2": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.09295975091241804,
+            "ssim": 0.004881019393603007,
+            "lpips": 0.021880197028319042,
+            "loss": -0.0006755905398423689
+          },
+          "per_image_psnr": {
+            "00020": 0.022768685158085944,
+            "00021": -0.008460383937574534,
+            "00022": 0.4960261184947594,
+            "00023": -0.23832751677968922,
+            "00024": 0.15456372672157492,
+            "00025": 0.1311878758173517
+          },
+          "images_positive": 4,
+          "quality_guard": false
+        },
+        "matched_STAGE": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.0016208196215498443,
+            "ssim": 0.0022263675928115845,
+            "lpips": 0.0005865792433420817,
+            "loss": -0.013553566065498518
+          },
+          "per_image_psnr": {
+            "00020": -0.1692808050233907,
+            "00021": -0.1741761263074686,
+            "00022": 0.40211796508719466,
+            "00023": -0.3149103632530501,
+            "00024": 0.11650108018664618,
+            "00025": 0.14947316703936764
+          },
+          "images_positive": 3,
+          "quality_guard": true
+        },
+        "TIME_vs_C": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 1.3281798953224329,
+            "ssim": 0.04022724429766337,
+            "lpips": 0.022752740730841953,
+            "loss": -0.2207368922023676
+          },
+          "per_image_psnr": {
+            "00020": 1.5695497971646137,
+            "00021": 1.5653260843756787,
+            "00022": 1.3550253801017735,
+            "00023": 1.2305225466048881,
+            "00024": 1.2263822934858055,
+            "00025": 1.022273270201838
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        }
+      },
+      "readout": {
+        "decisions": 360,
+        "gamma_min": 0.000754561172908923,
+        "gamma_median": 0.043801555237349354,
+        "gamma_max": 5.795074256883939,
+        "final_residual_noise_rms": 1.000000122172187,
+        "changed_vs_one": 360,
+        "reasons": {
+          "FIRST_NOISE_TARGET_CROSSING": 360
+        }
+      }
+    },
+    {
+      "arm": "N110",
+      "R_target": 1.1,
+      "completed_feedback": 12,
+      "completed_time": 12,
+      "classification": "NO_CONFIRMED_STATE_INCREMENT",
+      "comparisons": {
+        "C": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.7937317184992502,
+            "ssim": 0.02879732350508372,
+            "lpips": 0.02838383863369624,
+            "loss": -0.12929040322470825
+          },
+          "per_image_psnr": {
+            "00020": 0.7724435874944948,
+            "00021": 0.6621245604363271,
+            "00022": 1.4373918166305693,
+            "00023": 0.2248567797770189,
+            "00024": 0.8873606212998038,
+            "00025": 0.7782129453572875
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        },
+        "F": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.5461995437769506,
+            "ssim": 0.02048388620217641,
+            "lpips": 0.03284876917799314,
+            "loss": -0.08905543775354795
+          },
+          "per_image_psnr": {
+            "00020": 0.4880536846889214,
+            "00021": 0.3721790931240587,
+            "00022": 1.2208297566784054,
+            "00023": -0.008788692879100779,
+            "00024": 0.6491091042347321,
+            "00025": 0.5558143168146863
+          },
+          "images_positive": 5,
+          "quality_guard": false
+        },
+        "I_cont2": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": -0.44186813475722503,
+            "ssim": -0.008753657341003418,
+            "lpips": 0.026739685485760372,
+            "loss": 0.10437633551979299
+          },
+          "per_image_psnr": {
+            "00020": -0.5993013633895732,
+            "00021": -0.7375135491317071,
+            "00022": 0.177713699170571,
+            "00023": -0.9351070843678428,
+            "00024": -0.3001433308213688,
+            "00025": -0.25685718000342916
+          },
+          "images_positive": 1,
+          "quality_guard": false
+        },
+        "STAGE_cont2": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": -0.4431092455323145,
+            "ssim": -0.008775268991788229,
+            "lpips": 0.02692471568783124,
+            "loss": 0.10432446450331552
+          },
+          "per_image_psnr": {
+            "00020": -0.6050567194886423,
+            "00021": -0.7374857815694575,
+            "00022": 0.17627458993636047,
+            "00023": -0.9290829203545083,
+            "00024": -0.300959025651073,
+            "00025": -0.2623456160665665
+          },
+          "images_positive": 1,
+          "quality_guard": false
+        },
+        "matched_STAGE": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": -0.02015564311838869,
+            "ssim": 0.0024926612774531045,
+            "lpips": 8.786842226982117e-05,
+            "loss": -0.01889087636998495
+          },
+          "per_image_psnr": {
+            "00020": -0.2835508726393119,
+            "00021": -0.31657300261297827,
+            "00022": 0.6102834893854983,
+            "00023": -0.5648351201964132,
+            "00024": 0.1887667164312763,
+            "00025": 0.24497493092159672
+          },
+          "images_positive": 3,
+          "quality_guard": true
+        },
+        "TIME_vs_C": {
+          "n": 12,
+          "image_clusters": 6,
+          "mean_delta": {
+            "psnr": 0.8138873616176389,
+            "ssim": 0.026304662227630615,
+            "lpips": 0.028295970211426418,
+            "loss": -0.1103995268547233
+          },
+          "per_image_psnr": {
+            "00020": 1.0559944601338067,
+            "00021": 0.9786975630493053,
+            "00022": 0.827108327245071,
+            "00023": 0.7896918999734321,
+            "00024": 0.6985939048685275,
+            "00025": 0.5332380144356907
+          },
+          "images_positive": 6,
+          "quality_guard": false
+        }
+      },
+      "readout": {
+        "decisions": 360,
+        "gamma_min": 0.0007372937170560238,
+        "gamma_median": 0.04134251514159892,
+        "gamma_max": 4.657620293190087,
+        "final_residual_noise_rms": 1.100000161104854,
+        "changed_vs_one": 360,
+        "reasons": {
+          "FIRST_NOISE_TARGET_CROSSING": 360
+        }
+      }
+    }
+  ],
+  "classification": "COMPLETE_DEVELOPMENT_COMPARISON",
+  "failed_attempts": [],
+  "limits": "Six reused FFHQ development image clusters, two dependent seeds each; final unroll only. Discrepancy-inspired same-time surrogate, not a proven next-state constraint, exact Jacobian, curvature or reconstruction optimum. Targets .9/1/1.1 are model-mismatch sensitivity settings, not noise confidence bounds. No independent confirmation or full-ten-epoch adaptation. All targets reported; a selected candidate needs frozen independent confirmation. Predicted same-time residual and next evaluated clean residual include different diffusion states."
+}
