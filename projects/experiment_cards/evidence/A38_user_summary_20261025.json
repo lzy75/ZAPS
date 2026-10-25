@@ -1,0 +1,1149 @@
+{
+  "source": "User-pasted A38 summary",
+  "source_file_sha256": "49205ba4e96fb68d1449e8693c81999c31673db34a1e78378838f9bad699895d",
+  "audit_level": "USER_SUMMARY_ONLY; full A38 per-case archive not present on fetched results ref 3e9bd9d.",
+  "summary": {
+    "classification": "MIXED_OR_NO_ONE_SIDED_QUALITY_SUPPORT",
+    "completed_cases": 18,
+    "planned_cases": 18,
+    "across_condition_candidates": [],
+    "experiment": "A38_one_sided_noise_feedback",
+    "method_nfe": 0,
+    "diagnostic_nfe": 1080,
+    "planned_diagnostic_nfe": 1080,
+    "deployment_nfe_per_arm": 300,
+    "partial_attempts": 0,
+    "cost_is_lower_bound_if_abruptly_interrupted": false,
+    "source_A36_cost": {
+      "method_nfe": 5631,
+      "diagnostic_nfe": 1620,
+      "cost_is_lower_bound": true
+    },
+    "source_A37_cost": {
+      "method_nfe": 0,
+      "diagnostic_nfe": 1440,
+      "cost_is_lower_bound": false
+    },
+    "limits": "Two-sided mechanism decomposition on six reused development images, three measurement sigmas, one seed. UP_REG regularizes only current LS>1; DOWN_REG only LS<1. Lambda1/upper2/deadband fixed. First270 original calls shared; every scientific arm300. No state-superiority, fresh confirmation, curvature, convergence, author-parity or NFE-saving claim. Six dependent image clusters; unadjusted bootstrap is descriptive. Arm sampling time includes diagnostic instrumentation; not an end-to-end speed comparison.",
+    "groups": [
+      {
+        "sigma": 0.025,
+        "completed_cases": 6,
+        "planned_cases": 6,
+        "quality_candidates": [
+          "DOWN_REG"
+        ],
+        "readouts": {
+          "UP_REG": {
+            "changed_fraction": 0.2722222222222222,
+            "final_output_R_mean": 1.605402816015263,
+            "sampling_seconds_mean": 2.1494425230969987
+          },
+          "DOWN_REG": {
+            "changed_fraction": 0.7111111111111111,
+            "final_output_R_mean": 1.3197017983653874,
+            "sampling_seconds_mean": 2.002148292803516
+          }
+        },
+        "comparisons": {
+          "UP_REG_C": {
+            "mean_delta": {
+              "psnr": 0.4044057704094903,
+              "ssim": 0.00714452068010966,
+              "lpips": 0.007741165657838185,
+              "loss": -0.16385206455225487
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.3364336617344623,
+                0.45697084051962084
+              ],
+              "ssim": [
+                0.00584574540456136,
+                0.008550335963567099
+              ],
+              "lpips": [
+                0.004096736510594686,
+                0.011812977492809296
+              ],
+              "loss": [
+                -0.23228014598558513,
+                -0.1168416190151544
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.2546004310891341,
+            "max_image_lpips_delta": 0.015696823596954346,
+            "quality_guard": false,
+            "image_lpips_risk_count": 5
+          },
+          "UP_REG_OLD": {
+            "mean_delta": {
+              "psnr": -1.0628800944874897,
+              "ssim": -0.02894771099090576,
+              "lpips": 0.013904703160127005,
+              "loss": 0.4205854498171427
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -1.232703314683178,
+                -0.8763510751491452
+              ],
+              "ssim": [
+                -0.034304519494374595,
+                -0.024487356344858806
+              ],
+              "lpips": [
+                0.010326226552327475,
+                0.017483179767926533
+              ],
+              "loss": [
+                0.36373126976125897,
+                0.49739701912826334
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -1.4082563124020808,
+            "max_image_lpips_delta": 0.019563347101211548,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "UP_REG_REG": {
+            "mean_delta": {
+              "psnr": -0.006138098500763078,
+              "ssim": -0.00020528833071390787,
+              "lpips": 0.0003865559895833333,
+              "loss": 0.002200386645387168
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.008248845786890039,
+                -0.003888907782791051
+              ],
+              "ssim": [
+                -0.00024446845054626465,
+                -0.00017182032267252603
+              ],
+              "lpips": [
+                0.000289556880791982,
+                0.00048377861579259235
+              ],
+              "loss": [
+                0.0019182739038853258,
+                0.0024676459460099367
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.009943941325129657,
+            "max_image_lpips_delta": 0.0005391985177993774,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "UP_REG_TIME": {
+            "mean_delta": {
+              "psnr": -1.075198668376381,
+              "ssim": -0.029351343711217243,
+              "lpips": 0.014287037154038748,
+              "loss": 0.42439462753395774
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -1.2423925372229252,
+                -0.8865343865367841
+              ],
+              "ssim": [
+                -0.03508122762044271,
+                -0.02453153332074483
+              ],
+              "lpips": [
+                0.010950307051340738,
+                0.01755980650583903
+              ],
+              "loss": [
+                0.3652869728504486,
+                0.5024561820218906
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -1.4141197202809614,
+            "max_image_lpips_delta": 0.01891791820526123,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "UP_REG_TIME_NOISE": {
+            "mean_delta": {
+              "psnr": -0.23133849410190166,
+              "ssim": -0.005738993485768636,
+              "lpips": 0.0042893340190251665,
+              "loss": 0.07679795063770622
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.29830661353710397,
+                -0.1511541648472008
+              ],
+              "ssim": [
+                -0.007177432378133138,
+                -0.004274229208628337
+              ],
+              "lpips": [
+                0.0028271054228146872,
+                0.005823731422424316
+              ],
+              "loss": [
+                0.06415855636637939,
+                0.08618184459033355
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.35777156364882856,
+            "max_image_lpips_delta": 0.00745527446269989,
+            "quality_guard": false,
+            "image_lpips_risk_count": 2
+          },
+          "DOWN_REG_C": {
+            "mean_delta": {
+              "psnr": 1.471076182766789,
+              "ssim": 0.03620525201161703,
+              "lpips": -0.006464183330535889,
+              "loss": -0.5854777718760025
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                1.279011166122262,
+                1.67883191054292
+              ],
+              "ssim": [
+                0.031380146741867065,
+                0.04149214426676432
+              ],
+              "lpips": [
+                -0.010147216419378916,
+                -0.0024196580052375793
+              ],
+              "loss": [
+                -0.7323486058904165,
+                -0.48411684304497354
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 1.0915769212780475,
+            "max_image_lpips_delta": 0.0020008385181427,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_OLD": {
+            "mean_delta": {
+              "psnr": 0.003790317869809101,
+              "ssim": 0.0001130203406016032,
+              "lpips": -0.0003006458282470703,
+              "loss": -0.0010402575066049136
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.0022370517921791824,
+                0.0053934911676266255
+              ],
+              "ssim": [
+                8.734067281087239e-05,
+                0.00014832615852355957
+              ],
+              "lpips": [
+                -0.00036358336607615155,
+                -0.00024248162905375162
+              ],
+              "loss": [
+                -0.001144750089889272,
+                -0.000925763859326831
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.0013499642653194144,
+            "max_image_lpips_delta": -0.00021637976169586182,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_REG": {
+            "mean_delta": {
+              "psnr": 1.0605323138565357,
+              "ssim": 0.028855443000793457,
+              "lpips": -0.013818792998790741,
+              "loss": -0.41942532067836047
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.8751842843394039,
+                1.2295002963752093
+              ],
+              "ssim": [
+                0.02440146605173747,
+                0.034214407205581665
+              ],
+              "lpips": [
+                -0.017369642853736877,
+                -0.010267943143844604
+              ],
+              "loss": [
+                -0.4964275704539621,
+                -0.3625012777027852
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.6826999947057857,
+            "max_image_lpips_delta": -0.007968127727508545,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_TIME": {
+            "mean_delta": {
+              "psnr": -0.008528256019082173,
+              "ssim": -0.0002906123797098796,
+              "lpips": 8.168816566467285e-05,
+              "loss": 0.002768920210210135
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.018010890202417567,
+                0.0006859475362486952
+              ],
+              "ssim": [
+                -0.0006556908289591471,
+                5.9197346369425453e-05
+              ],
+              "lpips": [
+                -0.0006142382820447286,
+                0.0007225150863329569
+              ],
+              "loss": [
+                -0.0003082722971358143,
+                0.00593119665265357
+              ]
+            },
+            "images_psnr_positive": 2,
+            "min_image_psnr_delta": -0.02504919897745239,
+            "max_image_lpips_delta": 0.0010604113340377808,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_TIME_NOISE": {
+            "mean_delta": {
+              "psnr": 0.8353319182553971,
+              "ssim": 0.023321737845738728,
+              "lpips": -0.009916014969348907,
+              "loss": -0.3448277566860414
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.7239777652479955,
+                0.9445032521850271
+              ],
+              "ssim": [
+                0.019040892521540325,
+                0.027866641680399578
+              ],
+              "lpips": [
+                -0.012652923663457235,
+                -0.006897782286008199
+              ],
+              "loss": [
+                -0.43241193108080944,
+                -0.2845295926533891
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.6240090115876598,
+            "max_image_lpips_delta": -0.0039099156856536865,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "UP_REG_DOWN_REG": {
+            "mean_delta": {
+              "psnr": -1.0666704123572988,
+              "ssim": -0.029060731331507366,
+              "lpips": 0.014205348988374075,
+              "loss": 0.4216257073237476
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -1.238215425795195,
+                -0.8792303483774274
+              ],
+              "ssim": [
+                -0.034452865521113075,
+                -0.024590730667114258
+              ],
+              "lpips": [
+                0.010568708181381226,
+                0.017841989795366924
+              ],
+              "loss": [
+                0.3646476852955846,
+                0.4984799950989574
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -1.4146347125460892,
+            "max_image_lpips_delta": 0.019945383071899414,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          }
+        }
+      },
+      {
+        "sigma": 0.05,
+        "completed_cases": 6,
+        "planned_cases": 6,
+        "quality_candidates": [],
+        "readouts": {
+          "UP_REG": {
+            "changed_fraction": 0.28888888888888886,
+            "final_output_R_mean": 1.1463368921150625,
+            "sampling_seconds_mean": 1.937898946615557
+          },
+          "DOWN_REG": {
+            "changed_fraction": 0.7,
+            "final_output_R_mean": 0.9778386878187824,
+            "sampling_seconds_mean": 2.0343774940508106
+          }
+        },
+        "comparisons": {
+          "UP_REG_C": {
+            "mean_delta": {
+              "psnr": 0.21530535921936375,
+              "ssim": 0.002157976229985555,
+              "lpips": 0.01398425797621409,
+              "loss": -0.01627816537847121
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.1451302914789636,
+                0.2863470533883247
+              ],
+              "ssim": [
+                0.0005003412564595541,
+                0.003671586513519287
+              ],
+              "lpips": [
+                0.00975902626911799,
+                0.019032287100950878
+              ],
+              "loss": [
+                -0.021940268228473947,
+                -0.011659899451695507
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.08981131447837498,
+            "max_image_lpips_delta": 0.02526584267616272,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "UP_REG_OLD": {
+            "mean_delta": {
+              "psnr": -1.0759109895374521,
+              "ssim": -0.02161586284637451,
+              "lpips": 0.007315315306186676,
+              "loss": 0.17940868002439567
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -1.2078697645590086,
+                -0.9439522145158955
+              ],
+              "ssim": [
+                -0.028233240048090618,
+                -0.014705657958984375
+              ],
+              "lpips": [
+                0.0006260971228281657,
+                0.013440941770871481
+              ],
+              "loss": [
+                0.15379513698576847,
+                0.2146438383912029
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -1.370577749251673,
+            "max_image_lpips_delta": 0.01602645218372345,
+            "quality_guard": false,
+            "image_lpips_risk_count": 3
+          },
+          "UP_REG_REG": {
+            "mean_delta": {
+              "psnr": -0.015823078391664563,
+              "ssim": -0.0005429089069366455,
+              "lpips": 0.001209321121374766,
+              "loss": 0.002092393104431619
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.022528091112905102,
+                -0.009734155072860537
+              ],
+              "ssim": [
+                -0.0006042420864105225,
+                -0.0004839201768239339
+              ],
+              "lpips": [
+                0.0009784996509552002,
+                0.0014518499374389648
+              ],
+              "loss": [
+                0.0017557054210264322,
+                0.002420897092355064
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.03050344695120799,
+            "max_image_lpips_delta": 0.001622214913368225,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "UP_REG_TIME": {
+            "mean_delta": {
+              "psnr": -1.0705671763379325,
+              "ssim": -0.021571884552637737,
+              "lpips": 0.006897918879985809,
+              "loss": 0.1789980716587046
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -1.1958630225481521,
+                -0.945241957812477
+              ],
+              "ssim": [
+                -0.028271069129308064,
+                -0.014706581830978394
+              ],
+              "lpips": [
+                0.0005051791667938232,
+                0.012722603976726532
+              ],
+              "loss": [
+                0.1527860640352602,
+                0.2147394796581706
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -1.339156353626855,
+            "max_image_lpips_delta": 0.015612274408340454,
+            "quality_guard": false,
+            "image_lpips_risk_count": 3
+          },
+          "UP_REG_TIME_NOISE": {
+            "mean_delta": {
+              "psnr": -0.010625526629757687,
+              "ssim": -0.00028454264005025226,
+              "lpips": 0.0004554937283198039,
+              "loss": 0.00043046998152999433
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.027396020550353246,
+                0.010624176109166328
+              ],
+              "ssim": [
+                -0.000789801279703776,
+                0.00033409396807352704
+              ],
+              "lpips": [
+                -0.00020573039849599203,
+                0.0011167178551355998
+              ],
+              "loss": [
+                -0.0033645164184331056,
+                0.003174517010804808
+              ]
+            },
+            "images_psnr_positive": 2,
+            "min_image_psnr_delta": -0.032565732244446366,
+            "max_image_lpips_delta": 0.001592293381690979,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_C": {
+            "mean_delta": {
+              "psnr": 1.295749213385091,
+              "ssim": 0.023918092250823975,
+              "lpips": 0.0058747703830401106,
+              "loss": -0.19648047074744293
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                1.1717009228434871,
+                1.4622832627295388
+              ],
+              "ssim": [
+                0.018497248490651447,
+                0.029257843891779583
+              ],
+              "lpips": [
+                0.001642646888891856,
+                0.009932729105154673
+              ],
+              "loss": [
+                -0.237376811316122,
+                -0.16777167558159758
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 1.0834709671071714,
+            "max_image_lpips_delta": 0.012530162930488586,
+            "quality_guard": false,
+            "image_lpips_risk_count": 4
+          },
+          "DOWN_REG_OLD": {
+            "mean_delta": {
+              "psnr": 0.004532864628275253,
+              "ssim": 0.00014425317446390787,
+              "lpips": -0.0007941722869873047,
+              "loss": -0.0007936253445760452
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.0010285916030638258,
+                0.008364211673713484
+              ],
+              "ssim": [
+                9.271502494812012e-05,
+                0.00019853313763936362
+              ],
+              "lpips": [
+                -0.0009507263700167338,
+                -0.0006092836459477743
+              ],
+              "loss": [
+                -0.000941051386653291,
+                -0.0006559595392352143
+              ]
+            },
+            "images_psnr_positive": 5,
+            "min_image_psnr_delta": -0.0013761308815460893,
+            "max_image_lpips_delta": -0.00041368603706359863,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_REG": {
+            "mean_delta": {
+              "psnr": 1.0646207757740627,
+              "ssim": 0.021217207113901775,
+              "lpips": -0.006900166471799214,
+              "loss": -0.1781099122645401
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.935765814865011,
+                1.1934757366831146
+              ],
+              "ssim": [
+                0.014291107654571533,
+                0.027838001648585003
+              ],
+              "lpips": [
+                -0.013020113110542297,
+                -0.00022251904010772705
+              ],
+              "loss": [
+                -0.21344013962395994,
+                -0.15244824203041954
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.8498792838258922,
+            "max_image_lpips_delta": 0.00615943968296051,
+            "quality_guard": true,
+            "image_lpips_risk_count": 1
+          },
+          "DOWN_REG_TIME": {
+            "mean_delta": {
+              "psnr": 0.009876677827794703,
+              "ssim": 0.0001882314682006836,
+              "lpips": -0.0012115687131881714,
+              "loss": -0.001204233710267122
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.0002489116127097901,
+                0.024001309990576185
+              ],
+              "ssim": [
+                5.643566449483236e-05,
+                0.0003282328446706136
+              ],
+              "lpips": [
+                -0.0020250678062438965,
+                -0.000526761015256246
+              ],
+              "loss": [
+                -0.0021272193807293414,
+                -0.0004531885186652244
+              ]
+            },
+            "images_psnr_positive": 4,
+            "min_image_psnr_delta": -0.002121626151836864,
+            "max_image_lpips_delta": 5.811452865600586e-07,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_TIME_NOISE": {
+            "mean_delta": {
+              "psnr": 1.0698183275359696,
+              "ssim": 0.021475573380788166,
+              "lpips": -0.0076539938648541766,
+              "loss": -0.1797718353874417
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.9374851049639462,
+                1.2106390816806936
+              ],
+              "ssim": [
+                0.014693856239318848,
+                0.028515746196111042
+              ],
+              "lpips": [
+                -0.014356290300687155,
+                -0.0003865058223406649
+              ],
+              "loss": [
+                -0.2186972602923137,
+                -0.15282171977617226
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.8329903747740595,
+            "max_image_lpips_delta": 0.006888911128044128,
+            "quality_guard": true,
+            "image_lpips_risk_count": 1
+          },
+          "UP_REG_DOWN_REG": {
+            "mean_delta": {
+              "psnr": -1.0804438541657273,
+              "ssim": -0.02176011602083842,
+              "lpips": 0.00810948759317398,
+              "loss": 0.18020230536897172
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -1.2153877383935832,
+                -0.9454999699378716
+              ],
+              "ssim": [
+                -0.028415779272715252,
+                -0.014796773592631022
+              ],
+              "lpips": [
+                0.001354446013768514,
+                0.014356474081675211
+              ],
+              "loss": [
+                0.1545599657957146,
+                0.2155219333348349
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -1.382661370878644,
+            "max_image_lpips_delta": 0.017014294862747192,
+            "quality_guard": false,
+            "image_lpips_risk_count": 4
+          }
+        }
+      },
+      {
+        "sigma": 0.1,
+        "completed_cases": 6,
+        "planned_cases": 6,
+        "quality_candidates": [],
+        "readouts": {
+          "UP_REG": {
+            "changed_fraction": 0.3,
+            "final_output_R_mean": 0.9730271341141791,
+            "sampling_seconds_mean": 2.0252501272285977
+          },
+          "DOWN_REG": {
+            "changed_fraction": 0.7,
+            "final_output_R_mean": 0.8509033096277299,
+            "sampling_seconds_mean": 2.0220644048725567
+          }
+        },
+        "comparisons": {
+          "UP_REG_C": {
+            "mean_delta": {
+              "psnr": 0.4391979765005054,
+              "ssim": 0.017695943514506023,
+              "lpips": 0.008034671346346537,
+              "loss": 0.0028504157370296823
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.34922886724273816,
+                0.5174355655757198
+              ],
+              "ssim": [
+                0.012017399072647095,
+                0.024819592634836834
+              ],
+              "lpips": [
+                -0.0009723305702209473,
+                0.0197737167899807
+              ],
+              "loss": [
+                0.0006571451571961706,
+                0.004666869548032998
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.2482133978880121,
+            "max_image_lpips_delta": 0.03494769334793091,
+            "quality_guard": false,
+            "image_lpips_risk_count": 3
+          },
+          "UP_REG_OLD": {
+            "mean_delta": {
+              "psnr": -0.2175298094873721,
+              "ssim": 0.0424389640490214,
+              "lpips": -0.06915415575106938,
+              "loss": 0.10984435523481585
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.34594242208213544,
+                -0.10296271064989604
+              ],
+              "ssim": [
+                0.025819450616836548,
+                0.05663152535756429
+              ],
+              "lpips": [
+                -0.09021075069904327,
+                -0.04666039596001307
+              ],
+              "loss": [
+                0.09825552239055463,
+                0.12287653061911158
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.4652075614253839,
+            "max_image_lpips_delta": -0.020159751176834106,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "UP_REG_REG": {
+            "mean_delta": {
+              "psnr": 0.015784558784761298,
+              "ssim": 0.0010058184464772542,
+              "lpips": 0.0007274101177851359,
+              "loss": 0.0016601432928324833
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.004264752062961581,
+                0.026182941360854528
+              ],
+              "ssim": [
+                0.00045188268025716144,
+                0.0015804866949717204
+              ],
+              "lpips": [
+                0.00024876495202382404,
+                0.0012232561906178792
+              ],
+              "loss": [
+                0.0013512422804933255,
+                0.00208458391352064
+              ]
+            },
+            "images_psnr_positive": 5,
+            "min_image_psnr_delta": -0.00982366194524431,
+            "max_image_lpips_delta": 0.0015540719032287598,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "UP_REG_TIME": {
+            "mean_delta": {
+              "psnr": -0.26684951662151174,
+              "ssim": 0.03949259718259176,
+              "lpips": -0.06796434024969737,
+              "loss": 0.10786481763959592
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.39282677321654386,
+                -0.14558488890815013
+              ],
+              "ssim": [
+                0.023534188667933147,
+                0.0534416139125824
+              ],
+              "lpips": [
+                -0.08780202269554138,
+                -0.04660084843635559
+              ],
+              "loss": [
+                0.0960143400328457,
+                0.12100376963044306
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.49765011160966566,
+            "max_image_lpips_delta": -0.021233201026916504,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "UP_REG_TIME_NOISE": {
+            "mean_delta": {
+              "psnr": 0.06785608758244403,
+              "ssim": 0.0016213655471801758,
+              "lpips": -0.0006404022375742594,
+              "loss": -0.003245112856306085
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.050154486240443795,
+                0.08512075127376684
+              ],
+              "ssim": [
+                0.0008191267649332682,
+                0.0024102330207824707
+              ],
+              "lpips": [
+                -0.0013784791032473247,
+                6.54458999633789e-05
+              ],
+              "loss": [
+                -0.00511021286996204,
+                -0.002177966530782042
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.028615170011082824,
+            "max_image_lpips_delta": 0.0008163005113601685,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "DOWN_REG_C": {
+            "mean_delta": {
+              "psnr": 0.608712493865756,
+              "ssim": -0.028070390224456787,
+              "lpips": 0.07871824999650319,
+              "loss": -0.10851846026310348
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.48177628750084384,
+                0.7494028308247748
+              ],
+              "ssim": [
+                -0.040989587704340615,
+                -0.013705154259999594
+              ],
+              "lpips": [
+                0.06470540414253871,
+                0.09700401375691096
+              ],
+              "loss": [
+                -0.12032565382168907,
+                -0.09812195006284756
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.44502444829555543,
+            "max_image_lpips_delta": 0.12041305005550385,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "DOWN_REG_OLD": {
+            "mean_delta": {
+              "psnr": -0.04801529212212152,
+              "ssim": -0.0033273696899414062,
+              "lpips": 0.00152942289908727,
+              "loss": -0.001524520765317311
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.0628984674889453,
+                -0.0353175535518524
+              ],
+              "ssim": [
+                -0.00516777237256368,
+                -0.0019816458225250244
+              ],
+              "lpips": [
+                8.261948823928833e-05,
+                0.0033049767216046613
+              ],
+              "loss": [
+                -0.0019205484479723582,
+                -0.0012264106669340376
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.08029628627749119,
+            "max_image_lpips_delta": 0.005400300025939941,
+            "quality_guard": false,
+            "image_lpips_risk_count": 1
+          },
+          "DOWN_REG_REG": {
+            "mean_delta": {
+              "psnr": 0.18529907615001187,
+              "ssim": -0.04476051529248556,
+              "lpips": 0.07141098876794179,
+              "loss": -0.10970873270730068
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.06412126841404368,
+                0.317767737546865
+              ],
+              "ssim": [
+                -0.060091098149617515,
+                -0.0278797447681427
+              ],
+              "lpips": [
+                0.04817524552345276,
+                0.09320215880870819
+              ],
+              "loss": [
+                -0.12274623738973257,
+                -0.09803486963806719
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.0020100959602196156,
+            "max_image_lpips_delta": 0.11456608772277832,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "DOWN_REG_TIME": {
+            "mean_delta": {
+              "psnr": -0.09733499925626117,
+              "ssim": -0.006273736556371053,
+              "lpips": 0.0027192384004592896,
+              "loss": -0.0035040583605372433
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.12242079342289418,
+                -0.07363831929691493
+              ],
+              "ssim": [
+                -0.00806547204653422,
+                -0.004482001066207886
+              ],
+              "lpips": [
+                0.00024299323558807373,
+                0.005129526058832805
+              ],
+              "loss": [
+                -0.004108096093151843,
+                -0.002930749310125297
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.1524909750585195,
+            "max_image_lpips_delta": 0.006526470184326172,
+            "quality_guard": false,
+            "image_lpips_risk_count": 2
+          },
+          "DOWN_REG_TIME_NOISE": {
+            "mean_delta": {
+              "psnr": 0.2373706049476946,
+              "ssim": -0.04414496819178263,
+              "lpips": 0.0700431764125824,
+              "loss": -0.11461398885643925
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.1053163917874554,
+                0.3824486425840619
+              ],
+              "ssim": [
+                -0.05976741512616476,
+                -0.02612958351771037
+              ],
+              "lpips": [
+                0.04665553321441015,
+                0.09159070750077565
+              ],
+              "loss": [
+                -0.12969682243454422,
+                -0.10194201131758752
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.04244694075942235,
+            "max_image_lpips_delta": 0.11095365881919861,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "UP_REG_DOWN_REG": {
+            "mean_delta": {
+              "psnr": -0.16951451736525058,
+              "ssim": 0.04576633373896281,
+              "lpips": -0.07068357865015666,
+              "loss": 0.11136887600013316
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.3059255441922968,
+                -0.04338425767080641
+              ],
+              "ssim": [
+                0.028362383445103962,
+                0.06130461891492208
+              ],
+              "lpips": [
+                -0.09237949053446452,
+                -0.04730871319770813
+              ],
+              "loss": [
+                0.0995004558995528,
+                0.12469510349950774
+              ]
+            },
+            "images_psnr_positive": 1,
+            "min_image_psnr_delta": -0.44081216281460556,
+            "max_image_lpips_delta": -0.019273310899734497,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          }
+        }
+      }
+    ]
+  }
+}
