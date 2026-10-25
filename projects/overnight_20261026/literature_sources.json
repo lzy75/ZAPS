@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-10-25T17:45:55.677339+00:00",
+  "checked_utc": "2026-10-25T18:06:28.102102+00:00",
   "JAPS": {
     "paper": "https://arxiv.org/html/2511.18471v3",
     "version_date": "2026-06-21",
@@ -128,5 +128,59 @@
     "remaining": [
       "Full algorithms/experiments"
     ]
+  },
+  "TMPD": {
+    "paper": "https://arxiv.org/html/2310.06721v3",
+    "version_date": "2024-09-25",
+    "publication_status": "TMLR2024;Imperial acceptance2024-09-23",
+    "status_source": "https://spiral.imperial.ac.uk/entities/publication/ce6addea-8621-4fdb-8c20-903e70b293ec",
+    "read_sections": [
+      "3.1-3.4",
+      "4 propositions/assumptions",
+      "E.1 complexity excerpts"
+    ],
+    "remaining": [
+      "Full proofs",
+      "Official implementation and operator-specific approximations"
+    ],
+    "scope": "Moment formula depends on exact denoiser;lowrank learned/clipped approximation not theorem-certified."
+  },
+  "DiffStateGrad": {
+    "paper": "https://arxiv.org/html/2410.03463v5",
+    "version_date": "2025-04-01",
+    "publication_status": "ICLR2025 formal proceedings",
+    "read_sections": [
+      "3 including Algorithm1 and Proposition1",
+      "C.1-C.2",
+      "efficiency discussion"
+    ],
+    "official_code": [
+      {
+        "path": "diffstategrad_utils.py",
+        "blob": "0f2b3d8f58f68b177c24c0b6819f224cc89f52b8",
+        "read_scope": "Full file;not executed"
+      }
+    ],
+    "remaining": [
+      "Full proof and per-solver code integration"
+    ],
+    "scope": "Image-state SVD gradient projection,not temporal cosine/lowrank covariance."
+  },
+  "DTM": {
+    "paper": "https://arxiv.org/html/2502.03686v2",
+    "version_date": "2025-05-23",
+    "publication_status": "ICML2025,PMLR267",
+    "read_sections": [
+      "3.1-3.3",
+      "A.1",
+      "B.2 NDTM hyperparameters",
+      "C.2 runtime"
+    ],
+    "remaining": [
+      "Full Algorithm1 intermediate rows missing from HTML",
+      "Official implementation",
+      "Remaining proofs/evaluation"
+    ],
+    "caution": "Squared triangle step30to31 cannot be cited as unconditional bound without inner-product assumptions;independent generic algebra check saved;no claim of actual-network experiment invalidation."
   }
 }
