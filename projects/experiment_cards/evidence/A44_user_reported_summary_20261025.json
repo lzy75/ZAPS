@@ -1,0 +1,658 @@
+{
+  "evidence_type": "user_pasted_server_output",
+  "not_a_local_tensor_recompute": true,
+  "summary": {
+    "experiment": "A44_frozen_state_matching",
+    "classification": "NO_FROZEN_STATE_MATCHING_SUPPORT",
+    "completed_cases": 20,
+    "planned_cases": 20,
+    "image_clusters": 5,
+    "method_nfe": 0,
+    "diagnostic_nfe": 1544,
+    "planned_diagnostic_nfe_max": 1660,
+    "partial_attempts": 0,
+    "cost_is_lower_bound_if_abruptly_interrupted": false,
+    "tasks_with_matching_candidate": 0,
+    "groups": [
+      {
+        "task": "super_resolution",
+        "completed_cases": 5,
+        "mean_delta_vs_C": {
+          "C": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0,
+            "loss": 0.0
+          },
+          "FIXED8": {
+            "psnr": 0.2862739110395651,
+            "ssim": 0.00946427583694458,
+            "lpips": -0.0033565938472747804,
+            "loss": -0.11779718745130822
+          },
+          "TASK_FIXED": {
+            "psnr": 5.949295976332229,
+            "ssim": 0.16315680742263794,
+            "lpips": -0.08268893659114837,
+            "loss": -1.3568256151016453
+          },
+          "PHYSICAL": {
+            "psnr": 5.828706411919122,
+            "ssim": 0.17246280908584594,
+            "lpips": -0.07344362139701843,
+            "loss": -1.3598102394650486
+          },
+          "ISO": {
+            "psnr": 5.4584713123375455,
+            "ssim": 0.1516664743423462,
+            "lpips": -0.0797050029039383,
+            "loss": -1.3053508349838099
+          },
+          "STATE": {
+            "psnr": 5.919417691504103,
+            "ssim": 0.16316704750061034,
+            "lpips": -0.08270677030086518,
+            "loss": -1.3562788383192523
+          },
+          "SHUFFLE": {
+            "psnr": 5.898641063361791,
+            "ssim": 0.16229658126831054,
+            "lpips": -0.08242445588111877,
+            "loss": -1.3508447161004074
+          }
+        },
+        "STATE_minus": {
+          "C": {
+            "mean": {
+              "psnr": 5.919417691504103,
+              "ssim": 0.16316704750061034,
+              "lpips": -0.08270677030086518,
+              "loss": -1.3562788383192523
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "FIXED8": {
+            "mean": {
+              "psnr": 5.633143780464538,
+              "ssim": 0.15370277166366578,
+              "lpips": -0.0793501764535904,
+              "loss": -1.2384816508679442
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "TASK_FIXED": {
+            "mean": {
+              "psnr": -0.02987828482812489,
+              "ssim": 1.024007797241211e-05,
+              "lpips": -1.7833709716796874e-05,
+              "loss": 0.0005467767823930991
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": false
+          },
+          "PHYSICAL": {
+            "mean": {
+              "psnr": 0.09071127958498124,
+              "ssim": -0.009295761585235596,
+              "lpips": -0.009263148903846741,
+              "loss": 0.00353140114579642
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": false
+          },
+          "ISO": {
+            "mean": {
+              "psnr": 0.46094637916655756,
+              "ssim": 0.01150057315826416,
+              "lpips": -0.00300176739692688,
+              "loss": -0.05092800333544234
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "SHUFFLE": {
+            "mean": {
+              "psnr": 0.020776628142312605,
+              "ssim": 0.0008704662322998047,
+              "lpips": -0.0002823144197463989,
+              "loss": -0.005434122218844784
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": true
+          }
+        },
+        "state_matching_candidate": false,
+        "gammas": {
+          "00446": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 127.086,
+            "PHYSICAL": 181.966,
+            "ISO": 117.659,
+            "STATE": 131.58,
+            "SHUFFLE": 109.949
+          },
+          "00559": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 127.086,
+            "PHYSICAL": 142.79,
+            "ISO": 98.65,
+            "STATE": 109.949,
+            "SHUFFLE": 135.883
+          },
+          "00608": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 127.086,
+            "PHYSICAL": 192.337,
+            "ISO": 118.149,
+            "STATE": 135.883,
+            "SHUFFLE": 133.45
+          },
+          "00873": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 127.086,
+            "PHYSICAL": 182.751,
+            "ISO": 118.49,
+            "STATE": 133.45,
+            "SHUFFLE": 126.204
+          },
+          "00951": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 127.086,
+            "PHYSICAL": 171.59,
+            "ISO": 113.942,
+            "STATE": 126.204,
+            "SHUFFLE": 131.58
+          }
+        }
+      },
+      {
+        "task": "gaussian_deblur",
+        "completed_cases": 5,
+        "mean_delta_vs_C": {
+          "C": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0,
+            "loss": 0.0
+          },
+          "FIXED8": {
+            "psnr": 0.9518781313107908,
+            "ssim": 0.027390122413635254,
+            "lpips": -0.009068089723587035,
+            "loss": -0.060324996709024734
+          },
+          "TASK_FIXED": {
+            "psnr": 0.9168059183393311,
+            "ssim": 0.026229441165924072,
+            "lpips": -0.008565330505371093,
+            "loss": -0.0591061403433691
+          },
+          "PHYSICAL": {
+            "psnr": 1.0230568710530996,
+            "ssim": 0.030109083652496337,
+            "lpips": -0.010145893692970276,
+            "loss": -0.06182018123730504
+          },
+          "ISO": {
+            "psnr": 0.9728744779667963,
+            "ssim": 0.028253424167633056,
+            "lpips": -0.009317830204963684,
+            "loss": -0.06089076470537238
+          },
+          "STATE": {
+            "psnr": 0.9755903864829711,
+            "ssim": 0.028349828720092774,
+            "lpips": -0.00936654806137085,
+            "loss": -0.060956218624954706
+          },
+          "SHUFFLE": {
+            "psnr": 0.9724695481019701,
+            "ssim": 0.02828277349472046,
+            "lpips": -0.009258627891540527,
+            "loss": -0.06070217109255904
+          }
+        },
+        "STATE_minus": {
+          "C": {
+            "mean": {
+              "psnr": 0.9755903864829711,
+              "ssim": 0.028349828720092774,
+              "lpips": -0.00936654806137085,
+              "loss": -0.060956218624954706
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "FIXED8": {
+            "mean": {
+              "psnr": 0.023712255172180362,
+              "ssim": 0.0009597063064575196,
+              "lpips": -0.0002984583377838135,
+              "loss": -0.0006312219159299692
+            },
+            "images_PSNR_positive": 4,
+            "engineering_passed": true
+          },
+          "TASK_FIXED": {
+            "mean": {
+              "psnr": 0.05878446814364011,
+              "ssim": 0.002120387554168701,
+              "lpips": -0.0008012175559997559,
+              "loss": -0.0018500782815856099
+            },
+            "images_PSNR_positive": 4,
+            "engineering_passed": true
+          },
+          "PHYSICAL": {
+            "mean": {
+              "psnr": -0.047466484570128385,
+              "ssim": -0.0017592549324035645,
+              "lpips": 0.0007793456315994263,
+              "loss": 0.000863962612350333
+            },
+            "images_PSNR_positive": 0,
+            "engineering_passed": false
+          },
+          "ISO": {
+            "mean": {
+              "psnr": 0.002715908516174892,
+              "ssim": 9.64045524597168e-05,
+              "lpips": -4.871785640716553e-05,
+              "loss": -6.545391958232561e-05
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": false
+          },
+          "SHUFFLE": {
+            "mean": {
+              "psnr": 0.0031208383810010787,
+              "ssim": 6.705522537231445e-05,
+              "lpips": -0.00010792016983032226,
+              "loss": -0.0002540475323956626
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": false
+          }
+        },
+        "state_matching_candidate": false,
+        "gammas": {
+          "00446": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 7.589,
+            "PHYSICAL": 9.621,
+            "ISO": 8.7,
+            "STATE": 8.746,
+            "SHUFFLE": 8.437
+          },
+          "00559": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 7.589,
+            "PHYSICAL": 8.969,
+            "ISO": 8.394,
+            "STATE": 8.437,
+            "SHUFFLE": 8.41
+          },
+          "00608": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 7.589,
+            "PHYSICAL": 9.178,
+            "ISO": 8.36,
+            "STATE": 8.41,
+            "SHUFFLE": 7.281
+          },
+          "00873": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 7.589,
+            "PHYSICAL": 8.016,
+            "ISO": 7.265,
+            "STATE": 7.281,
+            "SHUFFLE": 8.731
+          },
+          "00951": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 7.589,
+            "PHYSICAL": 9.498,
+            "ISO": 8.694,
+            "STATE": 8.731,
+            "SHUFFLE": 8.746
+          }
+        }
+      },
+      {
+        "task": "inpainting",
+        "completed_cases": 5,
+        "mean_delta_vs_C": {
+          "C": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0,
+            "loss": 0.0
+          },
+          "FIXED8": {
+            "psnr": 0.7620018228615265,
+            "ssim": 0.024480926990509033,
+            "lpips": -0.01313924789428711,
+            "loss": -0.054061692543964826
+          },
+          "TASK_FIXED": {
+            "psnr": 2.926661633845376,
+            "ssim": 0.08712422847747803,
+            "lpips": -0.06618558764457702,
+            "loss": -0.1801067153039711
+          },
+          "PHYSICAL": {
+            "psnr": 2.7230533780657753,
+            "ssim": 0.09163625240325927,
+            "lpips": -0.07024559974670411,
+            "loss": -0.1848647706421142
+          },
+          "ISO": {
+            "psnr": 1.9369774719884056,
+            "ssim": 0.059296596050262454,
+            "lpips": -0.04163061380386353,
+            "loss": -0.1246521073752549
+          },
+          "STATE": {
+            "psnr": 3.015284463932658,
+            "ssim": 0.0900301456451416,
+            "lpips": -0.06896768808364868,
+            "loss": -0.185568047398748
+          },
+          "SHUFFLE": {
+            "psnr": 3.016681133981359,
+            "ssim": 0.08972065448760987,
+            "lpips": -0.06791202127933502,
+            "loss": -0.18561740209924354
+          }
+        },
+        "STATE_minus": {
+          "C": {
+            "mean": {
+              "psnr": 3.015284463932658,
+              "ssim": 0.0900301456451416,
+              "lpips": -0.06896768808364868,
+              "loss": -0.185568047398748
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "FIXED8": {
+            "mean": {
+              "psnr": 2.2532826410711317,
+              "ssim": 0.06554921865463256,
+              "lpips": -0.055828440189361575,
+              "loss": -0.13150635485478318
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "TASK_FIXED": {
+            "mean": {
+              "psnr": 0.08862283008728226,
+              "ssim": 0.002905917167663574,
+              "lpips": -0.0027821004390716554,
+              "loss": -0.005461332094776905
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "PHYSICAL": {
+            "mean": {
+              "psnr": 0.29223108586688296,
+              "ssim": -0.0016061067581176758,
+              "lpips": 0.0012779116630554199,
+              "loss": -0.0007032767566337971
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": true
+          },
+          "ISO": {
+            "mean": {
+              "psnr": 1.0783069919442525,
+              "ssim": 0.030733549594879152,
+              "lpips": -0.027337074279785156,
+              "loss": -0.0609159400234931
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "SHUFFLE": {
+            "mean": {
+              "psnr": -0.001396670048701054,
+              "ssim": 0.00030949115753173826,
+              "lpips": -0.0010556668043136598,
+              "loss": 4.935470049554081e-05
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": false
+          }
+        },
+        "state_matching_candidate": false,
+        "gammas": {
+          "00446": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 28.526,
+            "PHYSICAL": 35.544,
+            "ISO": 18.91,
+            "STATE": 31.469,
+            "SHUFFLE": 29.731
+          },
+          "00559": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 28.526,
+            "PHYSICAL": 58.648,
+            "ISO": 18.449,
+            "STATE": 29.731,
+            "SHUFFLE": 30.761
+          },
+          "00608": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 28.526,
+            "PHYSICAL": 38.83,
+            "ISO": 20.861,
+            "STATE": 30.761,
+            "SHUFFLE": 30.209
+          },
+          "00873": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 28.526,
+            "PHYSICAL": 41.215,
+            "ISO": 17.393,
+            "STATE": 30.209,
+            "SHUFFLE": 28.815
+          },
+          "00951": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 28.526,
+            "PHYSICAL": 34.529,
+            "ISO": 16.504,
+            "STATE": 28.815,
+            "SHUFFLE": 31.469
+          }
+        }
+      },
+      {
+        "task": "motion_deblur",
+        "completed_cases": 5,
+        "mean_delta_vs_C": {
+          "C": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0,
+            "loss": 0.0
+          },
+          "FIXED8": {
+            "psnr": 0.5445162579776351,
+            "ssim": 0.01786203384399414,
+            "lpips": -0.01197659969329834,
+            "loss": -0.04719368481479782
+          },
+          "TASK_FIXED": {
+            "psnr": 0.5633152158360012,
+            "ssim": 0.018474984169006347,
+            "lpips": -0.012402105331420898,
+            "loss": -0.04820643830338898
+          },
+          "PHYSICAL": {
+            "psnr": 0.6481874488219198,
+            "ssim": 0.02129451036453247,
+            "lpips": -0.01452985405921936,
+            "loss": -0.051555710966610754
+          },
+          "ISO": {
+            "psnr": 0.5887773362818856,
+            "ssim": 0.01948685646057129,
+            "lpips": -0.013245046138763428,
+            "loss": -0.04966098869095161
+          },
+          "STATE": {
+            "psnr": 0.593781372248278,
+            "ssim": 0.01965169906616211,
+            "lpips": -0.013351669907569886,
+            "loss": -0.04986467116312014
+          },
+          "SHUFFLE": {
+            "psnr": 0.5936946345712422,
+            "ssim": 0.019632649421691895,
+            "lpips": -0.01280803680419922,
+            "loss": -0.049426203874275966
+          }
+        },
+        "STATE_minus": {
+          "C": {
+            "mean": {
+              "psnr": 0.593781372248278,
+              "ssim": 0.01965169906616211,
+              "lpips": -0.013351669907569886,
+              "loss": -0.04986467116312014
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "FIXED8": {
+            "mean": {
+              "psnr": 0.04926511427064284,
+              "ssim": 0.0017896652221679687,
+              "lpips": -0.0013750702142715453,
+              "loss": -0.002670986348322324
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": true
+          },
+          "TASK_FIXED": {
+            "mean": {
+              "psnr": 0.030466156412276745,
+              "ssim": 0.0011767148971557617,
+              "lpips": -0.0009495645761489868,
+              "loss": -0.001658232859731168
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": true
+          },
+          "PHYSICAL": {
+            "mean": {
+              "psnr": -0.054406076573641826,
+              "ssim": -0.0016428112983703613,
+              "lpips": 0.0011781841516494752,
+              "loss": 0.0016910398034906127
+            },
+            "images_PSNR_positive": 0,
+            "engineering_passed": false
+          },
+          "ISO": {
+            "mean": {
+              "psnr": 0.005004035966392451,
+              "ssim": 0.0001648426055908203,
+              "lpips": -0.00010662376880645751,
+              "loss": -0.00020368247216853152
+            },
+            "images_PSNR_positive": 5,
+            "engineering_passed": false
+          },
+          "SHUFFLE": {
+            "mean": {
+              "psnr": 8.673767703584189e-05,
+              "ssim": 1.9049644470214845e-05,
+              "lpips": -0.0005436331033706665,
+              "loss": -0.00043846728884417986
+            },
+            "images_PSNR_positive": 3,
+            "engineering_passed": false
+          }
+        },
+        "state_matching_candidate": false,
+        "gammas": {
+          "00446": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 8.327,
+            "PHYSICAL": 9.61,
+            "ISO": 8.466,
+            "STATE": 8.537,
+            "SHUFFLE": 8.304
+          },
+          "00559": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 8.327,
+            "PHYSICAL": 9.422,
+            "ISO": 8.211,
+            "STATE": 8.304,
+            "SHUFFLE": 8.058
+          },
+          "00608": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 8.327,
+            "PHYSICAL": 8.857,
+            "ISO": 7.983,
+            "STATE": 8.058,
+            "SHUFFLE": 9.251
+          },
+          "00873": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 8.327,
+            "PHYSICAL": 10.337,
+            "ISO": 9.142,
+            "STATE": 9.251,
+            "SHUFFLE": 10.34
+          },
+          "00951": {
+            "C": 1.0,
+            "FIXED8": 8.0,
+            "TASK_FIXED": 8.327,
+            "PHYSICAL": 11.778,
+            "ISO": 10.234,
+            "STATE": 10.34,
+            "SHUFFLE": 8.537
+          }
+        }
+      }
+    ],
+    "fixed_reference": {
+      "super_resolution": 127.086,
+      "gaussian_deblur": 7.589,
+      "inpainting": 28.526,
+      "motion_deblur": 8.327
+    },
+    "limits": "Five reused development image clusters held out of A42/A43, not new blind confirmation. Frozen t319 single pulse only; no state-based timing, full online loop, NFE saving or equal-cost claim. Paid full sensor deployment<=317 vs fixed300; no blind generalization or statistical significance claim."
+  }
+}
