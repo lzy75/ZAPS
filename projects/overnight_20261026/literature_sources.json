@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-10-25T20:47:25.094944+00:00",
+  "checked_utc": "2026-10-25T21:33:13.814050+00:00",
   "JAPS": {
     "paper": "https://arxiv.org/html/2511.18471v3",
     "version_date": "2026-06-21",
@@ -124,9 +124,38 @@
     ],
     "remaining": [
       "Full appendices",
-      "Rejection/noise-path implementation and author code"
+      "Runtime replication and all corrector accounting"
     ],
-    "cost": "Two score evaluations per attempt; rejection not free. Continuous SDE scheme is not discrete skip DDPM."
+    "cost": "Two score evaluations per attempt; rejection not free. Continuous SDE scheme is not discrete skip DDPM.",
+    "official_repository": "https://github.com/AlexiaJM/score_sde_fast_sampling",
+    "publication_status": "arXiv v1 only verified; formal venue not verified",
+    "official_code": [
+      {
+        "path": "sampling.py",
+        "blob": "f8fd8371da97892e133b1fc0d0a624481d3cc147",
+        "read_lines": [
+          [
+            146,
+            300
+          ],
+          [
+            536,
+            675
+          ]
+        ]
+      },
+      {
+        "path": "sde_sampling_torch.py",
+        "blob": "f608bdf5495c86d6712a2ee9219c9daf26517a2f",
+        "read_scope": "Full simplified port;not executed"
+      },
+      {
+        "path": "README.md",
+        "blob": "da1f05b6d98f1179a58998d0a91a57b65d28c473",
+        "read_scope": "Full README"
+      }
+    ],
+    "source_caution": "Same noise within attempt;fresh noise after rejection in loops. Simplified Torch returns attempts+1 while typical actual scorecalls=2*attempts+1 with denoise;JAX increments2 separately. Static observation,not paper invalidation. See SDE_SOURCE_ACCOUNTING.md."
   },
   "GSURE_Eldar": {
     "paper": "https://arxiv.org/html/0804.3010v2",

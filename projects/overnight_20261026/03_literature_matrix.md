@@ -73,3 +73,11 @@ DiffStateGrad §3/C.1—2及官方helper、DTM §3/A.1/B.2/C.2已核对。
 边界见ADAMDPS_COMPATIBILITY.md。矩的平滑操作相对DPS不额外调用UNet，但原DPS真实
 输入VJP相对当前ZAPS近似不是免费；作者调参及任务默认噪声也不能省略。
 这项是理论与强先行工作的核查，不新增第三条机制或冒称本地复现。
+
+## 自适应 SDE 作者源码与成本接口补核
+
+已读 GottaGoFast 作者 JAX 自适应类/循环和完整简化 Torch 移植，详见
+[SDE_SOURCE_ACCOUNTING.md](SDE_SOURCE_ACCOUNTING.md)。一次尝试内共噪声不能扩展成
+拒绝后保留 Brownian 路径的保证；简化 Torch 返回的尝试次数与真实 score 调用次数
+也有接口差异。JAX 主实现的计数不同，不能混为一谈或由此否定论文实验。
+所有候选 B 的拒绝/终端/失败前向都要由独立 hook 计数；当前仍只有合成代数检查。
