@@ -13,3 +13,25 @@
 继承基础文献也要审：ZAPS/TMPD/CA-DPS/Nyström/EDM/DPM-Solver/AYS/GITS，
 标清哪些是标准已有工具，不可当独创。新近论文与我们工作高度重叠应写新颖性风险；
 不以“最新”替代质量。优先收敛为不超过2个可落地、可否定的候选主线。
+
+## 01:08版本核查：必须用JAPS正式后续，而非只引用AdaPS旧版
+
+[arXiv当前记录](https://arxiv.org/abs/2511.18471)明确v1为2025-11-23，v2为2026-03-29，
+v3为2026-06-21；当前题名JAPS，作者备注Accepted by TMLR2026。
+[v3主文](https://arxiv.org/html/2511.18471v3)和[作者代码](https://github.com/liavhen/JAPS)
+已打开；[OpenReview论坛](https://openreview.net/forum?id=m63GJnhIN2)当前浏览器验证拦截。
+不能把v1的AdaPS式16和v3章节/定理混配引用，后续需按v3重新读推导与实际代码。
+已确认它研究direct/proximal似然近似之间的Jacobian关系，并含条件DDIM系数修正；
+“当前状态对齐→自适应似然缩放”不是空白，需要明确本项目的新增问题与证据。
+当前仅确认版本和框架，不声称已完成v3全主文/实验复核或可直接移植ZAPS。
+
+## 01:08补入：AdamDPS是一项不能忽略的近邻基线
+
+[作者主文](https://www.cs.cornell.edu/gomes/pdf/2026_belardi_arxiv_adam.pdf)，题名
+Adaptive Moments are Surprisingly Effective for Plug-and-Play Diffusion Sampling，页首
+ICLR2026、arXiv2603.16797v1。已读Algorithm1及式10—11、Fig9与后续loss分析：
+其利用引导的一二阶历史矩稳定更新，Fig9相邻余弦是过程诊断，不能把它当因果阈值。
+论文同时给出更低终局guidance loss未必更好重建的例子，与我们A48待查错位问题有关。
+这支持研究动机，不是当前ZAPS上的有效性证明；原文比较还有开发集调参，不能称无参数。
+下一轮需核对官方实现、时间坐标/幅度以及在已学习ζ/D上是否重复归一化。
+不能直接将Adam向量预条件搬来并当作本项目的新状态体系。
