@@ -14,7 +14,7 @@
 标清哪些是标准已有工具，不可当独创。新近论文与我们工作高度重叠应写新颖性风险；
 不以“最新”替代质量。优先收敛为不超过2个可落地、可否定的候选主线。
 
-## 01:08版本核查：必须用JAPS正式后续，而非只引用AdaPS旧版
+## 首轮版本核查：必须用JAPS正式后续，而非只引用AdaPS旧版
 
 [arXiv当前记录](https://arxiv.org/abs/2511.18471)明确v1为2025-11-23，v2为2026-03-29，
 v3为2026-06-21；当前题名JAPS，作者备注Accepted by TMLR2026。
@@ -25,7 +25,7 @@ v3为2026-06-21；当前题名JAPS，作者备注Accepted by TMLR2026。
 “当前状态对齐→自适应似然缩放”不是空白，需要明确本项目的新增问题与证据。
 当前仅确认版本和框架，不声称已完成v3全主文/实验复核或可直接移植ZAPS。
 
-## 01:08补入：AdamDPS是一项不能忽略的近邻基线
+## 首轮补入：AdamDPS是一项不能忽略的近邻基线
 
 [作者主文](https://www.cs.cornell.edu/gomes/pdf/2026_belardi_arxiv_adam.pdf)，题名
 Adaptive Moments are Surprisingly Effective for Plug-and-Play Diffusion Sampling，页首
