@@ -1,7 +1,7 @@
 {
   "experiment": "A50_current_score_geometry",
-  "status": "SENSOR_AND_DESIGN_IMPLEMENTED_DRIVER_PENDING",
-  "checked_utc": "2026-10-25T19:49:06.675954+00:00",
+  "status": "IMPLEMENTED_SERVER_GATES_PENDING",
+  "checked_utc": "2026-10-25T20:15:49.458741+00:00",
   "numpy_tests_passed": 6,
   "torch_tests_written": 5,
   "torch_tests_executed": false,
@@ -15,18 +15,21 @@
     "projects/utils/current_score_geometry.py": "93feaa740ec11a84debf541f9060d145d316cf116a4f8a73add1a000e892c0a0",
     "projects/utils/test_current_score_geometry.py": "be9c404bea2fa706f2b12fb1cc237348ac34eb0fe210292f52c2f9adb1844ed6",
     "projects/utils/test_current_score_geometry_torch.py": "d13f1fd7df1dfde07d5fabe5e3c7ee9c93e99e59a55ffda4ed41fb8cb7e3a33b",
-    "projects/experiment_cards/A50_current_score_geometry_20261026.md": "699c00d43a14bd709df2b32453b1c2301c76563f18b3ba0d69df1d5fa2228b26",
+    "projects/experiment_cards/A50_current_score_geometry_20261026.md": "961b5683dda41b281ad708efb8c4168a1b8c5a86e1aac8c9f1cff48f19a0b116",
     "projects/utils/current_score_runtime.py": "6d04b2d1f9a65b129c3a1289062b721870903d601564cdb8b236f55eeff19486",
     "projects/utils/current_score_design.py": "3760f8535e9c64611eb8e1487b8e810e95ecb71ac6a6bced50b601906ce1a78f",
-    "projects/utils/test_current_score_design.py": "f15f8c3b0a9ebb6561bcefb7551e195d7b3f19e2349d919999808d04231afd2d"
+    "projects/utils/test_current_score_design.py": "f15f8c3b0a9ebb6561bcefb7551e195d7b3f19e2349d919999808d04231afd2d",
+    "projects/utils/diag_current_score_geometry.py": "4dcb846e7b4922c6f559d89545adad8a6f28f7a084ec6908e5fb93b6f4b4d5b1",
+    "projects/run_a50_20261026.sh": "6718ab204bad01cdb7883ca55ead619452ee9c95be5746f909a0269f38026b14"
   },
   "remaining": [
-    "Freeze actual parent source identities and numerical degeneracy policy",
-    "Complete runtime driver,accounting,resume/archive/launcher",
-    "Required server Torch plus real UNet VJP/grad-mode/CG gates",
-    "Full-path scientific arms and frozen time/shuffle controls",
-    "No quality or efficiency conclusion yet"
+    "User server Torch5 and actualFFHQ VJP/grad-mode/CG/native-replay numerical gates",
+    "Actual parent identity and card/source hashes frozen by prepare on server",
+    "All20 development trajectories,unlabeled control freeze,final quality and cost outputs",
+    "Independent unused-image confirmation only if a task passes development screen",
+    "No step/NFE saving or four-task efficacy conclusion yet"
   ],
   "planned_forward_nfe": 4872,
-  "planned_backward_upper": 1212
+  "planned_backward_upper": 1212,
+  "bash_syntax_passed": true
 }
