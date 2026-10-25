@@ -1,0 +1,169 @@
+{
+  "case": {
+    "image": "/home/lzy/FFHQ/00000/00000/00337.png",
+    "image_id": "00337",
+    "image_sha256": "6d1ff43ba1963fd8356aa16fb0be06848c2b4c8170119d0dc019c6eacd29bd1f",
+    "dataset": "ffhq",
+    "task": "motion_deblur",
+    "image_index": 0,
+    "sigma": 0.05,
+    "sampling_seed": 1000,
+    "measurement_seed": 301337,
+    "mask_seed": 2001337,
+    "key": "ffhq_motion_deblur_00337_s1000"
+  },
+  "points": [
+    {
+      "step": 19,
+      "t": 641,
+      "next_t": 597,
+      "rank": 2,
+      "covariance": {
+        "usable": false,
+        "reason": "COVARIANCE_METROLOGY_UNRESOLVED",
+        "rank": 2,
+        "relative_scale_spread": 0.0002325816122649137,
+        "relative_skew": 0.07945097686678003,
+        "eigenvalues_by_scale": [
+          [
+            28.0806563534705,
+            32.96273369610598
+          ],
+          [
+            28.072424675668124,
+            32.961350366709645
+          ]
+        ],
+        "input_span_relative_error": 8.86929000021297e-07,
+        "PSD_negative_tolerance": 3.296273369610598e-05,
+        "clipped_tiny_negative_eigenvalues": 0
+      },
+      "decision": {
+        "gamma": {
+          "KEEP1": 1.0,
+          "FIXED2": 2.0,
+          "PHYSICAL": 0.5,
+          "ISO": 1.0,
+          "FULL": 1.0
+        },
+        "local_measurement_loss": {
+          "0.0": 11.885387784146078,
+          "0.5": 4.4769750025718915,
+          "1.0": 9.633831555947118,
+          "1.5": 24.464013258716207,
+          "2.0": 37.43213698951514
+        },
+        "state": {},
+        "predicted_risk": {},
+        "admissible": {}
+      },
+      "sensor_nfe": 14,
+      "sensor_seconds": 0.7813642593100667,
+      "reference_alpha_bar": 0.02651304006576538,
+      "reference_input_RMS": 1.0323392850819881,
+      "IEEE_repeat_relative_error": 0.0,
+      "A41_measurement_relative_error": 0.0,
+      "raw_center_clip_fraction": 0.7272796630859375
+    },
+    {
+      "step": 24,
+      "t": 319,
+      "next_t": 218,
+      "rank": 2,
+      "covariance": {
+        "usable": true,
+        "reason": "USABLE_PROJECTED_COVARIANCE",
+        "rank": 2,
+        "relative_scale_spread": 0.00015884864973688746,
+        "relative_skew": 0.03719275606892773,
+        "eigenvalues_by_scale": [
+          [
+            0.27059776254473433,
+            0.6609437302794426
+          ],
+          [
+            0.2706697587812603,
+            0.66086633080813
+          ]
+        ],
+        "input_span_relative_error": 2.7814973657669384e-08,
+        "PSD_negative_tolerance": 6.609437302794426e-07,
+        "clipped_tiny_negative_eigenvalues": 0
+      },
+      "decision": {
+        "gamma": {
+          "KEEP1": 1.0,
+          "FIXED2": 2.0,
+          "PHYSICAL": 2.0,
+          "ISO": 2.0,
+          "FULL": 2.0
+        },
+        "local_measurement_loss": {
+          "0.0": 0.7202450480462235,
+          "0.5": 0.7071642465237139,
+          "1.0": 0.6948103204141044,
+          "1.5": 0.6831779179479409,
+          "2.0": 0.6722603540801858
+        },
+        "state": {
+          "ISO": {
+            "uncertainty_noise_ratio": 0.00025235706396612795,
+            "whitened_innovation": 1.1270898658184245,
+            "raw_residual_noise_ratio": 1.200265210130914,
+            "posterior_shift_RMS": 0.06826055770957595,
+            "projected_prior_eigenvalues": [
+              0.4657707464120885,
+              0.4657707464120885
+            ]
+          },
+          "FULL": {
+            "uncertainty_noise_ratio": 0.0002639856394472499,
+            "whitened_innovation": 1.1283801708334436,
+            "raw_residual_noise_ratio": 1.200265210130914,
+            "posterior_shift_RMS": 0.06789369620001308,
+            "projected_prior_eigenvalues": [
+              0.27059776254473433,
+              0.6609437302794426
+            ]
+          }
+        },
+        "predicted_risk": {
+          "ISO": {
+            "0.0": 0.0046575100969622595,
+            "0.5": 0.004285654355434952,
+            "1.0": 0.0039372605237356735,
+            "1.5": 0.0036121480273916735,
+            "2.0": 0.0033100876332314787
+          },
+          "FULL": {
+            "0.0": 0.0046076629087779325,
+            "0.5": 0.004231655190508937,
+            "1.0": 0.0038791036784584093,
+            "1.5": 0.0035498354739297334,
+            "2.0": 0.0032436305130332022
+          }
+        },
+        "admissible": {
+          "ISO": [
+            1.0,
+            1.5,
+            2.0
+          ],
+          "FULL": [
+            1.0,
+            1.5,
+            2.0
+          ]
+        }
+      },
+      "sensor_nfe": 14,
+      "sensor_seconds": 0.7420683968812227,
+      "reference_alpha_bar": 0.6076546311378479,
+      "reference_input_RMS": 0.7748727943213112,
+      "IEEE_repeat_relative_error": 0.0,
+      "A41_measurement_relative_error": 0.0,
+      "raw_center_clip_fraction": 0.00844319723546505
+    }
+  ],
+  "plan_sha256": "73d68f849ba8bd835df26f5a95afeea55e3cfa061ead5219d12c2b9fea571e63"
+}
