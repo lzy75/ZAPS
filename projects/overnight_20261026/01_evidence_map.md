@@ -138,3 +138,11 @@ ImageNet晚期随机幅度0.75在同图两seed有质量线索，但跨网格感�
 input_tensors+input_params共同传autograd.grad。A50r1新上下文置False不兼容；它的普通线性
 玩具检查没覆盖该接口。本次独立A50r2修正并加真实仓库checkpoint回归，旧文件不改。
 这是诊断代码缺陷，尚无GPU结果，不能归为状态方法科学失败或成功。
+# 新增证据核对：A46所提交表格而非原张量
+
+24个逐图delta行经原冻结规则独立重构，1108项数字误差0、全部判定旗标一致：
+质量2/4、匹配0/4、对PHYSICAL的协方差增量1/4（SR）。Gaussian/motion的lambda0
+不使用协方差。参见A46_user_table_recomputed.json及可复算脚本。
+此项增强用户表格算术与预设判据的可信度，不升级未读取的原服务器输出/模型门控。
+117份库存JSON的结构与身份均已审查，113种不同字节；副本不增加样本，累计成本不相加。
+其边界及旧940run未在本机的事实见EVIDENCE_STRUCTURAL_AUDIT.md。

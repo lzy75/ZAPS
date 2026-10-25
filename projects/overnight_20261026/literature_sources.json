@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-10-25T18:06:28.102102+00:00",
+  "checked_utc": "2026-10-25T20:47:25.094944+00:00",
   "JAPS": {
     "paper": "https://arxiv.org/html/2511.18471v3",
     "version_date": "2026-06-21",
@@ -52,8 +52,8 @@
     ]
   },
   "AdamDPS": {
-    "paper": "https://www.cs.cornell.edu/gomes/pdf/2026_belardi_arxiv_adam.pdf",
-    "status": "ICLR2026 page header",
+    "paper": "https://arxiv.org/html/2603.16797v2",
+    "status": "Published ICLR2026 officialPDF header;forum browser challenge",
     "read_sections": [
       "Algorithm1",
       "equations10-11",
@@ -61,9 +61,42 @@
       "guidance-loss discussion"
     ],
     "remaining": [
-      "Full methods/evaluation",
-      "Official code/coordinate compatibility"
-    ]
+      "Complete empirical/proof audit",
+      "Restoration-specific operator/noise configs and released search histories"
+    ],
+    "version_date": "2026-04-22",
+    "previous_mirror": "https://www.cs.cornell.edu/gomes/pdf/2026_belardi_arxiv_adam.pdf",
+    "checked_utc": "2026-10-25T20:47:25.094944+00:00",
+    "official_code": [
+      {
+        "path": "methods/adam_dps.py",
+        "blob": "d207f1ab722cc6b4b843b8da440a3659e8a27e5e",
+        "scope": "Full file read;not executed"
+      },
+      {
+        "path": "methods/dps.py",
+        "blob": "bfdc1b5012d0ef02d653adeb40166018afb48304",
+        "scope": "Full file read;not executed"
+      },
+      {
+        "path": "methods/base.py",
+        "blob": "59e2079238d9e3f5a6a394fa5f48b402036ab56d",
+        "scope": "Full file read;not executed"
+      },
+      {
+        "path": "diffusion/ddim.py",
+        "blob": "01e0379a9b6b349e627f6a31e81d850de65e329d",
+        "scope": "Full file read;reset per batch"
+      }
+    ],
+    "additional_source_files": [
+      "pipeline.py",
+      "tasks/base.py",
+      "utils/configs.py",
+      "tuning/configs/cat.yaml"
+    ],
+    "source_file_modified_date": "2026-08-12",
+    "compatibility": "True inputgradient,rawbeforeclip,coordinate-wise moments,resetpertrajectory;ZAPS qnot same score. ExtraVJP vsstopgrad notfree. Defaultobsnoise0 canoverride,not sigma.05 certification."
   },
   "SGPS": {
     "paper": "https://arxiv.org/html/2512.23232v1",
