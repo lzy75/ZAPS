@@ -13,3 +13,11 @@
 它对应FFHQ00000、seed1000、原30点、末轮pre-correction clean读数；父run为/home/lzy/ZAPS/projects/results/diag_state_domain_paired/ffhq/state_domain_20261014_155809_691106/run.json。
 最终修正输出PSNR26.7013单列，不等于曲线上最后clean约26.51。实际网格以run.json保存的grid为准，不能只看配置中的spacing标签。
 A48/A49的原图尚未取回；不借A44图冒充A48修正结果。
+
+## 夜间新绘的证据比较图（不是新的重建图）
+
+[evidence_comparators.png](/Users/liziyue.22/ZAPS/projects/overnight_20261026/evidence_comparators.png)，
+另有同目录PDF/SVG和源数值JSON。用A46/A48原提交摘要，区分+C和+强参照，左右纵轴不同。
+A46六新图与A48五旧图各自标明；不合并样本，不补造误差棒或原始重建。
+通过ReportLab标准图表生成、PDF渲染成PNG，两次视觉检查后修正右图类别标签碰撞。
+可用于解释“+C有大收益仍未证明状态反馈”，不能据PSNR图宣称所有画质保护线通过。
