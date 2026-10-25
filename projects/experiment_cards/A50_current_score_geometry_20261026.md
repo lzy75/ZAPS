@@ -1,0 +1,70 @@
+# A50：当前条件得分几何与ZAPS权重的兼容性
+
+状态planned_preflight（尚无冻结运行plan、完整driver或服务器运行命令）；2026-10-26；A线。
+本卡先授权的工作是数学/数值内核与测试。真实模型与科学运行须在完整入口/身份/预算冻结后进行。
+
+## 问题、来源和可否定假设
+
+A48相同局部目标的rho门控改变0/20动作；SR/IP的LOCAL较LEGACY退化。
+不继续扫lambda/上限/rho。本次改测当前网络的真实Jacobian作用与正则化观测回投，
+区别于相邻时间余弦、二维协方差与小动作曲线外推。依据JAPS v3：
+https://arxiv.org/html/2511.18471v3 。投影是已有方法，不宣称原创理论或保证终局画质。
+
+与原q方向保持一致，将当前得分目标的位移投到span(q)，比较PROX_Q、DIRECT_Q、
+ALIGN_Q三个嵌套目标。允许结论为mechanism_only；禁止先宣称四任务状态收益、
+完整后验、曲率控制、NFE节省或新图泛化。
+
+计划父数据为A44五旧图00446/00559/00608/00873/00951×四任务，seed1000、sigma=.05；
+父目录 /data0/lzy/ZAPS-results/diag_frozen_state_matching/A44_20261025；
+A45目录 /data0/lzy/ZAPS-results/diag_balanced_state_calibration/A45_20261025。
+仅completed、签名/源码/模型/measurement/原参数兼容可复用；这些不是新图。
+原mask/kernel、unit-domain、last_opt、前270调用和最后30时间点全部保持。
+实际图像/模型/算子/观测/软件哈希在prepare取自父工件后冻结，不填伪造hash。
+
+## 数学定义与消融
+
+a=sqrt(alpha_bar_t)，b2=1−alpha_bar_t，r2=b2/a；L=.5H。
+m为未clamp Tweedie均值，r=y−A(m)。修补只解释有效观测；CG使用真实L/LT。
+
+    w=(L LT + sigma_y²/r2 I)^−1 r
+    v=(a/b2) LT w
+    u=J_m(x_t)^T v             # v detached;真实网络VJP
+    alpha_align=dot(v,u)/dot(u,u)
+    target = K(t,s) * {v, u, alpha_align*u}
+    gamma=max(0,dot(q,target)/dot(q,q))
+
+q仍来自原clamp clean与learned ζ/D；只改变幅度，不换方向。
+gamma*q对q的正标量重缩放严格不变，因此这里会消除当前ζ的直接幅度作用，
+不是保留原ζ的轻微校正；之前ζ仍影响历史路径与学得D。必须报告这种方法范围变化。
+h的K接口仅单位契约，不作为步长算法或收敛保证。
+
+纯数学内核仅处理有限向量，零范数标unresolved；不把NA填成余弦1。
+实际传感器的地板、CG终止精度与退化回退在真实运行卡补充冻结，
+不能在GPU阴性结果后改变。非finite/非SPD算子停止工程门控，失败成本保留。
+
+## 精度、成本和准入
+
+当前只实现零网络NumPy代数核与通用Torch CG/VJP内核，不运行UNet。
+Mac无Torch；Torch玩具线性模型的真实VJP/有限差分测试留服务器，禁止skip冒充通过。
+真实FFHQ模型还需同输入grad/no_grad读数比较、双尺度导数检查、无权重grad/RNG变化、
+真实线性伴随/CG残差和原C回放，不能只凭玩具测试称模型准入。
+
+若共享单次IEEE前向，所有新臂需要同IEEE生产参照C_IEEE；另保留C_native。
+不得同时声称native生产不变、IEEE传感免费且每步只有一次前向。
+forward NFE之外另列backward、CG/operator次数、walltime和显存。
+
+完整候选若解锁：最后30步每步反馈，固定位置/参数，不再只测t319单脉冲。
+C_native/C_IEEE/PROX/DIRECT/ALIGN与GT-free阶段/固定/循环错配对照；
+五旧图只作开发机制，之后才确定未用图。初估20例×8臂×30=4800诊断前向，
+加真实模型数值门控；这不是已冻结预算或已使用成本。原300科学部署成本
+不含额外反向时间；不会以forward相同宣称计算等价。
+
+## 判定与停止
+
+先确认向量定义/可读性和状态是否真改变动作，再看完整终局PSNR/SSIM/LPIPS。
+保持用户保护SSIM均降<=.002、LPIPS均升<=.005；对强固定略低可以接受，
+但需要相对无Jacobian/无对齐/时间/错配至少一项可解释操作价值。
+正式数值主判据在科学运行前冻结，当前只冻结预检的数学语义，不偷跑后再设门槛。
+
+失败则停止本映射，不恢复旧阈值追分。没有实际调用前不报告method_gain；
+无完整入口前不提供不存在的A50运行命令。新目录将独立于所有父run，旧源码/plan不改。

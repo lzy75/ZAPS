@@ -16,3 +16,8 @@
 若采用IEEE传感且共享一次前向，需相同IEEE生产基线及原native参照，
 不能同时声称生产native不变、IEEE免费传感且每步只一次前向。
 原模型末次t0->输出无新增网络，原输出语义与gamma作用仍须独立对照。
+
+A50已建立独立planned_preflight卡和current_score_geometry.py数值内核：
+四项NumPy代数检查及语法通过；另三项Torch预检编写完成但Mac未执行。
+尚无完整真实模型driver/冻结plan，不提供A50假命令。预检通过仅证明代数/数值接口，
+不是当前FFHQ真实VJP、未用图、终局收益或整轮可运行认证。
