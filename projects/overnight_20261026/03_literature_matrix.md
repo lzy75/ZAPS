@@ -44,3 +44,15 @@ v3 §3.1—3.4、作者condition_methods.py的clean_likelihood/JacobianAwareBase
 unit/model域、CG/FFT边界、learned zeta/D和真实Jacobian均不能直接等同。
 推导出原eta1 skip条件系数K=(1-a/b)/sqrt(a/b)，并做0网络代数检查；
 它只约束跨度和作用单位的定义，不是更优网格、端点半群或算法新颖性证据。
+
+## 第三轮：SURE风险边界与真正的自适应误差已核查
+
+首表中“未读主文”的SGPS/自适应SDE状态由本节和literature_sources.json更新。
+详见PROXY_RISK_AND_ERROR_CONTROL.md，逐条列明公式适用范围及本项目推论。
+已读SGPS §3.1/Algorithm1/§4.1：3NFE每外步，另有100步条件Langevin；
+近似Gaussian、局部强凸和有偏SURE梯度假设不能移作当前ZAPS的保证。
+已读Eldar §IV/V秩亏部分、Projected GSURE投影式和Ramani2012 §III：
+可观测风险与完整图像质量不同，非满秩任务不能靠测量SURE获得任意全图MSE。
+已读GottaGoFast §3.1—3.2：同噪声嵌入对、混合容差RMS、接受/拒绝和两次score成本；
+这与随机轨迹余弦不同，也不是可直接粘贴到skip-DDPM的现成定理。
+不追加第三条SURE追分路线；用这些边界约束两个候选机制的可否定设计。
