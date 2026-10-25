@@ -122,3 +122,19 @@ A38对应约+.068dB，值得保留为条件性线索；它们自身未过对C感
 近期最重要的结论是三个层次：改引导可以改善弱本地C；改变局部目标可以改变结果；
 当前图的实时状态是否有独立必要性仍缺证据。A48未改变动作，因而不能把退化归因于rho。
 SR/IP的LOCAL主动改变了原LEGACY建议；其是否更低J仍待A49完整逐图审计。
+
+## 第九轮：早期基线全过程和执行历史收束
+
+补齐11份全报告（其中阶段报告后半段接续之前已读部分），累计82份。基线审计623行完整覆盖，
+不把历史待执行项当新指令，不把45%工程工作包当当前论文成功率。940份旧run索引并非940份
+完整completed或本夜已逐一审阅；旧记录未存status、NaN余弦、dirty revision和未备份PT都须留边界。
+
+ImageNet晚期随机幅度0.75在同图两seed有质量线索，但跨网格感知取舍明显，已闭线；
+局部mask VJP更接近真实裁剪梯度，最终重建约9dB失败，这一反例可用于论文解释
+“更精确的局部导数不是终局质量充分条件”。不能藉此否定真实Jacobian全部用途。
+
+另有直接工程发现：历史报告已注明custom checkpoint需保留parameter requires_grad；
+仓库AttentionBlock.forward即使外层use_checkpoint=False仍checkpoint(...,True)，backward把
+input_tensors+input_params共同传autograd.grad。A50r1新上下文置False不兼容；它的普通线性
+玩具检查没覆盖该接口。本次独立A50r2修正并加真实仓库checkpoint回归，旧文件不改。
+这是诊断代码缺陷，尚无GPU结果，不能归为状态方法科学失败或成功。

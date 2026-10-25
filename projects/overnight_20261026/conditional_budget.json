@@ -1,0 +1,55 @@
+{
+  "checked_utc": "2026-10-25T20:26:25.788983+00:00",
+  "scope": "Proposed maximum conditional queue,not blanket GPU authorization or achieved cost. Each added run needs independent card/identity;all old source bytes retained.",
+  "rows": [
+    {
+      "name": "A50r2_development",
+      "cases": 20,
+      "new_baseline_forward": 0,
+      "diagnostic_forward": 4872,
+      "input_backward_max": 1212,
+      "status": "implemented_not_run"
+    },
+    {
+      "name": "independent_confirmation_12images_four_tasks",
+      "cases": 48,
+      "new_baseline_forward": 14400,
+      "diagnostic_forward": 11592,
+      "input_backward_max": 2892,
+      "status": "conditional_new_card_not_implemented"
+    },
+    {
+      "name": "secondseed_6images_four_tasks",
+      "cases": 24,
+      "new_baseline_forward": 7200,
+      "diagnostic_forward": 5832,
+      "input_backward_max": 1452,
+      "status": "conditional_new_card_not_implemented"
+    },
+    {
+      "name": "noise_6images_four_tasks_two_levels",
+      "cases": 48,
+      "new_baseline_forward": 14400,
+      "diagnostic_forward": 11664,
+      "input_backward_max": 2904,
+      "status": "conditional_new_card_not_implemented"
+    },
+    {
+      "name": "h_development_contract_and_pilot_ceiling",
+      "cases": 20,
+      "new_baseline_forward": 0,
+      "diagnostic_forward": 2400,
+      "input_backward_max": null,
+      "status": "blocked_on_mathematical_contract_no_entrypoint"
+    }
+  ],
+  "total_forward_max": 72360,
+  "known_input_backward_max": 8460,
+  "exclusions": [
+    "A50r1 actual attempts unknown;add separately if user ran it",
+    "All historical research costs;must not double count scoped cumulative ledgers",
+    "Baseline zeta/D optimization backward/warmup/LPIPS/opcost not included in input-VJP count",
+    "h backward/reject composition costs undefined until contract"
+  ],
+  "forward_contract": "Each newcase baseline300. Eight replay arms*30=240,plus6metrology calls*3states*4tasks per noise/seed condition. All arms scientific300 including shared270 prefix;no efficiency claim."
+}

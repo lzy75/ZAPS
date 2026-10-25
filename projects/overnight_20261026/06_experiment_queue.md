@@ -37,3 +37,12 @@ Mac仅6项NumPy和语法检查通过。服务器先执行5项无skip Torch预检
 尚无实际冻结plan、服务器Torch或画质结果；当前只交可执行下一轮，不声称其有效。
 
 最低代码01522b8已成功推master；服务器一段式命令见RUN_A50_SERVER.md。所有Torch/UNet门控仍未执行。
+
+## 必须采用A50r2：原checkpoint兼容性修正
+
+后续完整历史阅读发现r1新代码错误：模型参数全requires_grad=False不兼容旧Attention的
+自定义checkpoint，即使外层use_checkpoint=False。普通线性玩具未覆盖此接口，r1不应继续启动。
+保留r1全部文件字节，另建current_score_runtime_r2.py、diag_current_score_geometry_r2.py、
+run_a50r2_20261026.sh和独立r2卡/目录。新上下文只取输入导数，保留参数requires_grad供
+checkpoint内部使用，不累计parameter.grad或更新权重；新增直接导入原CheckpointFunction回归。
+6项Torch及实际FFHQ仍待服务器，不能以静态定位声称数值通过。若r1已启动，实耗保留另计。
