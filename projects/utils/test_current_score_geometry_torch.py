@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 import torch
 from utils import current_score_geometry as g
+from utils import current_score_runtime as runtime
 
 
 class TorchPreflight(unittest.TestCase):
@@ -55,6 +56,40 @@ class TorchPreflight(unittest.TestCase):
         u=g.input_vjp(mean,x,mean)
         torch.testing.assert_close(u,2*x.detach()**3)
         self.assertTrue(torch.equal(before,torch.random.get_rng_state()))
+
+    def test_gpu_reduction_readout_matches_independent_numpy_vectors(self):
+        q=torch.tensor([[.2,.5,.1]],dtype=torch.float64)
+        v=torch.tensor([[1.,2.,.2]],dtype=torch.float64)
+        u=torch.tensor([[.7,1.4,.3]],dtype=torch.float64)
+        reading=runtime.gram_readout(q,v,u,.3,.5)
+        expected=g.score_targets(q.numpy(),v.numpy(),u.numpy(),.3)
+        for name,decision in expected['decisions'].items():
+            self.assertAlmostEqual(reading['gamma'][name],decision['gamma'],places=12)
+        self.assertTrue(reading['resolved'])
+
+    def test_real_autograd_metrology_counts_and_restores_weight_flags(self):
+        class Tiny(torch.nn.Module):
+            def __init__(self):
+                super().__init__();self.weight=torch.nn.Parameter(torch.diag(torch.tensor([.7,.9],dtype=torch.float64)));self.calls=0
+            def forward(self,x,t):
+                self.calls+=1
+                a=torch.tensor(.64,dtype=x.dtype)
+                return (x-a.sqrt()*(x@self.weight.T))/(1-a).sqrt()
+        class DM:
+            def __init__(self):
+                self.model=Tiny();self.alphas_cumprod=torch.tensor([.64],dtype=torch.float64)
+            def _predict_eps(self,x,t):return self.model(x,t)
+        dm=DM();backwards=[]
+        with runtime.frozen_model_parameters(dm.model):
+            self.assertFalse(dm.model.weight.requires_grad)
+            gate=runtime.vjp_metrology(dm,torch.tensor([[.2,-.3]],dtype=torch.float64),0,
+                                      torch.tensor([[1.,2.]],dtype=torch.float64),
+                                      before_backward=lambda:backwards.append(1))
+            self.assertTrue(gate['passed'])
+            self.assertEqual(dm.model.calls,6)
+            self.assertEqual(len(backwards),1)
+            self.assertIsNone(dm.model.weight.grad)
+        self.assertTrue(dm.model.weight.requires_grad)
 
 
 if __name__ == "__main__":

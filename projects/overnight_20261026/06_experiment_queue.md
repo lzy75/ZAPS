@@ -21,3 +21,8 @@ A50已建立独立planned_preflight卡和current_score_geometry.py数值内核�
 四项NumPy代数检查及语法通过；另三项Torch预检编写完成但Mac未执行。
 尚无完整真实模型driver/冻结plan，不提供A50假命令。预检通过仅证明代数/数值接口，
 不是当前FFHQ真实VJP、未用图、终局收益或整轮可运行认证。
+
+补充：已实现single-forward传感/VJP/真实残差CG/GPU内积约化，以及整图排除的
+TIME/CONSTANT/循环SHUFFLE分配。纯NumPy/设计共6项通过；服务器Torch共5项待执行。
+完整设计前向4872、反向最多1212已逐调用核对；driver/launcher/归档仍在实现，
+不能把内核就绪当完整实验可运行。数值地板/精度/差分门槛已在A50卡明确。

@@ -1,9 +1,9 @@
 {
   "experiment": "A50_current_score_geometry",
-  "status": "NUMPY_PREFLIGHT_ONLY_NOT_RUNNABLE_GPU",
-  "checked_utc": "2026-10-25T18:49:21.451408+00:00",
-  "numpy_tests_passed": 4,
-  "torch_tests_written": 3,
+  "status": "SENSOR_AND_DESIGN_IMPLEMENTED_DRIVER_PENDING",
+  "checked_utc": "2026-10-25T19:49:06.675954+00:00",
+  "numpy_tests_passed": 6,
+  "torch_tests_written": 5,
   "torch_tests_executed": false,
   "real_FFHQ_VJP_gates_executed": false,
   "python_syntax_passed": true,
@@ -14,8 +14,11 @@
   "files": {
     "projects/utils/current_score_geometry.py": "93feaa740ec11a84debf541f9060d145d316cf116a4f8a73add1a000e892c0a0",
     "projects/utils/test_current_score_geometry.py": "be9c404bea2fa706f2b12fb1cc237348ac34eb0fe210292f52c2f9adb1844ed6",
-    "projects/utils/test_current_score_geometry_torch.py": "ea60ae542f5736035defdff2692e6ec1072337de98f0d64f766f2d0a3195214d",
-    "projects/experiment_cards/A50_current_score_geometry_20261026.md": "6e757793323a8a55c27d83fd545ac3194053f7959bdd37a4fc16dd1e9889fc8f"
+    "projects/utils/test_current_score_geometry_torch.py": "d13f1fd7df1dfde07d5fabe5e3c7ee9c93e99e59a55ffda4ed41fb8cb7e3a33b",
+    "projects/experiment_cards/A50_current_score_geometry_20261026.md": "699c00d43a14bd709df2b32453b1c2301c76563f18b3ba0d69df1d5fa2228b26",
+    "projects/utils/current_score_runtime.py": "6d04b2d1f9a65b129c3a1289062b721870903d601564cdb8b236f55eeff19486",
+    "projects/utils/current_score_design.py": "3760f8535e9c64611eb8e1487b8e810e95ecb71ac6a6bced50b601906ce1a78f",
+    "projects/utils/test_current_score_design.py": "f15f8c3b0a9ebb6561bcefb7551e195d7b3f19e2349d919999808d04231afd2d"
   },
   "remaining": [
     "Freeze actual parent source identities and numerical degeneracy policy",
@@ -23,5 +26,7 @@
     "Required server Torch plus real UNet VJP/grad-mode/CG gates",
     "Full-path scientific arms and frozen time/shuffle controls",
     "No quality or efficiency conclusion yet"
-  ]
+  ],
+  "planned_forward_nfe": 4872,
+  "planned_backward_upper": 1212
 }
