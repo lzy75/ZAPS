@@ -1,0 +1,23 @@
+{
+  "checked_utc": "2026-10-25T21:04:32.224856+00:00",
+  "status": "PASS_SYNTHETIC_FLOAT64_MERGED_ANCHOR_CONTRACT",
+  "trials": 2000,
+  "seed": 20261026,
+  "max_errors": {
+    "A": 2.220446049250313e-16,
+    "B": 1.1879386363489175e-14,
+    "variance": 3.3306690738754696e-16,
+    "endpoint": 2.0641508350118533e-14
+  },
+  "nontrivial_blocks": 1637,
+  "naive_single_anchor_relative_defect_median": 0.9269885372454041,
+  "frozen_score_K_nonsemigroup_relative_defect_median": 0.41332515451288093,
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "assumptions": [
+    "Synthetic fixed clean mean and residual;arbitrary different linear anchor maps",
+    "Original independent fine innovations reused;no new draw after selecting a block",
+    "NumPy-generated schedule rounded tofloat32 then scalarfloat64;not serveralpha provenance"
+  ],
+  "limits": "Algebra only,not Torch/core float32 parity,real nonlinear network error,unbiased adaptive SDE,controller quality or NFE saving. A50 fixed-grid K mapping is not challenged by this artificial frozen-score test."
+}
