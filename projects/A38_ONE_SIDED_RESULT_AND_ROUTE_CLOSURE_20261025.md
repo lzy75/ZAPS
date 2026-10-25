@@ -2,8 +2,10 @@
 
 2026-10-25，依据用户回传完整A38摘要。18/18case、1080诊断调用完成，
 无partial attempt；每科学臂仍300 NFE、没有新增基线训练。
-截至本次读取，GitHub结果分支3e9bd9d尚无A38逐case归档；
-因此本报告是摘要解读，不声称独立核查A38张量SHA、逐步记录或全部门控。
+初稿时结果分支3e9bd9d尚无A38逐case归档，依据回传摘要解读。
+随后在42b9a37中取得A38/A38b元数据，核对46个选取文件的归档SHA及JSON签名，
+检查18个完成记录的调用/门控及输出SHA清单一致性，逐case重算A38 groups完全一致。
+没有下载、加载或数值重放原tensor。新增审计见A38B_POLICY_OPPORTUNITY_RESULT_20261025.md。
 回传内容与文件完整性哈希保存于[evidence](experiment_cards/evidence/A38_user_summary_20261025.json)。
 
 ## 一、按原判据结案
