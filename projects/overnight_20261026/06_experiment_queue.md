@@ -1,4 +1,9 @@
 # 实验队列与交付
+
+**当前可交服务器的入口为A50r2，命令见[RUN_A50R2_SERVER.md](RUN_A50R2_SERVER.md)。**
+r1已废弃，勿执行；A49/A50r2尚无本机取得的新服务器结果。其余新图/seed/噪声/步长
+均是有门槛的后续计划，未建入口的包不运行。以下为保留的分轮实现记录。
+
 - A48：用户报告20/20，195新增诊断；元数据尚待本机取回，rho无动作干预。
 - A49：prepared_and_pushed，commit1b6aaf3；0新UNet，服务器命令已交付。
   入口 projects/run_a49_20261026.sh；结果分支results/ffhq-response-reliability-audit-20261026。
