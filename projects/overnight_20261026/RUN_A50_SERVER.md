@@ -1,3 +1,5 @@
+> 已被独立A50r2替代。旧新增入口存在customcheckpoint参数flags兼容性问题；请使用[新版命令](RUN_A50R2_SERVER.md)。下方仅保留历史，不再启动。
+
 # A50 下一轮服务器命令
 
 代码已推送master，最低提交01522b8。尚未运行服务器Torch或UNet；本机6项NumPy/设计检查和语法通过。

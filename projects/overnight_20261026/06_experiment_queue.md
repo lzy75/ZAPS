@@ -46,3 +46,5 @@ Mac仅6项NumPy和语法检查通过。服务器先执行5项无skip Torch预检
 run_a50r2_20261026.sh和独立r2卡/目录。新上下文只取输入导数，保留参数requires_grad供
 checkpoint内部使用，不累计parameter.grad或更新权重；新增直接导入原CheckpointFunction回归。
 6项Torch及实际FFHQ仍待服务器，不能以静态定位声称数值通过。若r1已启动，实耗保留另计。
+
+A50r2最低代码a479de4；更新命令见RUN_A50R2_SERVER.md。请替代上一条A50启动命令。
