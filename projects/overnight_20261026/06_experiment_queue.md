@@ -35,3 +35,5 @@ TIME/CONSTANT/循环SHUFFLE分配。纯NumPy/设计共6项通过；服务器Torc
 Mac仅6项NumPy和语法检查通过。服务器先执行5项无skip Torch预检，实际网络门控失败即保留并退出。
 失败/中断phase不自动重跑；只有完整phase能缓存复用。归档或push失败只重试归档/推送。
 尚无实际冻结plan、服务器Torch或画质结果；当前只交可执行下一轮，不声称其有效。
+
+最低代码01522b8已成功推master；服务器一段式命令见RUN_A50_SERVER.md。所有Torch/UNet门控仍未执行。
