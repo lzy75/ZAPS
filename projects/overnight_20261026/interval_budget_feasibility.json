@@ -1,0 +1,124 @@
+{
+  "status": "EXACT_DISCRETE_COST_BOUND_ONLY",
+  "original_anchors": 30,
+  "original_intervals": 29,
+  "frozen_prefix_calls": 270,
+  "rows": [
+    {
+      "maximum_intervals_per_block": 1,
+      "one_minimum_cost_partition": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "accepted_blocks": 29,
+      "all_accepted_suffix_forward_lower_bound": 30,
+      "full_method_forward_lower_bound": 300,
+      "maximum_forward_saving": 0,
+      "maximum_whole_method_saving_fraction": 0.0,
+      "two_call_extra_attempts_to_erase_best_possible_saving": 0
+    },
+    {
+      "maximum_intervals_per_block": 2,
+      "one_minimum_cost_partition": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1
+      ],
+      "accepted_blocks": 15,
+      "all_accepted_suffix_forward_lower_bound": 30,
+      "full_method_forward_lower_bound": 300,
+      "maximum_forward_saving": 0,
+      "maximum_whole_method_saving_fraction": 0.0,
+      "two_call_extra_attempts_to_erase_best_possible_saving": 0
+    },
+    {
+      "maximum_intervals_per_block": 4,
+      "one_minimum_cost_partition": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        1
+      ],
+      "accepted_blocks": 8,
+      "all_accepted_suffix_forward_lower_bound": 16,
+      "full_method_forward_lower_bound": 286,
+      "maximum_forward_saving": 14,
+      "maximum_whole_method_saving_fraction": 0.04666666666666667,
+      "two_call_extra_attempts_to_erase_best_possible_saving": 7
+    },
+    {
+      "maximum_intervals_per_block": 8,
+      "one_minimum_cost_partition": [
+        8,
+        8,
+        8,
+        4,
+        1
+      ],
+      "accepted_blocks": 5,
+      "all_accepted_suffix_forward_lower_bound": 10,
+      "full_method_forward_lower_bound": 280,
+      "maximum_forward_saving": 20,
+      "maximum_whole_method_saving_fraction": 0.06666666666666667,
+      "two_call_extra_attempts_to_erase_best_possible_saving": 10
+    }
+  ],
+  "method_nfe_executed": 0,
+  "diagnostic_nfe_executed": 0,
+  "assumptions": [
+    "B uses widths1,2,4,8 original intervals and retains t999/t0 reads",
+    "One forward per width1;two per accepted nonminimum block",
+    "No rejection,CG,extra sensor or warmup is included in lower bound",
+    "Each rejected nonminimum attempt adds two forward under this contract",
+    "No cross-attempt left-read reuse assumed;different reuse needs new accounting"
+  ],
+  "limits": [
+    "No actual model,quality,error-acceptance probability or walltime result",
+    "Best partition is cost-only and not an online sampling policy",
+    "Savings apply only to this last-unroll contract,not arbitrary adaptive solvers",
+    "Total prefix cost changes and jointgamma/backward costs need independent protocol"
+  ]
+}
