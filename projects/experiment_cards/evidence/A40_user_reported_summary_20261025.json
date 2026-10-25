@@ -1,0 +1,1538 @@
+{
+  "status": "USER_REPORTED_AGGREGATES_ONLY",
+  "source_text_sha256": "a2f65c018b62ea8b12f1c00bcb1753b15b37d7f33969057f16e63cfb566172d5",
+  "expected_implementation_commit": "a87f3c9",
+  "aggregate_arithmetic_checked": true,
+  "per_case_records_verified": false,
+  "output_tensor_hashes_verified": false,
+  "comparison_images_inspected": false,
+  "results_branch_observed": "324e6e047c0041a26e8a48f3fbfd4e23104e9e13",
+  "new_unet_calls": 0,
+  "summary": {
+    "classification": "NO_CONFIRMED_MULTITASK_STATE_INCREMENT",
+    "state_gain_conditions": [
+      "ffhq/super_resolution"
+    ],
+    "online_feedback": "Frozen PHYSICAL response only; internal/dual indicators are offline diagnostics.",
+    "baseline_below_naive_conditions": [
+      "ffhq/super_resolution",
+      "imagenet/super_resolution"
+    ],
+    "state_increment_conditions": [],
+    "limits": "Six images per dataset, shared across tasks, one seed: twelve image clusters. No retuning of response rule, ridge or source time table. Target-task time uses five OTHER images without quality labels and incurs calibration-data cost. Frozen-source prediction is transfer; target-task LOIO is exploratory diagnostic, not transfer or an online controller. Native exact-adjoint/unit-domain local references; new protocol versus historical legacy SR. Last-unroll feedback only; no full-ten-epoch feedback, step changes, NFE saving, convergence or global generalization. Bootstrap intervals are descriptive, unadjusted, approximate.",
+    "experiment": "A40_multitask_state_transfer",
+    "completed_cases": 24,
+    "planned_cases": 24,
+    "method_nfe": 7200,
+    "diagnostic_nfe": 3960,
+    "planned_method_nfe": 7200,
+    "planned_diagnostic_nfe": 3960,
+    "scientific_nfe_per_arm": 300,
+    "partial_attempts": 0,
+    "cost_is_lower_bound_if_abruptly_interrupted": false,
+    "source_scope": "Frozen physical response rule upper2/deadband.01, source time table and A39 feature definitions. Twelve unused images within accessible history, reused across two tasks; one seed. New exact-adjoint/unit-domain matched C in all four groups, not historical legacy SR baseline. Original first270; only last30 guidance changes. Target-task time is leave-one-image-out unlabeled task calibration; frozen source time is zero-target-calibration. No PI online control, regularizer, hyperparameter scan, step/schedule or NFE-saving claim.",
+    "task_time_calibration": "Other five images/condition require state trajectories; not a free standalone300-NFE method. All acquisition/replay costs above; no end-to-end speed claim.",
+    "groups": [
+      {
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "completed_cases": 6,
+        "planned_cases": 6,
+        "absolute_mean_metrics": {
+          "NAIVE": {
+            "psnr": 24.75281788211195,
+            "ssim": 0.6098794539769491,
+            "lpips": 0.6545453717311224,
+            "loss": 0.0871401908420405
+          },
+          "C": {
+            "psnr": 20.008623184080744,
+            "ssim": 0.6056074897448221,
+            "lpips": 0.32088497777779895,
+            "loss": 2.1026209232919126
+          },
+          "TIME_SOURCE": {
+            "psnr": 14.1741453203938,
+            "ssim": 0.3772277683019638,
+            "lpips": 0.49978963037331897,
+            "loss": 7.95979000218757
+          },
+          "TIME_TASK": {
+            "psnr": 21.170390523553635,
+            "ssim": 0.632941484451294,
+            "lpips": 0.30787816147009534,
+            "loss": 1.6422467303720871
+          },
+          "STATE": {
+            "psnr": 21.168860468385912,
+            "ssim": 0.6328927179177603,
+            "lpips": 0.30803119639555615,
+            "loss": 1.6422161636454065
+          }
+        },
+        "baseline_context": {
+          "C_minus_naive": {
+            "mean_delta": {
+              "psnr": -4.744194698031207,
+              "ssim": -0.004271964232126872,
+              "lpips": -0.33366039395332336,
+              "loss": 2.015480732449872
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -5.616503676450482,
+                -3.87892131096555
+              ],
+              "ssim": [
+                -0.07176239291826884,
+                0.07093764344851176
+              ],
+              "lpips": [
+                -0.4175567924976349,
+                -0.24926588435967764
+              ],
+              "loss": [
+                1.6385055105669508,
+                2.3924559543327937
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -6.427556274892989,
+            "max_image_lpips_delta": -0.1674780249595642,
+            "quality_guard": false,
+            "image_lpips_risk_count": 0
+          },
+          "baseline_below_naive_mean_psnr": true,
+          "interpretation": "Naive is bicubic observation upsampling for SR, noisy observation for blur. A weak matched C limits practical quality claims even if STATE-C is positive."
+        },
+        "state_vs_C_candidate": true,
+        "state_vs_frozen_time_candidate": true,
+        "state_vs_task_time_candidate": false,
+        "weights": {
+          "mean_abs_vs_source": 0.5435175915845267,
+          "mean_abs_vs_task": 0.01032808130596868,
+          "cap_fraction": 0.4,
+          "fallback_fraction": 0.16666666666666666
+        },
+        "dual_indicator_candidates": {
+          "frozen_source_transfer": false,
+          "target_task_LOIO_diagnostic": false
+        },
+        "contrasts": {
+          "STATE_C": {
+            "mean_delta": {
+              "psnr": 1.1602372843051683,
+              "ssim": 0.02728522817293803,
+              "lpips": -0.012853781382242838,
+              "loss": -0.4604047596465061
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.9189700176053854,
+                1.366107398975214
+              ],
+              "ssim": [
+                0.020467599232991535,
+                0.03339283665021261
+              ],
+              "lpips": [
+                -0.01524133247633775,
+                -0.010225007931391398
+              ],
+              "loss": [
+                -0.5671124071268978,
+                -0.33162172521681194
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.6533350783607119,
+            "max_image_lpips_delta": -0.007616192102432251,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "TIME_SOURCE_C": {
+            "mean_delta": {
+              "psnr": -5.834477863686945,
+              "ssim": -0.22837972144285837,
+              "lpips": 0.17890465259552002,
+              "loss": 5.857169078895658
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -6.606336376564634,
+                -5.244206473994206
+              ],
+              "ssim": [
+                -0.27929943799972534,
+                -0.1790758172671
+              ],
+              "lpips": [
+                0.1291241447130839,
+                0.2351790964603424
+              ],
+              "loss": [
+                4.407454709403083,
+                7.057948188946484
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -7.611524008355698,
+            "max_image_lpips_delta": 0.30013832449913025,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "TIME_TASK_C": {
+            "mean_delta": {
+              "psnr": 1.1617673394728907,
+              "ssim": 0.02733399470647176,
+              "lpips": -0.013006816307703653,
+              "loss": -0.4603741929198256
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.9270442023930622,
+                1.3653037359867437
+              ],
+              "ssim": [
+                0.02062290906906128,
+                0.033407777547836304
+              ],
+              "lpips": [
+                -0.015394295255343119,
+                -0.010491028428077698
+              ],
+              "loss": [
+                -0.5659045320736932,
+                -0.3335029392635374
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.6674749117949048,
+            "max_image_lpips_delta": -0.008154302835464478,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "STATE_TIME_SOURCE": {
+            "mean_delta": {
+              "psnr": 6.994715147992113,
+              "ssim": 0.2556649496157964,
+              "lpips": -0.19175843397776285,
+              "loss": -6.317573838542163
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                6.510985642098395,
+                7.577703853485313
+              ],
+              "ssim": [
+                0.2116195261478424,
+                0.30056508382161456
+              ],
+              "lpips": [
+                -0.24602383375167847,
+                -0.14359997535745306
+              ],
+              "loss": [
+                -7.540522347007091,
+                -4.848449605363309
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 6.311556929427436,
+            "max_image_lpips_delta": -0.11433032155036926,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "STATE_TIME_TASK": {
+            "mean_delta": {
+              "psnr": -0.0015300551677223477,
+              "ssim": -4.8766533533732094e-05,
+              "lpips": 0.00015303492546081543,
+              "loss": -3.0566726680521704e-05
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.007755427167068177,
+                0.003926487986226708
+              ],
+              "ssim": [
+                -0.0002872745196024577,
+                0.00017304221789042154
+              ],
+              "lpips": [
+                -8.722146352132162e-06,
+                0.00034000972906748456
+              ],
+              "loss": [
+                -0.0016067713131944588,
+                0.001731244145708355
+              ]
+            },
+            "images_psnr_positive": 4,
+            "min_image_psnr_delta": -0.014139833434192894,
+            "max_image_lpips_delta": 0.0005381107330322266,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          }
+        },
+        "indicator_lpips": {
+          "frozen_source_transfer": {
+            "mae": {
+              "STAGE_NOISE": 0.0027850391688170255,
+              "R": 0.004696462502892942,
+              "P": 0.03698772274647875,
+              "I": 0.005256713486711994,
+              "PI": 0.03253219149543952,
+              "PIG": 0.026369651825960547
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -12.280862675331662,
+                "images_better": 0,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.887482785006876,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -10.681053487394186,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": 0.12045973420905987,
+                "images_better": 6,
+                "candidate": true
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": 0.18942897438504436,
+                "images_better": 6,
+                "candidate": true
+              }
+            }
+          },
+          "target_task_LOIO_diagnostic": {
+            "mae": {
+              "STAGE_NOISE": 0.0007949342330296834,
+              "R": 0.0009697764765875476,
+              "P": 0.0010505012390056117,
+              "I": 0.0008944194309844698,
+              "PI": 0.0009353986079967794,
+              "PIG": 0.001155981154068321
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -0.3214945279207584,
+                "images_better": 1,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.1251489668216006,
+                "images_better": 2,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -0.17669936597365155,
+                "images_better": 2,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": 0.10956924821696223,
+                "images_better": 4,
+                "candidate": true
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": -0.23581662853223007,
+                "images_better": 2,
+                "candidate": false
+              }
+            }
+          }
+        },
+        "single_pulse_opportunity": [
+          {
+            "source_t": 641,
+            "best_fixed": {
+              "actions": [
+                "K19_G2",
+                "K19_G2",
+                "K19_G2",
+                "K19_G2",
+                "K19_G2",
+                "K19_G2"
+              ],
+              "mean_delta": {
+                "psnr": 0.33372863485147874,
+                "ssim": 0.00843497117360433,
+                "lpips": -0.005169962843259175,
+                "loss": -0.14556998799773777
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 6,
+              "max_image_lpips_delta": -0.0030232667922973633,
+              "min_image_psnr_delta": 0.22900677232772892
+            },
+            "oracle_headroom": 0.0
+          },
+          {
+            "source_t": 319,
+            "best_fixed": {
+              "actions": [
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2"
+              ],
+              "mean_delta": {
+                "psnr": 0.039783926753430045,
+                "ssim": 0.0013632078965504963,
+                "lpips": -0.0004950910806655884,
+                "loss": -0.018342424676575986
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 6,
+              "max_image_lpips_delta": -0.00023922324180603027,
+              "min_image_psnr_delta": 0.033721499536305544
+            },
+            "oracle_headroom": 0.0
+          }
+        ]
+      },
+      {
+        "dataset": "ffhq",
+        "task": "gaussian_deblur",
+        "completed_cases": 6,
+        "planned_cases": 6,
+        "absolute_mean_metrics": {
+          "NAIVE": {
+            "psnr": 21.510207151255486,
+            "ssim": 0.4562232295672099,
+            "lpips": 0.6939867635567983,
+            "loss": 0.6330720211698758
+          },
+          "C": {
+            "psnr": 24.395082337115635,
+            "ssim": 0.7328685720761617,
+            "lpips": 0.24353413780530295,
+            "loss": 0.6151797271055889
+          },
+          "TIME_SOURCE": {
+            "psnr": 25.16387819901828,
+            "ssim": 0.7543014883995056,
+            "lpips": 0.25091512004534405,
+            "loss": 0.5562248539057655
+          },
+          "TIME_TASK": {
+            "psnr": 24.927722337977162,
+            "ssim": 0.7464495201905569,
+            "lpips": 0.25788357357184094,
+            "loss": 0.5680777895311641
+          },
+          "STATE": {
+            "psnr": 24.91947132470829,
+            "ssim": 0.7462320923805237,
+            "lpips": 0.25808029373486835,
+            "loss": 0.5686037336405423
+          }
+        },
+        "baseline_context": {
+          "C_minus_naive": {
+            "mean_delta": {
+              "psnr": 2.884875185860149,
+              "ssim": 0.27664534250895184,
+              "lpips": -0.45045262575149536,
+              "loss": -0.017892294064286957
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                2.051629911279917,
+                3.704899829461343
+              ],
+              "ssim": [
+                0.22468556960423788,
+                0.3309344748655955
+              ],
+              "lpips": [
+                -0.5063298642635345,
+                -0.3916243513425191
+              ],
+              "loss": [
+                -0.04741883970996972,
+                0.016952451492080283
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 1.411620554325225,
+            "max_image_lpips_delta": -0.33452945947647095,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "baseline_below_naive_mean_psnr": false,
+          "interpretation": "Naive is bicubic observation upsampling for SR, noisy observation for blur. A weak matched C limits practical quality claims even if STATE-C is positive."
+        },
+        "state_vs_C_candidate": false,
+        "state_vs_frozen_time_candidate": false,
+        "state_vs_task_time_candidate": false,
+        "weights": {
+          "mean_abs_vs_source": 0.0798508556970453,
+          "mean_abs_vs_task": 0.02244776578415853,
+          "cap_fraction": 0.23333333333333334,
+          "fallback_fraction": 0.03888888888888889
+        },
+        "dual_indicator_candidates": {
+          "frozen_source_transfer": false,
+          "target_task_LOIO_diagnostic": false
+        },
+        "contrasts": {
+          "STATE_C": {
+            "mean_delta": {
+              "psnr": 0.5243889875926543,
+              "ssim": 0.013363520304361979,
+              "lpips": 0.01454615592956543,
+              "loss": -0.046575993465046615
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.36688805284603276,
+                0.6402984280468521
+              ],
+              "ssim": [
+                0.008828381697336832,
+                0.017283837000528973
+              ],
+              "lpips": [
+                0.00921440621217092,
+                0.020663157105445862
+              ],
+              "loss": [
+                -0.059478001193946826,
+                -0.03438502036702207
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.16121159184183043,
+            "max_image_lpips_delta": 0.02602429687976837,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "TIME_SOURCE_C": {
+            "mean_delta": {
+              "psnr": 0.768795861902646,
+              "ssim": 0.021432916323343914,
+              "lpips": 0.007380982240041097,
+              "loss": -0.058954873199823475
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.6459724792451382,
+                0.8747717310841866
+              ],
+              "ssim": [
+                0.017626434564590454,
+                0.024623682101567585
+              ],
+              "lpips": [
+                0.0031738455096880593,
+                0.012299669285615286
+              ],
+              "loss": [
+                -0.0706797631744281,
+                -0.047262345010593065
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.5015322793794041,
+            "max_image_lpips_delta": 0.01721067726612091,
+            "quality_guard": false,
+            "image_lpips_risk_count": 3
+          },
+          "TIME_TASK_C": {
+            "mean_delta": {
+              "psnr": 0.5326400008615272,
+              "ssim": 0.013580948114395142,
+              "lpips": 0.014349435766537985,
+              "loss": -0.04710193757442488
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.3890582495469091,
+                0.6378259355492594
+              ],
+              "ssim": [
+                0.010065158208211264,
+                0.016340871651967365
+              ],
+              "lpips": [
+                0.008647717535495758,
+                0.020721857746442158
+              ],
+              "loss": [
+                -0.05717864527703037,
+                -0.03702522987181939
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.1961337535479295,
+            "max_image_lpips_delta": 0.026400521397590637,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "STATE_TIME_SOURCE": {
+            "mean_delta": {
+              "psnr": -0.24440687430999178,
+              "ssim": -0.008069396018981934,
+              "lpips": 0.007165173689524333,
+              "loss": 0.01237887973477686
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.2917994279341407,
+                -0.19941041469815404
+              ],
+              "ssim": [
+                -0.009054611126581827,
+                -0.007032801707585652
+              ],
+              "lpips": [
+                0.006032933791478475,
+                0.008447838326295217
+              ],
+              "loss": [
+                0.010579134495185364,
+                0.014348098603279569
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -0.3403206875375737,
+            "max_image_lpips_delta": 0.00971616804599762,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "STATE_TIME_TASK": {
+            "mean_delta": {
+              "psnr": -0.008251013268872972,
+              "ssim": -0.00021742781003316244,
+              "lpips": 0.00019672016302744547,
+              "loss": 0.0005259441093782661
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.043706383818149654,
+                0.02996389251829316
+              ],
+              "ssim": [
+                -0.0016702512900034587,
+                0.00172846515973409
+              ],
+              "lpips": [
+                -0.00022208193937937418,
+                0.0007206002871195475
+              ],
+              "loss": [
+                -0.002583842024975025,
+                0.0029832042969215413
+              ]
+            },
+            "images_psnr_positive": 2,
+            "min_image_psnr_delta": -0.07566216873886589,
+            "max_image_lpips_delta": 0.0012415647506713867,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          }
+        },
+        "indicator_lpips": {
+          "frozen_source_transfer": {
+            "mae": {
+              "STAGE_NOISE": 0.003192906026486997,
+              "R": 0.0032401765491782593,
+              "P": 0.2580166890552487,
+              "I": 0.00330444424729774,
+              "PI": 0.2812976224219071,
+              "PIG": 0.09407379479577273
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -79.80935890842119,
+                "images_better": 0,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.03493313611032356,
+                "images_better": 3,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -87.10081477136535,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": -0.09023033917652223,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": 0.6655720230202473,
+                "images_better": 6,
+                "candidate": true
+              }
+            }
+          },
+          "target_task_LOIO_diagnostic": {
+            "mae": {
+              "STAGE_NOISE": 0.0031079164809650842,
+              "R": 0.0035578564801201523,
+              "P": 0.003799207454492181,
+              "I": 0.003863426660806362,
+              "PI": 0.004345347115848284,
+              "PIG": 0.006184373334759348
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -0.22242907033088422,
+                "images_better": 2,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.2430921758897051,
+                "images_better": 2,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -0.39815440423255755,
+                "images_better": 1,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": -0.14375094487413365,
+                "images_better": 4,
+                "candidate": false
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": -0.4232173333641851,
+                "images_better": 1,
+                "candidate": false
+              }
+            }
+          }
+        },
+        "single_pulse_opportunity": [
+          {
+            "source_t": 641,
+            "best_fixed": {
+              "actions": [
+                "C",
+                "C",
+                "C",
+                "C",
+                "C",
+                "C"
+              ],
+              "mean_delta": {
+                "psnr": 0.0,
+                "ssim": 0.0,
+                "lpips": 0.0,
+                "loss": 0.0
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 0,
+              "max_image_lpips_delta": 0.0,
+              "min_image_psnr_delta": 0.0
+            },
+            "oracle_headroom": 0.020743786203913334
+          },
+          {
+            "source_t": 319,
+            "best_fixed": {
+              "actions": [
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2"
+              ],
+              "mean_delta": {
+                "psnr": 0.16328267188173662,
+                "ssim": 0.004795243342717488,
+                "lpips": -0.00189150869846344,
+                "loss": -0.014539761190469217
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 6,
+              "max_image_lpips_delta": -0.00035224854946136475,
+              "min_image_psnr_delta": 0.11172224890209748
+            },
+            "oracle_headroom": 0.0
+          }
+        ]
+      },
+      {
+        "dataset": "imagenet",
+        "task": "super_resolution",
+        "completed_cases": 6,
+        "planned_cases": 6,
+        "absolute_mean_metrics": {
+          "NAIVE": {
+            "psnr": 21.646641126607612,
+            "ssim": 0.5248714884122213,
+            "lpips": 0.7730906903743744,
+            "loss": 0.10970492420624402
+          },
+          "C": {
+            "psnr": 16.89005101504204,
+            "ssim": 0.3012894243001938,
+            "lpips": 0.6275755167007446,
+            "loss": 3.445160578821911
+          },
+          "TIME_SOURCE": {
+            "psnr": 12.470119901226255,
+            "ssim": 0.20025994007786116,
+            "lpips": 0.8674431443214417,
+            "loss": 10.6454722784562
+          },
+          "TIME_TASK": {
+            "psnr": 17.726527203348233,
+            "ssim": 0.3220331072807312,
+            "lpips": 0.6578821738560995,
+            "loss": 2.761842271605064
+          },
+          "STATE": {
+            "psnr": 17.722670763482363,
+            "ssim": 0.3217594251036644,
+            "lpips": 0.6578203737735748,
+            "loss": 2.7632490292024374
+          }
+        },
+        "baseline_context": {
+          "C_minus_naive": {
+            "mean_delta": {
+              "psnr": -4.756590111565569,
+              "ssim": -0.2235820641120275,
+              "lpips": -0.14551517367362976,
+              "loss": 3.3354556546156666
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -5.8029611661563125,
+                -4.083577877851115
+              ],
+              "ssim": [
+                -0.29712699850400287,
+                -0.15819977968931198
+              ],
+              "lpips": [
+                -0.22499099373817444,
+                -0.0748750368754069
+              ],
+              "loss": [
+                2.5696296018686406,
+                4.184231284030246
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -7.1923895311565005,
+            "max_image_lpips_delta": -0.031069636344909668,
+            "quality_guard": false,
+            "image_lpips_risk_count": 0
+          },
+          "baseline_below_naive_mean_psnr": true,
+          "interpretation": "Naive is bicubic observation upsampling for SR, noisy observation for blur. A weak matched C limits practical quality claims even if STATE-C is positive."
+        },
+        "state_vs_C_candidate": false,
+        "state_vs_frozen_time_candidate": true,
+        "state_vs_task_time_candidate": false,
+        "weights": {
+          "mean_abs_vs_source": 0.6619760648949071,
+          "mean_abs_vs_task": 0.0032157687737971036,
+          "cap_fraction": 0.4388888888888889,
+          "fallback_fraction": 0.2
+        },
+        "dual_indicator_candidates": {
+          "frozen_source_transfer": false,
+          "target_task_LOIO_diagnostic": false
+        },
+        "contrasts": {
+          "STATE_C": {
+            "mean_delta": {
+              "psnr": 0.83261974844032,
+              "ssim": 0.02047000080347061,
+              "lpips": 0.0302448570728302,
+              "loss": -0.6819115496194733
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.700310434018886,
+                0.9597485440792056
+              ],
+              "ssim": [
+                0.009839830299218496,
+                0.03421897441148758
+              ],
+              "lpips": [
+                0.009293198585510254,
+                0.05198426445325215
+              ],
+              "loss": [
+                -0.8667287659408237,
+                -0.5231598481425749
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.5727590688136939,
+            "max_image_lpips_delta": 0.06820458173751831,
+            "quality_guard": false,
+            "image_lpips_risk_count": 5
+          },
+          "TIME_SOURCE_C": {
+            "mean_delta": {
+              "psnr": -4.419931113815787,
+              "ssim": -0.10102948422233264,
+              "lpips": 0.23986762762069702,
+              "loss": 7.200311699634288
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -5.2249536922954185,
+                -3.535726653408266
+              ],
+              "ssim": [
+                -0.11930750558773677,
+                -0.08152444412310918
+              ],
+              "lpips": [
+                0.20445504784584045,
+                0.27848483125368756
+              ],
+              "loss": [
+                6.182810594189651,
+                8.273542831071568
+              ]
+            },
+            "images_psnr_positive": 0,
+            "min_image_psnr_delta": -5.44130529135972,
+            "max_image_lpips_delta": 0.313213050365448,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "TIME_TASK_C": {
+            "mean_delta": {
+              "psnr": 0.8364761883061901,
+              "ssim": 0.020743682980537415,
+              "lpips": 0.030306657155354817,
+              "loss": -0.6833183072168469
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.7041771482137964,
+                0.9672563790049225
+              ],
+              "ssim": [
+                0.009817165633042654,
+                0.03508637100458145
+              ],
+              "lpips": [
+                0.009062091509501139,
+                0.05216974591215448
+              ],
+              "loss": [
+                -0.8681557368997367,
+                -0.5245734046993324
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.5731274778242543,
+            "max_image_lpips_delta": 0.0680464506149292,
+            "quality_guard": false,
+            "image_lpips_risk_count": 5
+          },
+          "STATE_TIME_SOURCE": {
+            "mean_delta": {
+              "psnr": 5.252550862256107,
+              "ssim": 0.12149948502580325,
+              "lpips": -0.20962277054786682,
+              "loss": -7.882223249253762
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                4.334729072867799,
+                6.134041127397247
+              ],
+              "ssim": [
+                0.09411179398496945,
+                0.14329460387428603
+              ],
+              "lpips": [
+                -0.23803174495697021,
+                -0.18058655659357706
+              ],
+              "loss": [
+                -8.959172495362527,
+                -6.828598891932874
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 3.484245694143837,
+            "max_image_lpips_delta": -0.15277814865112305,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "STATE_TIME_TASK": {
+            "mean_delta": {
+              "psnr": -0.003856439865870106,
+              "ssim": -0.000273682177066803,
+              "lpips": -6.180008252461751e-05,
+              "loss": 0.0014067575973736683
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.011241066730953856,
+                -1.3103777791142098e-05
+              ],
+              "ssim": [
+                -0.0008722717563311259,
+                0.00011437560121218332
+              ],
+              "lpips": [
+                -0.0005249877770741781,
+                0.00043314695358276367
+              ],
+              "loss": [
+                -9.63597129751322e-05,
+                0.004355113201416794
+              ]
+            },
+            "images_psnr_positive": 3,
+            "min_image_psnr_delta": -0.02223789699679557,
+            "max_image_lpips_delta": 0.0009975433349609375,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          }
+        },
+        "indicator_lpips": {
+          "frozen_source_transfer": {
+            "mae": {
+              "STAGE_NOISE": 0.0031933198096575563,
+              "R": 0.005250668236366287,
+              "P": 0.044615050278369685,
+              "I": 0.005894485071663101,
+              "PI": 0.03967872989254704,
+              "PIG": 0.03564274135074177
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -12.97136927640019,
+                "images_better": 0,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.8458799691269292,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -11.42554214975483,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": 0.1106424929485259,
+                "images_better": 6,
+                "candidate": true
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": 0.10171667673675622,
+                "images_better": 6,
+                "candidate": true
+              }
+            }
+          },
+          "target_task_LOIO_diagnostic": {
+            "mae": {
+              "STAGE_NOISE": 0.002393817239337497,
+              "R": 0.0030351374531629813,
+              "P": 0.004186342963703067,
+              "I": 0.003306785140382972,
+              "PI": 0.003904493093339914,
+              "PIG": 0.005754112733149963
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -0.7488147778824008,
+                "images_better": 1,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.3813857992342573,
+                "images_better": 2,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -0.6310740139963673,
+                "images_better": 2,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": 0.06732603439490781,
+                "images_better": 4,
+                "candidate": false
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": -0.4737156899995638,
+                "images_better": 2,
+                "candidate": false
+              }
+            }
+          }
+        },
+        "single_pulse_opportunity": [
+          {
+            "source_t": 641,
+            "best_fixed": {
+              "actions": [
+                "K19_G2",
+                "K19_G2",
+                "K19_G2",
+                "K19_G2",
+                "K19_G2",
+                "K19_G2"
+              ],
+              "mean_delta": {
+                "psnr": 0.21474576379614488,
+                "ssim": 0.006551412244637807,
+                "lpips": -0.0023028552532196045,
+                "loss": -0.19605022154076632
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 6,
+              "max_image_lpips_delta": 0.011278510093688965,
+              "min_image_psnr_delta": 0.1467146301399147
+            },
+            "oracle_headroom": 0.0
+          },
+          {
+            "source_t": 319,
+            "best_fixed": {
+              "actions": [
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2"
+              ],
+              "mean_delta": {
+                "psnr": 0.01973557319489405,
+                "ssim": 0.000905024508635203,
+                "lpips": -0.0003826022148132324,
+                "loss": -0.018574518355492176
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 6,
+              "max_image_lpips_delta": -0.0003090500831604004,
+              "min_image_psnr_delta": 0.015767729776069217
+            },
+            "oracle_headroom": 0.0
+          }
+        ]
+      },
+      {
+        "dataset": "imagenet",
+        "task": "gaussian_deblur",
+        "completed_cases": 6,
+        "planned_cases": 6,
+        "absolute_mean_metrics": {
+          "NAIVE": {
+            "psnr": 19.522504606910356,
+            "ssim": 0.3646621108055115,
+            "lpips": 0.7413002252578735,
+            "loss": 0.6323926552540394
+          },
+          "C": {
+            "psnr": 19.73108237117882,
+            "ssim": 0.44657619297504425,
+            "lpips": 0.4277409215768178,
+            "loss": 0.7890209635359994
+          },
+          "TIME_SOURCE": {
+            "psnr": 21.13755101569382,
+            "ssim": 0.46966777245203656,
+            "lpips": 0.6226149201393127,
+            "loss": 0.6332957249383419
+          },
+          "TIME_TASK": {
+            "psnr": 21.139616118979678,
+            "ssim": 0.4678640117247899,
+            "lpips": 0.6389635652303696,
+            "loss": 0.6353910854943643
+          },
+          "STATE": {
+            "psnr": 21.12195761533119,
+            "ssim": 0.4668698310852051,
+            "lpips": 0.6390199561913809,
+            "loss": 0.6373522019048729
+          }
+        },
+        "baseline_context": {
+          "C_minus_naive": {
+            "mean_delta": {
+              "psnr": 0.20857776426846542,
+              "ssim": 0.08191408216953278,
+              "lpips": -0.3135593036810557,
+              "loss": 0.15662830828195998
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.6611575061909806,
+                1.0783130347279115
+              ],
+              "ssim": [
+                0.004885385433832805,
+                0.16192187865575156
+              ],
+              "lpips": [
+                -0.4305729667345683,
+                -0.20853540301322937
+              ],
+              "loss": [
+                0.06727972483060968,
+                0.2459898255586843
+              ]
+            },
+            "images_psnr_positive": 4,
+            "min_image_psnr_delta": -1.37533656248646,
+            "max_image_lpips_delta": -0.09314459562301636,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          },
+          "baseline_below_naive_mean_psnr": false,
+          "interpretation": "Naive is bicubic observation upsampling for SR, noisy observation for blur. A weak matched C limits practical quality claims even if STATE-C is positive."
+        },
+        "state_vs_C_candidate": false,
+        "state_vs_frozen_time_candidate": false,
+        "state_vs_task_time_candidate": false,
+        "weights": {
+          "mean_abs_vs_source": 0.020604589345196444,
+          "mean_abs_vs_task": 0.013274984216001177,
+          "cap_fraction": 0.25,
+          "fallback_fraction": 0.044444444444444446
+        },
+        "dual_indicator_candidates": {
+          "frozen_source_transfer": false,
+          "target_task_LOIO_diagnostic": false
+        },
+        "contrasts": {
+          "STATE_C": {
+            "mean_delta": {
+              "psnr": 1.3908752441523677,
+              "ssim": 0.020293638110160828,
+              "lpips": 0.211279034614563,
+              "loss": -0.15166876163112655
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.6450066457627752,
+                2.2246376822528977
+              ],
+              "ssim": [
+                -0.02009686827659607,
+                0.061234697699546814
+              ],
+              "lpips": [
+                0.1119051178296407,
+                0.30098764101664227
+              ],
+              "loss": [
+                -0.19089019378556923,
+                -0.11286533761224148
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.3597404524372152,
+            "max_image_lpips_delta": 0.3861936330795288,
+            "quality_guard": false,
+            "image_lpips_risk_count": 5
+          },
+          "TIME_SOURCE_C": {
+            "mean_delta": {
+              "psnr": 1.406468644514997,
+              "ssim": 0.02309157947699229,
+              "lpips": 0.1948739985624949,
+              "loss": -0.15572523859765755
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.6430905391480793,
+                2.2535841811028874
+              ],
+              "ssim": [
+                -0.017665321628252666,
+                0.06480373938878377
+              ],
+              "lpips": [
+                0.09691084424654643,
+                0.28354068497816626
+              ],
+              "loss": [
+                -0.19456248779462382,
+                -0.11784944730510737
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.3622046419589431,
+            "max_image_lpips_delta": 0.37390977144241333,
+            "quality_guard": false,
+            "image_lpips_risk_count": 5
+          },
+          "TIME_TASK_C": {
+            "mean_delta": {
+              "psnr": 1.4085337478008562,
+              "ssim": 0.021287818749745686,
+              "lpips": 0.21122264365355173,
+              "loss": -0.15362987804163514
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                0.6695024463811254,
+                2.251416051559102
+              ],
+              "ssim": [
+                -0.019879127542177837,
+                0.06349978844324748
+              ],
+              "lpips": [
+                0.11127398908138275,
+                0.3009749154249827
+              ],
+              "loss": [
+                -0.19250080509403858,
+                -0.11554049491200134
+              ]
+            },
+            "images_psnr_positive": 6,
+            "min_image_psnr_delta": 0.3592454761331716,
+            "max_image_lpips_delta": 0.3859386444091797,
+            "quality_guard": false,
+            "image_lpips_risk_count": 5
+          },
+          "STATE_TIME_SOURCE": {
+            "mean_delta": {
+              "psnr": -0.01559340036262924,
+              "ssim": -0.0027979413668314614,
+              "lpips": 0.016405036052068073,
+              "loss": 0.004056476966531016
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.037315110210206726,
+                0.0027504658945503024
+              ],
+              "ssim": [
+                -0.003847762942314148,
+                -0.0017971495787302654
+              ],
+              "lpips": [
+                0.011299898227055868,
+                0.021997541189193726
+              ],
+              "loss": [
+                0.0022684904930608076,
+                0.005946360703638465
+              ]
+            },
+            "images_psnr_positive": 2,
+            "min_image_psnr_delta": -0.05863948859069268,
+            "max_image_lpips_delta": 0.028116464614868164,
+            "quality_guard": false,
+            "image_lpips_risk_count": 6
+          },
+          "STATE_TIME_TASK": {
+            "mean_delta": {
+              "psnr": -0.017658503648488495,
+              "ssim": -0.0009941806395848591,
+              "lpips": 5.6390961011250816e-05,
+              "loss": 0.0019611164105085934
+            },
+            "image_clusters": 6,
+            "ci95_descriptive": {
+              "psnr": [
+                -0.03342924280037174,
+                -0.0032995477601295655
+              ],
+              "ssim": [
+                -0.002188672994573911,
+                6.588796774546306e-05
+              ],
+              "lpips": [
+                -0.0005520681540171305,
+                0.0007454454898834229
+              ],
+              "loss": [
+                -0.00017497420495804494,
+                0.004150319631990289
+              ]
+            },
+            "images_psnr_positive": 3,
+            "min_image_psnr_delta": -0.045753518061104614,
+            "max_image_lpips_delta": 0.0014657676219940186,
+            "quality_guard": true,
+            "image_lpips_risk_count": 0
+          }
+        },
+        "indicator_lpips": {
+          "frozen_source_transfer": {
+            "mae": {
+              "STAGE_NOISE": 0.03151715905578048,
+              "R": 0.03180116865495114,
+              "P": 0.21219766611362234,
+              "I": 0.03218602636287441,
+              "PI": 0.22955815049164607,
+              "PIG": 0.09231332344148609
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -5.7327662921034666,
+                "images_better": 0,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.02122232228831722,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -6.283592727547676,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": -0.08181279604049929,
+                "images_better": 0,
+                "candidate": false
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": 0.5978651890870436,
+                "images_better": 6,
+                "candidate": true
+              }
+            }
+          },
+          "target_task_LOIO_diagnostic": {
+            "mae": {
+              "STAGE_NOISE": 0.02062349385685391,
+              "R": 0.02273015297749198,
+              "P": 0.02500459917042275,
+              "I": 0.025924951005051506,
+              "PI": 0.028834141351468612,
+              "PIG": 0.03063723996036043
+            },
+            "comparisons": {
+              "P_STAGE_NOISE": {
+                "relative_mae_reduction": -0.21243274025137326,
+                "images_better": 1,
+                "candidate": false
+              },
+              "I_STAGE_NOISE": {
+                "relative_mae_reduction": -0.2570591183528166,
+                "images_better": 1,
+                "candidate": false
+              },
+              "PI_STAGE_NOISE": {
+                "relative_mae_reduction": -0.39812107257888396,
+                "images_better": 2,
+                "candidate": false
+              },
+              "PI_P": {
+                "relative_mae_reduction": -0.153153512077719,
+                "images_better": 1,
+                "candidate": false
+              },
+              "PIG_PI": {
+                "relative_mae_reduction": -0.06253345944702393,
+                "images_better": 2,
+                "candidate": false
+              }
+            }
+          }
+        },
+        "single_pulse_opportunity": [
+          {
+            "source_t": 641,
+            "best_fixed": {
+              "actions": [
+                "C",
+                "C",
+                "C",
+                "C",
+                "C",
+                "C"
+              ],
+              "mean_delta": {
+                "psnr": 0.0,
+                "ssim": 0.0,
+                "lpips": 0.0,
+                "loss": 0.0
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 0,
+              "max_image_lpips_delta": 0.0,
+              "min_image_psnr_delta": 0.0
+            },
+            "oracle_headroom": 0.059462550061790985
+          },
+          {
+            "source_t": 319,
+            "best_fixed": {
+              "actions": [
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2",
+                "K24_G2"
+              ],
+              "mean_delta": {
+                "psnr": 0.13762041247624524,
+                "ssim": 0.004480309784412384,
+                "lpips": -0.0039158860842386884,
+                "loss": -0.03354757044419071
+              },
+              "quality_guard": true,
+              "images_psnr_positive": 6,
+              "max_image_lpips_delta": -0.00249326229095459,
+              "min_image_psnr_delta": 0.08184473420516625
+            },
+            "oracle_headroom": 0.0
+          }
+        ]
+      }
+    ]
+  }
+}
