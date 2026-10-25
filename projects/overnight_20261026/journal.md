@@ -18,3 +18,12 @@
 - 核实arXiv2511.18471当前v3已改题JAPS、TMLR2026；不能把v1 AdaPS公式与v3定理混用。AdamDPS主文Algorithm1/Fig9和loss/画质错位已读，正式方法全对照仍待。
 - 更新01/02/03报告、覆盖库存和恢复点；无新GPU、无新阈值扫描。
 - 下一块：A2—A15原报告/卡片及JAPS v3的数学和代码兼容性。
+
+## 第二轮定时探索（checkpoint UTC见progress）
+- 新增全文核读20份A1—A15细项及阶段A14—A22追加报告/操作卡，累计34份完整报告；文件级记录已更新。
+- 通过GitHub连接器核查JAPS官方condition_methods/gaussian_diffusion的具体方法与blob身份：真网络VJP、unit/model域、步长系数、q预条件单位不可混同。
+- 发现当前ZAPS D不限符号，M不自动PSD；仅作保证边界，不宣称现有M已经非PSD。
+- 推导原eta1 skip条件引导位移系数K=(1-a/b)/sqrt(a/b)，10000对alpha的代数最大绝对误差7.11e-15；此为单位契约，不是神经质量或分割端点证明。
+- 写JAPS_ZAPS_COMPATIBILITY并更新01/03/04；原A23的跨度/剂量约定与新定义需单独对照，不把旧负结果追改成bug。
+- 遵守轮询退避，A49尚无新回传，本轮不重查远端；无新GPU/阈值扫描。
+- 下一块A23—A35报告及SGPS/GSURE、自适应SDE的实际方法和成本；尚无新GPU卡。

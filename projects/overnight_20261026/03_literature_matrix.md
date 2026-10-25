@@ -35,3 +35,12 @@ ICLR2026、arXiv2603.16797v1。已读Algorithm1及式10—11、Fig9与后续loss
 这支持研究动机，不是当前ZAPS上的有效性证明；原文比较还有开发集调参，不能称无参数。
 下一轮需核对官方实现、时间坐标/幅度以及在已学习ζ/D上是否重复归一化。
 不能直接将Adam向量预条件搬来并当作本项目的新状态体系。
+
+## 第二轮：JAPS主文—代码—ZAPS兼容性已推进
+
+v3 §3.1—3.4、作者condition_methods.py的clean_likelihood/JacobianAwareBase/JAPS
+类与gaussian_diffusion.py的DDIM更新已逐段核对。详见JAPS_ZAPS_COMPATIBILITY.md，
+记录原Git blob，未执行作者代码。明确额外真实VJP相对当前stop-gradient ZAPS不是免费，
+unit/model域、CG/FFT边界、learned zeta/D和真实Jacobian均不能直接等同。
+推导出原eta1 skip条件系数K=(1-a/b)/sqrt(a/b)，并做0网络代数检查；
+它只约束跨度和作用单位的定义，不是更优网格、端点半群或算法新颖性证据。
