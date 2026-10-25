@@ -1,0 +1,319 @@
+{
+  "case": {
+    "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+    "image_id": "00951",
+    "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+    "dataset": "ffhq",
+    "task": "motion_deblur",
+    "image_index": 5,
+    "sigma": 0.05,
+    "sampling_seed": 1000,
+    "measurement_seed": 301951,
+    "mask_seed": 2001951,
+    "key": "ffhq_motion_deblur_00951_s1000"
+  },
+  "plan_sha256": "3a6d6a3fde1070abb8563c4fd8ad7a5a7670ffdbe83e6cd52bfabca07516e4f7",
+  "prior_recorded_nfe": 0,
+  "new_query_gammas": [
+    11.008
+  ],
+  "new_suffix": true,
+  "gates": {
+    "operator": {
+      "passed": true,
+      "vjp_relative_error": 2.4567407127494557e-07,
+      "increment_adjoint_relative_error": 4.837337438363013e-07,
+      "tolerance": 2e-05,
+      "score_calls": 0,
+      "scope": "IEEE operator-only gate; production sampling restores native policy"
+    },
+    "anchor": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "risk_replay": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "calls_rng_parameters": {
+      "passed": true
+    },
+    "decision_before_labels": {
+      "passed": true
+    }
+  },
+  "status": "complete",
+  "calls": [
+    218,
+    218,
+    124,
+    54,
+    14,
+    0
+  ],
+  "nfe": 6,
+  "seconds": 0.31743232533335686,
+  "choice": {
+    "fit": {
+      "usable": true,
+      "reason": "BOUNDED_QUADRATIC_PROPOSAL",
+      "gamma": 11.008,
+      "vertex": 11.007559668090439,
+      "fit_relative_error": 4.4057966642391255e-05,
+      "cap": 92.55344790812063,
+      "coefficients": [
+        0.024980015367447848,
+        -0.5499380193339966,
+        0.5249580567138145
+      ]
+    },
+    "gamma": 11.008,
+    "attempts": [
+      {
+        "gamma": 11.008,
+        "loss": 0.5746552204568485,
+        "objective": -2.3683615663892574,
+        "accepted": true
+      }
+    ],
+    "reason": "ACTUAL_LOCAL_CHECK_ACCEPTED"
+  },
+  "gamma": 11.008,
+  "normalization": {
+    "loss_center": 0.675511061106538,
+    "risk_center": 0.003726279031713199,
+    "loss_scale": 0.040005609189288305,
+    "risk_scale": 0.0011345731997592385
+  },
+  "response_geometry": {
+    "resolved": true,
+    "adjacent_action_increment_cosine": 0.9988844115402007,
+    "normalized_second_difference": 0.02371698923266074,
+    "scope": "Same t/same noise action response; not adjacent denoising-time curvature."
+  },
+  "source_state_readout": {
+    "ISO": {
+      "uncertainty_noise_ratio": 0.00023852938982608352,
+      "whitened_innovation": 1.0962879873140061,
+      "raw_residual_noise_ratio": 1.1803478966892422,
+      "posterior_shift_RMS": 0.06623946712235579,
+      "projected_prior_eigenvalues": [
+        0.4383756579328896,
+        0.4383756579328896
+      ]
+    },
+    "STATE": {
+      "uncertainty_noise_ratio": 0.000248215035737501,
+      "whitened_innovation": 1.0979148929617857,
+      "raw_residual_noise_ratio": 1.1803478966892422,
+      "posterior_shift_RMS": 0.0657945983206062,
+      "projected_prior_eigenvalues": [
+        0.2501932346368771,
+        0.626558081228902
+      ]
+    }
+  },
+  "query_readouts": {
+    "0.0": {
+      "loss": 0.6964418037279781,
+      "risks": {
+        "ISO": 0.0043824352443032595,
+        "STATE": 0.004323932393237284
+      }
+    },
+    "0.5": {
+      "loss": 0.6857427442679955,
+      "risks": {
+        "ISO": 0.004079627523354377,
+        "STATE": 0.004017437644790682
+      }
+    },
+    "1.0": {
+      "loss": 0.675511061106538,
+      "risks": {
+        "ISO": 0.0037921456390926614,
+        "STATE": 0.003726279031713199
+      }
+    },
+    "1.5": {
+      "loss": 0.6657432848962145,
+      "risks": {
+        "ISO": 0.0035198264998356267,
+        "STATE": 0.003450305908665198
+      }
+    },
+    "2.0": {
+      "loss": 0.6564361945386898,
+      "risks": {
+        "ISO": 0.0032624964211558447,
+        "STATE": 0.0031893591934780453
+      }
+    },
+    "11.778": {
+      "loss": 0.5761716396408054,
+      "risks": {
+        "ISO": 0.0014364419811722737,
+        "STATE": 0.001307155626974662
+      }
+    },
+    "10.234": {
+      "loss": 0.5746153818799472,
+      "risks": {
+        "ISO": 0.0012848759272266568,
+        "STATE": 0.0011622976554358576
+      }
+    },
+    "10.34": {
+      "loss": 0.5745342323577868,
+      "risks": {
+        "ISO": 0.0012895885484353632,
+        "STATE": 0.001166521930999393
+      }
+    },
+    "11.008": {
+      "loss": 0.5746552204568485,
+      "risks": {
+        "STATE": 0.0012124271564721058
+      }
+    }
+  },
+  "model_agreement": {
+    "predicted_decrease": 2.5017797719752415,
+    "actual_decrease": 2.3683615663892574,
+    "actual_over_predicted": 0.9466706833748817
+  },
+  "evaluation": {
+    "C": {
+      "output": "G1",
+      "metrics": {
+        "loss": 0.6343158622534797,
+        "psnr": 20.827228450104624,
+        "ssim": 0.6057015061378479,
+        "lpips": 0.2673739194869995
+      },
+      "informative_loss": 0.6343158622223328,
+      "delta": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0,
+        "loss": 0.0
+      }
+    },
+    "FIXED8": {
+      "output": "G8",
+      "metrics": {
+        "loss": 0.5742173449353607,
+        "psnr": 21.355262825912433,
+        "ssim": 0.6278767585754395,
+        "lpips": 0.25312191247940063
+      },
+      "informative_loss": 0.5742173449562469,
+      "delta": {
+        "psnr": 0.5280343758078097,
+        "ssim": 0.022175252437591553,
+        "lpips": -0.014252007007598877,
+        "loss": -0.060098517318118994
+      }
+    },
+    "TASK_FIXED": {
+      "output": "G8.327",
+      "metrics": {
+        "loss": 0.5727699574393061,
+        "psnr": 21.37358921492709,
+        "ssim": 0.6286217570304871,
+        "lpips": 0.25252437591552734
+      },
+      "informative_loss": 0.5727699574235359,
+      "delta": {
+        "psnr": 0.5463607648224666,
+        "ssim": 0.02292025089263916,
+        "lpips": -0.014849543571472168,
+        "loss": -0.061545904814173547
+      }
+    },
+    "PHYSICAL": {
+      "output": "G11.778",
+      "metrics": {
+        "loss": 0.5659064621630691,
+        "psnr": 21.527900201160133,
+        "ssim": 0.6341544985771179,
+        "lpips": 0.2473878264427185
+      },
+      "informative_loss": 0.5659064622317689,
+      "delta": {
+        "psnr": 0.7006717510555092,
+        "ssim": 0.02845299243927002,
+        "lpips": -0.019986093044281006,
+        "loss": -0.06840940009041063
+      }
+    },
+    "ISO": {
+      "output": "G10.234",
+      "metrics": {
+        "loss": 0.5670300876837435,
+        "psnr": 21.468965728512952,
+        "ssim": 0.6323398351669312,
+        "lpips": 0.24928230047225952
+      },
+      "informative_loss": 0.567030087643286,
+      "delta": {
+        "psnr": 0.6417372784083284,
+        "ssim": 0.026638329029083252,
+        "lpips": -0.01809161901473999,
+        "loss": -0.06728577456973617
+      }
+    },
+    "STATE": {
+      "output": "G10.34",
+      "metrics": {
+        "loss": 0.5668502787451666,
+        "psnr": 21.47407755484764,
+        "ssim": 0.63254314661026,
+        "lpips": 0.24912987649440765
+      },
+      "informative_loss": 0.5668502787275678,
+      "delta": {
+        "psnr": 0.6468491047430156,
+        "ssim": 0.02684164047241211,
+        "lpips": -0.018244042992591858,
+        "loss": -0.06746558350831311
+      }
+    },
+    "SHUFFLE": {
+      "output": "G8.537",
+      "metrics": {
+        "loss": 0.571911479663126,
+        "psnr": 21.385544680857667,
+        "ssim": 0.6291155219078064,
+        "lpips": 0.25213199853897095
+      },
+      "informative_loss": 0.5719114797312734,
+      "delta": {
+        "psnr": 0.5583162307530429,
+        "ssim": 0.023414015769958496,
+        "lpips": -0.015241920948028564,
+        "loss": -0.062404382590353635
+      }
+    },
+    "MIX": {
+      "metrics": {
+        "loss": 0.5660594854004726,
+        "psnr": 21.501384887089152,
+        "ssim": 0.6333920955657959,
+        "lpips": 0.2482633739709854
+      },
+      "delta": {
+        "psnr": 0.6741564369845285,
+        "ssim": 0.027690589427947998,
+        "lpips": -0.0191105455160141,
+        "loss": -0.06825637685300712
+      },
+      "output": "MIX",
+      "informative_loss": 0.5660594854565821
+    }
+  },
+  "artifacts": {
+    "outputs.pt": "1bfc6ff1b3c36f3973d416d6e2b7a2cdae6610a6966cc9c3848f13db582b32bf",
+    "decision_before_labels.json": "ebffcdd0153e55da5b546466c7e7d51b355249f21296955cdd82ad1037b02953"
+  }
+}
