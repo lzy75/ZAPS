@@ -1,0 +1,123 @@
+{
+  "case": {
+    "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+    "image_id": "00446",
+    "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+    "dataset": "ffhq",
+    "task": "inpainting",
+    "image_index": 1,
+    "sigma": 0.05,
+    "sampling_seed": 1000,
+    "measurement_seed": 201446,
+    "mask_seed": 2001446,
+    "key": "ffhq_inpainting_00446_s1000"
+  },
+  "gamma": {
+    "C": 1.0,
+    "LEGACY": 31.469,
+    "MATCHED_FIXED": 30.209,
+    "LOCAL": 23.852,
+    "TRUST": 23.852
+  },
+  "decision": {
+    "gamma": {
+      "LOCAL": 23.852,
+      "TRUST": 23.852
+    },
+    "normalization": {
+      "loss_center": 1.6033326596570416,
+      "risk_center": 0.00684281696313246,
+      "loss_scale": 0.06303274260706804,
+      "risk_scale": 0.0005916132887465297
+    },
+    "readouts": [
+      {
+        "gamma": 1.0,
+        "objective": 0.0,
+        "predicted_decrease": 0.0,
+        "actual_decrease": -0.0,
+        "rho": null,
+        "physically_feasible": false,
+        "reliable": false
+      },
+      {
+        "gamma": 8.617,
+        "objective": -3.3213204931754503,
+        "predicted_decrease": 3.332473210982453,
+        "actual_decrease": 3.3213204931754503,
+        "rho": 0.9966533210919002,
+        "physically_feasible": true,
+        "reliable": true
+      },
+      {
+        "gamma": 16.235,
+        "objective": -5.611758194633674,
+        "predicted_decrease": 5.713086531380204,
+        "actual_decrease": 5.611758194633674,
+        "rho": 0.9822638190074724,
+        "physically_feasible": true,
+        "reliable": true
+      },
+      {
+        "gamma": 23.852,
+        "objective": -6.716904045679097,
+        "predicted_decrease": 7.14121496425957,
+        "actual_decrease": 6.716904045679097,
+        "rho": 0.9405828110897,
+        "physically_feasible": true,
+        "reliable": true
+      },
+      {
+        "gamma": 31.469,
+        "objective": -6.42283712496622,
+        "predicted_decrease": 7.617233507095536,
+        "actual_decrease": 6.42283712496622,
+        "rho": 0.8431981399786782,
+        "physically_feasible": true,
+        "reliable": true
+      }
+    ],
+    "coefficients": [
+      0.00820519996619883,
+      -0.5164140964013688,
+      0.5082088422015795
+    ],
+    "rho_min": 0.75,
+    "reason": "IDENTICAL_PROBES_WITH_OR_WITHOUT_MODEL_AGREEMENT_GATE"
+  },
+  "geometry": {
+    "scales": [
+      {
+        "gammas": [
+          1.0,
+          16.235,
+          31.469
+        ],
+        "input_displacement_RMS": [
+          0.07199982654717225,
+          0.0719951005985968
+        ],
+        "resolved": true,
+        "cosine": 0.8885651593856286,
+        "normalized_slope_change": 0.24826508611646278
+      },
+      {
+        "gammas": [
+          8.617,
+          16.235,
+          23.852
+        ],
+        "input_displacement_RMS": [
+          0.03600227624787385,
+          0.0359975502992984
+        ],
+        "resolved": true,
+        "cosine": 0.9667314416810374,
+        "normalized_slope_change": 0.13466219458864345
+      }
+    ],
+    "scope": "Same t218/same coupled noise action response; geometry logged, not used by A48 TRUST. TRUST ablates rho only. Not adjacent-time denoising curvature or a final-quality certificate."
+  },
+  "plan_sha256": "c1d9a7b5b88b2cac206ac10adecae7a38d5e62486435fec9a990c2509a99ff39",
+  "GT_used": false
+}
