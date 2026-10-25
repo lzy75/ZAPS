@@ -63,6 +63,7 @@ class BoundaryTests(unittest.TestCase):
         try:import torch
         except ImportError:self.skipTest('Torch absent on Mac; mandatory without skips on server')
         from utils.diag_high_noise_boundary import a40
+        import modules.main_single  # Complete lazy dependency imports before measuring RNG invariance.
         case=dict(dataset='ffhq',task='gaussian_deblur',image_id='toy',image_sha256='abc',measurement_seed=123,sigma=.05)
         mean=torch.full((1,3,256,256),.2);standard=torch.ones_like(mean)
         with tempfile.TemporaryDirectory() as temp:
