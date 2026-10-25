@@ -1,0 +1,297 @@
+{
+  "case": {
+    "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+    "image_id": "00951",
+    "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+    "dataset": "ffhq",
+    "task": "super_resolution",
+    "image_index": 5,
+    "sigma": 0.05,
+    "sampling_seed": 1000,
+    "measurement_seed": 1951,
+    "key": "ffhq_super_resolution_00951_s1000"
+  },
+  "phase": "choose",
+  "prior_recorded_nfe": 0,
+  "plan_sha256": "ffd1066fce5de2b016c861266fb04f74bd61363351842376027b07fe2a59238a",
+  "source_record_sha256": "cc6aca4293a7342c3781eefe0ee98805af0568c910ad8a334a0d4eaac767cee6",
+  "gates": {
+    "operator": {
+      "passed": true,
+      "vjp_relative_error": 0.0,
+      "increment_adjoint_relative_error": 1.0595443314340407e-08,
+      "tolerance": 2e-05,
+      "score_calls": 0,
+      "scope": "IEEE operator-only gate; production sampling restores native policy"
+    },
+    "C_replay": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "raw_repeat": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "A41_readouts": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "calls_rng_parameters": {
+      "passed": true
+    },
+    "no_FINAL_labels_used": {
+      "passed": true
+    }
+  },
+  "new_query_gammas": [
+    171.59,
+    113.942,
+    126.204
+  ],
+  "status": "complete",
+  "calls": [
+    999,
+    989,
+    978,
+    967,
+    956,
+    944,
+    931,
+    917,
+    903,
+    888,
+    872,
+    854,
+    835,
+    815,
+    793,
+    769,
+    742,
+    712,
+    679,
+    641,
+    597,
+    546,
+    484,
+    409,
+    319,
+    218,
+    124,
+    54,
+    14,
+    0,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218,
+    218
+  ],
+  "nfe": 47,
+  "seconds": 3.0411762138828635,
+  "rank": 2,
+  "covariance": {
+    "usable": true,
+    "reason": "USABLE_PROJECTED_COVARIANCE",
+    "rank": 2,
+    "relative_scale_spread": 0.000125232119799208,
+    "relative_skew": 0.02363404017627688,
+    "eigenvalues_by_scale": [
+      [
+        0.12461062247749102,
+        0.6472573857045185
+      ],
+      [
+        0.12468233832063268,
+        0.647220913292039
+      ]
+    ],
+    "input_span_relative_error": 3.640952161987343e-08,
+    "PSD_negative_tolerance": 6.472573857045185e-07,
+    "clipped_tiny_negative_eigenvalues": 0
+  },
+  "budget": {
+    "posterior_noise_RMS": 0.506143909183549,
+    "q_RMS": 0.0012534985579974916,
+    "cap": 403.7849951675508,
+    "quantized_cap": 403.784,
+    "q_resolved": true
+  },
+  "state_readout": {
+    "ISO": {
+      "uncertainty_noise_ratio": 0.0003393132199863509,
+      "whitened_innovation": 1.843649107738259,
+      "raw_residual_noise_ratio": 2.371815276080488,
+      "posterior_shift_RMS": 0.16783066943283106,
+      "projected_prior_eigenvalues": [
+        0.3859340040910047,
+        0.3859340040910047
+      ]
+    },
+    "STATE": {
+      "uncertainty_noise_ratio": 0.0003644199142059391,
+      "whitened_innovation": 2.018030750500422,
+      "raw_residual_noise_ratio": 2.371815276080488,
+      "posterior_shift_RMS": 0.16407872359545717,
+      "projected_prior_eigenvalues": [
+        0.124610622477491,
+        0.6472573857045183
+      ]
+    }
+  },
+  "choices": {
+    "PHYSICAL": {
+      "fit": {
+        "usable": true,
+        "reason": "BOUNDED_QUADRATIC_PROPOSAL",
+        "gamma": 171.59,
+        "vertex": 171.5895787573188,
+        "fit_relative_error": 8.93621891588353e-07,
+        "cap": 403.7849951675508,
+        "coefficients": [
+          7.844492453370609e-05,
+          -0.02692066311277658,
+          2.812472783434725
+        ]
+      },
+      "gamma": 171.59,
+      "attempts": [
+        {
+          "gamma": 171.59,
+          "loss": 0.6213068992841353,
+          "objective": 0.6213068992841353,
+          "accepted": true
+        }
+      ],
+      "reason": "ACTUAL_LOCAL_CHECK_ACCEPTED"
+    },
+    "ISO": {
+      "fit": {
+        "usable": true,
+        "reason": "BOUNDED_QUADRATIC_PROPOSAL",
+        "gamma": 113.942,
+        "vertex": 113.94173935658824,
+        "fit_relative_error": 8.61956997766498e-07,
+        "cap": 403.7849951675508,
+        "coefficients": [
+          1.6947896117566096e-06,
+          -0.00038621455241405,
+          0.02816258474313788
+        ]
+      },
+      "gamma": 113.942,
+      "attempts": [
+        {
+          "gamma": 113.942,
+          "loss": 0.7512118981485348,
+          "objective": 0.006524287513977053,
+          "accepted": true
+        }
+      ],
+      "reason": "ACTUAL_LOCAL_CHECK_ACCEPTED"
+    },
+    "STATE": {
+      "fit": {
+        "usable": true,
+        "reason": "BOUNDED_QUADRATIC_PROPOSAL",
+        "gamma": 126.204,
+        "vertex": 126.20363397064713,
+        "fit_relative_error": 1.0948369868059045e-07,
+        "cap": 403.7849951675508,
+        "coefficients": [
+          1.7061138133900607e-06,
+          -0.0004306355264346884,
+          0.026919638464715442
+        ]
+      },
+      "gamma": 126.204,
+      "attempts": [
+        {
+          "gamma": 126.204,
+          "loss": 0.6720162880663307,
+          "objective": 0.0026987466853889922,
+          "accepted": true
+        }
+      ],
+      "reason": "ACTUAL_LOCAL_CHECK_ACCEPTED"
+    }
+  },
+  "gamma": {
+    "PHYSICAL": 171.59,
+    "ISO": 113.942,
+    "STATE": 126.204
+  },
+  "query_readouts": {
+    "0.0": {
+      "loss": 2.8124728028627484,
+      "risks": {
+        "ISO": 0.028162585057483914,
+        "STATE": 0.026919638424268547
+      }
+    },
+    "0.5": {
+      "loss": 2.7990320272458784,
+      "risks": {
+        "ISO": 0.027969900546063683,
+        "STATE": 0.026704747306627197
+      }
+    },
+    "1.0": {
+      "loss": 2.7856305562691066,
+      "risks": {
+        "ISO": 0.027778064949069772,
+        "STATE": 0.026490709064748322
+      }
+    },
+    "1.5": {
+      "loss": 2.772268337679186,
+      "risks": {
+        "ISO": 0.027587076851101136,
+        "STATE": 0.026277523837595573
+      }
+    },
+    "2.0": {
+      "loss": 2.758945214486825,
+      "risks": {
+        "ISO": 0.027396934471988838,
+        "STATE": 0.026065191911764606
+      }
+    },
+    "171.59": {
+      "loss": 0.6213068992841353,
+      "risks": {
+        "ISO": 0.014091403949321374,
+        "STATE": 0.009588461163726018
+      }
+    },
+    "113.942": {
+      "loss": 0.7512118981485348,
+      "risks": {
+        "ISO": 0.006524287513977053,
+        "STATE": 0.002172501454324428
+      }
+    },
+    "126.204": {
+      "loss": 0.6720162880663307,
+      "risks": {
+        "ISO": 0.007126530297710436,
+        "STATE": 0.0026987466853889922
+      }
+    }
+  },
+  "artifacts": {
+    "probes.pt": "cfe0c5482f5ff4e1caa49110bfafa4afea8ca227637761bbff4bc6e232d5b936",
+    "decisions_before_labels.json": "eccd27f37026a2b51ef77f41f435035ece28e814852ca7a1c106549b8e9c4533"
+  }
+}
