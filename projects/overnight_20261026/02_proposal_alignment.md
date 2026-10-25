@@ -2,6 +2,7 @@
 
 当前判断：原完整开题尚未被证明；可用的复现/诊断材料与尚缺的状态闭环应分开。
 最新可读总览、两机制和10/31停止分支见[综合报告](00_integrated_report.md)。
+供汇报/导师审阅的一页式主张表见[PROPOSAL_EVIDENCE_MATRIX.md](PROPOSAL_EVIDENCE_MATRIX.md)。
 原件：/Users/liziyue.22/Desktop/论文文档/研究生学位论文开题报告-李子玥-2240502010.pdf
 便于定位的已提取文本：/Users/liziyue.22/ZAPS-deliverables/analysis/proposal_review_20261020/proposal_text.txt
 已核对PDF物理第3/7/10/11/12相关页；第10—12页另作视觉核对，详见下方原件复核记录。

@@ -9,6 +9,7 @@
 
 主要成果文件：
 0. 00_integrated_report.md：当前可读的总判断、阶段结论、开题缺口、两机制及收口分支。
+   PROPOSAL_EVIDENCE_MATRIX.md：带来源、证据等级和判定实验的逐项开题主张表。
 1. 01_evidence_map.md：阶段脉络、证据等级、与论文可用结论。
 2. 02_proposal_alignment.md：与原开题逐项比较、偏离及最低缺口。
 3. 03_literature_matrix.md：核实主文/方法/假设/开源/成本/新颖性边界。

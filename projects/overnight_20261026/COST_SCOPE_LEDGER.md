@@ -7,6 +7,11 @@
 3. **等前向与等实际成本**：VJP、训练反向、CG算子、SVD、LPIPS、显存与walltime另列。
    同300次前向不意味着同时间或同内存。所有拒绝和最终去噪由真实hook计入，不能照抄变量名NFE。
 
+A50r2还有原自定义checkpoint的具体开销：`DPS/guided_diffusion/nn.py`的backward会
+重算block并在内部请求输入和参数梯度。外层只返回输入VJP、不累计parameter.grad、不更新UNet权重，
+但内部临时参数梯度/重算并非免费。它们不等于外层新增完整UNet调用，须由反向次数、峰值显存和
+实测walltime反映；不能因前向hook计数相同宣称总计算相同。这也是r2保留requires_grad兼容性的原因。
+
 ## 有明确来源的部分账本
 
 以下只展示可定位的重要阶段，不相加为“完整历史总成本”。样本和方法变化见01报告。

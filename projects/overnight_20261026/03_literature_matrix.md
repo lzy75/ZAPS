@@ -94,3 +94,9 @@ DiffStateGrad §3/C.1—2及官方helper、DTM §3/A.1/B.2/C.2已核对。
 Jacobian协方差关系是三层，不能合并成真实网络上的保证。当前A的双投影只能给正常
 分支的几何位移界；有限幂迭代/单次VJP不提供通用安全h或终局画质保证。
 详见PROJECTION_SCOPE.md及对应零网络检查；没有扩大到第三条谱扫描机制。
+
+## DTM正式PDF补齐
+
+已从PMLR官方链接取回正式26页PDF，Algorithm1（物理第4页）和A.1（第14页）均全文及视觉核对。
+先前HTML中缺失的算法行已补齐；源PDF身份和读页范围见literature_sources.json。
+未读全26页、未执行作者实现；伪代码和当前源码的不同调用计数均保留原范围。
