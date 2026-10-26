@@ -21,3 +21,17 @@
 - 下一包A58：两blur等价目标结构预条件计量先行，失败停止，不再以增加旧CG迭代或正则救分。
 
 - A57代码e281433已真实推送确认（ea2b381→e281433），命令2已补入RUN_COMMANDS；没有模型运行结果。
+
+## A58结构计量起步：约01:42—01:49
+
+- 已建立独立卡、blur_pcg.py和两项真实Torch测试（本机仅AST，未执行Torch）。
+- 原目标B=.25HHᵀ+eta I仍使用零边界和原核系数；循环FFT仅作SPD预条件器，float64算术独立披露。128cap和真实残差1e-5不改，失败不加预算。
+- 24solve初筛（32CG/64CG/64PCG ×2task×2state×2RHS），8项PCG须全部通过才允许NN质量阶段；不以合成RHS通过声称全轨迹已解决。
+- 还缺A58 driver/归档/session/launcher，不是可运行包，未提供虚假第3条命令。下一轮优先补全。
+
+## A58完整包：约01:47—01:52
+
+- driver/session/launcher/轻量归档已完成。24项synthetic solve先行；8项PCG全通过才允许C_IEEE/OLD_U/U_PCG/V_PCG各30点质量，最多1200F/600输入VJP。数值否定可直接归档，0NN，不反复重试。
+- 原零边界目标不变，FFT只用在P^{-1}，原float32核提升float64，未再生成核、未加旧CG预算或改变eta。真残差每次认证；真实质量步失败保留原q fallback，完整报告覆盖。
+- source C_IEEE端点回放门控；同噪声，所有质量端点冻结后才GT。区分CG64与PCG64来分离算术精度/预条件因素，算子、FFT、输入VJP和每臂计时都单列。
+- Mac一项绑定隔离设计检查通过，AST/CLI/shell语法通过。两项Torch数值检查和实际模型/CUDA均未运行，服务器入口强制而不skip。
