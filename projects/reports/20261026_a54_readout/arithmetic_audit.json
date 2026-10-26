@@ -1,0 +1,110 @@
+{
+  "source_sha256": "6e090410f393beb787092de5dc0a733712e139dd0f9b8b16011b2e7cc5a02678",
+  "checked_mean_effects": 36,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "means": {
+        "STATE_GAIN": {
+          "psnr": 28.471714571343778,
+          "ssim": 0.8501645565032959,
+          "lpips": 0.17216864228248596
+        },
+        "C_NATIVE": {
+          "psnr": 20.375059225841127,
+          "ssim": 0.6247302651405334,
+          "lpips": 0.299045604467392
+        },
+        "C_IEEE": {
+          "psnr": 20.379274671342966,
+          "ssim": 0.624758529663086,
+          "lpips": 0.29932319521903994
+        },
+        "A44_TASK_FIXED": {
+          "psnr": 26.324355202173358,
+          "ssim": 0.7878870725631714,
+          "lpips": 0.21635666787624358
+        },
+        "TIME_GAIN": {
+          "psnr": 28.49914481205974,
+          "ssim": 0.8508184671401977,
+          "lpips": 0.17282594740390778
+        },
+        "SHUFFLE_GAIN": {
+          "psnr": 28.47753688216709,
+          "ssim": 0.850074851512909,
+          "lpips": 0.17378309965133668
+        },
+        "CONST_GAIN": {
+          "psnr": 21.67819599953852,
+          "ssim": 0.6481433868408203,
+          "lpips": 0.31864861845970155
+        }
+      },
+      "current_gain_increment_supported": false,
+      "inpainting_regions": {}
+    },
+    {
+      "task": "inpainting",
+      "means": {
+        "STATE_GAIN": {
+          "psnr": 31.04589928097397,
+          "ssim": 0.9076008081436158,
+          "lpips": 0.10011986792087554
+        },
+        "C_NATIVE": {
+          "psnr": 22.692935082876733,
+          "ssim": 0.695356297492981,
+          "lpips": 0.25022178888320923
+        },
+        "C_IEEE": {
+          "psnr": 22.702573285118504,
+          "ssim": 0.6957298994064331,
+          "lpips": 0.2502074360847473
+        },
+        "A44_TASK_FIXED": {
+          "psnr": 25.61959671672211,
+          "ssim": 0.782480525970459,
+          "lpips": 0.1840362012386322
+        },
+        "TIME_GAIN": {
+          "psnr": 31.116780129230882,
+          "ssim": 0.9082062602043152,
+          "lpips": 0.09991641044616699
+        },
+        "SHUFFLE_GAIN": {
+          "psnr": 31.119709418269853,
+          "ssim": 0.9081153631210327,
+          "lpips": 0.10106814950704575
+        },
+        "CONST_GAIN": {
+          "psnr": 18.734153090983753,
+          "ssim": 0.5439584076404571,
+          "lpips": 0.38142430782318115
+        }
+      },
+      "current_gain_increment_supported": false,
+      "inpainting_regions": {
+        "observed_unit_MSE": {
+          "mean": {
+            "STATE_GAIN": 0.0004096087568462275,
+            "TIME_GAIN": 0.00039689525125260203,
+            "SHUFFLE_GAIN": 0.00040071999615241724,
+            "C_IEEE": 0.0048846764209593265
+          },
+          "relative_mean_reduction_vs_C_IEEE": 0.9161441369813843
+        },
+        "unobserved_unit_MSE": {
+          "mean": {
+            "STATE_GAIN": 0.0009618320124743343,
+            "TIME_GAIN": 0.0009495458309717256,
+            "SHUFFLE_GAIN": 0.0009427897256400642,
+            "C_IEEE": 0.005733176538877523
+          },
+          "relative_mean_reduction_vs_C_IEEE": 0.8322340144330096
+        }
+      }
+    }
+  ],
+  "limits": "Summary arithmetic only. Five reused images, one seed, two tasks. Every gain arm retains CURRENT u; no test here of replacing current direction. 900 is completed control forward count, not all historical/interrupted execution costs. No manifest, PT, actual model or operator gate rerun."
+}

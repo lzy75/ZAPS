@@ -7,16 +7,15 @@
     "A51",
     "A51b",
     "A52",
-    "A53"
+    "A53",
+    "A54_user_reported_summary_arithmetic_checked"
   ],
-  "implemented_not_run": [
-    "A54"
-  ],
+  "implemented_not_run": [],
   "confirmed_current_chain_cost": {
-    "UNet_forward": 6432,
-    "input_backward_attempts": 2095,
+    "UNet_forward": 7332,
+    "input_backward_attempts": 2995,
     "operator_only_solves": 64,
-    "scope": "仅今日已收到完成结果的A49-A53主链；不含未知失败尝试、全部历史、复用前270、算子/内部重算/LPIPS等成本"
+    "scope": "今日已收到完成摘要的A49-A54主链有效记录调用；不含未知失败/隔离中断尝试、全部历史、复用前270、算子/内部重算/LPIPS等成本。A54目前只复核用户摘要。"
   },
   "norm_candidate": [
     {
@@ -112,8 +111,8 @@
     },
     {
       "item": "当前响应范数比独立贡献",
-      "status": "pending_A54",
-      "limit": "不能把现有画质增益全部算成实时g收益"
+      "status": "not_supported_in_A54",
+      "limit": "当前u在TIME/SHUFFLE中也保留；不能否定全部实时几何，也不能把大画质增益全部归给当前g。"
     },
     {
       "item": "新机制未用图确认/二seed/噪声边界",
@@ -127,8 +126,8 @@
     },
     {
       "item": "原曲率指标、h/采样位置/联合调度",
-      "status": "not_established",
-      "limit": "只有部分旧探索和B合成契约，无新机制真实模型闭环"
+      "status": "curvature_for_fixed_grid_guidance_unconfirmed_h_paused_by_user",
+      "limit": "用户10/26晚明确暂不考虑步长判断选择；固定全部时间点，稳定性仅作引导候选诊断。"
     },
     {
       "item": "全方法质量可比的NFE/实际成本节省",
@@ -137,16 +136,16 @@
     }
   ],
   "next": {
-    "experiment": "A54_current_norm_gain",
-    "new_forward_budget": 900,
-    "new_backward_max": 900,
-    "primary": "在同当前u方向且c=1时检验当前g对TIME_GAIN/SHUFFLE_GAIN的增量；CONST仅作配套参照",
-    "state": "代码与本机基础检查完成，真实Torch/GPU结果未运行"
+    "state": "planning_not_implemented",
+    "scope": "Fixed grid only; freeze and validate guidance mechanism across unused FFHQ/images and ImageNet. Isolate current direction from gain. No h/position selection.",
+    "limits": "Additional cards/drivers not yet ready; no fake runnable command."
   },
   "evidence": {
     "A53_commit": "5f3008e473598963f0ed1893a4ac5745a5546dff",
     "A53_audit": "20261026_a49_a50r2/A53_cached_audit.json",
     "A52_commit": "de6af1fece6ba6745f4c9066bc581b8662ce6624",
-    "historical_synthesis": "overnight_20261026/00_integrated_report.md (07:40冻结快照，科学状态由本报告更新)"
+    "historical_synthesis": "overnight_20261026/00_integrated_report.md (07:40冻结快照，科学状态由本报告更新)",
+    "A54_user_summary": "20261026_a54_readout/user_summary.json",
+    "A54_arithmetic_audit": "20261026_a54_readout/arithmetic_audit.json"
   }
 }
