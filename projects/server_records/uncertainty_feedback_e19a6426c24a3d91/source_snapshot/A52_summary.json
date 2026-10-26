@@ -1,0 +1,461 @@
+{
+  "experiment": "A52_feedback_vector_constraint",
+  "classification": "DEVELOPMENT_VECTOR_CONSTRAINT_ABLATION_ONLY",
+  "completed_cases": 4,
+  "planned_cases": 4,
+  "image_clusters": 2,
+  "method_nfe": 0,
+  "diagnostic_nfe": 480,
+  "planned_diagnostic_nfe": 480,
+  "backward_attempts": 240,
+  "backward_completed": 240,
+  "partial_attempts": 0,
+  "scientific_forward_nfe": 300,
+  "arm_seconds": {
+    "PROX_Q": 12.809192314743996,
+    "ALIGN_Q": 19.93719517812133,
+    "FULL_PROX": 14.11439082864672,
+    "FULL_ALIGN": 23.007258493453264
+  },
+  "arm_peak_memory_bytes": {
+    "PROX_Q": 2384756224,
+    "ALIGN_Q": 2412020736,
+    "FULL_PROX": 2384756224,
+    "FULL_ALIGN": 2411234304
+  },
+  "groups": [
+    {
+      "task": "super_resolution",
+      "mean_deltas": {
+        "FULL_PROX": {
+          "C_NATIVE": {
+            "psnr": 6.7910550887980925,
+            "ssim": 0.11698395013809204,
+            "lpips": 0.004944115877151489
+          },
+          "C_IEEE": {
+            "psnr": 6.782143224974888,
+            "ssim": 0.11696749925613403,
+            "lpips": 0.005213245749473572
+          },
+          "PROX_Q": {
+            "psnr": 0.07227527481046003,
+            "ssim": 0.0010730326175689697,
+            "lpips": -0.024577096104621887
+          },
+          "ALIGN_Q": {
+            "psnr": 0.5922094562611342,
+            "ssim": -0.044427305459976196,
+            "lpips": 0.07668646425008774
+          },
+          "FULL_PROX": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "TIME": {
+            "psnr": 0.42645834159741725,
+            "ssim": -0.04635441303253174,
+            "lpips": 0.07801442593336105
+          },
+          "SHUFFLE": {
+            "psnr": 0.7891186886615245,
+            "ssim": -0.039072632789611816,
+            "lpips": 0.07374827563762665
+          }
+        },
+        "FULL_ALIGN": {
+          "C_NATIVE": {
+            "psnr": 7.766814057261529,
+            "ssim": 0.192317396402359,
+            "lpips": -0.08057880401611328
+          },
+          "C_IEEE": {
+            "psnr": 7.7579021934383245,
+            "ssim": 0.192300945520401,
+            "lpips": -0.0803096741437912
+          },
+          "PROX_Q": {
+            "psnr": 1.0480342432738965,
+            "ssim": 0.07640647888183594,
+            "lpips": -0.11010001599788666
+          },
+          "ALIGN_Q": {
+            "psnr": 1.5679684247245707,
+            "ssim": 0.03090614080429077,
+            "lpips": -0.008836455643177032
+          },
+          "FULL_PROX": {
+            "psnr": 0.9757589684634365,
+            "ssim": 0.07533344626426697,
+            "lpips": -0.08552291989326477
+          },
+          "TIME": {
+            "psnr": 1.4022173100608537,
+            "ssim": 0.02897903323173523,
+            "lpips": -0.007508493959903717
+          },
+          "SHUFFLE": {
+            "psnr": 1.764877657124961,
+            "ssim": 0.03626081347465515,
+            "lpips": -0.011774644255638123
+          }
+        }
+      },
+      "resolved_states": {
+        "PROX_Q": 60,
+        "ALIGN_Q": 60,
+        "FULL_PROX": 60,
+        "FULL_ALIGN": 60
+      },
+      "positive_images": {
+        "FULL_PROX": 2,
+        "FULL_ALIGN": 2
+      },
+      "per_image": [
+        {
+          "image_id": "00446",
+          "metrics": {
+            "PROX_Q": {
+              "psnr": 27.28827951853291,
+              "ssim": 0.7625685334205627,
+              "lpips": 0.2972146272659302
+            },
+            "ALIGN_Q": {
+              "psnr": 26.623077340465017,
+              "ssim": 0.7748937606811523,
+              "lpips": 0.24221232533454895
+            },
+            "FULL_PROX": {
+              "psnr": 27.3217669161731,
+              "ssim": 0.7619421482086182,
+              "lpips": 0.2710486352443695
+            },
+            "FULL_ALIGN": {
+              "psnr": 28.080999658966146,
+              "ssim": 0.8068150877952576,
+              "lpips": 0.23806610703468323
+            },
+            "C_NATIVE": {
+              "psnr": 20.120992272230023,
+              "ssim": 0.6009662747383118,
+              "lpips": 0.31426164507865906
+            },
+            "C_IEEE": {
+              "psnr": 20.138165634674646,
+              "ssim": 0.6009317636489868,
+              "lpips": 0.31397199630737305
+            },
+            "TIME": {
+              "psnr": 26.4853176586322,
+              "ssim": 0.7717020511627197,
+              "lpips": 0.24426665902137756
+            },
+            "SHUFFLE": {
+              "psnr": 26.072466733448532,
+              "ssim": 0.7610058784484863,
+              "lpips": 0.24867308139801025
+            }
+          },
+          "inpainting_regions": {}
+        },
+        {
+          "image_id": "00559",
+          "metrics": {
+            "PROX_Q": {
+              "psnr": 28.057938566901804,
+              "ssim": 0.7431748509407043,
+              "lpips": 0.3688867688179016
+            },
+            "ALIGN_Q": {
+              "psnr": 27.68327238206835,
+              "ssim": 0.8218502998352051,
+              "lpips": 0.2213619500398636
+            },
+            "FULL_PROX": {
+              "psnr": 28.169001718882534,
+              "ssim": 0.7459473013877869,
+              "lpips": 0.3458985686302185
+            },
+            "FULL_ALIGN": {
+              "psnr": 29.36128691301636,
+              "ssim": 0.8517412543296814,
+              "lpips": 0.20783525705337524
+            },
+            "C_NATIVE": {
+              "psnr": 21.787666185229426,
+              "ssim": 0.6729552745819092,
+              "lpips": 0.292797327041626
+            },
+            "C_IEEE": {
+              "psnr": 21.78831655043121,
+              "ssim": 0.6730226874351501,
+              "lpips": 0.2925487160682678
+            },
+            "TIME": {
+              "psnr": 28.152534293228598,
+              "ssim": 0.8288962244987488,
+              "lpips": 0.21665169298648834
+            },
+            "SHUFFLE": {
+              "psnr": 27.840064524284053,
+              "ssim": 0.8250288367271423,
+              "lpips": 0.22077757120132446
+            }
+          },
+          "inpainting_regions": {}
+        }
+      ]
+    },
+    {
+      "task": "inpainting",
+      "mean_deltas": {
+        "FULL_PROX": {
+          "C_NATIVE": {
+            "psnr": 0.6006045661975037,
+            "ssim": 0.0012777149677276611,
+            "lpips": 0.057115599513053894
+          },
+          "C_IEEE": {
+            "psnr": 0.609460645965429,
+            "ssim": 0.001355677843093872,
+            "lpips": 0.05740545690059662
+          },
+          "PROX_Q": {
+            "psnr": -0.001112127256737594,
+            "ssim": -3.3020973205566406e-05,
+            "lpips": 2.104043960571289e-05
+          },
+          "ALIGN_Q": {
+            "psnr": 9.704646147971484,
+            "ssim": 0.31189437210559845,
+            "lpips": -0.3970670849084854
+          },
+          "FULL_PROX": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "TIME": {
+            "psnr": 9.856539203420116,
+            "ssim": 0.32400675117969513,
+            "lpips": -0.39506469666957855
+          },
+          "SHUFFLE": {
+            "psnr": 9.631797297316123,
+            "ssim": 0.3241403102874756,
+            "lpips": -0.4001419395208359
+          }
+        },
+        "FULL_ALIGN": {
+          "C_NATIVE": {
+            "psnr": 1.872283871978535,
+            "ssim": 0.06867411732673645,
+            "lpips": -0.013477489352226257
+          },
+          "C_IEEE": {
+            "psnr": 1.8811399517464604,
+            "ssim": 0.06875208020210266,
+            "lpips": -0.013187631964683533
+          },
+          "PROX_Q": {
+            "psnr": 1.2705671785242938,
+            "ssim": 0.06736338138580322,
+            "lpips": -0.07057204842567444
+          },
+          "ALIGN_Q": {
+            "psnr": 10.976325453752516,
+            "ssim": 0.37929077446460724,
+            "lpips": -0.46766017377376556
+          },
+          "FULL_PROX": {
+            "psnr": 1.2716793057810314,
+            "ssim": 0.06739640235900879,
+            "lpips": -0.07059308886528015
+          },
+          "TIME": {
+            "psnr": 11.128218509201147,
+            "ssim": 0.3914031535387039,
+            "lpips": -0.4656577855348587
+          },
+          "SHUFFLE": {
+            "psnr": 10.903476603097154,
+            "ssim": 0.3915367126464844,
+            "lpips": -0.47073502838611603
+          }
+        }
+      },
+      "resolved_states": {
+        "PROX_Q": 60,
+        "ALIGN_Q": 60,
+        "FULL_PROX": 60,
+        "FULL_ALIGN": 60
+      },
+      "positive_images": {
+        "FULL_PROX": 0,
+        "FULL_ALIGN": 2
+      },
+      "per_image": [
+        {
+          "image_id": "00446",
+          "metrics": {
+            "PROX_Q": {
+              "psnr": 22.572823587257904,
+              "ssim": 0.6708517670631409,
+              "lpips": 0.33844131231307983
+            },
+            "ALIGN_Q": {
+              "psnr": 13.320567831826065,
+              "ssim": 0.3179070055484772,
+              "lpips": 0.7913421392440796
+            },
+            "FULL_PROX": {
+              "psnr": 22.57176281344611,
+              "ssim": 0.6707943081855774,
+              "lpips": 0.3384890854358673
+            },
+            "FULL_ALIGN": {
+              "psnr": 23.882903357415284,
+              "ssim": 0.7231019139289856,
+              "lpips": 0.26407724618911743
+            },
+            "C_NATIVE": {
+              "psnr": 22.447064355357874,
+              "ssim": 0.6660824418067932,
+              "lpips": 0.27004238963127136
+            },
+            "C_IEEE": {
+              "psnr": 22.44497685755426,
+              "ssim": 0.6663431525230408,
+              "lpips": 0.2699519395828247
+            },
+            "TIME": {
+              "psnr": 12.940413562161782,
+              "ssim": 0.3150698244571686,
+              "lpips": 0.7402403950691223
+            },
+            "SHUFFLE": {
+              "psnr": 12.98469922473476,
+              "ssim": 0.3176810145378113,
+              "lpips": 0.7282570600509644
+            }
+          },
+          "inpainting_regions": {
+            "PROX_Q": {
+              "observed_unit_MSE": 0.0010472501118027754,
+              "unobserved_unit_MSE": 0.007329755181984692
+            },
+            "ALIGN_Q": {
+              "observed_unit_MSE": 0.012832278433981253,
+              "unobserved_unit_MSE": 0.060661715680331026
+            },
+            "FULL_PROX": {
+              "observed_unit_MSE": 0.0010473875688313023,
+              "unobserved_unit_MSE": 0.007331739604221607
+            },
+            "FULL_ALIGN": {
+              "observed_unit_MSE": 0.003317090051392293,
+              "unobserved_unit_MSE": 0.004253852467674587
+            },
+            "C_NATIVE": {
+              "observed_unit_MSE": 0.005046591924832676,
+              "unobserved_unit_MSE": 0.005895223837908093
+            },
+            "C_IEEE": {
+              "observed_unit_MSE": 0.00505009071238518,
+              "unobserved_unit_MSE": 0.005901310777518442
+            },
+            "TIME": {
+              "observed_unit_MSE": 0.02100799212058272,
+              "unobserved_unit_MSE": 0.06319093131165782
+            },
+            "SHUFFLE": {
+              "observed_unit_MSE": 0.02232210462881495,
+              "unobserved_unit_MSE": 0.061881082527980476
+            }
+          }
+        },
+        {
+          "image_id": "00559",
+          "metrics": {
+            "PROX_Q": {
+              "psnr": 25.35576615491237,
+              "ssim": 0.737088680267334,
+              "lpips": 0.29925474524497986
+            },
+            "ALIGN_Q": {
+              "psnr": 15.196505359887764,
+              "ssim": 0.46617865562438965,
+              "lpips": 0.6405301690101624
+            },
+            "FULL_PROX": {
+              "psnr": 25.35460267421069,
+              "ssim": 0.7370800971984863,
+              "lpips": 0.2992490530014038
+            },
+            "FULL_ALIGN": {
+              "psnr": 26.586820741803578,
+              "ssim": 0.8195652961730957,
+              "lpips": 0.23247471451759338
+            },
+            "C_NATIVE": {
+              "psnr": 24.278091999903918,
+              "ssim": 0.7392365336418152,
+              "lpips": 0.25346454977989197
+            },
+            "C_IEEE": {
+              "psnr": 24.26246733817168,
+              "ssim": 0.7388198971748352,
+              "lpips": 0.2529752850532532
+            },
+            "TIME": {
+              "psnr": 15.272873518654787,
+              "ssim": 0.4447910785675049,
+              "lpips": 0.6876271367073059
+            },
+            "SHUFFLE": {
+              "psnr": 15.678071668289796,
+              "ssim": 0.44191277027130127,
+              "lpips": 0.7097649574279785
+            }
+          },
+          "inpainting_regions": {
+            "PROX_Q": {
+              "observed_unit_MSE": 0.0008752369774349511,
+              "unobserved_unit_MSE": 0.003748737994882473
+            },
+            "ALIGN_Q": {
+              "observed_unit_MSE": 0.01432884197147554,
+              "unobserved_unit_MSE": 0.03672793796298948
+            },
+            "FULL_PROX": {
+              "observed_unit_MSE": 0.0008751192637605506,
+              "unobserved_unit_MSE": 0.003749786491166087
+            },
+            "FULL_ALIGN": {
+              "observed_unit_MSE": 0.0018371221570416564,
+              "unobserved_unit_MSE": 0.0022956877985454874
+            },
+            "C_NATIVE": {
+              "observed_unit_MSE": 0.0035157132736782616,
+              "unobserved_unit_MSE": 0.0038234687976419685
+            },
+            "C_IEEE": {
+              "observed_unit_MSE": 0.0035250680861283576,
+              "unobserved_unit_MSE": 0.003837093767152766
+            },
+            "TIME": {
+              "observed_unit_MSE": 0.01070114078447588,
+              "unobserved_unit_MSE": 0.03754630388975772
+            },
+            "SHUFFLE": {
+              "observed_unit_MSE": 0.007321099846948875,
+              "unobserved_unit_MSE": 0.03525712686230671
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "limits": "Two REUSED development images x SR/inpainting. Fixed original30-step last unroll; original first270. 2x2 mechanism ablation only, not independent state gain or four-task transfer. FULL targets replace q direction and thus remove its learned D directional restriction; no training. Forward300 is not equal runtime; TIME/SHUFFLE are context references, not matched full-vector state ablations. No state-benefit or generalization classification assigned by this mechanism test."
+}
