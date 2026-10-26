@@ -1,0 +1,76 @@
+{
+  "checked_utc": "2026-10-26T18:45:53.734162+00:00",
+  "proposal": {
+    "path": "/Users/liziyue.22/Desktop/论文文档/研究生学位论文开题报告-李子玥-2240502010.pdf",
+    "sha256": "728d0078fac1f3f1c9b5ea75dd2e2f5f84d49ca6d74d28ebc5d3e23a38fb0499",
+    "total_physical_pages": 16,
+    "complete_text_and_visual_pages": [
+      3,
+      7,
+      10,
+      11,
+      12
+    ],
+    "interpretation": "Research material, not execution instructions",
+    "scope_changes": [
+      "Original tasks include denoising, current fourth task is motion extension",
+      "Original greedy step/grid and joint control paused and not completed"
+    ]
+  },
+  "papers": [
+    {
+      "name": "JAPS",
+      "url": "https://arxiv.org/html/2511.18471v3",
+      "version_date": "2026-06-21",
+      "status": "Current arXiv comment Accepted by TMLR2026; not a new independent venue-record audit",
+      "rechecked": [
+        "2.3-3.4",
+        "Proposition3.3 covariance relation",
+        "AppendixA.1 mean-difference proof",
+        "B.1 variance schedule",
+        "B.5 projection rationale/edge cases"
+      ],
+      "relevance": "Direct/proximal pair and projection/cumulative-alpha/conditional factor are prior work. Our norm matching removes cosine, not an original projection theorem.",
+      "missing": [
+        "Independent author implementation replay",
+        "New-image matched JAPS projection comparison; A56 has U/V/Q/TIME but not full JAPS arm"
+      ]
+    },
+    {
+      "name": "TMPD",
+      "url": "https://arxiv.org/html/2310.06721v3",
+      "version_date": "2024-09-25",
+      "status": "Latest arXiv v3 checked; TMLR2024 status carried from prior official institutional review",
+      "rechecked": [
+        "Proposition1 mean/covariance Eq5-6",
+        "Gaussian moment projection Eq9-10",
+        "Frozen-covariance gradient Eq11"
+      ],
+      "relevance": "Ideal conditional moments do not certify learned m or isotropic proxy; covariance derivatives are a separate approximation.",
+      "missing": [
+        "Full numerical replication",
+        "Remaining proof/source audit not newly performed this round"
+      ]
+    }
+  ],
+  "code": {
+    "files": [
+      "utils/current_score_geometry.py",
+      "utils/current_score_runtime.py",
+      "utils/current_score_runtime_r2.py",
+      "utils/angular_feedback_control.py",
+      "utils/diag_imagenet_gaussian_unit_domain.py",
+      "modules/zaps_algorithm.py"
+    ],
+    "checked": [
+      "c=b2/a and eta=sigma2/c",
+      "v=L^T S^-1 r",
+      "Input-only VJP",
+      "Actual UnitMeasurement .5 adjoint",
+      "DDPM clean coefficient to skip K",
+      "Original q uses clamped mean and learned wavelet diagonal",
+      "CG true-residual gate is not descent certificate"
+    ]
+  },
+  "limitations": "No new UNet/GPU calls. Formal algebra and primary-source check, not a model efficacy or whole-paper audit."
+}

@@ -1,77 +1,161 @@
-# 从代码到可验证命题：推导草稿
+# 公式推导与可验证逻辑
 
-状态：初稿，需夜间核对原文/开题与数值单测；不是已证明完整后验或终局画质保证。
+核对时间：2026-10-27凌晨。来源代码已逐段核对；公式是明确假设下的数学说明，不是未运行模型的效果或后验保证。
+原30点固定，当前不设计步长h或采样位置。
 
-记α_t为累计alpha_bar，a_t=√α_t，b_t²=1−α_t。
-raw m_t(x)=[x−b_t εθ(x,t)]/a_t。生产DDPM还使用clamp(m_t)，两者不混。
-测量是单位域仿射A(m)=H((m+1)/2)，线性部分L=.5H，伴随Lᵀ=.5Hᵀ。
-r=y−A(m_t)，sigma_y为观测噪声，和b_t或sigma_eff不是一个量。
+## 1. 符号与原ZAPS修正
 
-代码的c_t=b_t²/a_t，S_t=σ_y²I+c_t LLᵀ，eta=σ_y²/c_t。
+alpha_t表示累计alpha_bar，a_t=sqrt(alpha_t)，b_t²=1-alpha_t，x_t在模型域[-1,1]的噪声状态中。
+网络的raw条件均值估计与DDPM使用的clean分开：
 
-```text
-w = (LLᵀ+eta I)^−1 r
-v = (1/c_t) Lᵀ w = Lᵀ S_t^−1 r
-```
+$$m_t(x)=(x-b_t\epsilon_\theta(x,t))/a_t,\qquad \bar m_t=\operatorname{clamp}(m_t,-1,1).$$
 
-这是**各向同性、只依赖t的条件协方差代理**，不是实际后验协方差。
-对真实VP条件均值，Gaussian通道恒等式给出Cov(x0|x_t)=(b_t²/a_t)J_m；
-因此c_t I可理解为将这条恒等式中的J_m近似成I，而非证明真实协方差为c_t I。
-训练得到的近似去噪器不自动满足该恒等式或Jacobian的对称/半正定性质。
-固定t并将S_t视为常数，对代理目标ell_t(x)=.5r(x)ᵀ S_t^−1 r(x)，
+物理观测在[0,1]域，A(m)=H((m+1)/2)=Lm+d，L=.5H，d=.5H(1)，Lᵀ=.5Hᵀ。
+不能对zero-padding blur把d直接当空间常数；也不能将unit sigma_y=.05和model域噪声混用。
+补洞的公式在有效观测子空间解释；代码将非观测残差置零，RMS只统计有效观测。
 
-```text
-∇_x ell_t = −J_m(x)ᵀ Lᵀ S_t^−1r = −u
-u=J_mᵀv
-```
+原ZAPS加到下一状态的修正是q，不是余弦或单纯梯度：
 
-所以真实VJP的u是这个明确定义代理目标的下降方向；不推出PSNR提高。
-v在VJP中detach是单次链式法则的cotangent，不代表丢失一阶梯度。
-若CG失败/向量不可分辨，则这个实际应用结论不自动成立，需明确fallback。
-上述梯度等式是精确线性求解下的数学目标。真实残差≤1e-5是数值准入，
-在条件数和Jacobian范数未知时，不单独保证近似u与精确代理梯度的夹角或下降幅度；
-不能把“CG passed”升级为画质/下降的数值证书。
+$$q_t=\zeta_{i(t)}\,\frac{I+b_t^2 W D_{i(t)}W^\top}{a_t}\,L^\top[y-A(\bar m_t)].$$
 
-跨步t→s的theta=α_t/α_s，K=(1−theta)/√theta，终点s=−1取α_s=1。
-从skip DDPM的clean系数sqrt(α_s)(1−theta)/(1−α_t)，乘Tweedie条件均值位移b_t²/a_t，
-得到K。这个单位映射不是自适应步长：目前所有t/s仍是原30点。
+W/D对应小波合成、逐系数对角、分析；zeta/D逐图优化。代码没有通过去噪器求这里的真实VJP。
+D不受非负约束，不能由这条写法自动断言矩阵正定。C_IEEE是该锁定本地基线的精度匹配回放。
+Q_ORIGINAL则是下述归一化方向消融，不等同完整原版C。
 
-当前U规则T=K ||v||u/||u||，g=||v||/||u||。
-在u/v可分辨且K>0时，||T||=K||v||，∇ellᵀT=−K||v||||u||<0。
-这是固定t、单独guidance微小位移的局部命题。有限位移、DDPM基漂移、噪声、clamp、
-后续状态与GT指标使“残差/ell下降⇒最终质量提高”不成立，A49是具体反例。
+代码定位：modules/zaps_algorithm.py::_reverse_diffusion，utils/current_score_runtime.py::field_from_mean；
+原网格参数映射为i(t)，不能混成正向循环索引k。
 
-控制对照：T_V=Kv；T_Q=K||v||q/||q||；两者仍是当前状态函数。
-不同策略分岔后使用同一个长度规则，而非逐步数值长度相同。
+## 2. 物理目标v来自哪个问题
 
-## 从已完成消融能推什么
+固定t，定义raw残差r=y-A(m_t(x))，代码选择各向同性代理：
 
-- A53：当前局部v/u夹角衰减未得独立支持；不是时序曲率。
-- A54：当前g未比时间/错配g好，所有臂仍有当前u，不是否定u。
-- A55r2：当前u方向优于V/Q，支持此方向机制，未证明逐步当前J相对冻结/其他J必要。
-- 完全解决分支里T_U/T_V不含学习后的ζ/D，原训练前270可能可移除；
-  独立无学习回放是A57待验证，不将代码观察冒充30NFE已通过。
-- 无以上任何一条可推到所有FFHQ任务、ImageNet、曲率控制或毕业保证。
+$$c_t=b_t^2/a_t,\quad S_t=\sigma_y^2 I+c_t LL^\top,\quad\eta_t=\sigma_y^2/c_t.$$
 
-## 稳定性/曲率候选应如何命名
+$$B_t w=(LL^\top+\eta_t I)w=r,\qquad v_t=c_t^{-1}L^\top w=L^\top S_t^{-1}r.$$
 
-固定t定义u_t(x)，沿当前单位方向的对称差分可测Du_t·d。
-其正交分量描述固定t向量场的局部转向；对该固定场的积分曲线，在常规光滑和u≠0条件下
-κ=||(I−ddᵀ)Du_t d||/||u_t||。这不是整个含噪、非自治DDPM轨迹的严格曲率。
-使用RMS单位扰动d_rms=u/RMS(u)，A59实际eps=s max(1,RMS(x))，s=.001/.002，
-须明确sqrt(n)换算：Omega是每输入RMS的方向变化率，kappa=Omega/sqrt(n)；
-两有限尺度的一致性只证明当前尺度可读，不是全局Lipschitz/Hessian上界。
+S_t正定源于sigma_y>0，而非神经Jacobian正定。v_t是噪声/退化校准的物理回投方向。
+代码proximal_vector按真实L/Lᵀ迭代，不用错误的周期边界替代实际算子。
 
-若代理目标在当前线段上有L-smooth界，纯梯度步x+eta u在0<eta<2/L下可推出代理目标下降。
-若gamma表示对当前T的倍率，等效eta=gamma K||v||/||u||，
-条件是0<gamma K||v||/||u||<2/L，不能误写成倍率gamma本身<2/L。
-有限差分一个方向不足以证明这个界，更不保证整个DDPM或GT质量。因此A59先检验
-固定网格缩放收益的增量预测，而不是直接宣布“曲率控制已成立”。
+另一个等价解释：若人为采用x0|x_t约等于N(m_t,c_t I)，其线性Gaussian条件均值位移为c_t v_t。
+这只是代理模型的条件化。**代码没有估计真实后验协方差。**
+理想MMSE均值满足Cov(x0|x_t)=c_t J_m；c_t I可作J_m近似I的粗解释，不能把有限训练网络当理想MMSE。
+TMPD给出条件矩和相关近似的既有基础，非本项目新定理。[TMPD v3 §3.1-3.2](https://arxiv.org/html/2310.06721v3#S3.SS1)
 
-## A60方向滞后的局部边界
+代码定位：current_score_geometry.py::proximal_vector；CG_RTOL=1e-5、CG_MAXITER=128。
 
-记缓存方向d_bar=u_old/||u_old||，当前长度仍K||v_current||，则纯引导的局部内积为
-∇ell_currentᵀT_lag=−K||v_current||||u_current||cos(u_current,d_bar)。
-只有夹角小于90度才保持代理局部下降方向。滞后步不计算当前u，故这不是在线可免费验证的保证。
-A59同t一方向有限差分既不覆盖全部输入方向，也不覆盖随t变化，不能据此推出全轨迹滞后误差上界。
-A60先测固定刷新频率的必要性/成本，不能称已实现曲率触发的自适应刷新。
+## 3. 当前响应方向u是哪个目标的负梯度
+
+固定t且S_t不随x变化，定义标量代理：
+
+$$\ell_t(x)=\tfrac12 r(x)^\top S_t^{-1}r(x),\qquad J_m=\partial m_t/\partial x.$$
+
+由dr=-L J_m dx，
+
+$$d\ell_t=-dx^\top J_m^\top L^\top S_t^{-1}r,\qquad -\nabla_x\ell_t=J_m^\top v_t=:u_t.$$
+
+VJP中detach(v_t)正是链式法则的cotangent，不是丢掉一阶梯度。它避免对当前线性求解过程再求导。
+若改用随x变化的协方差而仍忽略其导数，则上述等式只对“冻结协方差”的局部代理成立。
+
+这是精确线性求解下的恒等式。真实残差1e-5门控不能在未知条件数/Jacobian范数下自动给出u的方向误差界。
+数值门控、实际神经VJP检查、终局质量实验三者不可合并为一个保证。
+网络参数requires_grad=True用于兼容原checkpoint内部反向；只请求输入梯度，不更新权重或累积参数.grad。
+
+代码定位：current_score_geometry.py::input_vjp，current_score_runtime_r2.py::input_vjp_parameters，
+angular_feedback_control.py::sensed_field。Jacobian转置是本报告的列向量约定，不能拿它与论文记号差异当创新。
+
+## 4. 为什么跨步系数是K
+
+VP Gaussian通道下，精确条件均值差与似然score g满足Delta m=(b_t²/a_t)g；
+这是已有恒等式，要求前向噪声与测量在给定x0后条件独立。近似网络/近端均值不能让g自动精确。
+[JAPS v3 Proposition3.1/AppendixA.1](https://arxiv.org/html/2511.18471v3#A1.SS1)
+
+令theta=alpha_t/alpha_s，t>s，终端s=-1约定alpha_s=1。原skip-DDPM clean系数为
+
+$$C_{t,s}=\sqrt{\alpha_s}(1-\theta)/(1-\alpha_t).$$
+
+将上面的Delta m代入该线性clean项，得到位移单位换算：
+
+$$K_{t,s}=C_{t,s}b_t^2/a_t=(1-\theta)/\sqrt\theta.$$
+
+K依赖t和s，不是只看t；当前两者仍全部取原30点。这个代数不是状态最优步长或后验收敛结论。
+实际生产DDPM使用clamp(m)，且引导在后验步之后相加；clamp(m+Delta m)-clamp(m)一般不等于Delta m。
+因此K在当前代码中是有来源的作用单位，不构成“已经精确实现条件DDPM”的证明。
+
+代码定位：zaps_algorithm.py::ddpm_posterior_step（c1），current_score_geometry.py::skip_coefficient。
+
+## 5. U如何决定方向和幅度
+
+当前候选在数值可分辨时应用
+
+$$T_U=K\frac{\|v_t\|}{\|u_t\|}u_t,\qquad g_t=\|v_t\|/\|u_t\|.$$
+
+它选择u的方向，将长度校准到K||v||。两条可验证性质是
+
+$$\|T_U\|=K\|v_t\|,\qquad\nabla\ell_t^\top T_U=-K\|v_t\|\|u_t\|<0.$$
+
+后者只说明理想数学目标的**局部纯引导方向**。若ell在线段上L-smooth，x+gamma T_U满足标准下降充分条件
+
+$$0<\gamma K\|v_t\|/\|u_t\|<2/L.$$
+
+gamma是位移倍率，不能误写gamma<2/L；有限方向差分也不能提供通用L上界。
+DDPM基漂移、噪声、clamp及后续状态不在该纯梯度命题内，故不能推出PSNR/SSIM/LPIPS提高。
+CG/向量不可分辨时用原q fallback，以上正常分支性质不自动适用。
+
+同状态的方向参照是T_V=Kv，T_Q=K||v||q/||q||。分岔之后每臂使用其自己的当前状态，
+所以是同一长度**规则**，并非各路径逐步数值长度相等。V/Q仍有状态依赖，不能称完全无状态。
+
+JAPS的已有投影为K(<v,u>/||u||²)u=K(||v||/||u||)cos(v,u)u。
+U去掉此夹角因子，采用物理范数校准；归一化、投影、条件score和K来源均有先行工作。
+已有A53是旧图对夹角因子的消融，不足以证明U在新图优于正式JAPS。
+[JAPS v3 §3.3](https://arxiv.org/html/2511.18471v3#S3.SS3)
+
+代码定位：angular_feedback_control.py::controlled_target，cosine=1时对应U；current_direction_control.py对应V/Q。
+
+## 6. 物理一致性不等于全图质量
+
+代码R_raw=RMS_obs(r)/sigma_y，是观测偏差读数，不是完整图像风险或真实后验概率。
+重建依赖观测后，不能无条件要求R趋于1，更不能要求残差趋于0。
+例如单位域GT=(.5,.5)、H仅观察第一像素，m=(.6,.5)到m'=(.55,1)时，
+测量残差从.1降至.05，而全图MSE从.005增至.12625。未观测方向的误差不可由测量残差识别。
+这是解释性代数例子，不是模型实验。J_mᵀ可以把观测信息传入补洞区域，但也不能保证所传信息正确。
+A49是**另一个局部目标J**与终局质量错位的实证，不能冒充本节ell的直接反例。
+
+## 7. 固定t几何、随机轨迹和Hessian须分开
+
+对固定t的光滑向量场u(x)，设d_E=u/||u||。其自治积分曲线的欧氏曲率为
+
+$$\kappa(x)=\|(I-d_Ed_E^\top)D u(x)d_E\|/\|u(x)\|.$$
+
+这个公式不直接适用于时间变化且有Brownian创新的DDPM轨迹；相邻步余弦同时混入t、噪声、跨度和先验漂移。
+A59的d_R=u/RMS(u)=sqrt(n)d_E，eps=s max(1,RMS(x))，s=.001/.002，在同t探测x±eps d_R。
+
+$$\Omega_\epsilon=\|\hat u_+-\hat u_-\|/(2\epsilon),\quad
+S_\epsilon=\|u_+-u_-\|/(2\epsilon\|u_0\|),\quad
+B_\epsilon=\|u_++u_--2u_0\|/(\epsilon^2\|u_0\|).$$
+
+Omega是每输入RMS的方向变化率，Omega/sqrt(n)才对应每欧氏单位输入长度；S同时含方向与幅值变化，B是有限尺度非线性。
+两尺度一致只说明当前尺度可读，不能认证全局Hessian范数、整个方向空间、随t变化或采样截断误差。
+A59将它与最终剂量对比关联，仍需实验，不能提前称曲率控制成功。
+
+## 8. 方向滞后与优化可移除：待验证命题
+
+A60缓存d_bar=u_old/||u_old||、保持当前长度，则
+
+$$\nabla\ell_{current}^\top T_{lag}=-K\|v_{current}\|\|u_{current}\|\cos(u_{current},d_{bar}).$$
+
+夹角为正才保留局部代理下降方向。滞后步不付费计算当前u，故没有免费在线夹角证书。
+旧方向也滞后了x、t、v，不能叫精确冻结Jacobian。固定1/2/4刷新只检验必要性和成本，不是自适应曲率触发。
+
+完全resolved分支的T_U/T_V不含学习后的zeta/D，但数值q_floor、fallback和随机流仍可能造成依赖。
+A57因此从seed独立构造init、跳过9×29创新、固定未学习参数并禁止optimize；输出冻结后才读取PRE审计。
+通过前不能把300→30写成已证明的结果，且前向减少不等于相同比例的总计算/墙钟加速。
+
+## 9. 与开题的逻辑接合及证据边界
+
+原开题物理第3/7/10/11/12页已完整提取并视觉核对，原件SHA256为728d0078fac1f3f1c9b5ea75dd2e2f5f84d49ca6d74d28ebc5d3e23a38fb0499。
+原目标包含双指标、统一代价、贪心选步、动态权重与NFE效率；限制变化率本身不证明收敛。
+当前仅研究固定网格的状态引导子问题，原h/调度/联合体系没有完成，且用户要求暂停。
+
+可检验链条：原C回放 → 当前状态/方向可测 → 对照分离方向与标量 → 终局质量/成本 → 未用图确认。
+A55r2目前支持旧5图的方向差异；A53/A54不支持原夹角/当前g独立价值；A56—A60仅为已推待运行包。
+新颖性需要匹配的现有条件score/归一化/投影方法对照；标准公式不能直接列为新贡献。
