@@ -1,6 +1,6 @@
 # 上午运行命令：恢复点
 
-当前A56—A59四包已实现并推送。A60未写完前不填假命令。
+A56—A60五包均已实现并推送。以下均是真实入口；实际Torch/CUDA与方法结果仍待服务器运行。
 最终版本需4—5个完整代码块，最低SHA在全部入口推送后填写，不改各包冻结源文件。
 
 ## 1. A56：固定规则的新图/双数据集确认（代码已推）
@@ -84,7 +84,37 @@ python -u utils/a59_session.py
 全部终点冻结后才评价，比较阶段/物理R与g/新增局部几何的信息；不部署控制器或承诺曲率增益。
 建议与A56等大任务顺序运行；失败记录保留，无自动预算重置重跑。
 
-## 后续包状态
+## 5. A60：方向每1/2/4步刷新（代码已推）
 
-A60方向刷新：待实现/独立卡/检查/推送。
-这些不是可执行命令；完成后更新本文件并生成run_commands.sh，依赖与准入失败分支明确。
+```bash
+source /home/lzy/anaconda3/etc/profile.d/conda.sh &&
+conda activate base &&
+cd /home/lzy/ZAPS &&
+env -u NO_PROXY -u no_proxy \
+git -c http.proxy=http://127.0.0.1:10809 \
+fetch https://github.com/lzy75/ZAPS.git \
+refs/heads/master:refs/remotes/origin/master &&
+git merge --ff-only origin/master &&
+git merge-base --is-ancestor 3e855f2 HEAD &&
+cd projects &&
+python -u utils/a60_session.py
+```
+
+900新诊断前向，最多550输入VJP；每步仍计算当前v和K||v||，只滞后u方向。
+首末必须刷新。CURRENT同场重跑核对缓存与计时；滞后步不偷偷算当前u。
+它是方向复用成本诊断，前向仍30点，不能称采样步数减少或精确冻结Jacobian。
+
+## 顺序与断线恢复
+
+科学优先级A56→A57→A58→A59→A60。A57也可作为300调用的独立短门控先做。
+各包不依赖其他新包的运行结果；A58在自身0NN准入后条件触发质量。
+建议顺序执行，避免所有launcher同时选择相同空闲GPU导致挤占。
+
+首次完成任一同步后，也可用 `bash projects/overnight_20261027/run_commands.sh A56`，
+将末尾编号换为A57/A58/A59/A60即可；脚本不会默认把五包全部启动。
+
+断线后进入 `/home/lzy/ZAPS/projects`，激活base后再运行对应 `python -u utils/a60_session.py` 即可跟随，
+编号按任务替换。加 `--status` 只查看状态/最后日志，不重启GPU。失败记录不自动重跑，先粘贴失败原因。
+
+全队列最多12784次新UNet前向、3414输入VJP及A58的24算子求解；A58未准入则不消耗其质量预算。
+所有PT只在/data0，轻量结果自动归档到独立分支，push失败保留结果，不重新算模型。
