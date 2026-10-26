@@ -1,0 +1,631 @@
+{
+  "experiment": "A49_A50r2_cached_evidence_audit",
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "A49": {
+    "verification": {
+      "manifest_sha256": "4c6ab12610cb159f94a60d0bf56aa0a51115cc3676fd7822fd74c2a6dad1e381",
+      "verified_files": 93,
+      "unextracted_pngs": [
+        "source_snapshot/ffhq_gaussian_deblur_00559_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_gaussian_deblur_00608_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_gaussian_deblur_00873_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_gaussian_deblur_00951_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_inpainting_00559_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_inpainting_00608_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_inpainting_00873_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_inpainting_00951_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_motion_deblur_00559_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_motion_deblur_00608_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_motion_deblur_00873_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_motion_deblur_00951_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_super_resolution_00559_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_super_resolution_00608_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_super_resolution_00873_s1000/policy_comparison.png",
+        "source_snapshot/ffhq_super_resolution_00951_s1000/policy_comparison.png"
+      ],
+      "scope": "Available archived bytes, not excluded PT/UNet replay"
+    },
+    "groups": [
+      {
+        "task": "super_resolution",
+        "cases": 5,
+        "local_changed_from_legacy": 3,
+        "trust_changed_from_local": 0,
+        "local_J_improved_final_PSNR_worse": 3,
+        "mean_LOCAL_minus_LEGACY": {
+          "psnr": -0.3975820709714938,
+          "ssim": -0.012488234043121337,
+          "lpips": -1.944303512573242e-05,
+          "loss": 0.04541043309862516
+        },
+        "feasible_but_unreliable_trials": 0,
+        "selected_rho_range": [
+          0.9178597996453743,
+          1.0269227794796865
+        ]
+      },
+      {
+        "task": "gaussian_deblur",
+        "cases": 5,
+        "local_changed_from_legacy": 0,
+        "trust_changed_from_local": 0,
+        "local_J_improved_final_PSNR_worse": 0,
+        "mean_LOCAL_minus_LEGACY": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "loss": 0.0
+        },
+        "feasible_but_unreliable_trials": 0,
+        "selected_rho_range": [
+          0.9495417755123543,
+          1.038368881142864
+        ]
+      },
+      {
+        "task": "inpainting",
+        "cases": 5,
+        "local_changed_from_legacy": 4,
+        "trust_changed_from_local": 0,
+        "local_J_improved_final_PSNR_worse": 4,
+        "mean_LOCAL_minus_LEGACY": {
+          "psnr": -0.42175830559885413,
+          "ssim": -0.013066899776458741,
+          "lpips": 0.009167507290840149,
+          "loss": 0.02792183542591886
+        },
+        "feasible_but_unreliable_trials": 3,
+        "selected_rho_range": [
+          0.8554501443341163,
+          0.9405828110897
+        ]
+      },
+      {
+        "task": "motion_deblur",
+        "cases": 5,
+        "local_changed_from_legacy": 0,
+        "trust_changed_from_local": 0,
+        "local_J_improved_final_PSNR_worse": 0,
+        "mean_LOCAL_minus_LEGACY": {
+          "psnr": 0.0,
+          "ssim": 0.0,
+          "lpips": 0.0,
+          "loss": 0.0
+        },
+        "feasible_but_unreliable_trials": 0,
+        "selected_rho_range": [
+          0.9216290550928155,
+          1.0633295852032323
+        ]
+      }
+    ],
+    "method_nfe": 0,
+    "diagnostic_nfe": 0,
+    "source_report_sha256": "781da2988124a20a76848d923545b0bd6402cfa26fd58333932d3f782bee980a",
+    "scope": "Recomputed archived per-case contrasts; source A48 tensor metrics not re-evaluated"
+  },
+  "A50r2": {
+    "verification": {
+      "manifest_sha256": "5abd6ec15ac1c7bedf623667ece1fc9a6f142fefb047f36efb513f1714dc5153",
+      "verified_files": 194,
+      "unextracted_pngs": [
+        "ffhq_gaussian_deblur_00559_s1000/policy_comparison.png",
+        "ffhq_gaussian_deblur_00608_s1000/policy_comparison.png",
+        "ffhq_gaussian_deblur_00873_s1000/policy_comparison.png",
+        "ffhq_gaussian_deblur_00951_s1000/policy_comparison.png",
+        "ffhq_inpainting_00559_s1000/policy_comparison.png",
+        "ffhq_inpainting_00608_s1000/policy_comparison.png",
+        "ffhq_inpainting_00873_s1000/policy_comparison.png",
+        "ffhq_inpainting_00951_s1000/policy_comparison.png",
+        "ffhq_motion_deblur_00559_s1000/policy_comparison.png",
+        "ffhq_motion_deblur_00608_s1000/policy_comparison.png",
+        "ffhq_motion_deblur_00873_s1000/policy_comparison.png",
+        "ffhq_motion_deblur_00951_s1000/policy_comparison.png",
+        "ffhq_super_resolution_00559_s1000/policy_comparison.png",
+        "ffhq_super_resolution_00608_s1000/policy_comparison.png",
+        "ffhq_super_resolution_00873_s1000/policy_comparison.png",
+        "ffhq_super_resolution_00951_s1000/policy_comparison.png"
+      ],
+      "scope": "Available archived bytes, not excluded PT/UNet replay"
+    },
+    "source_server_root": "/data0/lzy/ZAPS-results/diag_current_score_geometry_r2/A50r2_20261026",
+    "source_summary_sha256": "36bb090d3ec32a9f34c92db4e66fa71280262c97b5b74b30b0e4860d5113ce9b",
+    "recomputed_mean_contrasts": 672,
+    "max_relative_alignment_formula_error": 4.748976717154931e-16,
+    "original_recorded_gates": 40,
+    "source_forward_calls": 4872,
+    "source_backward_attempts": 775,
+    "method_nfe": 0,
+    "diagnostic_nfe": 0,
+    "groups": [
+      {
+        "task": "super_resolution",
+        "quality_candidate": true,
+        "matching_candidate": false,
+        "numerical_coverage_passed": true,
+        "ALIGN_deltas": {
+          "C_NATIVE": {
+            "psnr": 6.09022646531295,
+            "ssim": 0.17430890798568727,
+            "lpips": -0.07516289353370667
+          },
+          "C_IEEE": {
+            "psnr": 6.086011019811115,
+            "ssim": 0.17428064346313477,
+            "lpips": -0.07544048428535462
+          },
+          "PROX_Q": {
+            "psnr": -0.8164061860615007,
+            "ssim": 0.03453682661056519,
+            "lpips": -0.07062603831291199
+          },
+          "DIRECT_Q": {
+            "psnr": 17.316156795130063,
+            "ssim": 0.6134702280163765,
+            "lpips": -0.42563379406929014
+          },
+          "TIME": {
+            "psnr": 0.038954408293582786,
+            "ssim": 0.002588474750518799,
+            "lpips": -0.0006599247455596924
+          },
+          "CONSTANT": {
+            "psnr": 10.465613341040438,
+            "ssim": 0.3220990002155304,
+            "lpips": -0.16783779859542847
+          },
+          "SHUFFLE": {
+            "psnr": 0.034763064949829926,
+            "ssim": 0.0021526932716369627,
+            "lpips": -0.000560927391052246
+          }
+        },
+        "positive_images": {
+          "C_NATIVE": 5,
+          "C_IEEE": 5,
+          "TIME": 3,
+          "SHUFFLE": 2
+        },
+        "traces": {
+          "PROX_Q": {
+            "resolved": 150,
+            "total": 150,
+            "cg_failures": {},
+            "gamma_min": 0.0030174586673405463,
+            "gamma_median": 0.20670864005084716,
+            "gamma_max": 161.56706346495747
+          },
+          "DIRECT_Q": {
+            "resolved": 58,
+            "total": 150,
+            "cg_failures": {},
+            "gamma_min": 0.07830848516830184,
+            "gamma_median": 1.0,
+            "gamma_max": 2808038.4498342024
+          },
+          "ALIGN_Q": {
+            "resolved": 150,
+            "total": 150,
+            "cg_failures": {},
+            "gamma_min": 0.0009147148702350407,
+            "gamma_median": 0.1465144628697554,
+            "gamma_max": 74.19027968693003
+          }
+        },
+        "ALIGN_stages": [
+          {
+            "steps_inclusive": [
+              0,
+              9
+            ],
+            "n": 50,
+            "resolved": 50,
+            "gamma_median": 0.006752183214770696,
+            "R_clean_median": 5.162940144015678,
+            "same_state_ALIGN_over_PROX_median": 0.4695167770306605
+          },
+          {
+            "steps_inclusive": [
+              10,
+              19
+            ],
+            "n": 50,
+            "resolved": 50,
+            "gamma_median": 0.1465144628697554,
+            "R_clean_median": 4.015471091822526,
+            "same_state_ALIGN_over_PROX_median": 0.5977305256713477
+          },
+          {
+            "steps_inclusive": [
+              20,
+              29
+            ],
+            "n": 50,
+            "resolved": 50,
+            "gamma_median": 14.98519945503178,
+            "R_clean_median": 1.4387412771338983,
+            "same_state_ALIGN_over_PROX_median": 0.5095739203957257
+          }
+        ],
+        "per_image_ALIGN_minus_TIME": {
+          "00446": 0.13775968183281506,
+          "00559": -0.46926191116024896,
+          "00608": -0.27477131511763986,
+          "00873": 0.12121322958637393,
+          "00951": 0.6798323563266138
+        }
+      },
+      {
+        "task": "gaussian_deblur",
+        "quality_candidate": false,
+        "matching_candidate": false,
+        "numerical_coverage_passed": false,
+        "ALIGN_deltas": {
+          "C_NATIVE": {
+            "psnr": 1.809721291362969,
+            "ssim": 0.05861009359359741,
+            "lpips": -0.010766229033470154
+          },
+          "C_IEEE": {
+            "psnr": 1.7913357443567974,
+            "ssim": 0.05877528190612793,
+            "lpips": -0.014233541488647462
+          },
+          "PROX_Q": {
+            "psnr": -0.2717212763995477,
+            "ssim": -0.006915271282196045,
+            "lpips": -0.0024001926183700563
+          },
+          "DIRECT_Q": {
+            "psnr": -0.36877778885616336,
+            "ssim": -0.0074849724769592285,
+            "lpips": -0.018967491388320924
+          },
+          "TIME": {
+            "psnr": -0.08014128870560314,
+            "ssim": -0.004524374008178711,
+            "lpips": 0.003957092761993408
+          },
+          "CONSTANT": {
+            "psnr": 1.7913357443567974,
+            "ssim": 0.05877528190612793,
+            "lpips": -0.014233541488647462
+          },
+          "SHUFFLE": {
+            "psnr": 0.014320412882013755,
+            "ssim": -0.0011332035064697266,
+            "lpips": 0.004211166501045227
+          }
+        },
+        "positive_images": {
+          "C_NATIVE": 5,
+          "C_IEEE": 5,
+          "TIME": 2,
+          "SHUFFLE": 2
+        },
+        "traces": {
+          "PROX_Q": {
+            "resolved": 36,
+            "total": 150,
+            "cg_failures": {
+              "ITERATION_BUDGET_EXHAUSTED": 100,
+              "TRUE_RESIDUAL_CHECK": 14
+            },
+            "gamma_min": 0.14405840243651746,
+            "gamma_median": 1.0,
+            "gamma_max": 22.89889835221986
+          },
+          "DIRECT_Q": {
+            "resolved": 42,
+            "total": 150,
+            "cg_failures": {
+              "ITERATION_BUDGET_EXHAUSTED": 100,
+              "TRUE_RESIDUAL_CHECK": 8
+            },
+            "gamma_min": 0.14060971258660496,
+            "gamma_median": 1.0,
+            "gamma_max": 13.737890755813877
+          },
+          "ALIGN_Q": {
+            "resolved": 34,
+            "total": 150,
+            "cg_failures": {
+              "ITERATION_BUDGET_EXHAUSTED": 100,
+              "TRUE_RESIDUAL_CHECK": 16
+            },
+            "gamma_min": 0.14086456939380146,
+            "gamma_median": 1.0,
+            "gamma_max": 16.26945038564391
+          }
+        },
+        "ALIGN_stages": [
+          {
+            "steps_inclusive": [
+              0,
+              9
+            ],
+            "n": 50,
+            "resolved": 0,
+            "gamma_median": 1.0,
+            "R_clean_median": 6.611924027321255,
+            "same_state_ALIGN_over_PROX_median": null
+          },
+          {
+            "steps_inclusive": [
+              10,
+              19
+            ],
+            "n": 50,
+            "resolved": 0,
+            "gamma_median": 1.0,
+            "R_clean_median": 6.549534795715989,
+            "same_state_ALIGN_over_PROX_median": null
+          },
+          {
+            "steps_inclusive": [
+              20,
+              29
+            ],
+            "n": 50,
+            "resolved": 34,
+            "gamma_median": 1.0,
+            "R_clean_median": 1.1251368506618937,
+            "same_state_ALIGN_over_PROX_median": 0.7879283412815334
+          }
+        ],
+        "per_image_ALIGN_minus_TIME": {
+          "00446": 0.12187850123948252,
+          "00559": -0.32670582982399665,
+          "00608": -0.21964122277399767,
+          "00873": -0.1804394103002238,
+          "00951": 0.20420151813071996
+        }
+      },
+      {
+        "task": "inpainting",
+        "quality_candidate": false,
+        "matching_candidate": false,
+        "numerical_coverage_passed": true,
+        "ALIGN_deltas": {
+          "C_NATIVE": {
+            "psnr": -9.571148365337702,
+            "ssim": -0.3686819523572922,
+            "lpips": 0.5474479675292969
+          },
+          "C_IEEE": {
+            "psnr": -9.580786567579473,
+            "ssim": -0.3690555542707443,
+            "lpips": 0.5474623203277588
+          },
+          "PROX_Q": {
+            "psnr": -9.576696543794142,
+            "ssim": -0.3375666946172714,
+            "lpips": 0.4361595749855042
+          },
+          "DIRECT_Q": {
+            "psnr": -8.206260999125266,
+            "ssim": -0.34125101268291474,
+            "lpips": 0.5186485648155212
+          },
+          "TIME": {
+            "psnr": -0.08703509925232282,
+            "ssim": -0.0014546722173690795,
+            "lpips": 0.009534883499145507
+          },
+          "CONSTANT": {
+            "psnr": 1.448932690481928,
+            "ssim": 0.012234184145927429,
+            "lpips": 0.28664034605026245
+          },
+          "SHUFFLE": {
+            "psnr": -0.08750874999708635,
+            "ssim": 0.0013157278299331665,
+            "lpips": 0.0056238889694213865
+          }
+        },
+        "positive_images": {
+          "C_NATIVE": 0,
+          "C_IEEE": 0,
+          "TIME": 2,
+          "SHUFFLE": 2
+        },
+        "traces": {
+          "PROX_Q": {
+            "resolved": 150,
+            "total": 150,
+            "cg_failures": {},
+            "gamma_min": 0.00022801623831655645,
+            "gamma_median": 0.027196461060785514,
+            "gamma_max": 27.1989037486461
+          },
+          "DIRECT_Q": {
+            "resolved": 150,
+            "total": 150,
+            "cg_failures": {},
+            "gamma_min": 0.0006966537798370802,
+            "gamma_median": 0.07568729382470288,
+            "gamma_max": 10.090914744230865
+          },
+          "ALIGN_Q": {
+            "resolved": 150,
+            "total": 150,
+            "cg_failures": {},
+            "gamma_min": 2.7418049437396106e-05,
+            "gamma_median": 0.005869180011051998,
+            "gamma_max": 15.777973403114226
+          }
+        },
+        "ALIGN_stages": [
+          {
+            "steps_inclusive": [
+              0,
+              9
+            ],
+            "n": 50,
+            "resolved": 50,
+            "gamma_median": 0.0001186398491481617,
+            "R_clean_median": 6.057970679187891,
+            "same_state_ALIGN_over_PROX_median": 0.1504064450407394
+          },
+          {
+            "steps_inclusive": [
+              10,
+              19
+            ],
+            "n": 50,
+            "resolved": 50,
+            "gamma_median": 0.005869180011051998,
+            "R_clean_median": 6.498329170209967,
+            "same_state_ALIGN_over_PROX_median": 0.2221529850867551
+          },
+          {
+            "steps_inclusive": [
+              20,
+              29
+            ],
+            "n": 50,
+            "resolved": 50,
+            "gamma_median": 1.9526257767126602,
+            "R_clean_median": 5.45375547286509,
+            "same_state_ALIGN_over_PROX_median": 0.285377788655823
+          }
+        ],
+        "per_image_ALIGN_minus_TIME": {
+          "00446": 0.380154269664283,
+          "00559": -0.07636815876702308,
+          "00608": 0.4737069161522527,
+          "00873": -0.6700091660858476,
+          "00951": -0.5426593572252791
+        }
+      },
+      {
+        "task": "motion_deblur",
+        "quality_candidate": false,
+        "matching_candidate": false,
+        "numerical_coverage_passed": false,
+        "ALIGN_deltas": {
+          "C_NATIVE": {
+            "psnr": 0.7500403861881452,
+            "ssim": 0.010741770267486572,
+            "lpips": 0.024028241634368896
+          },
+          "C_IEEE": {
+            "psnr": 0.6180082999904712,
+            "ssim": 0.011309707164764404,
+            "lpips": 0.017528265714645386
+          },
+          "PROX_Q": {
+            "psnr": -0.8412095809962146,
+            "ssim": -0.035503387451171875,
+            "lpips": 0.03789829909801483
+          },
+          "DIRECT_Q": {
+            "psnr": -0.8833439108064006,
+            "ssim": -0.037240588665008546,
+            "lpips": 0.027600795030593872
+          },
+          "TIME": {
+            "psnr": -0.03983455396637296,
+            "ssim": -0.0012110352516174316,
+            "lpips": 0.0006767570972442627
+          },
+          "CONSTANT": {
+            "psnr": 0.6180082999904712,
+            "ssim": 0.011309707164764404,
+            "lpips": 0.017528265714645386
+          },
+          "SHUFFLE": {
+            "psnr": -0.09124310611765551,
+            "ssim": -0.004395437240600586,
+            "lpips": 0.006344383955001831
+          }
+        },
+        "positive_images": {
+          "C_NATIVE": 5,
+          "C_IEEE": 5,
+          "TIME": 1,
+          "SHUFFLE": 1
+        },
+        "traces": {
+          "PROX_Q": {
+            "resolved": 42,
+            "total": 150,
+            "cg_failures": {
+              "ITERATION_BUDGET_EXHAUSTED": 105,
+              "TRUE_RESIDUAL_CHECK": 3
+            },
+            "gamma_min": 0.14085624774124172,
+            "gamma_median": 1.0,
+            "gamma_max": 31.1653754581264
+          },
+          "DIRECT_Q": {
+            "resolved": 44,
+            "total": 150,
+            "cg_failures": {
+              "ITERATION_BUDGET_EXHAUSTED": 105,
+              "TRUE_RESIDUAL_CHECK": 1
+            },
+            "gamma_min": 0.09583929018102431,
+            "gamma_median": 1.0,
+            "gamma_max": 17.999565260672895
+          },
+          "ALIGN_Q": {
+            "resolved": 43,
+            "total": 150,
+            "cg_failures": {
+              "ITERATION_BUDGET_EXHAUSTED": 105,
+              "TRUE_RESIDUAL_CHECK": 2
+            },
+            "gamma_min": 0.10735559769238047,
+            "gamma_median": 1.0,
+            "gamma_max": 22.41809861271857
+          }
+        },
+        "ALIGN_stages": [
+          {
+            "steps_inclusive": [
+              0,
+              9
+            ],
+            "n": 50,
+            "resolved": 0,
+            "gamma_median": 1.0,
+            "R_clean_median": 6.764434555710231,
+            "same_state_ALIGN_over_PROX_median": null
+          },
+          {
+            "steps_inclusive": [
+              10,
+              19
+            ],
+            "n": 50,
+            "resolved": 0,
+            "gamma_median": 1.0,
+            "R_clean_median": 5.966669972413726,
+            "same_state_ALIGN_over_PROX_median": null
+          },
+          {
+            "steps_inclusive": [
+              20,
+              29
+            ],
+            "n": 50,
+            "resolved": 43,
+            "gamma_median": 2.219729062527187,
+            "R_clean_median": 1.1911395989830553,
+            "same_state_ALIGN_over_PROX_median": 0.6466332206760012
+          }
+        ],
+        "per_image_ALIGN_minus_TIME": {
+          "00446": -0.1295391501717198,
+          "00559": -0.12828729140079886,
+          "00608": -0.07263613461651985,
+          "00873": -0.021771700519465753,
+          "00951": 0.15306150687663944
+        }
+      }
+    ],
+    "limits": "Cached metadata audit only. Does not repeat gates, CG, VJP, image metrics or GPU sampling. Five reused image clusters; no independent transfer, novel theorem or full posterior/curvature claim."
+  }
+}
