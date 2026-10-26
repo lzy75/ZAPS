@@ -66,3 +66,10 @@
 - 一手重核JAPS arXiv最新v3（2026-06-21，作者备注TMLR2026接收），TMPD最新v3（2024-09-25）。JAPS投影/score和K是先行工作，不能把归一化改动或Jacobian记号转置当原创。
 - 新颖性缺口：A56新图有U/V/Q/TIME，但没有匹配JAPS原投影臂；旧A53仅开发消融。最终报告需标注，后续确认计划可补该必要对照，不能提前说已超越正式JAPS。
 - theory_source_audit/evidence_index记录本轮真实阅读范围，不声称新GPU结果或全论文复现。尚未创建PDF，作者marker仍待真正创建前运行一次。
+
+## 汇报正文与图表：02:53—03:07
+
+- 完整REPORT.md写成，覆盖主线/原q与U/V/Q代称、A54/A55算术表、原开题逐项矩阵、五项命令与预算、10/27—31条件计划和未完成/新颖性边界。write_report.py从两份源摘要生成表格，不编造模型结果。
+- 两幅源数据SVG图（动机、全部5图方向/标量差异）经Sharp生成PNG；两张A53原始图片按固定ID00446逐字节拷贝，保留来源/指纹，不裁切重绘，不伪称V/Q图片。
+- bundled ReportLab可用、Matplotlib及renderPM不可用；无需重环境安装，用标准ReportLab图形SVG＋现有Sharp。PDF尚未创建，marker仍未运行；下一轮实际作者命令前成功运行一次。
+- 新发现A55r2代码会归档direction_comparison.png；可读轻量Git结果分支取原图补充，不能拉PT或合results到master。

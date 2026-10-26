@@ -5,7 +5,7 @@
 
 ## 1. 符号与原ZAPS修正
 
-alpha_t表示累计alpha_bar，a_t=sqrt(alpha_t)，b_t²=1-alpha_t，x_t在模型域[-1,1]的噪声状态中。
+alpha_t表示累计alpha_bar，a_t=sqrt(alpha_t)，b_t²=1-alpha_t，x0采用[-1,1]模型强度坐标；x_t是其含噪状态，并不逐值受[-1,1]约束。
 网络的raw条件均值估计与DDPM使用的clean分开：
 
 $$m_t(x)=(x-b_t\epsilon_\theta(x,t))/a_t,\qquad \bar m_t=\operatorname{clamp}(m_t,-1,1).$$
