@@ -21,7 +21,7 @@ def box(d,x,y,w,h,title,body,color=BLUE):
     text(d,x+w/2,y+h-26,title,18,color,'middle',True)
     for j,s in enumerate(body):text(d,x+w/2,y+h-51-j*21,s,14,INK,'middle')
 
-m=Drawing(1040,395)
+m=Drawing(1040,395);m.add(Rect(0,0,1040,395,fillColor=white,strokeColor=white))
 text(m,18,366,'From a scalar heuristic to a current physical target and response direction',22,bold=True)
 box(m,15,205,220,125,'Current observation',['x_t -> raw m_t','r = y - A(m_t)','known H, sigma_y'],GRAY)
 box(m,290,253,225,86,'Physical target',['v = L^T S^(-1) r'],BLUE)
@@ -37,7 +37,7 @@ renderSVG.drawToFile(m,str(OUT/'motivation.svg'))
 
 p55=REPO/'projects/reports/20261026_a55r2_readout/user_summary.json';p54=REPO/'projects/reports/20261026_a54_readout/user_summary.json'
 a55=json.loads(p55.read_text());a54=json.loads(p54.read_text());payload=dict(sources={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in (p55,p54)},panels=[])
-d=Drawing(1000,720);text(d,25,687,'Direction and scalar gain are different experimental questions',23,bold=True)
+d=Drawing(1000,720);d.add(Rect(0,0,1000,720,fillColor=white,strokeColor=white));text(d,25,687,'Direction and scalar gain are different experimental questions',23,bold=True)
 text(d,25,661,'All 5 reused FFHQ images; seed1000, unit sigma=.05. Positive means current U is better.',15,GRAY)
 
 def panel(x,y,w,h,title,series,ids):
