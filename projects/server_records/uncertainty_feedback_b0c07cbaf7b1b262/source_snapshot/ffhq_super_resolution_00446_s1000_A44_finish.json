@@ -1,0 +1,209 @@
+{
+  "case": {
+    "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+    "image_id": "00446",
+    "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+    "dataset": "ffhq",
+    "task": "super_resolution",
+    "image_index": 1,
+    "sigma": 0.05,
+    "sampling_seed": 1000,
+    "measurement_seed": 1446,
+    "key": "ffhq_super_resolution_00446_s1000"
+  },
+  "phase": "finish",
+  "prior_recorded_nfe": 0,
+  "plan_sha256": "ffd1066fce5de2b016c861266fb04f74bd61363351842376027b07fe2a59238a",
+  "source_record_sha256": "f967a111a7ca3f89d5db2951bf3e3cc4f7839efdc3306ddbf6ca66af13d2e910",
+  "gates": {
+    "operator": {
+      "passed": true,
+      "vjp_relative_error": 0.0,
+      "increment_adjoint_relative_error": 1.0595443314340407e-08,
+      "tolerance": 2e-05,
+      "score_calls": 0,
+      "scope": "IEEE operator-only gate; production sampling restores native policy"
+    },
+    "anchor": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "calls_rng_parameters": {
+      "passed": true
+    },
+    "all20_decisions_frozen_before_evaluation": {
+      "passed": true
+    }
+  },
+  "gamma": {
+    "C": 1.0,
+    "FIXED8": 8.0,
+    "TASK_FIXED": 127.086,
+    "PHYSICAL": 181.966,
+    "ISO": 117.659,
+    "STATE": 131.58,
+    "SHUFFLE": 109.949
+  },
+  "donor": "ffhq_super_resolution_00559_s1000",
+  "allocation_sha256": "e69db419c904c312499018491ae35da19f57e1a6f28853360ec1df4bb95f1d11",
+  "new_suffix_gammas": [
+    8.0,
+    127.086,
+    181.966,
+    117.659,
+    131.58,
+    109.949
+  ],
+  "evaluation": {
+    "C": {
+      "output": "G1",
+      "metrics": {
+        "loss": 2.0638354700584185,
+        "psnr": 20.120992272230023,
+        "ssim": 0.6009662747383118,
+        "lpips": 0.31426164507865906
+      },
+      "informative_loss": 2.0638354669860024,
+      "delta": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0,
+        "loss": 0.0
+      }
+    },
+    "FIXED8": {
+      "output": "G8",
+      "metrics": {
+        "loss": 1.9410134480150847,
+        "psnr": 20.417353953061436,
+        "ssim": 0.6101198792457581,
+        "lpips": 0.31056416034698486
+      },
+      "informative_loss": 1.9410134457035657,
+      "delta": {
+        "psnr": 0.29636168083141357,
+        "ssim": 0.009153604507446289,
+        "lpips": -0.0036974847316741943,
+        "loss": -0.12282202204333381
+      }
+    },
+    "TASK_FIXED": {
+      "output": "G127.086",
+      "metrics": {
+        "loss": 0.6558633076924786,
+        "psnr": 26.309311148388943,
+        "ssim": 0.7594335079193115,
+        "lpips": 0.23908232152462006
+      },
+      "informative_loss": 0.6558633071833322,
+      "delta": {
+        "psnr": 6.18831887615892,
+        "ssim": 0.15846723318099976,
+        "lpips": -0.075179323554039,
+        "loss": -1.4079721623659398
+      }
+    },
+    "PHYSICAL": {
+      "output": "G181.966",
+      "metrics": {
+        "loss": 0.6528970904590637,
+        "psnr": 26.09012223847486,
+        "ssim": 0.771864116191864,
+        "lpips": 0.26112037897109985
+      },
+      "informative_loss": 0.6528970907327122,
+      "delta": {
+        "psnr": 5.969129966244836,
+        "ssim": 0.17089784145355225,
+        "lpips": -0.053141266107559204,
+        "loss": -1.4109383795993549
+      }
+    },
+    "ISO": {
+      "output": "G117.659",
+      "metrics": {
+        "loss": 0.6905705765004176,
+        "psnr": 25.99521559736428,
+        "ssim": 0.7516739964485168,
+        "lpips": 0.24102294445037842
+      },
+      "informative_loss": 0.690570576728663,
+      "delta": {
+        "psnr": 5.874223325134256,
+        "ssim": 0.15070772171020508,
+        "lpips": -0.07323870062828064,
+        "loss": -1.3732648935580007
+      }
+    },
+    "STATE": {
+      "output": "G131.58",
+      "metrics": {
+        "loss": 0.6428750331879743,
+        "psnr": 26.428204772884072,
+        "ssim": 0.7625595927238464,
+        "lpips": 0.23876062035560608
+      },
+      "informative_loss": 0.6428750330551344,
+      "delta": {
+        "psnr": 6.30721250065405,
+        "ssim": 0.16159331798553467,
+        "lpips": -0.07550102472305298,
+        "loss": -1.4209604368704443
+      }
+    },
+    "SHUFFLE": {
+      "output": "G109.949",
+      "metrics": {
+        "loss": 0.7268836412402471,
+        "psnr": 25.682582930439757,
+        "ssim": 0.7445119023323059,
+        "lpips": 0.24342156946659088
+      },
+      "informative_loss": 0.7268836410513051,
+      "delta": {
+        "psnr": 5.5615906582097345,
+        "ssim": 0.14354562759399414,
+        "lpips": -0.07084007561206818,
+        "loss": -1.3369518288181714
+      }
+    }
+  },
+  "status": "complete",
+  "calls": [
+    218,
+    124,
+    54,
+    14,
+    0,
+    218,
+    124,
+    54,
+    14,
+    0,
+    218,
+    124,
+    54,
+    14,
+    0,
+    218,
+    124,
+    54,
+    14,
+    0,
+    218,
+    124,
+    54,
+    14,
+    0,
+    218,
+    124,
+    54,
+    14,
+    0
+  ],
+  "nfe": 30,
+  "seconds": 3.2655889512971044,
+  "artifacts": {
+    "outputs.pt": "3089f4a26834909e815d86f63aecdc6c2ba7c59830e486efea19d3a8170f269d"
+  }
+}
