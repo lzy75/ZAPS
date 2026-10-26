@@ -28,6 +28,9 @@ u=J_mᵀv
 所以真实VJP的u是这个明确定义代理目标的下降方向；不推出PSNR提高。
 v在VJP中detach是单次链式法则的cotangent，不代表丢失一阶梯度。
 若CG失败/向量不可分辨，则这个实际应用结论不自动成立，需明确fallback。
+上述梯度等式是精确线性求解下的数学目标。真实残差≤1e-5是数值准入，
+在条件数和Jacobian范数未知时，不单独保证近似u与精确代理梯度的夹角或下降幅度；
+不能把“CG passed”升级为画质/下降的数值证书。
 
 跨步t→s的theta=α_t/α_s，K=(1−theta)/√theta，终点s=−1取α_s=1。
 从skip DDPM的clean系数sqrt(α_s)(1−theta)/(1−α_t)，乘Tweedie条件均值位移b_t²/a_t，
