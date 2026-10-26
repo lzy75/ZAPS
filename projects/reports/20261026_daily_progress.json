@@ -10,7 +10,9 @@
     "A53",
     "A54_user_reported_summary_arithmetic_checked"
   ],
-  "implemented_not_run": [],
+  "implemented_not_run": [
+    "A55_current_direction_value"
+  ],
   "confirmed_current_chain_cost": {
     "UNet_forward": 7332,
     "input_backward_attempts": 2995,
@@ -136,9 +138,14 @@
     }
   ],
   "next": {
-    "state": "planning_not_implemented",
-    "scope": "Fixed grid only; freeze and validate guidance mechanism across unused FFHQ/images and ImageNet. Isolate current direction from gain. No h/position selection.",
-    "limits": "Additional cards/drivers not yet ready; no fake runnable command."
+    "experiment": "A55_current_direction_value",
+    "state": "implemented_local_basic_checks_passed_server_Torch_GPU_pending",
+    "new_forward_budget": 480,
+    "new_backward_max": 0,
+    "reused_U_cases": 10,
+    "reused_V_cases": 4,
+    "scope": "Fixed grid, same CURRENT-state target-norm law, compare pullback/physical/original-q directions. Old five-image development cohort only.",
+    "limits": "Not new-image confirmation or ImageNet results. h/point selection paused."
   },
   "evidence": {
     "A53_commit": "5f3008e473598963f0ed1893a4ac5745a5546dff",
