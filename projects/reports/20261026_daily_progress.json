@@ -1,0 +1,152 @@
+{
+  "date_local": "2026-10-26",
+  "scope": "研究与实验支撑进度，不是正文完成率、创新成功率或毕业保证",
+  "completed_runs": [
+    "A49",
+    "A50r2",
+    "A51",
+    "A51b",
+    "A52",
+    "A53"
+  ],
+  "implemented_not_run": [
+    "A54"
+  ],
+  "confirmed_current_chain_cost": {
+    "UNet_forward": 6432,
+    "input_backward_attempts": 2095,
+    "operator_only_solves": 64,
+    "scope": "仅今日已收到完成结果的A49-A53主链；不含未知失败尝试、全部历史、复用前270、算子/内部重算/LPIPS等成本"
+  },
+  "norm_candidate": [
+    {
+      "task": "super_resolution",
+      "image_clusters": 5,
+      "seed_count": 1,
+      "cohort": "reused_development",
+      "mean_C_IEEE": {
+        "psnr": 20.379274671342966,
+        "ssim": 0.624758529663086,
+        "lpips": 0.29932319521903994
+      },
+      "mean_NORM_ONLY": {
+        "psnr": 28.471714571343778,
+        "ssim": 0.8501645565032959,
+        "lpips": 0.17216864228248596
+      },
+      "delta_vs_C_IEEE": {
+        "psnr": 8.092439900000812,
+        "ssim": 0.22540602684020997,
+        "lpips": -0.12715455293655395
+      },
+      "delta_vs_cosine_STATE": {
+        "psnr": 0.8300983720213431,
+        "ssim": 0.025685858726501466,
+        "lpips": -0.04824725389480591
+      },
+      "delta_vs_A44_fixed_t319": {
+        "psnr": 2.1473593691704194,
+        "ssim": 0.062277483940124514,
+        "lpips": -0.04418802559375763
+      },
+      "all_three_metrics_better_vs_C_IEEE_images": 5,
+      "gain_range": [
+        0.009021486529109933,
+        3.4252347435554413
+      ],
+      "gain_median": 0.10559497495312824
+    },
+    {
+      "task": "inpainting",
+      "image_clusters": 5,
+      "seed_count": 1,
+      "cohort": "reused_development",
+      "mean_C_IEEE": {
+        "psnr": 22.702573285118504,
+        "ssim": 0.6957298994064331,
+        "lpips": 0.2502074360847473
+      },
+      "mean_NORM_ONLY": {
+        "psnr": 31.04589928097397,
+        "ssim": 0.9076008081436158,
+        "lpips": 0.10011986792087554
+      },
+      "delta_vs_C_IEEE": {
+        "psnr": 8.343325995855466,
+        "ssim": 0.21187090873718262,
+        "lpips": -0.15008756816387175
+      },
+      "delta_vs_cosine_STATE": {
+        "psnr": 7.259162029680358,
+        "ssim": 0.16037425994873047,
+        "lpips": -0.16038136184215546
+      },
+      "delta_vs_A44_fixed_t319": {
+        "psnr": 5.42630256425186,
+        "ssim": 0.12512028217315674,
+        "lpips": -0.08391633331775665
+      },
+      "all_three_metrics_better_vs_C_IEEE_images": 5,
+      "gain_range": [
+        0.016948914489427095,
+        5.34882702009554
+      ],
+      "gain_median": 0.13359723994000133
+    }
+  ],
+  "proposal_milestones": [
+    {
+      "item": "本地可回放基线/协议/成本账本",
+      "status": "available",
+      "limit": "不是作者实现完全一致或1000图均值认证"
+    },
+    {
+      "item": "固定网格实时响应归一化引导",
+      "status": "development_quality_candidate",
+      "limit": "仅5旧图、SR/IP、单seed、sigma=.05、最后30步"
+    },
+    {
+      "item": "当前余弦衰减独立贡献",
+      "status": "not_supported_in_A53",
+      "limit": "停同类系数扫描，不是不可能性定理"
+    },
+    {
+      "item": "当前响应范数比独立贡献",
+      "status": "pending_A54",
+      "limit": "不能把现有画质增益全部算成实时g收益"
+    },
+    {
+      "item": "新机制未用图确认/二seed/噪声边界",
+      "status": "not_completed",
+      "limit": "旧方法的旧确认不能替代"
+    },
+    {
+      "item": "新机制FFHQ四任务",
+      "status": "2_of_4_development_candidates",
+      "limit": "Gaussian/Motion高噪声求解未准入"
+    },
+    {
+      "item": "原曲率指标、h/采样位置/联合调度",
+      "status": "not_established",
+      "limit": "只有部分旧探索和B合成契约，无新机制真实模型闭环"
+    },
+    {
+      "item": "全方法质量可比的NFE/实际成本节省",
+      "status": "not_demonstrated",
+      "limit": "300正向不等于相同反向、算子、显存或时间"
+    }
+  ],
+  "next": {
+    "experiment": "A54_current_norm_gain",
+    "new_forward_budget": 900,
+    "new_backward_max": 900,
+    "primary": "在同当前u方向且c=1时检验当前g对TIME_GAIN/SHUFFLE_GAIN的增量；CONST仅作配套参照",
+    "state": "代码与本机基础检查完成，真实Torch/GPU结果未运行"
+  },
+  "evidence": {
+    "A53_commit": "5f3008e473598963f0ed1893a4ac5745a5546dff",
+    "A53_audit": "20261026_a49_a50r2/A53_cached_audit.json",
+    "A52_commit": "de6af1fece6ba6745f4c9066bc581b8662ce6624",
+    "historical_synthesis": "overnight_20261026/00_integrated_report.md (07:40冻结快照，科学状态由本报告更新)"
+  }
+}

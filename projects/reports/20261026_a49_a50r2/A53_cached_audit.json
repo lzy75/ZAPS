@@ -1,0 +1,394 @@
+{
+  "experiment": "A53_cached_norm_candidate_audit",
+  "verification": {
+    "manifest_sha256": "9fed921d217be3a1d35fa6b350b3b5f31a0e07ff303512ceed79636b9a2ea8e8",
+    "verified_files": 89,
+    "unextracted_pngs": [],
+    "scope": "Available archived bytes, not excluded PT/UNet replay"
+  },
+  "A50_reference_verification": {
+    "manifest_sha256": "5abd6ec15ac1c7bedf623667ece1fc9a6f142fefb047f36efb513f1714dc5153",
+    "verified_files": 194,
+    "unextracted_pngs": [
+      "ffhq_gaussian_deblur_00559_s1000/policy_comparison.png",
+      "ffhq_gaussian_deblur_00608_s1000/policy_comparison.png",
+      "ffhq_gaussian_deblur_00873_s1000/policy_comparison.png",
+      "ffhq_gaussian_deblur_00951_s1000/policy_comparison.png",
+      "ffhq_inpainting_00559_s1000/policy_comparison.png",
+      "ffhq_inpainting_00608_s1000/policy_comparison.png",
+      "ffhq_inpainting_00873_s1000/policy_comparison.png",
+      "ffhq_inpainting_00951_s1000/policy_comparison.png",
+      "ffhq_motion_deblur_00559_s1000/policy_comparison.png",
+      "ffhq_motion_deblur_00608_s1000/policy_comparison.png",
+      "ffhq_motion_deblur_00873_s1000/policy_comparison.png",
+      "ffhq_motion_deblur_00951_s1000/policy_comparison.png",
+      "ffhq_super_resolution_00559_s1000/policy_comparison.png",
+      "ffhq_super_resolution_00608_s1000/policy_comparison.png",
+      "ffhq_super_resolution_00873_s1000/policy_comparison.png",
+      "ffhq_super_resolution_00951_s1000/policy_comparison.png"
+    ],
+    "scope": "Available archived bytes, not excluded PT/UNet replay"
+  },
+  "source_summary_sha256": "e5038b8f1ec746fd457c367c79289303349c344278035657183d7830cb7a9d35",
+  "recomputed_STATE_mean_contrasts": 30,
+  "norm_target_identity_checks": 300,
+  "recorded_new_forward_nfe": 1080,
+  "recorded_new_backward_attempts": 1080,
+  "new_method_nfe": 0,
+  "new_diagnostic_nfe": 0,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "mean_metrics": {
+        "C_IEEE": {
+          "psnr": 20.379274671342966,
+          "ssim": 0.624758529663086,
+          "lpips": 0.29932319521903994
+        },
+        "STATE": {
+          "psnr": 27.641616199322435,
+          "ssim": 0.8244786977767944,
+          "lpips": 0.22041589617729188
+        },
+        "NORM_ONLY": {
+          "psnr": 28.471714571343778,
+          "ssim": 0.8501645565032959,
+          "lpips": 0.17216864228248596
+        },
+        "TIME_COS": {
+          "psnr": 27.5991897040233,
+          "ssim": 0.8233988404273986,
+          "lpips": 0.22058989703655243
+        },
+        "SHUFFLE_COS": {
+          "psnr": 27.624310500613067,
+          "ssim": 0.8233701348304748,
+          "lpips": 0.22048820853233336
+        }
+      },
+      "NORM_minus": {
+        "C_NATIVE": {
+          "psnr": 8.096655345502647,
+          "ssim": 0.22543429136276244,
+          "lpips": -0.12687696218490602
+        },
+        "C_IEEE": {
+          "psnr": 8.092439900000812,
+          "ssim": 0.22540602684020997,
+          "lpips": -0.12715455293655395
+        },
+        "STATE": {
+          "psnr": 0.8300983720213431,
+          "ssim": 0.025685858726501466,
+          "lpips": -0.04824725389480591
+        },
+        "TIME_COS": {
+          "psnr": 0.8725248673204774,
+          "ssim": 0.026765716075897217,
+          "lpips": -0.048421254754066466
+        },
+        "SHUFFLE_COS": {
+          "psnr": 0.8474040707307104,
+          "ssim": 0.026794421672821044,
+          "lpips": -0.048319566249847415
+        }
+      },
+      "NORM_positive_images": {
+        "C_IEEE": 5,
+        "STATE": 5
+      },
+      "NORM_minus_A44_TASK_FIXED": {
+        "psnr": 2.1473593691704194,
+        "ssim": 0.062277483940124514,
+        "lpips": -0.04418802559375763
+      },
+      "A44_fixed_rows": [
+        {
+          "image_id": "00446",
+          "gamma": 127.086,
+          "metrics": {
+            "loss": 0.6558633076924786,
+            "psnr": 26.309311148388943,
+            "ssim": 0.7594335079193115,
+            "lpips": 0.23908232152462006
+          },
+          "NORM_minus": {
+            "psnr": 2.2568084767222594,
+            "ssim": 0.06970357894897461,
+            "lpips": -0.04019095003604889
+          }
+        },
+        {
+          "image_id": "00559",
+          "gamma": 127.086,
+          "metrics": {
+            "loss": 0.6171288226996255,
+            "psnr": 27.810321514188256,
+            "ssim": 0.8160037398338318,
+            "lpips": 0.2227754443883896
+          },
+          "NORM_minus": {
+            "psnr": 1.8074425726174503,
+            "ssim": 0.048622965812683105,
+            "lpips": -0.06037808954715729
+          }
+        },
+        {
+          "image_id": "00608",
+          "gamma": 127.086,
+          "metrics": {
+            "loss": 0.6178296465529847,
+            "psnr": 25.944381946049404,
+            "ssim": 0.8102936148643494,
+            "lpips": 0.2413603663444519
+          },
+          "NORM_minus": {
+            "psnr": 1.898804733898622,
+            "ssim": 0.0553591251373291,
+            "lpips": -0.0433957576751709
+          }
+        },
+        {
+          "image_id": "00873",
+          "gamma": 127.086,
+          "metrics": {
+            "loss": 0.6318653617445367,
+            "psnr": 26.020843115356765,
+            "ssim": 0.7982444167137146,
+            "lpips": 0.19259637594223022
+          },
+          "NORM_minus": {
+            "psnr": 2.374097276363184,
+            "ssim": 0.05744063854217529,
+            "lpips": -0.03629559278488159
+          }
+        },
+        {
+          "image_id": "00951",
+          "gamma": 127.086,
+          "metrics": {
+            "loss": 0.7168125009415671,
+            "psnr": 25.536918286883417,
+            "ssim": 0.7554600834846497,
+            "lpips": 0.18596883118152618
+          },
+          "NORM_minus": {
+            "psnr": 2.399643786250582,
+            "ssim": 0.08026111125946045,
+            "lpips": -0.04067973792552948
+          }
+        }
+      ],
+      "gain_curves": [
+        {
+          "image_id": "00446",
+          "gain_min": 0.023184839797112108,
+          "gain_median": 0.09780752519971836,
+          "gain_max": 2.9129994761725153
+        },
+        {
+          "image_id": "00559",
+          "gain_min": 0.009021486529109933,
+          "gain_median": 0.09503502255715554,
+          "gain_max": 3.35057961819564
+        },
+        {
+          "image_id": "00608",
+          "gain_min": 0.011503220853675174,
+          "gain_median": 0.10426830587593916,
+          "gain_max": 3.4252347435554413
+        },
+        {
+          "image_id": "00873",
+          "gain_min": 0.011198635975002678,
+          "gain_median": 0.09290973623816853,
+          "gain_max": 3.037924571304297
+        },
+        {
+          "image_id": "00951",
+          "gain_min": 0.026514685921659918,
+          "gain_median": 0.12773671235321377,
+          "gain_max": 2.3770681477448363
+        }
+      ],
+      "original_current_angle_increment_candidate": false
+    },
+    {
+      "task": "inpainting",
+      "mean_metrics": {
+        "C_IEEE": {
+          "psnr": 22.702573285118504,
+          "ssim": 0.6957298994064331,
+          "lpips": 0.2502074360847473
+        },
+        "STATE": {
+          "psnr": 23.786737251293612,
+          "ssim": 0.7472265481948852,
+          "lpips": 0.26050122976303103
+        },
+        "NORM_ONLY": {
+          "psnr": 31.04589928097397,
+          "ssim": 0.9076008081436158,
+          "lpips": 0.10011986792087554
+        },
+        "TIME_COS": {
+          "psnr": 23.80913174601815,
+          "ssim": 0.746890926361084,
+          "lpips": 0.2600300878286362
+        },
+        "SHUFFLE_COS": {
+          "psnr": 23.75916183067588,
+          "ssim": 0.7457314848899841,
+          "lpips": 0.26120181381702423
+        }
+      },
+      "NORM_minus": {
+        "C_NATIVE": {
+          "psnr": 8.352964198097236,
+          "ssim": 0.21224451065063477,
+          "lpips": -0.15010192096233368
+        },
+        "C_IEEE": {
+          "psnr": 8.343325995855466,
+          "ssim": 0.21187090873718262,
+          "lpips": -0.15008756816387175
+        },
+        "STATE": {
+          "psnr": 7.259162029680358,
+          "ssim": 0.16037425994873047,
+          "lpips": -0.16038136184215546
+        },
+        "TIME_COS": {
+          "psnr": 7.236767534955821,
+          "ssim": 0.16070988178253173,
+          "lpips": -0.1599102199077606
+        },
+        "SHUFFLE_COS": {
+          "psnr": 7.286737450298089,
+          "ssim": 0.1618693232536316,
+          "lpips": -0.1610819458961487
+        }
+      },
+      "NORM_positive_images": {
+        "C_IEEE": 5,
+        "STATE": 5
+      },
+      "NORM_minus_A44_TASK_FIXED": {
+        "psnr": 5.42630256425186,
+        "ssim": 0.12512028217315674,
+        "lpips": -0.08391633331775665
+      },
+      "A44_fixed_rows": [
+        {
+          "image_id": "00446",
+          "gamma": 28.526,
+          "metrics": {
+            "loss": 0.6282086370357202,
+            "psnr": 25.366140068461736,
+            "ssim": 0.74821537733078,
+            "lpips": 0.21364280581474304
+          },
+          "NORM_minus": {
+            "psnr": 5.796837722140932,
+            "ssim": 0.14588189125061035,
+            "lpips": -0.099782794713974
+          }
+        },
+        {
+          "image_id": "00559",
+          "gamma": 28.526,
+          "metrics": {
+            "loss": 0.5854998159911861,
+            "psnr": 27.154251593193433,
+            "ssim": 0.8098359704017639,
+            "lpips": 0.18502306938171387
+          },
+          "NORM_minus": {
+            "psnr": 5.475422147022389,
+            "ssim": 0.10979759693145752,
+            "lpips": -0.09863591194152832
+          }
+        },
+        {
+          "image_id": "00608",
+          "gamma": 28.526,
+          "metrics": {
+            "loss": 0.5899105003662226,
+            "psnr": 25.152663859799716,
+            "ssim": 0.8069036602973938,
+            "lpips": 0.16907161474227905
+          },
+          "NORM_minus": {
+            "psnr": 4.187825965779606,
+            "ssim": 0.09791010618209839,
+            "lpips": -0.03472405672073364
+          }
+        },
+        {
+          "image_id": "00873",
+          "gamma": 28.526,
+          "metrics": {
+            "loss": 0.5870453219594848,
+            "psnr": 25.959482394124684,
+            "ssim": 0.8058762550354004,
+            "lpips": 0.1597536951303482
+          },
+          "NORM_minus": {
+            "psnr": 5.5177658945277415,
+            "ssim": 0.11390656232833862,
+            "lpips": -0.08101356029510498
+          }
+        },
+        {
+          "image_id": "00951",
+          "gamma": 28.526,
+          "metrics": {
+            "loss": 0.6278062032687054,
+            "psnr": 24.46544566803098,
+            "ssim": 0.7415713667869568,
+            "lpips": 0.19268982112407684
+          },
+          "NORM_minus": {
+            "psnr": 6.153661091788631,
+            "ssim": 0.1581052541732788,
+            "lpips": -0.10542534291744232
+          }
+        }
+      ],
+      "gain_curves": [
+        {
+          "image_id": "00446",
+          "gain_min": 0.04026003801329403,
+          "gain_median": 0.12195566193755736,
+          "gain_max": 5.342914393300697
+        },
+        {
+          "image_id": "00559",
+          "gain_min": 0.016948914489427095,
+          "gain_median": 0.11977560440306081,
+          "gain_max": 5.34882702009554
+        },
+        {
+          "image_id": "00608",
+          "gain_min": 0.021473561321259237,
+          "gain_median": 0.12070317656428824,
+          "gain_max": 4.148919483177947
+        },
+        {
+          "image_id": "00873",
+          "gain_min": 0.021506236637474533,
+          "gain_median": 0.12359824252271526,
+          "gain_max": 3.945489060703832
+        },
+        {
+          "image_id": "00951",
+          "gain_min": 0.04615134114214077,
+          "gain_median": 0.15895639719005347,
+          "gain_max": 4.304772791692822
+        }
+      ],
+      "original_current_angle_increment_candidate": false
+    }
+  ],
+  "limits": "Available archive bytes/scalar arithmetic, not PT/model replay. NORM_ONLY was a predefined secondary control selected as a candidate after development outcomes. Five reused image clusters, no new confirmation. A44 TASK_FIXED is a same-case fixed t319 pulse reference, not strongest full-grid fixed gain; extra VJP cost differs."
+}
