@@ -120,19 +120,19 @@ __GAIN_TABLE__
 ## 5. 真实重建图片：作为现象展示
 
 下面固定展示ID最小的00446，不按收益挑图；完整统计仍覆盖5图。原图未经重绘或裁切，字节指纹可核对。
-这些是A53原始面板，NORM_ONLY即A54/A55r2复用的U，STATE含夹角衰减；不是新A55r2 V/Q图片。
+这些是A55r2归档原始方向面板：GT、C_IEEE、U_CURRENT、V_PHYSICAL、Q_ORIGINAL。U复用A53的NORM_ONLY；V的部分案例也复用既有缓存。
 
 <!-- page:landscape -->
-![图3：4×超分的原始GT/C/夹角消融/NORM_ONLY面板](figures/example_sr_00446.png)
+![图3：4×超分的原始GT/C/U/V/Q方向面板](figures/direction_sr_00446.png)
 
 图3：当前U在该旧图上比C清楚，三项指标对应原图标注。它展示候选现象，不证明新图泛化或当前g独立价值。
 
 <!-- page:landscape -->
-![图4：随机补洞的原始GT/C/夹角消融/NORM_ONLY面板](figures/example_ip_00446.png)
+![图4：随机补洞的原始GT/C/U/V/Q方向面板](figures/direction_ip_00446.png)
 
 图4：V仅作用于观测支持域，u可经去噪器向缺失区传递信息；已有U轨迹约65%—67%引导能量在缺失区。
 这只是作用范围，不表示比例越大越好；原q的小波预条件也可能混合空间信息。
-[原始来源与无变换拷贝指纹](figures/image_provenance.json)。
+[A55r2归档原图、提交和无变换拷贝指纹](figures/A55r2_image_provenance.json)。归档摘要与用户回传逐字段一致。另保留[A53超分夹角面板](figures/example_sr_00446.png)和[A53补洞面板](figures/example_ip_00446.png)，不当成新增样本。
 
 <!-- page:portrait -->
 ## 6. 开题逐项证据矩阵
@@ -218,5 +218,14 @@ JAPS论文的CelebA-HQ/100步、Gaussian与mask设置也不同，不能拿论文
 最后一项当前按用户要求暂停。没有上述结果，就明确写未证实，不保证所有任务正向或硕士毕业。
 '''
 text=text.replace('__HEAD_TABLE__','\n'.join(head)).replace('__EFFECT_TABLE__','\n'.join(effects)).replace('__GAIN_TABLE__','\n'.join(gains))
+for task, caption in [('super_resolution','图3：当前U在该旧图上比C清楚，三项指标对应原图标注。它展示候选现象，不证明新图泛化或当前g独立价值。'),('inpainting','<!-- page:portrait -->')]:
+ group=next(g for g in p55['groups'] if g['task']==task);case=next(v for v in group['per_image'] if v['case']['image_id']=='00446')
+ tab=['|方法（00446）|PSNR/dB|SSIM|LPIPS|','|---|---:|---:|---:|']
+ for arm in ('C_IEEE','U_CURRENT','V_PHYSICAL','Q_ORIGINAL'):
+  m=case['metrics'][arm];tab.append(f"|{arm}|{m['psnr']:.3f}|{m['ssim']:.4f}|{m['lpips']:.4f}|")
+ if task=='super_resolution':text=text.replace(caption,caption+'\n\n'+'\n'.join(tab))
+ else:text=text.replace(caption,'\n'.join(tab)+'\n\n'+caption)
+text='\n'.join(line.replace('||','‖') if line.startswith('|') else line for line in text.split('\n'))
+text=text.replace('ᵀ','^T').replace('—','-').replace('–','-').replace('−','-')
 (R/'REPORT.md').write_text(text)
 print('REPORT.md written from2 reported summaries; no new efficacy result.')

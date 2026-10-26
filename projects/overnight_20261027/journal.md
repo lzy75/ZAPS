@@ -73,3 +73,9 @@
 - 两幅源数据SVG图（动机、全部5图方向/标量差异）经Sharp生成PNG；两张A53原始图片按固定ID00446逐字节拷贝，保留来源/指纹，不裁切重绘，不伪称V/Q图片。
 - bundled ReportLab可用、Matplotlib及renderPM不可用；无需重环境安装，用标准ReportLab图形SVG＋现有Sharp。PDF尚未创建，marker仍未运行；下一轮实际作者命令前成功运行一次。
 - 新发现A55r2代码会归档direction_comparison.png；可读轻量Git结果分支取原图补充，不能拉PT或合results到master。
+
+## 原始方向图与PDF交付：03:13—03:32
+
+- 从A55r2轻量结果分支隔离bare/filter读取摘要、manifest与两张原始PNG，未合results/未拉PT。来源提交ee63c790，归档摘要与用户回传逐字段一致，图片字节/哈希保留。主报告使用最小ID00446，不按收益挑图，原U缓存复用明确标注。
+- PDF技能必需artifact marker于首个真正作者命令前成功运行一次；ReportLab直接解析REPORT.md，含嵌入中文字体、可点来源和横向原始图片页。修正表格范数分隔符/不支持的上标字形，并压缩空尾页；八页全页视觉检查，图题孤行修正后重查第3/4页，无溢出/裁切。
+- 输出报告、原图来源索引、render_manifest与visual_qa均已保存；没有任何新Torch/GPU运行。下一轮只做五包入口/冻结/成本的最终静态审阅及交付完善，不再添第六项idea。
