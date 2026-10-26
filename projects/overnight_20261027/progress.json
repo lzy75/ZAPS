@@ -1,5 +1,5 @@
 {
-  "status": "scheduled_active_A58_implemented_A59_next",
+  "status": "scheduled_active_A59_implemented_A60_next",
   "deadline_local": "2026-10-27T08:00:00+08:00",
   "deadline_utc": "2026-10-27T00:00:00Z",
   "automation_id": "zaps-08",
@@ -15,7 +15,8 @@
   "ready_code": {
     "A56": "e60df03 pushed; actual server Torch/GPU not reported",
     "A57": "e281433 code and 542256e command/checkpoint docs pushed and confirmed; server Torch/GPU pending",
-    "A58": "309e291 pushed and confirmed; one Mac design test and CLI/AST/shell syntax pass; real Torch/CUDA pending"
+    "A58": "309e291 pushed and confirmed; one Mac design test and CLI/AST/shell syntax pass; real Torch/CUDA pending",
+    "A59": "Full independent package implemented;3 Mac NumPy/design tests pass, CLI/shell syntax pass; real Torch capture/actual GPU not run; push next"
   },
   "candidate_packages": [
     "A56 frozen cross-dataset transfer",
@@ -32,19 +33,20 @@
     "Heartbeat updated ACTIVE with hard08:00 cutoff and verified saved configuration",
     "Initial REPORT/EXPERIMENTS/RUN_COMMANDS scaffold written; only A56 command currently ready",
     "A57 independent seed-only no-learning inference/card/session/launcher implemented; original PRE first deserialized only after output hash freeze; 300 new method forwards and <=300 input VJPs; no local Torch execution",
-    "A58 completed source package: unchanged zero-boundary target, periodic FFT-SPD preconditioner,128cap true-residual1e-5;24 solves before any NN, strict8-PCG admission; <=1200F/600VJP conditional quality; Mac no Torch execution"
+    "A58 completed source package: unchanged zero-boundary target, periodic FFT-SPD preconditioner,128cap true-residual1e-5;24 solves before any NN, strict8-PCG admission; <=1200F/600VJP conditional quality; Mac no Torch execution",
+    "A59 paid fixed-t geometry/final dose response implemented:300 replay+120 probes+340 continuation=760 maxF/VJP; same-time two scales, exact source U tap without extra derivative, image-held-out frozen1NN versus stage and physical, all30 labels retained"
   ],
   "pending": [
     "Validate formulas against source/proposal/nearest primary papers",
-    "Implement independent cards/drivers/launchers forA57-A60 with bounded budgets",
+    "Implement independent cards/drivers/launchers forA60 with bounded budgets",
     "Minimal local checks and source-guard review, push ready code",
     "Write4-5 real command blocks with dependencies",
     "Create REPORT.md and PDF, render/visually verify",
     "Final evidence matrix, limitations, exact unfinished list and stop automation"
   ],
-  "next_action": "Implement A59 fixed-t two-scale directional response + one-pulse gamma .5/1.5 final endpoint diagnosis; budget760F/760B from paid U replay300 + fixed-t probes120 + continuations340. A60 remains last package. Then formula/proposal/primary-source checks and PDF.",
+  "next_action": "Push A59 and command4, then implement A60 direction refresh every1/2/4 with first/last updates and current physical v every step. After all5 code packages, verify formulas/proposal/nearest papers, evidence mapping and report/PDF.",
   "server_access": "User manual execution only; no direct Mac SSH. GPU results cannot be invented.",
-  "last_checkpoint_local": "2026-10-27T01:50:27.561135+08:00",
+  "last_checkpoint_local": "2026-10-27T02:05:15.341061+08:00",
   "automation_verified": {
     "id": "zaps-08",
     "status": "ACTIVE",
