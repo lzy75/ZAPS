@@ -110,7 +110,7 @@ python -u utils/a60_session.py
 各包不依赖其他新包的运行结果；A58在自身0NN准入后条件触发质量。
 建议顺序执行，避免所有launcher同时选择相同空闲GPU导致挤占。
 
-首次完成任一同步后，也可用 `bash projects/overnight_20261027/run_commands.sh A56`，
+首次完成任一同步后，也可用 `bash /home/lzy/ZAPS/projects/overnight_20261027/run_commands.sh A56`，
 将末尾编号换为A57/A58/A59/A60即可；脚本不会默认把五包全部启动。
 
 断线后进入 `/home/lzy/ZAPS/projects`，激活base后再运行对应 `python -u utils/a60_session.py` 即可跟随，

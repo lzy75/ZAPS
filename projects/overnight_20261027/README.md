@@ -76,3 +76,5 @@ current_direction_control.py、diag_frozen_direction_transfer.py。原代码中�
 ## 03:32交付检查点
 
 五包及五段命令已真实推送；REPORT.md与同文八页PDF已生成并逐页视觉核查，FORMULAS/EXPERIMENTS/原始A55r2图片/来源索引均具备。PDF源与产物指纹见output/pdf/。下一轮只做最终静态整合和限时收口；真实模型证据仍截至A55r2，A56—A60均待用户服务器执行。
+
+结果回来后按READOUT_GUIDE.md读五包的真实字段、正负分支与证据边界；不改原冻结判据。统一入口示例已改服务器绝对路径，可从任意cwd使用。

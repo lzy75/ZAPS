@@ -7,7 +7,7 @@ case "$zaps_night_pkg" in
   A58) zaps_night_min=309e291;zaps_night_entry=a58_session.py;;
   A59) zaps_night_min=fa2d7fa;zaps_night_entry=a59_session.py;;
   A60) zaps_night_min=3e855f2;zaps_night_entry=a60_session.py;;
-  *) echo 'Usage: bash projects/overnight_20261027/run_commands.sh A56|A57|A58|A59|A60' >&2;exit 2;;
+  *) echo 'Usage: bash /home/lzy/ZAPS/projects/overnight_20261027/run_commands.sh A56|A57|A58|A59|A60' >&2;exit 2;;
 esac
 source /home/lzy/anaconda3/etc/profile.d/conda.sh
 conda activate base
