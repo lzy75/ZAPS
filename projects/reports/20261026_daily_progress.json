@@ -8,16 +8,17 @@
     "A51b",
     "A52",
     "A53",
-    "A54_user_reported_summary_arithmetic_checked"
+    "A54_user_reported_summary_arithmetic_checked",
+    "A55r2_user_reported_summary_arithmetic_checked"
   ],
   "implemented_not_run": [
-    "A55r2_current_direction_value"
+    "A56_frozen_direction_transfer"
   ],
   "confirmed_current_chain_cost": {
-    "UNet_forward": 7332,
+    "UNet_forward": 7813,
     "input_backward_attempts": 2995,
     "operator_only_solves": 64,
-    "scope": "今日已收到完成摘要的A49-A54主链有效记录调用；不含未知失败/隔离中断尝试、全部历史、复用前270、算子/内部重算/LPIPS等成本。A54目前只复核用户摘要。"
+    "scope": "今日A49-A55r2已报告的主链计数，含A55软件失败1次记录前向；不含未知中断、全部历史、复用训练、内部重算、算子及LPIPS成本。A54/A55仅摘要算术复核。"
   },
   "norm_candidate": [
     {
@@ -138,15 +139,20 @@
     }
   ],
   "next": {
-    "experiment": "A55r2_current_direction_value",
-    "state": "independent_guard_fix_local_basic_passed_server_Torch_GPU_pending",
-    "new_forward_budget": 480,
-    "new_backward_max": 0,
-    "reused_U_cases": 10,
-    "reused_V_cases": 4,
-    "scope": "Fixed grid, same CURRENT-state target-norm law, compare pullback/physical/original-q directions. Old five-image development cohort only.",
-    "limits": "Old complete control cases reused; prior failed forward attempts additionally charged. Operator adjoint autograd is allowed and separately counted, denoiser input backwards remain zero. No new h/point selection.",
-    "new_forward_budget_max": 480
+    "experiment": "A56_frozen_direction_transfer",
+    "state": "implemented_local4_design_checks_passed_real_Torch_GPU_pending",
+    "fresh_image_counts": {
+      "ffhq": 6,
+      "imagenet": 4
+    },
+    "tasks": [
+      "super_resolution",
+      "inpainting"
+    ],
+    "method_forward_budget": 6000,
+    "diagnostic_forward_budget": 3624,
+    "input_backward_max": 1204,
+    "limits": "Frozen rule;20 cases,10 image clusters; no four-FFHQ-task, curvature/h or NFE-saving proof. U/V resolved targets do not depend on learned zeta/D; minimum standalone deployment cost still unconfirmed."
   },
   "evidence": {
     "A53_commit": "5f3008e473598963f0ed1893a4ac5745a5546dff",
@@ -154,14 +160,49 @@
     "A52_commit": "de6af1fece6ba6745f4c9066bc581b8662ce6624",
     "historical_synthesis": "overnight_20261026/00_integrated_report.md (07:40冻结快照，科学状态由本报告更新)",
     "A54_user_summary": "20261026_a54_readout/user_summary.json",
-    "A54_arithmetic_audit": "20261026_a54_readout/arithmetic_audit.json"
+    "A54_arithmetic_audit": "20261026_a54_readout/arithmetic_audit.json",
+    "A55r2_arithmetic_audit": "20261026_a55r2_readout/arithmetic_audit.json"
   },
   "software_failures": [
     {
       "experiment": "A55",
       "reason": "Global autograd.grad ban blocked original SR exact-adjoint local probe VJP",
-      "state": "user_reported_software_gate_failure_not_quality_evidence",
+      "state": "fixed_in_A55r2_user_reported_complete;1 prior forward attempt retained",
       "fix": "A55r2 independent driver and exact-SR-adjoint regression; old files retained"
     }
-  ]
+  ],
+  "direction_candidate": {
+    "super_resolution": {
+      "U_minus_V": {
+        "psnr": 1.1236196796913915,
+        "ssim": 0.08322333097457886,
+        "lpips": -0.09755038022994995
+      },
+      "U_minus_Q": {
+        "psnr": 1.2549464302840463,
+        "ssim": 0.09077197313308716,
+        "lpips": -0.1274469256401062
+      },
+      "positive": {
+        "V_PHYSICAL": 5,
+        "Q_ORIGINAL": 5
+      }
+    },
+    "inpainting": {
+      "U_minus_V": {
+        "psnr": 8.348424817457099,
+        "ssim": 0.2434019088745117,
+        "lpips": -0.2614273279905319
+      },
+      "U_minus_Q": {
+        "psnr": 8.347373307111297,
+        "ssim": 0.24335861206054688,
+        "lpips": -0.26138692200183866
+      },
+      "positive": {
+        "V_PHYSICAL": 5,
+        "Q_ORIGINAL": 5
+      }
+    }
+  }
 }

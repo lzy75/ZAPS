@@ -1,0 +1,856 @@
+{
+  "experiment": "A55r2_current_direction_value",
+  "classification": "DEVELOPMENT_PULLBACK_DIRECTION_CANDIDATE",
+  "completed_cases": 10,
+  "planned_cases": 10,
+  "image_clusters": 5,
+  "reused_U_cases": 10,
+  "reused_V_cases": 4,
+  "method_nfe": 0,
+  "diagnostic_nfe": 480,
+  "planned_diagnostic_nfe": 480,
+  "backward_attempts": 0,
+  "backward_completed": 0,
+  "partial_attempts": 0,
+  "scientific_forward_nfe": 300,
+  "new_arm_seconds": {
+    "V_PHYSICAL": 17.88996430579573,
+    "Q_ORIGINAL": 31.218381150625646
+  },
+  "operator_accounting": {
+    "linear_calls": 2909,
+    "adjoint_calls": 3389
+  },
+  "operator_autograd_accounting": {
+    "operator_grad_attempts": 2909,
+    "operator_grad_completed": 2909,
+    "forbidden_grad_attempts": 0
+  },
+  "reused_old_control_cases": 0,
+  "legacy_A55_recorded_forward_attempts": 1,
+  "total_recorded_A55_and_R2_forward_attempts": 481,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "mean_delta": {
+        "U_CURRENT": {
+          "C_IEEE": {
+            "psnr": 8.092439900000812,
+            "ssim": 0.22540602684020997,
+            "lpips": -0.12715455293655395
+          },
+          "U_CURRENT": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "V_PHYSICAL": {
+            "psnr": 1.1236196796913915,
+            "ssim": 0.08322333097457886,
+            "lpips": -0.09755038022994995
+          },
+          "Q_ORIGINAL": {
+            "psnr": 1.2549464302840463,
+            "ssim": 0.09077197313308716,
+            "lpips": -0.1274469256401062
+          },
+          "TIME_GAIN": {
+            "psnr": -0.027430240715962385,
+            "ssim": -0.0006539106369018554,
+            "lpips": -0.000657305121421814
+          }
+        },
+        "V_PHYSICAL": {
+          "C_IEEE": {
+            "psnr": 6.9688202203094205,
+            "ssim": 0.1421826958656311,
+            "lpips": -0.029604172706604003
+          },
+          "U_CURRENT": {
+            "psnr": -1.1236196796913915,
+            "ssim": -0.08322333097457886,
+            "lpips": 0.09755038022994995
+          },
+          "V_PHYSICAL": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "Q_ORIGINAL": {
+            "psnr": 0.13132675059265467,
+            "ssim": 0.007548642158508301,
+            "lpips": -0.02989654541015625
+          },
+          "TIME_GAIN": {
+            "psnr": -1.1510499204073539,
+            "ssim": -0.08387724161148072,
+            "lpips": 0.09689307510852814
+          }
+        },
+        "Q_ORIGINAL": {
+          "C_IEEE": {
+            "psnr": 6.837493469716766,
+            "ssim": 0.1346340537071228,
+            "lpips": 0.0002923727035522461
+          },
+          "U_CURRENT": {
+            "psnr": -1.2549464302840463,
+            "ssim": -0.09077197313308716,
+            "lpips": 0.1274469256401062
+          },
+          "V_PHYSICAL": {
+            "psnr": -0.13132675059265467,
+            "ssim": -0.007548642158508301,
+            "lpips": 0.02989654541015625
+          },
+          "Q_ORIGINAL": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "TIME_GAIN": {
+            "psnr": -1.2823766710000086,
+            "ssim": -0.09142588376998902,
+            "lpips": 0.1267896205186844
+          }
+        }
+      },
+      "U_positive_images": {
+        "V_PHYSICAL": 5,
+        "Q_ORIGINAL": 5
+      },
+      "fully_resolved": true,
+      "pullback_increment_by_reference": {
+        "V_PHYSICAL": true,
+        "Q_ORIGINAL": true
+      },
+      "current_pullback_direction_candidate": true,
+      "resolved_states": {
+        "U_CURRENT": 150,
+        "V_PHYSICAL": 150,
+        "Q_ORIGINAL": 150
+      },
+      "per_image": [
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+            "image_id": "00446",
+            "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+            "dataset": "ffhq",
+            "task": "super_resolution",
+            "image_index": 1,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 1446,
+            "key": "ffhq_super_resolution_00446_s1000"
+          },
+          "metrics": {
+            "Q_ORIGINAL": {
+              "psnr": 27.2228370248926,
+              "ssim": 0.7589592933654785,
+              "lpips": 0.30163946747779846
+            },
+            "V_PHYSICAL": {
+              "psnr": 27.3217669161731,
+              "ssim": 0.7619421482086182,
+              "lpips": 0.2710486352443695
+            },
+            "U_CURRENT": {
+              "psnr": 28.566119625111202,
+              "ssim": 0.8291370868682861,
+              "lpips": 0.19889137148857117
+            },
+            "C_NATIVE": {
+              "psnr": 20.120992272230023,
+              "ssim": 0.6009662747383118,
+              "lpips": 0.31426164507865906
+            },
+            "C_IEEE": {
+              "psnr": 20.138165634674646,
+              "ssim": 0.6009317636489868,
+              "lpips": 0.31397199630737305
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 26.309311148388943,
+              "ssim": 0.7594335079193115,
+              "lpips": 0.23908232152462006
+            },
+            "TIME_GAIN": {
+              "psnr": 28.584223706753775,
+              "ssim": 0.8296940922737122,
+              "lpips": 0.19950923323631287
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 28.523795022564226,
+              "ssim": 0.8280491232872009,
+              "lpips": 0.19391798973083496
+            }
+          },
+          "resolved": {
+            "Q_ORIGINAL": 30,
+            "V_PHYSICAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+            "image_id": "00559",
+            "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+            "dataset": "ffhq",
+            "task": "super_resolution",
+            "image_index": 2,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 1559,
+            "key": "ffhq_super_resolution_00559_s1000"
+          },
+          "metrics": {
+            "Q_ORIGINAL": {
+              "psnr": 27.951169786296013,
+              "ssim": 0.7360365986824036,
+              "lpips": 0.377269983291626
+            },
+            "V_PHYSICAL": {
+              "psnr": 28.169001718882534,
+              "ssim": 0.7459473013877869,
+              "lpips": 0.3458985686302185
+            },
+            "U_CURRENT": {
+              "psnr": 29.617764086805707,
+              "ssim": 0.8646267056465149,
+              "lpips": 0.1623973548412323
+            },
+            "C_NATIVE": {
+              "psnr": 21.787666185229426,
+              "ssim": 0.6729552745819092,
+              "lpips": 0.292797327041626
+            },
+            "C_IEEE": {
+              "psnr": 21.78831655043121,
+              "ssim": 0.6730226874351501,
+              "lpips": 0.2925487160682678
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 27.810321514188256,
+              "ssim": 0.8160037398338318,
+              "lpips": 0.2227754443883896
+            },
+            "TIME_GAIN": {
+              "psnr": 29.712568776619147,
+              "ssim": 0.8662591576576233,
+              "lpips": 0.16919651627540588
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 29.664328257339612,
+              "ssim": 0.8650105595588684,
+              "lpips": 0.16586005687713623
+            }
+          },
+          "resolved": {
+            "Q_ORIGINAL": 30,
+            "V_PHYSICAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00608.png",
+            "image_id": "00608",
+            "image_sha256": "87e5a036895fd3701db64a8df899ef1ce5e6d87fb160855480153ac4ce60f509",
+            "dataset": "ffhq",
+            "task": "super_resolution",
+            "image_index": 3,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 1608,
+            "key": "ffhq_super_resolution_00608_s1000"
+          },
+          "metrics": {
+            "V_PHYSICAL": {
+              "psnr": 26.78853291528683,
+              "ssim": 0.7520008087158203,
+              "lpips": 0.36623841524124146
+            },
+            "Q_ORIGINAL": {
+              "psnr": 26.60255349210615,
+              "ssim": 0.7372604012489319,
+              "lpips": 0.40670037269592285
+            },
+            "U_CURRENT": {
+              "psnr": 27.843186679948026,
+              "ssim": 0.8656527400016785,
+              "lpips": 0.197964608669281
+            },
+            "C_NATIVE": {
+              "psnr": 21.527082330078898,
+              "ssim": 0.6991487145423889,
+              "lpips": 0.28521719574928284
+            },
+            "C_IEEE": {
+              "psnr": 21.534756371451476,
+              "ssim": 0.699408233165741,
+              "lpips": 0.2870384454727173
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 25.944381946049404,
+              "ssim": 0.8102936148643494,
+              "lpips": 0.2413603663444519
+            },
+            "TIME_GAIN": {
+              "psnr": 27.812654224899408,
+              "ssim": 0.8650579452514648,
+              "lpips": 0.2078532576560974
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 27.833832348920488,
+              "ssim": 0.8649458289146423,
+              "lpips": 0.21262390911579132
+            }
+          },
+          "resolved": {
+            "V_PHYSICAL": 30,
+            "Q_ORIGINAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00873.png",
+            "image_id": "00873",
+            "image_sha256": "9a5d7b9808ac2639040c51c89dd46a6c93f24bcc17b13090f6815b4e89038d53",
+            "dataset": "ffhq",
+            "task": "super_resolution",
+            "image_index": 4,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 1873,
+            "key": "ffhq_super_resolution_00873_s1000"
+          },
+          "metrics": {
+            "V_PHYSICAL": {
+              "psnr": 27.297376682910574,
+              "ssim": 0.7923364043235779,
+              "lpips": 0.2100885510444641
+            },
+            "Q_ORIGINAL": {
+              "psnr": 27.168748632253855,
+              "ssim": 0.7841448783874512,
+              "lpips": 0.23690778017044067
+            },
+            "U_CURRENT": {
+              "psnr": 28.39494039171995,
+              "ssim": 0.8556850552558899,
+              "lpips": 0.15630078315734863
+            },
+            "C_NATIVE": {
+              "psnr": 19.639402566343062,
+              "ssim": 0.6056861877441406,
+              "lpips": 0.28900146484375
+            },
+            "C_IEEE": {
+              "psnr": 19.635982451845038,
+              "ssim": 0.6055285334587097,
+              "lpips": 0.28910091519355774
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 26.020843115356765,
+              "ssim": 0.7982444167137146,
+              "lpips": 0.19259637594223022
+            },
+            "TIME_GAIN": {
+              "psnr": 28.33545930977513,
+              "ssim": 0.8543642163276672,
+              "lpips": 0.15187279880046844
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 28.351889903069633,
+              "ssim": 0.8544793128967285,
+              "lpips": 0.15905031561851501
+            }
+          },
+          "resolved": {
+            "V_PHYSICAL": 30,
+            "Q_ORIGINAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+            "image_id": "00951",
+            "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+            "dataset": "ffhq",
+            "task": "super_resolution",
+            "image_index": 5,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 1951,
+            "key": "ffhq_super_resolution_00951_s1000"
+          },
+          "metrics": {
+            "V_PHYSICAL": {
+              "psnr": 27.163796225008888,
+              "ssim": 0.782479465007782,
+              "lpips": 0.155320942401886
+            },
+            "Q_ORIGINAL": {
+              "psnr": 27.138531769750035,
+              "ssim": 0.7805617451667786,
+              "lpips": 0.17556023597717285
+            },
+            "U_CURRENT": {
+              "psnr": 27.936562073134,
+              "ssim": 0.8357211947441101,
+              "lpips": 0.1452890932559967
+            },
+            "C_NATIVE": {
+              "psnr": 18.800152775324236,
+              "ssim": 0.5448948740959167,
+              "lpips": 0.31395038962364197
+            },
+            "C_IEEE": {
+              "psnr": 18.79915234831245,
+              "ssim": 0.544901430606842,
+              "lpips": 0.3139559030532837
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 25.536918286883417,
+              "ssim": 0.7554600834846497,
+              "lpips": 0.18596883118152618
+            },
+            "TIME_GAIN": {
+              "psnr": 28.050818042251237,
+              "ssim": 0.8387169241905212,
+              "lpips": 0.13569793105125427
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 28.0138388789415,
+              "ssim": 0.8378894329071045,
+              "lpips": 0.13746322691440582
+            }
+          },
+          "resolved": {
+            "V_PHYSICAL": 30,
+            "Q_ORIGINAL": 30,
+            "U_CURRENT": 30
+          }
+        }
+      ]
+    },
+    {
+      "task": "inpainting",
+      "mean_delta": {
+        "U_CURRENT": {
+          "C_IEEE": {
+            "psnr": 8.343325995855466,
+            "ssim": 0.21187090873718262,
+            "lpips": -0.15008756816387175
+          },
+          "U_CURRENT": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "V_PHYSICAL": {
+            "psnr": 8.348424817457099,
+            "ssim": 0.2434019088745117,
+            "lpips": -0.2614273279905319
+          },
+          "Q_ORIGINAL": {
+            "psnr": 8.347373307111297,
+            "ssim": 0.24335861206054688,
+            "lpips": -0.26138692200183866
+          },
+          "TIME_GAIN": {
+            "psnr": -0.07088084825691254,
+            "ssim": -0.0006054520606994628,
+            "lpips": 0.00020345747470855712
+          }
+        },
+        "V_PHYSICAL": {
+          "C_IEEE": {
+            "psnr": -0.005098821601632153,
+            "ssim": -0.0315310001373291,
+            "lpips": 0.11133975982666015
+          },
+          "U_CURRENT": {
+            "psnr": -8.348424817457099,
+            "ssim": -0.2434019088745117,
+            "lpips": 0.2614273279905319
+          },
+          "V_PHYSICAL": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "Q_ORIGINAL": {
+            "psnr": -0.0010515103458011766,
+            "ssim": -4.329681396484375e-05,
+            "lpips": 4.04059886932373e-05
+          },
+          "TIME_GAIN": {
+            "psnr": -8.419305665714012,
+            "ssim": -0.2440073609352112,
+            "lpips": 0.2616307854652405
+          }
+        },
+        "Q_ORIGINAL": {
+          "C_IEEE": {
+            "psnr": -0.004047311255830977,
+            "ssim": -0.03148770332336426,
+            "lpips": 0.11129935383796692
+          },
+          "U_CURRENT": {
+            "psnr": -8.347373307111297,
+            "ssim": -0.24335861206054688,
+            "lpips": 0.26138692200183866
+          },
+          "V_PHYSICAL": {
+            "psnr": 0.0010515103458011766,
+            "ssim": 4.329681396484375e-05,
+            "lpips": -4.04059886932373e-05
+          },
+          "Q_ORIGINAL": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "TIME_GAIN": {
+            "psnr": -8.41825415536821,
+            "ssim": -0.24396406412124633,
+            "lpips": 0.26159037947654723
+          }
+        }
+      },
+      "U_positive_images": {
+        "V_PHYSICAL": 5,
+        "Q_ORIGINAL": 5
+      },
+      "fully_resolved": true,
+      "pullback_increment_by_reference": {
+        "V_PHYSICAL": true,
+        "Q_ORIGINAL": true
+      },
+      "current_pullback_direction_candidate": true,
+      "resolved_states": {
+        "U_CURRENT": 150,
+        "V_PHYSICAL": 150,
+        "Q_ORIGINAL": 150
+      },
+      "per_image": [
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+            "image_id": "00446",
+            "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+            "dataset": "ffhq",
+            "task": "inpainting",
+            "image_index": 1,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 201446,
+            "mask_seed": 2001446,
+            "key": "ffhq_inpainting_00446_s1000"
+          },
+          "metrics": {
+            "Q_ORIGINAL": {
+              "psnr": 22.572726989695518,
+              "ssim": 0.6708474159240723,
+              "lpips": 0.3384445309638977
+            },
+            "V_PHYSICAL": {
+              "psnr": 22.57176281344611,
+              "ssim": 0.6707943081855774,
+              "lpips": 0.3384890854358673
+            },
+            "U_CURRENT": {
+              "psnr": 31.162977790602667,
+              "ssim": 0.8940972685813904,
+              "lpips": 0.11386001110076904
+            },
+            "C_NATIVE": {
+              "psnr": 22.447064355357874,
+              "ssim": 0.6660824418067932,
+              "lpips": 0.27004238963127136
+            },
+            "C_IEEE": {
+              "psnr": 22.44497685755426,
+              "ssim": 0.6663431525230408,
+              "lpips": 0.2699519395828247
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 25.366140068461736,
+              "ssim": 0.74821537733078,
+              "lpips": 0.21364280581474304
+            },
+            "TIME_GAIN": {
+              "psnr": 31.093545198928787,
+              "ssim": 0.8907187581062317,
+              "lpips": 0.12370920181274414
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 31.21629237561929,
+              "ssim": 0.8959417939186096,
+              "lpips": 0.10757420212030411
+            }
+          },
+          "resolved": {
+            "Q_ORIGINAL": 30,
+            "V_PHYSICAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+            "image_id": "00559",
+            "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+            "dataset": "ffhq",
+            "task": "inpainting",
+            "image_index": 2,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 201559,
+            "mask_seed": 2001559,
+            "key": "ffhq_inpainting_00559_s1000"
+          },
+          "metrics": {
+            "Q_ORIGINAL": {
+              "psnr": 25.35589623946331,
+              "ssim": 0.7370935082435608,
+              "lpips": 0.2992492616176605
+            },
+            "V_PHYSICAL": {
+              "psnr": 25.35460267421069,
+              "ssim": 0.7370800971984863,
+              "lpips": 0.2992490530014038
+            },
+            "U_CURRENT": {
+              "psnr": 32.62967374021582,
+              "ssim": 0.9196335673332214,
+              "lpips": 0.08638715744018555
+            },
+            "C_NATIVE": {
+              "psnr": 24.278091999903918,
+              "ssim": 0.7392365336418152,
+              "lpips": 0.25346454977989197
+            },
+            "C_IEEE": {
+              "psnr": 24.26246733817168,
+              "ssim": 0.7388198971748352,
+              "lpips": 0.2529752850532532
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 27.154251593193433,
+              "ssim": 0.8098359704017639,
+              "lpips": 0.18502306938171387
+            },
+            "TIME_GAIN": {
+              "psnr": 32.55011418569439,
+              "ssim": 0.9169633388519287,
+              "lpips": 0.10269443690776825
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 32.46748998919263,
+              "ssim": 0.9151192307472229,
+              "lpips": 0.11103034764528275
+            }
+          },
+          "resolved": {
+            "Q_ORIGINAL": 30,
+            "V_PHYSICAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00608.png",
+            "image_id": "00608",
+            "image_sha256": "87e5a036895fd3701db64a8df899ef1ce5e6d87fb160855480153ac4ce60f509",
+            "dataset": "ffhq",
+            "task": "inpainting",
+            "image_index": 3,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 201608,
+            "mask_seed": 2001608,
+            "key": "ffhq_inpainting_00608_s1000"
+          },
+          "metrics": {
+            "V_PHYSICAL": {
+              "psnr": 21.459331356332964,
+              "ssim": 0.6437457203865051,
+              "lpips": 0.4543423056602478
+            },
+            "Q_ORIGINAL": {
+              "psnr": 21.460086982580187,
+              "ssim": 0.6437720060348511,
+              "lpips": 0.45430275797843933
+            },
+            "U_CURRENT": {
+              "psnr": 29.340489825579322,
+              "ssim": 0.9048137664794922,
+              "lpips": 0.1343475580215454
+            },
+            "C_NATIVE": {
+              "psnr": 23.0374696619206,
+              "ssim": 0.7438108325004578,
+              "lpips": 0.24335415661334991
+            },
+            "C_IEEE": {
+              "psnr": 23.080358563594142,
+              "ssim": 0.744758129119873,
+              "lpips": 0.24284636974334717
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 25.152663859799716,
+              "ssim": 0.8069036602973938,
+              "lpips": 0.16907161474227905
+            },
+            "TIME_GAIN": {
+              "psnr": 29.32377017733595,
+              "ssim": 0.9080819487571716,
+              "lpips": 0.12047804892063141
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 29.40378481386204,
+              "ssim": 0.9045596718788147,
+              "lpips": 0.13378994166851044
+            }
+          },
+          "resolved": {
+            "V_PHYSICAL": 30,
+            "Q_ORIGINAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00873.png",
+            "image_id": "00873",
+            "image_sha256": "9a5d7b9808ac2639040c51c89dd46a6c93f24bcc17b13090f6815b4e89038d53",
+            "dataset": "ffhq",
+            "task": "inpainting",
+            "image_index": 4,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 201873,
+            "mask_seed": 2001873,
+            "key": "ffhq_inpainting_00873_s1000"
+          },
+          "metrics": {
+            "V_PHYSICAL": {
+              "psnr": 22.608037434555385,
+              "ssim": 0.6732301115989685,
+              "lpips": 0.3575381338596344
+            },
+            "Q_ORIGINAL": {
+              "psnr": 22.60834151825594,
+              "ssim": 0.6732456684112549,
+              "lpips": 0.3575175702571869
+            },
+            "U_CURRENT": {
+              "psnr": 31.477248288652426,
+              "ssim": 0.919782817363739,
+              "lpips": 0.07874013483524323
+            },
+            "C_NATIVE": {
+              "psnr": 22.57534246506843,
+              "ssim": 0.7006147503852844,
+              "lpips": 0.22388999164104462
+            },
+            "C_IEEE": {
+              "psnr": 22.5966568087415,
+              "ssim": 0.7017075419425964,
+              "lpips": 0.22476136684417725
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 25.959482394124684,
+              "ssim": 0.8058762550354004,
+              "lpips": 0.1597536951303482
+            },
+            "TIME_GAIN": {
+              "psnr": 31.803390925174277,
+              "ssim": 0.9229957461357117,
+              "lpips": 0.07163909822702408
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 31.64757797685885,
+              "ssim": 0.921881914138794,
+              "lpips": 0.07574991881847382
+            }
+          },
+          "resolved": {
+            "V_PHYSICAL": 30,
+            "Q_ORIGINAL": 30,
+            "U_CURRENT": 30
+          }
+        },
+        {
+          "case": {
+            "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+            "image_id": "00951",
+            "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+            "dataset": "ffhq",
+            "task": "inpainting",
+            "image_index": 5,
+            "sigma": 0.05,
+            "sampling_seed": 1000,
+            "measurement_seed": 201951,
+            "mask_seed": 2001951,
+            "key": "ffhq_inpainting_00951_s1000"
+          },
+          "metrics": {
+            "V_PHYSICAL": {
+              "psnr": 21.493638039039208,
+              "ssim": 0.5961442589759827,
+              "lpips": 0.35811740159988403
+            },
+            "Q_ORIGINAL": {
+              "psnr": 21.495578139318408,
+              "ssim": 0.5962523818016052,
+              "lpips": 0.3580198287963867
+            },
+            "U_CURRENT": {
+              "psnr": 30.619106759819612,
+              "ssim": 0.8996766209602356,
+              "lpips": 0.08726447820663452
+            },
+            "C_NATIVE": {
+              "psnr": 21.126706932132848,
+              "ssim": 0.6270369291305542,
+              "lpips": 0.2603578567504883
+            },
+            "C_IEEE": {
+              "psnr": 21.128406857530933,
+              "ssim": 0.6270207762718201,
+              "lpips": 0.2605022192001343
+            },
+            "A44_TASK_FIXED": {
+              "psnr": 24.46544566803098,
+              "ssim": 0.7415713667869568,
+              "lpips": 0.19268982112407684
+            },
+            "TIME_GAIN": {
+              "psnr": 30.81308015902101,
+              "ssim": 0.9022715091705322,
+              "lpips": 0.08106126636266708
+            },
+            "SHUFFLE_GAIN": {
+              "psnr": 30.863401935816462,
+              "ssim": 0.9030742049217224,
+              "lpips": 0.07719633728265762
+            }
+          },
+          "resolved": {
+            "V_PHYSICAL": 30,
+            "Q_ORIGINAL": 30,
+            "U_CURRENT": 30
+          }
+        }
+      ]
+    }
+  ],
+  "limits": "Five REUSED development images x SR/IP, seed1000, sigma=.05. No step/point/grid change. U_CURRENT is cached A53 NORM_ONLY/A54 STATE_GAIN, not cosine-attenuated STATE. Every arm uses CURRENT v and the norm law K||v(x)||; actual norms can differ on diverging paths. V_PHYSICAL/Q_ORIGINAL are also state-dependent, not fully state-free policies. No new independent confirmation, trajectory curvature, multi-dataset or NFE-saving claim. No current-angle/gain upper-bound tuning; no per-image output selection. R2 only repairs the autograd guard: the original linear-resizer probe adjoint is allowed and counted as operator autograd, while all other grad calls and denoiser VJP are forbidden. Old A55 bytes remain untouched; completed controls reused; failed attempted forwards separately charged. U timings are cached, V has four cached trajectories; no controlled end-to-end speed claim."
+}
