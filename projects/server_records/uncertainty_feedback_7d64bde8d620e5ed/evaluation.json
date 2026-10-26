@@ -1,0 +1,309 @@
+{
+  "inputs": {
+    "/data0/lzy/ZAPS-results/diag_feedback_vector_constraint/A52_20261026/ffhq_super_resolution_00446_s1000/generate_000/run.json": "973abc9452f51091b4b4204b76dd2f6fe28e48fa795e935ea601f553bd130b16",
+    "/data0/lzy/ZAPS-results/diag_feedback_vector_constraint/A52_20261026/ffhq_inpainting_00446_s1000/generate_000/run.json": "37399df2363d7b49d9ce026f86723ae973ae03289a33f95541987babff6f0f23",
+    "/data0/lzy/ZAPS-results/diag_feedback_vector_constraint/A52_20261026/ffhq_super_resolution_00559_s1000/generate_000/run.json": "232dfd4e1000d90c2b1b30dae3eab7e12b8f914495f58afa33b019ddb9cf75f5",
+    "/data0/lzy/ZAPS-results/diag_feedback_vector_constraint/A52_20261026/ffhq_inpainting_00559_s1000/generate_000/run.json": "f975752dc3dcf90fd7460fad94c3749831843f7e7332e7d4b0be2c74ed79c651"
+  },
+  "rows": [
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+        "image_id": "00446",
+        "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "image_index": 1,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 1446,
+        "key": "ffhq_super_resolution_00446_s1000"
+      },
+      "metrics": {
+        "PROX_Q": {
+          "psnr": 27.28827951853291,
+          "ssim": 0.7625685334205627,
+          "lpips": 0.2972146272659302
+        },
+        "ALIGN_Q": {
+          "psnr": 26.623077340465017,
+          "ssim": 0.7748937606811523,
+          "lpips": 0.24221232533454895
+        },
+        "FULL_PROX": {
+          "psnr": 27.3217669161731,
+          "ssim": 0.7619421482086182,
+          "lpips": 0.2710486352443695
+        },
+        "FULL_ALIGN": {
+          "psnr": 28.080999658966146,
+          "ssim": 0.8068150877952576,
+          "lpips": 0.23806610703468323
+        },
+        "C_NATIVE": {
+          "psnr": 20.120992272230023,
+          "ssim": 0.6009662747383118,
+          "lpips": 0.31426164507865906
+        },
+        "C_IEEE": {
+          "psnr": 20.138165634674646,
+          "ssim": 0.6009317636489868,
+          "lpips": 0.31397199630737305
+        },
+        "TIME": {
+          "psnr": 26.4853176586322,
+          "ssim": 0.7717020511627197,
+          "lpips": 0.24426665902137756
+        },
+        "SHUFFLE": {
+          "psnr": 26.072466733448532,
+          "ssim": 0.7610058784484863,
+          "lpips": 0.24867308139801025
+        }
+      },
+      "inpainting_regions": {}
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+        "image_id": "00446",
+        "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+        "dataset": "ffhq",
+        "task": "inpainting",
+        "image_index": 1,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 201446,
+        "mask_seed": 2001446,
+        "key": "ffhq_inpainting_00446_s1000"
+      },
+      "metrics": {
+        "PROX_Q": {
+          "psnr": 22.572823587257904,
+          "ssim": 0.6708517670631409,
+          "lpips": 0.33844131231307983
+        },
+        "ALIGN_Q": {
+          "psnr": 13.320567831826065,
+          "ssim": 0.3179070055484772,
+          "lpips": 0.7913421392440796
+        },
+        "FULL_PROX": {
+          "psnr": 22.57176281344611,
+          "ssim": 0.6707943081855774,
+          "lpips": 0.3384890854358673
+        },
+        "FULL_ALIGN": {
+          "psnr": 23.882903357415284,
+          "ssim": 0.7231019139289856,
+          "lpips": 0.26407724618911743
+        },
+        "C_NATIVE": {
+          "psnr": 22.447064355357874,
+          "ssim": 0.6660824418067932,
+          "lpips": 0.27004238963127136
+        },
+        "C_IEEE": {
+          "psnr": 22.44497685755426,
+          "ssim": 0.6663431525230408,
+          "lpips": 0.2699519395828247
+        },
+        "TIME": {
+          "psnr": 12.940413562161782,
+          "ssim": 0.3150698244571686,
+          "lpips": 0.7402403950691223
+        },
+        "SHUFFLE": {
+          "psnr": 12.98469922473476,
+          "ssim": 0.3176810145378113,
+          "lpips": 0.7282570600509644
+        }
+      },
+      "inpainting_regions": {
+        "PROX_Q": {
+          "observed_unit_MSE": 0.0010472501118027754,
+          "unobserved_unit_MSE": 0.007329755181984692
+        },
+        "ALIGN_Q": {
+          "observed_unit_MSE": 0.012832278433981253,
+          "unobserved_unit_MSE": 0.060661715680331026
+        },
+        "FULL_PROX": {
+          "observed_unit_MSE": 0.0010473875688313023,
+          "unobserved_unit_MSE": 0.007331739604221607
+        },
+        "FULL_ALIGN": {
+          "observed_unit_MSE": 0.003317090051392293,
+          "unobserved_unit_MSE": 0.004253852467674587
+        },
+        "C_NATIVE": {
+          "observed_unit_MSE": 0.005046591924832676,
+          "unobserved_unit_MSE": 0.005895223837908093
+        },
+        "C_IEEE": {
+          "observed_unit_MSE": 0.00505009071238518,
+          "unobserved_unit_MSE": 0.005901310777518442
+        },
+        "TIME": {
+          "observed_unit_MSE": 0.02100799212058272,
+          "unobserved_unit_MSE": 0.06319093131165782
+        },
+        "SHUFFLE": {
+          "observed_unit_MSE": 0.02232210462881495,
+          "unobserved_unit_MSE": 0.061881082527980476
+        }
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+        "image_id": "00559",
+        "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "image_index": 2,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 1559,
+        "key": "ffhq_super_resolution_00559_s1000"
+      },
+      "metrics": {
+        "PROX_Q": {
+          "psnr": 28.057938566901804,
+          "ssim": 0.7431748509407043,
+          "lpips": 0.3688867688179016
+        },
+        "ALIGN_Q": {
+          "psnr": 27.68327238206835,
+          "ssim": 0.8218502998352051,
+          "lpips": 0.2213619500398636
+        },
+        "FULL_PROX": {
+          "psnr": 28.169001718882534,
+          "ssim": 0.7459473013877869,
+          "lpips": 0.3458985686302185
+        },
+        "FULL_ALIGN": {
+          "psnr": 29.36128691301636,
+          "ssim": 0.8517412543296814,
+          "lpips": 0.20783525705337524
+        },
+        "C_NATIVE": {
+          "psnr": 21.787666185229426,
+          "ssim": 0.6729552745819092,
+          "lpips": 0.292797327041626
+        },
+        "C_IEEE": {
+          "psnr": 21.78831655043121,
+          "ssim": 0.6730226874351501,
+          "lpips": 0.2925487160682678
+        },
+        "TIME": {
+          "psnr": 28.152534293228598,
+          "ssim": 0.8288962244987488,
+          "lpips": 0.21665169298648834
+        },
+        "SHUFFLE": {
+          "psnr": 27.840064524284053,
+          "ssim": 0.8250288367271423,
+          "lpips": 0.22077757120132446
+        }
+      },
+      "inpainting_regions": {}
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+        "image_id": "00559",
+        "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+        "dataset": "ffhq",
+        "task": "inpainting",
+        "image_index": 2,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 201559,
+        "mask_seed": 2001559,
+        "key": "ffhq_inpainting_00559_s1000"
+      },
+      "metrics": {
+        "PROX_Q": {
+          "psnr": 25.35576615491237,
+          "ssim": 0.737088680267334,
+          "lpips": 0.29925474524497986
+        },
+        "ALIGN_Q": {
+          "psnr": 15.196505359887764,
+          "ssim": 0.46617865562438965,
+          "lpips": 0.6405301690101624
+        },
+        "FULL_PROX": {
+          "psnr": 25.35460267421069,
+          "ssim": 0.7370800971984863,
+          "lpips": 0.2992490530014038
+        },
+        "FULL_ALIGN": {
+          "psnr": 26.586820741803578,
+          "ssim": 0.8195652961730957,
+          "lpips": 0.23247471451759338
+        },
+        "C_NATIVE": {
+          "psnr": 24.278091999903918,
+          "ssim": 0.7392365336418152,
+          "lpips": 0.25346454977989197
+        },
+        "C_IEEE": {
+          "psnr": 24.26246733817168,
+          "ssim": 0.7388198971748352,
+          "lpips": 0.2529752850532532
+        },
+        "TIME": {
+          "psnr": 15.272873518654787,
+          "ssim": 0.4447910785675049,
+          "lpips": 0.6876271367073059
+        },
+        "SHUFFLE": {
+          "psnr": 15.678071668289796,
+          "ssim": 0.44191277027130127,
+          "lpips": 0.7097649574279785
+        }
+      },
+      "inpainting_regions": {
+        "PROX_Q": {
+          "observed_unit_MSE": 0.0008752369774349511,
+          "unobserved_unit_MSE": 0.003748737994882473
+        },
+        "ALIGN_Q": {
+          "observed_unit_MSE": 0.01432884197147554,
+          "unobserved_unit_MSE": 0.03672793796298948
+        },
+        "FULL_PROX": {
+          "observed_unit_MSE": 0.0008751192637605506,
+          "unobserved_unit_MSE": 0.003749786491166087
+        },
+        "FULL_ALIGN": {
+          "observed_unit_MSE": 0.0018371221570416564,
+          "unobserved_unit_MSE": 0.0022956877985454874
+        },
+        "C_NATIVE": {
+          "observed_unit_MSE": 0.0035157132736782616,
+          "unobserved_unit_MSE": 0.0038234687976419685
+        },
+        "C_IEEE": {
+          "observed_unit_MSE": 0.0035250680861283576,
+          "unobserved_unit_MSE": 0.003837093767152766
+        },
+        "TIME": {
+          "observed_unit_MSE": 0.01070114078447588,
+          "unobserved_unit_MSE": 0.03754630388975772
+        },
+        "SHUFFLE": {
+          "observed_unit_MSE": 0.007321099846948875,
+          "unobserved_unit_MSE": 0.03525712686230671
+        }
+      }
+    }
+  ],
+  "GT_used_only_after_all_frozen_outputs": true,
+  "metric_contract": "Existing clipped/8bit PSNR/SSIM + Alex LPIPS; regional IP unit-domain float MSE separately.",
+  "limits": "Two REUSED development images x SR/inpainting. Fixed original30-step last unroll; original first270. 2x2 mechanism ablation only, not independent state gain or four-task transfer. FULL targets replace q direction and thus remove its learned D directional restriction; no training. Forward300 is not equal runtime; TIME/SHUFFLE are context references, not matched full-vector state ablations."
+}
