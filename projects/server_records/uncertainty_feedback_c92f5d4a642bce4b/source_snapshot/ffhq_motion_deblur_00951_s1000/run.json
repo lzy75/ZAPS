@@ -1,0 +1,343 @@
+{
+  "case": {
+    "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+    "image_id": "00951",
+    "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+    "dataset": "ffhq",
+    "task": "motion_deblur",
+    "image_index": 5,
+    "sigma": 0.05,
+    "sampling_seed": 1000,
+    "measurement_seed": 301951,
+    "mask_seed": 2001951,
+    "key": "ffhq_motion_deblur_00951_s1000"
+  },
+  "plan_sha256": "c1d9a7b5b88b2cac206ac10adecae7a38d5e62486435fec9a990c2509a99ff39",
+  "prior_recorded_nfe": 0,
+  "probe_gammas": [
+    1.0,
+    3.695,
+    6.389,
+    9.084
+  ],
+  "new_suffix_gammas": [
+    9.61
+  ],
+  "gates": {
+    "operator": {
+      "passed": true,
+      "vjp_relative_error": 2.4567407127494557e-07,
+      "increment_adjoint_relative_error": 4.837337438363013e-07,
+      "tolerance": 2e-05,
+      "score_calls": 0,
+      "scope": "IEEE operator-only gate; production sampling restores native policy"
+    },
+    "anchor": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "repeated_next_clean": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "risk_replay": {
+      "passed": true,
+      "relative_error": 0.0
+    },
+    "calls_rng_parameters": {
+      "passed": true
+    },
+    "decision_before_labels": {
+      "passed": true
+    }
+  },
+  "status": "complete",
+  "calls": [
+    218,
+    218,
+    218,
+    218,
+    218,
+    124,
+    54,
+    14,
+    0
+  ],
+  "nfe": 9,
+  "seconds": 0.425418552942574,
+  "gamma": {
+    "C": 1.0,
+    "LEGACY": 11.778,
+    "MATCHED_FIXED": 9.61,
+    "LOCAL": 11.778,
+    "TRUST": 11.778
+  },
+  "decision": {
+    "gamma": {
+      "LOCAL": 11.778,
+      "TRUST": 11.778
+    },
+    "normalization": {
+      "loss_center": 0.675511061106538,
+      "risk_center": 0.0,
+      "loss_scale": 0.040005609189288305,
+      "risk_scale": 1e-12
+    },
+    "readouts": [
+      {
+        "gamma": 1.0,
+        "objective": 0.0,
+        "predicted_decrease": 0.0,
+        "actual_decrease": -0.0,
+        "rho": null,
+        "physically_feasible": false,
+        "reliable": false
+      },
+      {
+        "gamma": 3.695,
+        "objective": -1.1795377932813222,
+        "predicted_decrease": 1.178984407128957,
+        "actual_decrease": 1.1795377932813222,
+        "rho": 1.000469375293701,
+        "physically_feasible": true,
+        "reliable": true
+      },
+      {
+        "gamma": 6.389,
+        "objective": -2.008836379679215,
+        "predicted_decrease": 2.020777812172361,
+        "actual_decrease": 2.008836379679215,
+        "rho": 0.994090675174076,
+        "physically_feasible": true,
+        "reliable": true
+      },
+      {
+        "gamma": 9.084,
+        "objective": -2.4568089685324774,
+        "predicted_decrease": 2.526005154554892,
+        "actual_decrease": 2.4568089685324774,
+        "rho": 0.9726064747343686,
+        "physically_feasible": true,
+        "reliable": true
+      },
+      {
+        "gamma": 11.778,
+        "objective": -2.4831373269609207,
+        "predicted_decrease": 2.694291497473296,
+        "actual_decrease": 2.4831373269609207,
+        "rho": 0.9216290550928155,
+        "physically_feasible": true,
+        "reliable": true
+      }
+    ],
+    "coefficients": [
+      0.023195641253223747,
+      -0.5463745587373019,
+      0.5231783855964016
+    ],
+    "rho_min": 0.75,
+    "reason": "IDENTICAL_PROBES_WITH_OR_WITHOUT_MODEL_AGREEMENT_GATE"
+  },
+  "geometry": {
+    "scales": [
+      {
+        "gammas": [
+          1.0,
+          6.389,
+          11.778
+        ],
+        "input_displacement_RMS": [
+          0.02947064197217039,
+          0.02947064197217039
+        ],
+        "resolved": true,
+        "cosine": 0.9784335840772643,
+        "normalized_slope_change": 0.10810770329947116
+      },
+      {
+        "gammas": [
+          3.695,
+          6.389,
+          9.084
+        ],
+        "input_displacement_RMS": [
+          0.014732586653001863,
+          0.014738055319168525
+        ],
+        "resolved": true,
+        "cosine": 0.9935664925945408,
+        "normalized_slope_change": 0.058903882101664674
+      }
+    ],
+    "scope": "Same t218/same coupled noise action response; geometry logged, not used by A48 TRUST. TRUST ablates rho only. Not adjacent-time denoising curvature or a final-quality certificate."
+  },
+  "query_readouts": {
+    "0.0": {
+      "loss": 0.6964418037279781,
+      "risks": {
+        "ISO": 0.0043824352443032595,
+        "STATE": 0.004323932393237284
+      }
+    },
+    "0.5": {
+      "loss": 0.6857427442679955,
+      "risks": {
+        "ISO": 0.004079627523354377,
+        "STATE": 0.004017437644790682
+      }
+    },
+    "1.0": {
+      "loss": 0.675511061106538,
+      "risks": {
+        "ISO": 0.0037921456390926614,
+        "STATE": 0.003726279031713199
+      }
+    },
+    "1.5": {
+      "loss": 0.6657432848962145,
+      "risks": {
+        "ISO": 0.0035198264998356267,
+        "STATE": 0.003450305908665198
+      }
+    },
+    "2.0": {
+      "loss": 0.6564361945386898,
+      "risks": {
+        "ISO": 0.0032624964211558447,
+        "STATE": 0.0031893591934780453
+      }
+    },
+    "11.778": {
+      "loss": 0.5761716396408054,
+      "risks": {
+        "ISO": 0.0014364419811722737,
+        "STATE": 0.001307155626974662
+      }
+    },
+    "10.234": {
+      "loss": 0.5746153818799472,
+      "risks": {
+        "ISO": 0.0012848759272266568,
+        "STATE": 0.0011622976554358576
+      }
+    },
+    "10.34": {
+      "loss": 0.5745342323577868,
+      "risks": {
+        "ISO": 0.0012895885484353632,
+        "STATE": 0.001166521930999393
+      }
+    },
+    "11.008": {
+      "loss": 0.5746552204568485,
+      "risks": {
+        "STATE": 0.0012124271564721058
+      }
+    },
+    "3.695": {
+      "loss": 0.6283229331245299,
+      "risks": {
+        "STATE": 0.0024157926956758506
+      }
+    },
+    "6.389": {
+      "loss": 0.5951463379758666,
+      "risks": {
+        "STATE": 0.0015527669995544135
+      }
+    },
+    "9.084": {
+      "loss": 0.5772249216586892,
+      "risks": {
+        "STATE": 0.0011695171797002394
+      }
+    }
+  },
+  "evaluation": {
+    "C": {
+      "output": "G1.000",
+      "metrics": {
+        "loss": 0.6343158622534797,
+        "psnr": 20.827228450104624,
+        "ssim": 0.6057015061378479,
+        "lpips": 0.2673739194869995
+      },
+      "informative_loss": 0.6343158622223328,
+      "delta": {
+        "psnr": 0.0,
+        "ssim": 0.0,
+        "lpips": 0.0,
+        "loss": 0.0
+      }
+    },
+    "LEGACY": {
+      "output": "G11.778",
+      "metrics": {
+        "loss": 0.5659064621630691,
+        "psnr": 21.527900201160133,
+        "ssim": 0.6341544985771179,
+        "lpips": 0.2473878264427185
+      },
+      "informative_loss": 0.5659064622317689,
+      "delta": {
+        "psnr": 0.7006717510555092,
+        "ssim": 0.02845299243927002,
+        "lpips": -0.019986093044281006,
+        "loss": -0.06840940009041063
+      }
+    },
+    "LOCAL": {
+      "output": "G11.778",
+      "metrics": {
+        "loss": 0.5659064621630691,
+        "psnr": 21.527900201160133,
+        "ssim": 0.6341544985771179,
+        "lpips": 0.2473878264427185
+      },
+      "informative_loss": 0.5659064622317689,
+      "delta": {
+        "psnr": 0.7006717510555092,
+        "ssim": 0.02845299243927002,
+        "lpips": -0.019986093044281006,
+        "loss": -0.06840940009041063
+      }
+    },
+    "TRUST": {
+      "output": "G11.778",
+      "metrics": {
+        "loss": 0.5659064621630691,
+        "psnr": 21.527900201160133,
+        "ssim": 0.6341544985771179,
+        "lpips": 0.2473878264427185
+      },
+      "informative_loss": 0.5659064622317689,
+      "delta": {
+        "psnr": 0.7006717510555092,
+        "ssim": 0.02845299243927002,
+        "lpips": -0.019986093044281006,
+        "loss": -0.06840940009041063
+      }
+    },
+    "MATCHED_FIXED": {
+      "output": "G9.610",
+      "metrics": {
+        "loss": 0.5683934410777961,
+        "psnr": 21.441101427243087,
+        "ssim": 0.6313566565513611,
+        "lpips": 0.25027233362197876
+      },
+      "informative_loss": 0.5683934410259632,
+      "delta": {
+        "psnr": 0.6138729771384632,
+        "ssim": 0.025655150413513184,
+        "lpips": -0.017101585865020752,
+        "loss": -0.06592242117568359
+      }
+    }
+  },
+  "artifacts": {
+    "outputs.pt": "bf6548233ab8625ed4e3b4b8c55489c93fdcff183b9537ca0ec0699cc3808c3e",
+    "probes.pt": "a6b96e91b386b4125910998e4a8001fe6c13ca7d4236d0b37b4a370d3502bcbf",
+    "decision_before_labels.json": "1ac4aa121aa0e714b92d9fac42c25869581a528cd27c75a3d2234c21598e3556"
+  }
+}
