@@ -1,11 +1,11 @@
 {
-  "status": "report_ready_until_deadline",
+  "status": "stopped_at_deadline_report_ready",
   "start_local": "2026-10-26T00:35:00+08:00",
   "deadline_local": "2026-10-26T08:00:00+08:00",
   "thesis_experiment_deadline": "2026-10-31",
   "automation_id": "zaps-08",
   "source_inventory_count": 273,
-  "next_workstream": "No new research/GPU queue. At23:58heartbeat checktime,onlyfinalrefstatecheck>=23:59ifuseful;savependingnewresultswithoutpostdeadlineanalysis;pauseexistingautomation00:00UTC. Reportmanifestready.",
+  "next_workstream": "Manual continuation only: user may run A50r2 andprovide results. Nightautomation isPAUSED with expiredUNTIL;do notresume or extend tomorrow.",
   "completed": [
     "A48 summary interpretation",
     "A49 code pushed 1b6aaf3",
@@ -56,24 +56,24 @@
     "Final22artifact manifest and273source identitieschecked;reportbodyreadywithscientific/externalmissingitems separated"
   ],
   "pending": [
-    "Deadline administration: at08:00 pause existingautomation,recordstopandfinal delivery",
-    "ExternalA49/A50r2resultsandservernumerical/qualitygates",
-    "Post-night actualB/jointcontrol,independentconfirmation andnearest-prior runtimecomparisons",
-    "Missingoldrawarchives/remainingpaperproofs explicitly notcompleted"
+    "A49/A50r2serverresultsnotreceived;actualexecutionunknown",
+    "RealTorch/CUDA numericalgates andnewimageconfirmation",
+    "ActualBcontroller,jointgamma/h andquality-totalcostvalidation",
+    "Nearest-prior fullruntimecomparison,missingoldrawarchive andremainingpaper/proofscope"
   ],
   "quota_policy": "Checkpoint when unavailable; retry only scheduled turns before deadline; no purchases/reset/alternate-account bypass",
   "server_access": "User manually runs server commands; no direct Mac server connection",
-  "schedule_status": "ACTIVE",
+  "schedule_status": "PAUSED",
   "schedule_interval_minutes": 20,
   "schedule_until_utc": "2026-10-26T00:00:00Z",
-  "last_checkpoint_utc": "2026-10-25T23:42:09.156251+00:00",
+  "last_checkpoint_utc": "2026-10-26T00:01:39.169566+00:00",
   "report_fully_read": 82,
   "remote_poll_state": {
     "ref": "results/ffhq-response-reliability-audit-20261026",
     "available": false,
-    "last_checked_utc": "2026-10-25T22:58:21Z",
-    "next_check_not_before_utc": "2026-10-25T23:59:00Z",
-    "note": "Exact A49 andA50r2 refs both absent inread-onlyls-remote;no fetch/GPUrerun;server execution unknown.",
+    "last_checked_utc": "2026-10-25T23:59:34Z",
+    "next_check_not_before_utc": null,
+    "note": "Final exactA49/A50r2ref checkreturnedempty;serverexecutionunknown. No moreautomatedpolls afterdeadline.",
     "timestamp_precision": "Result observed by clock read after fetch;not exact fetch completion time"
   },
   "A50_status": "R1_SUPERSEDED_BY_INDEPENDENT_R2_SERVER_GATES_PENDING",
@@ -88,14 +88,18 @@
   "A50_remote_poll": {
     "available": false,
     "ref": "results/ffhq-current-score-geometry-r2-20261026",
-    "last_checked_utc": "2026-10-25T22:58:21Z"
+    "last_checked_utc": "2026-10-25T23:59:34Z"
   },
   "automation_deadline_configuration_verified": {
     "rrule_has_until": true,
     "until_utc": "2026-10-26T00:00:00Z",
-    "status_observed": "ACTIVE",
+    "status_observed": "PAUSED",
     "name": "ZAPS开题主线夜间探索至08点",
-    "note": "Existing schedule already has strictUNTIL;preservefields and explicitlyPAUSE atdeadline. Config cached infunctionsstore fordeadline update;TOML remains authoritative."
+    "note": "Existing schedule already has strictUNTIL;preservefields and explicitlyPAUSE atdeadline. Config cached infunctionsstore fordeadline update;TOML remains authoritative.",
+    "pause_verified_utc": "2026-10-26T00:01:39.169566+00:00"
   },
-  "report_body_ready_utc": "2026-10-25T23:42:09.156251+00:00"
+  "report_body_ready_utc": "2026-10-25T23:42:09.156251+00:00",
+  "stopped_utc": "2026-10-26T00:01:39.169566+00:00",
+  "pause_requested_utc": "2026-10-26T00:00:19Z",
+  "stop_reason": "User hard deadline08:00CST;existing RRULE expired00:00UTC andautomation explicitlypaused viaappAPI."
 }
