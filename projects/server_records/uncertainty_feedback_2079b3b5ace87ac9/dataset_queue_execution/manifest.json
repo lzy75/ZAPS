@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-10-27T05:08:11.049805+00:00",
+  "plan_sha256": "279725906b0bc0ec90b349ba8cb33e0f7a0af994ea135521424d96e715a576ce",
+  "queue_sources": {
+    "/home/lzy/ZAPS/projects/utils/a56_dataset_queue_session.py": "5f72f3b114ccde635c4a28076cd582b85ffee0edfadb6d913aed8315933cc91c",
+    "/home/lzy/ZAPS/projects/utils/test_a56_dataset_queue.py": "b98ed5635dc427512d1fbc87b2165c1ef6ac322f901cffdabbdf48435cef12fb",
+    "/home/lzy/ZAPS/projects/experiment_cards/A56_dataset_queue_20261027.md": "14ba2ce4fadeb8092c23ec6131c8426a6163ee068f29f1b54e94441a02d03276"
+  },
+  "snapshots": {
+    "/data0/lzy/ZAPS-results/diag_frozen_direction_transfer/selection_r2_20261027/A56_selection_r2_20261027/dataset_queue_execution/source_snapshot/a56_dataset_queue_session.py": "5f72f3b114ccde635c4a28076cd582b85ffee0edfadb6d913aed8315933cc91c",
+    "/data0/lzy/ZAPS-results/diag_frozen_direction_transfer/selection_r2_20261027/A56_selection_r2_20261027/dataset_queue_execution/source_snapshot/test_a56_dataset_queue.py": "b98ed5635dc427512d1fbc87b2165c1ef6ac322f901cffdabbdf48435cef12fb",
+    "/data0/lzy/ZAPS-results/diag_frozen_direction_transfer/selection_r2_20261027/A56_selection_r2_20261027/dataset_queue_execution/source_snapshot/A56_dataset_queue_20261027.md": "14ba2ce4fadeb8092c23ec6131c8426a6163ee068f29f1b54e94441a02d03276",
+    "/data0/lzy/ZAPS-results/diag_frozen_direction_transfer/selection_r2_20261027/A56_selection_r2_20261027/dataset_queue_execution/old_waiter_snapshot/session.json": "a7ce23acc4e626352e24326267b0af4b7c98f845e9de24ea84605f15bc2c82dc",
+    "/data0/lzy/ZAPS-results/diag_frozen_direction_transfer/selection_r2_20261027/A56_selection_r2_20261027/dataset_queue_execution/old_waiter_snapshot/session.log": "b8d1162fed75047f6b111be519cb7bf3a0bccff24dac178606a77790cb20e7c6"
+  },
+  "groups": [
+    {
+      "key": "ffhq_0",
+      "dataset": "ffhq",
+      "shard": 0,
+      "case_keys": [
+        "ffhq_super_resolution_00377_s1000",
+        "ffhq_super_resolution_00617_s1000",
+        "ffhq_super_resolution_00791_s1000",
+        "ffhq_inpainting_00377_s1000",
+        "ffhq_inpainting_00617_s1000",
+        "ffhq_inpainting_00791_s1000"
+      ],
+      "minimum_free_MiB": 6144
+    },
+    {
+      "key": "ffhq_1",
+      "dataset": "ffhq",
+      "shard": 1,
+      "case_keys": [
+        "ffhq_super_resolution_00389_s1000",
+        "ffhq_super_resolution_00641_s1000",
+        "ffhq_super_resolution_00912_s1000",
+        "ffhq_inpainting_00389_s1000",
+        "ffhq_inpainting_00641_s1000",
+        "ffhq_inpainting_00912_s1000"
+      ],
+      "minimum_free_MiB": 6144
+    },
+    {
+      "key": "imagenet_0",
+      "dataset": "imagenet",
+      "shard": 0,
+      "case_keys": [
+        "imagenet_super_resolution_00067_s1000",
+        "imagenet_super_resolution_00193_s1000",
+        "imagenet_inpainting_00067_s1000",
+        "imagenet_inpainting_00193_s1000"
+      ],
+      "minimum_free_MiB": 12288
+    },
+    {
+      "key": "imagenet_1",
+      "dataset": "imagenet",
+      "shard": 1,
+      "case_keys": [
+        "imagenet_super_resolution_00151_s1000",
+        "imagenet_super_resolution_00195_s1000",
+        "imagenet_inpainting_00151_s1000",
+        "imagenet_inpainting_00195_s1000"
+      ],
+      "minimum_free_MiB": 12288
+    }
+  ],
+  "scope": "Same frozen twenty cases, one process/GPU, max2GPUs, original algorithm/gates; FFHQ6GiB/IN12GiB admission only"
+}

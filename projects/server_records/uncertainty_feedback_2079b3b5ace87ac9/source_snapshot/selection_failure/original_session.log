@@ -1,0 +1,36 @@
+A56 detached job; disconnecting the SSH log follower does not stop computation.
+A56:freeze direction rule;6 unused FFHQ +4 unused ImageNet images x SR/IP;6000 method +3624 diagnostic forwards,<=1204 input backwards;original30-point grid.
+test_baseline_injection_restores_historical_functions (utils.test_frozen_direction_transfer.DesignTests.test_baseline_injection_restores_historical_functions) ... ok
+test_budget_counts_every_replay_and_probe (utils.test_frozen_direction_transfer.DesignTests.test_budget_counts_every_replay_and_probe) ... ok
+test_history_and_duplicate_exclusion_reproducible (utils.test_frozen_direction_transfer.DesignTests.test_history_and_duplicate_exclusion_reproducible) ... ok
+test_old_frozen_profile_has_no_target_arguments (utils.test_frozen_direction_transfer.DesignTests.test_old_frozen_profile_has_no_target_arguments) ... ok
+test_bad_direction_rejected (utils.test_current_direction_control.NumpyTests.test_bad_direction_rejected) ... ok
+test_executor_binding_restores_historical_functions (utils.test_current_direction_control.NumpyTests.test_executor_binding_restores_historical_functions) ... ok
+test_norm_rule_and_directions_separate (utils.test_current_direction_control.NumpyTests.test_norm_rule_and_directions_separate) ... ok
+test_paid_case_contract_reuses_four_physical_arms (utils.test_current_direction_control.NumpyTests.test_paid_case_contract_reuses_four_physical_arms) ... ok
+test_physical_target_matches_a52_at_identical_state (utils.test_current_direction_control.TorchTests.test_physical_target_matches_a52_at_identical_state) ... ok
+test_target_matches_numpy_without_vjp_or_input_mutation (utils.test_current_direction_control.TorchTests.test_target_matches_numpy_without_vjp_or_input_mutation) ... ok
+test_non_operator_input_gradient_is_still_forbidden (utils.test_linear_adjoint_autograd_guard.ExactAdjointTests.test_non_operator_input_gradient_is_still_forbidden) ... ok
+test_real_sr_adjoint_allowed_and_unchanged (utils.test_linear_adjoint_autograd_guard.ExactAdjointTests.test_real_sr_adjoint_allowed_and_unchanged) ... ok
+test_original_checkpoint_input_vjp_preserves_weights_and_flags (utils.test_current_score_checkpoint_r2.LegacyCheckpointTests.test_original_checkpoint_input_vjp_preserves_weights_and_flags) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.617s
+
+OK
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_frozen_direction_transfer.py", line 433, in <module>
+    main()
+  File "/home/lzy/ZAPS/projects/utils/diag_frozen_direction_transfer.py", line 421, in main
+    prepare(args); return
+    ^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_frozen_direction_transfer.py", line 107, in prepare
+    selected, audit = history_selection(data, root)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_frozen_direction_transfer.py", line 66, in history_selection
+    selected[d] = rules.select(pool, used_names[d], used_sha, rules.COUNTS[d], 20261026+rules.DATASETS.index(d))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/frozen_direction_transfer.py", line 47, in select
+    raise ValueError(f'Need{n} unused unique images; available={len(eligible)}. No substitution after outcomes.')
+ValueError: Need6 unused unique images; available=0. No substitution after outcomes.
+A56 SESSION FAILED: RuntimeError('Launcher exited 1; records retained; no automatic failed-case retry')
