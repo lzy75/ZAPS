@@ -1,0 +1,93 @@
+{
+  "experiment": "A61_blur_fft_cpu_admission",
+  "parent": "/data0/lzy/ZAPS-results/diag_blur_pcg_admission/A58_20261027",
+  "parent_plan_sha256": "f27c36b199ea91ee3553e907872b6c140b80ec83bb337963731b6278d3923fb1",
+  "metrology_spec": {
+    "experiment": "A51_score_cg_metrology",
+    "source_A50r2": "/data0/lzy/ZAPS-results/diag_current_score_geometry_r2/A50r2_20261026",
+    "identities": {
+      "/data0/lzy/ZAPS-results/diag_current_score_geometry_r2/A50r2_20261026/plan.json": "7ed961226aef03f2ba806d3f0d755a3edb4407cf200435b6864d2c3e07fa8123",
+      "/data0/lzy/ZAPS-results/diag_current_score_geometry_r2/A50r2_20261026/summary.json": "36bb090d3ec32a9f34c92db4e66fa71280262c97b5b74b30b0e4860d5113ce9b",
+      "/data0/lzy/ZAPS-results/diag_current_score_geometry_r2/A50r2_20261026/ffhq_gaussian_deblur_00446_s1000/generate_000/run.json": "fe5c508e4091735a43b915ce254c7228a31ae98326010564c49dea29341a4ca2",
+      "/data0/lzy/ZAPS-results/diag_current_score_geometry_r2/A50r2_20261026/ffhq_motion_deblur_00446_s1000/generate_000/run.json": "87140856f4dc4b591f0c6eb1cdaecf8d348472b1bdf907c8675313ee34c5910f",
+      "/data0/lzy/ZAPS-results/diag_ffhq_action_geometry/A41_20261025/motion_kernel.pt": "68ba920755406f5f81944440774499bca09e904db9f7002d6f4f299135747426",
+      "/home/lzy/ZAPS/projects/utils/diag_score_cg_metrology.py": "e24b294636696df82a802d3ca55ebac39fb25612c0584bb9e6b68ee7baafdf43",
+      "/home/lzy/ZAPS/projects/experiment_cards/A51_score_cg_metrology_20261026.md": "887a2eefaf33ce33ac24698a716b80f66a367630bcdd0e8adc903856ce0668b7",
+      "/home/lzy/ZAPS/projects/run_a51_20261026.sh": "c915680d112943085897b249cf5063f6ad2c313d2b9771fd29ecaf11b0cd906b",
+      "/home/lzy/ZAPS/projects/utils/current_score_geometry.py": "93feaa740ec11a84debf541f9060d145d316cf116a4f8a73add1a000e892c0a0",
+      "/home/lzy/ZAPS/projects/utils/test_score_cg_metrology.py": "ceecbe0cdff0f2f79a1ae833426118ab900b53ecae5a25f0a533571f5a20fef0",
+      "/home/lzy/ZAPS/projects/utils/diag_ffhq_four_tasks_unit.py": "c15892b461ce6df0677df73e69db1a58efb5ec0d405e071546278bf613baf7a1",
+      "/home/lzy/ZAPS/projects/modules/degradations.py": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696"
+    },
+    "eta": {
+      "gaussian_deblur": [
+        {
+          "step": 0,
+          "t": 999,
+          "eta": 1.588268594012756e-05
+        },
+        {
+          "step": 24,
+          "t": 319,
+          "eta": 0.0022726816392157553
+        }
+      ],
+      "motion_deblur": [
+        {
+          "step": 0,
+          "t": 999,
+          "eta": 1.588268594012756e-05
+        },
+        {
+          "step": 24,
+          "t": 319,
+          "eta": 0.0022726816392157553
+        }
+      ]
+    },
+    "kernel": "/data0/lzy/ZAPS-results/diag_ffhq_action_geometry/A41_20261025/motion_kernel.pt",
+    "shape": [
+      1,
+      3,
+      256,
+      256
+    ],
+    "rng_seed": 510026,
+    "rhs": [
+      "WHITE",
+      "IN_OPERATOR_RANGE"
+    ],
+    "variants": [
+      "LEGACY32_128",
+      "RESTART32_128",
+      "RESTART32_512",
+      "RESTART64_512"
+    ],
+    "rtol": 1e-05,
+    "refresh": 32,
+    "method_nfe": 0,
+    "diagnostic_nfe": 0,
+    "planned_solves": 32,
+    "scope": "Real frozen blur operators/eta with synthetic RHS, not archived denoising residuals. Operator metrology only; no reconstruction, live sensor coverage or state benefit claim."
+  },
+  "seed": 580027,
+  "own_sources": {
+    "/home/lzy/ZAPS/projects/utils/a61_blur_cpu_session.py": "106fe80857a4c42967954a13d94172407cc34b0de49f1691b46d3b998be0dc88",
+    "/home/lzy/ZAPS/projects/utils/zero_boundary_fft.py": "0ff33b5de7869dd7cb3dbf9d143ef69530a9341baa31a1d896970e3d61d72271",
+    "/home/lzy/ZAPS/projects/experiment_cards/A61_blur_fft_cpu_admission_20261027.md": "924ed5ae5fb459463337c70cff997c1d677f7055f0d2d613444f16ec12e993dc",
+    "/home/lzy/ZAPS/projects/utils/test_zero_boundary_fft.py": "d27cea29c539f57519399729af49b70fb1e85bb603f6e22e4c0e9cad5911cee7",
+    "/home/lzy/ZAPS/projects/utils/a56m_no_interrupt_resume.py": "ddb85324892f86c29bcb2723e72e369cecc8d1ae4c3f5382e4724d4778659ffb"
+  },
+  "tasks": [
+    "gaussian_deblur",
+    "motion_deblur"
+  ],
+  "rtol": 1e-05,
+  "kernel_and_adjoint_relative_tolerance": 1e-10,
+  "hard_iteration_ceiling": 2048,
+  "seconds_per_solve": 300,
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "input_VJP": 0,
+  "limits": "CPU FFT actions with original zero padding and original float32 kernel coefficients promoted to64. New explicit condition-derived iteration budget, not equal A58 operator cost. Synthetic WHITE/RANGE only. No NN, reconstruction, full trajectory admission, curvature or state quality claim."
+}

@@ -1,0 +1,182 @@
+{
+  "task": "motion_deblur",
+  "status": "complete",
+  "plan_sha256": "39f047651d6e4761e61bbbd6a62e7c6b3f25a5eb7c5c46d9f16765990558dcd9",
+  "rows": [
+    {
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "WHITE",
+      "budget": {
+        "kappa_upper": 15741.410852060691,
+        "contraction_bound": 0.9841853201293472,
+        "required_iterations": 1069,
+        "maximum_iterations": 1069,
+        "hard_ceiling": 2048,
+        "bound_scope": "Exact arithmetic budget only; actual original-operator residual certifies"
+      },
+      "status": "complete",
+      "progress": {
+        "iterations": 800,
+        "maximum": 1069,
+        "operator_calls": 800,
+        "recursive_relative_residual": 1.1622967235767875e-05
+      },
+      "passed": true,
+      "fft_gate": {
+        "passed": true,
+        "iterations": 801,
+        "operator_calls": 803,
+        "relative_residual": 9.962899234818043e-06,
+        "true_checks": 2,
+        "restarts": 0,
+        "seconds": 30.3418470909819,
+        "reason": "FFT_TRUE_RESIDUAL_PASSED",
+        "stopped_for_budget": false
+      },
+      "original_spatial_relative_residual": 9.962899234574448e-06,
+      "original_spatial_seconds": 6.3173449030146,
+      "fft_H_calls": 803,
+      "fft_HT_calls": 803,
+      "original_spatial_H_calls": 1,
+      "original_spatial_HT_calls": 1
+    },
+    {
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "IN_OPERATOR_RANGE",
+      "budget": {
+        "kappa_upper": 15741.410852060691,
+        "contraction_bound": 0.9841853201293472,
+        "required_iterations": 1069,
+        "maximum_iterations": 1069,
+        "hard_ceiling": 2048,
+        "bound_scope": "Exact arithmetic budget only; actual original-operator residual certifies"
+      },
+      "status": "complete",
+      "progress": {
+        "iterations": 600,
+        "maximum": 1069,
+        "operator_calls": 600,
+        "recursive_relative_residual": 2.3386817508978816e-05
+      },
+      "passed": true,
+      "fft_gate": {
+        "passed": true,
+        "iterations": 651,
+        "operator_calls": 653,
+        "relative_residual": 9.798714846394064e-06,
+        "true_checks": 2,
+        "restarts": 0,
+        "seconds": 25.22775803692639,
+        "reason": "FFT_TRUE_RESIDUAL_PASSED",
+        "stopped_for_budget": false
+      },
+      "original_spatial_relative_residual": 9.79871484646267e-06,
+      "original_spatial_seconds": 6.170684916898608,
+      "fft_H_calls": 653,
+      "fft_HT_calls": 653,
+      "original_spatial_H_calls": 1,
+      "original_spatial_HT_calls": 1
+    },
+    {
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "WHITE",
+      "budget": {
+        "kappa_upper": 111.00220964434078,
+        "contraction_bound": 0.8266260532721738,
+        "required_iterations": 77,
+        "maximum_iterations": 77,
+        "hard_ceiling": 2048,
+        "bound_scope": "Exact arithmetic budget only; actual original-operator residual certifies"
+      },
+      "status": "complete",
+      "passed": true,
+      "fft_gate": {
+        "passed": true,
+        "iterations": 63,
+        "operator_calls": 65,
+        "relative_residual": 9.860299758291582e-06,
+        "true_checks": 2,
+        "restarts": 0,
+        "seconds": 2.433394778519869,
+        "reason": "FFT_TRUE_RESIDUAL_PASSED",
+        "stopped_for_budget": false
+      },
+      "original_spatial_relative_residual": 9.860299758312392e-06,
+      "original_spatial_seconds": 6.011186955496669,
+      "fft_H_calls": 65,
+      "fft_HT_calls": 65,
+      "original_spatial_H_calls": 1,
+      "original_spatial_HT_calls": 1
+    },
+    {
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "IN_OPERATOR_RANGE",
+      "budget": {
+        "kappa_upper": 111.00220964434078,
+        "contraction_bound": 0.8266260532721738,
+        "required_iterations": 77,
+        "maximum_iterations": 77,
+        "hard_ceiling": 2048,
+        "bound_scope": "Exact arithmetic budget only; actual original-operator residual certifies"
+      },
+      "status": "complete",
+      "passed": true,
+      "fft_gate": {
+        "passed": true,
+        "iterations": 63,
+        "operator_calls": 65,
+        "relative_residual": 8.487997953486902e-06,
+        "true_checks": 2,
+        "restarts": 0,
+        "seconds": 2.376381919719279,
+        "reason": "FFT_TRUE_RESIDUAL_PASSED",
+        "stopped_for_budget": false
+      },
+      "original_spatial_relative_residual": 8.48799795349009e-06,
+      "original_spatial_seconds": 5.898205072619021,
+      "fft_H_calls": 65,
+      "fft_HT_calls": 65,
+      "original_spatial_H_calls": 1,
+      "original_spatial_HT_calls": 1
+    }
+  ],
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "operator_gate": {
+    "H_relative_error": 5.377655993343854e-16,
+    "HT_relative_error": 5.420843562085055e-16,
+    "adjoint_pairing_relative_error": 8.594622785598928e-19,
+    "passed": true,
+    "boundary": "original_zero",
+    "device": "cpu",
+    "dtype": "float64"
+  },
+  "kernel_sha256": "ea9553070592e0e26f09b7f986ab6f27c2b3f777a9f97aa1e21b7bd187dfe76f",
+  "runtime": {
+    "torch": "2.6.0+cu118",
+    "numpy": "1.26.4",
+    "fft_shape": [
+      320,
+      320
+    ]
+  },
+  "operator_setup_cost": {
+    "kernel_forward_FFTs": 2,
+    "parity_original_spatial_H_calls": 1,
+    "parity_original_spatial_HT_calls": 1,
+    "RHS_original_float32_H_calls": 1,
+    "fft_transform_rule": "2 per FFT H/HT action, plus 2 kernel setup FFTs"
+  },
+  "admitted": true,
+  "total_fft_H_calls": 1587,
+  "total_fft_HT_calls": 1587,
+  "total_fft_transforms": 6350
+}
