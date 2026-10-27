@@ -52,7 +52,7 @@
     "A59 geometry signal is development-only, IP-driven and not an online control gain; gamma1/no-action remains necessary before future policy validation",
     "Blur quality remains untested after numerical admission failure; original full proposal system not established"
   ],
-  "next_action": "User runs A56 four-group dataset queue; A57-A60 complete. Await actual A56 GPU transfer results.",
+  "next_action": "User executes CPU FFHQ report now; await actual PSNR/SSIM/LPIPS/panels and result push. ImageNet remains unconfirmed. A56M bounded memory qualification designed, GPU entry not yet implemented.",
   "server_access": "User manual execution only; no direct Mac SSH. GPU results cannot be invented.",
   "last_checkpoint_local": "2026-10-27T12:38:45.955099+08:00",
   "automation_verified": {
@@ -172,5 +172,36 @@
     "local_queue_tests_passed": 8,
     "Mac_model_runs": 0,
     "scope": "Operational queue change only; preserve frozen plan and original algorithms. FFHQ6GiB requires actual memory verification. Safe handoff of verified zero-call waiter only."
+  },
+  "A56_FFHQ_completed_user_report": {
+    "completed_cases": 12,
+    "image_clusters": 6,
+    "tasks": [
+      "super_resolution",
+      "inpainting"
+    ],
+    "completed_groups": [
+      "ffhq_0",
+      "ffhq_1"
+    ],
+    "recorded_forward_calls": 5772,
+    "ImageNet_completed_cases": 0,
+    "quality_metrics_received": false,
+    "latest_gpu_free_MiB": {
+      "0": 6026,
+      "1": 10785
+    },
+    "source": "User pasted queue status and NVIDIA-SMI; output tensors remain server-side"
+  },
+  "A56_FFHQ_CPU_readout": {
+    "code_commit": "dfd3ea7",
+    "entry": "utils/a56_ffhq_readout.py",
+    "results_branch": "results/a56-ffhq-early-readout-20261027",
+    "new_UNet_forward": 0,
+    "new_input_VJP": 0,
+    "CPU_LPIPS_evaluations": 72,
+    "local_pure_aggregation_checks": 6,
+    "metric_and_image_execution_on_Mac": false,
+    "timing_amendment": "User requests FFHQ evaluation before unfinished ImageNet. All12 FFHQ outputs frozen; full all20-before-first-label protocol no longer claimed."
   }
 }
