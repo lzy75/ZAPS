@@ -52,7 +52,7 @@
     "A59 geometry signal is development-only, IP-driven and not an online control gain; gamma1/no-action remains necessary before future policy validation",
     "Blur quality remains untested after numerical admission failure; original full proposal system not established"
   ],
-  "next_action": "User pulls and runs A56 resource wait session; A57-A60 remain complete. Await A56 real GPU result.",
+  "next_action": "User runs A56 four-group dataset queue; A57-A60 complete. Await actual A56 GPU transfer results.",
   "server_access": "User manual execution only; no direct Mac SSH. GPU results cannot be invented.",
   "last_checkpoint_local": "2026-10-27T12:38:45.955099+08:00",
   "automation_verified": {
@@ -152,5 +152,25 @@
     "local_resource_regressions_passed": 8,
     "Mac_GPU_runs": 0,
     "policy": "Wait30s; honor allocation; one GPU serial; unchanged frozen plan and original scientific sources; no started-case retry"
+  },
+  "A56_dataset_queue": {
+    "code_commit": "648030e",
+    "entry": "utils/a56_dataset_queue_session.py",
+    "groups": {
+      "ffhq_0": 6,
+      "ffhq_1": 6,
+      "imagenet_0": 4,
+      "imagenet_1": 4
+    },
+    "minimum_free_MiB": {
+      "ffhq": 6144,
+      "imagenet": 12288
+    },
+    "max_concurrent_gpus": 2,
+    "one_process_per_gpu": true,
+    "unchanged_forward_budget": 9624,
+    "local_queue_tests_passed": 8,
+    "Mac_model_runs": 0,
+    "scope": "Operational queue change only; preserve frozen plan and original algorithms. FFHQ6GiB requires actual memory verification. Safe handoff of verified zero-call waiter only."
   }
 }
