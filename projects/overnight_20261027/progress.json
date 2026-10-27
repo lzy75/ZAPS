@@ -52,7 +52,7 @@
     "A59 geometry signal is development-only, IP-driven and not an online control gain; gamma1/no-action remains necessary before future policy validation",
     "Blur quality remains untested after numerical admission failure; original full proposal system not established"
   ],
-  "next_action": "User runs A56 selection-r2 session only. Preflight preserves pre-freeze zero-call failure; logs corrected/legacy candidate counts and freezes a new cohort before any new model outputs. If genuinely insufficient stop, no old-image reuse/range expansion. A57-A60 not rerun; automation stays PAUSED.",
+  "next_action": "User pulls and runs A56 resource wait session; A57-A60 remain complete. Await A56 real GPU result.",
   "server_access": "User manual execution only; no direct Mac SSH. GPU results cannot be invented.",
   "last_checkpoint_local": "2026-10-27T12:38:45.955099+08:00",
   "automation_verified": {
@@ -122,5 +122,35 @@
     "local_regressions_passed": 6,
     "real_Torch_CUDA_not_run_on_Mac": true,
     "unchanged": "6+4 images; same fixed selection seeds/range32..999, original30 grid and scientific arms/budget/quality gates; old files and logs retained"
+  },
+  "A56_resource_recovery": {
+    "code_commit": "3360300",
+    "server_tests_passed": 19,
+    "frozen_cases": 20,
+    "corrected_unused_unique": {
+      "ffhq": 938,
+      "imagenet": 162
+    },
+    "frozen_images": {
+      "ffhq": [
+        "00377",
+        "00389",
+        "00617",
+        "00641",
+        "00791",
+        "00912"
+      ],
+      "imagenet": [
+        "00067",
+        "00151",
+        "00193",
+        "00195"
+      ]
+    },
+    "failure": "No visible allocated GPU with >=12GiB free; no shard started",
+    "entry": "utils/a56_resource_wait_session.py",
+    "local_resource_regressions_passed": 8,
+    "Mac_GPU_runs": 0,
+    "policy": "Wait30s; honor allocation; one GPU serial; unchanged frozen plan and original scientific sources; no started-case retry"
   }
 }
