@@ -1,0 +1,515 @@
+{
+  "experiment": "A62_blur_fft_quality",
+  "classification": "BLUR_FFT_DEVELOPMENT_QUALITY_ONLY",
+  "completed_cases": 10,
+  "planned_cases": 10,
+  "image_clusters": 5,
+  "method_nfe": 0,
+  "diagnostic_nfe": 1200,
+  "input_backward_attempts": 377,
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "U_FFT_minus": {
+        "C_IEEE": {
+          "psnr": 3.9039412734672325,
+          "ssim": 0.10899672508239747,
+          "lpips": -0.04433793127536774
+        },
+        "OLD_U": {
+          "psnr": 0.15742123084151344,
+          "ssim": 0.0019655942916870115,
+          "lpips": -0.001954460144042969
+        },
+        "V_FFT": {
+          "psnr": 0.6856689977896352,
+          "ssim": 0.04491945505142212,
+          "lpips": -0.04157015085220337
+        }
+      },
+      "images_positive": {
+        "C_IEEE": 5,
+        "OLD_U": 4,
+        "V_FFT": 5
+      },
+      "quality_vs_C_development_candidate": true
+    },
+    {
+      "task": "motion_deblur",
+      "U_FFT_minus": {
+        "C_IEEE": {
+          "psnr": 6.479453108549693,
+          "ssim": 0.1990799069404602,
+          "lpips": -0.11511812806129455
+        },
+        "OLD_U": {
+          "psnr": 0.08201101493938978,
+          "ssim": 0.008710932731628419,
+          "lpips": 0.01829248070716858
+        },
+        "V_FFT": {
+          "psnr": 3.9684109719438125,
+          "ssim": 0.29680903553962706,
+          "lpips": -0.17436384558677673
+        }
+      },
+      "images_positive": {
+        "C_IEEE": 5,
+        "OLD_U": 4,
+        "V_FFT": 5
+      },
+      "quality_vs_C_development_candidate": true
+    }
+  ],
+  "per_image": [
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+        "image_id": "00446",
+        "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+        "dataset": "ffhq",
+        "task": "gaussian_deblur",
+        "image_index": 1,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 101446,
+        "key": "ffhq_gaussian_deblur_00446_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 25.25698984237408,
+          "ssim": 0.7276865839958191,
+          "lpips": 0.24005086719989777
+        },
+        "OLD_U": {
+          "psnr": 28.974640320962678,
+          "ssim": 0.8402938842773438,
+          "lpips": 0.20852236449718475
+        },
+        "U_FFT": {
+          "psnr": 29.055797638062323,
+          "ssim": 0.8422667980194092,
+          "lpips": 0.21367207169532776
+        },
+        "V_FFT": {
+          "psnr": 28.21261886490356,
+          "ssim": 0.8068638443946838,
+          "lpips": 0.22314582765102386
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 7,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+        "image_id": "00446",
+        "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+        "dataset": "ffhq",
+        "task": "motion_deblur",
+        "image_index": 1,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 301446,
+        "mask_seed": 2001446,
+        "key": "ffhq_motion_deblur_00446_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 20.785977349777248,
+          "ssim": 0.5913509726524353,
+          "lpips": 0.3363766670227051
+        },
+        "OLD_U": {
+          "psnr": 28.03998406356318,
+          "ssim": 0.8089962601661682,
+          "lpips": 0.1877184808254242
+        },
+        "U_FFT": {
+          "psnr": 28.203055500764748,
+          "ssim": 0.8186583518981934,
+          "lpips": 0.20116659998893738
+        },
+        "V_FFT": {
+          "psnr": 24.201102126515334,
+          "ssim": 0.5831882357597351,
+          "lpips": 0.2989448308944702
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 9,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+        "image_id": "00559",
+        "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+        "dataset": "ffhq",
+        "task": "gaussian_deblur",
+        "image_index": 2,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 101559,
+        "key": "ffhq_gaussian_deblur_00559_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 26.482571524862824,
+          "ssim": 0.7828900814056396,
+          "lpips": 0.20991060137748718
+        },
+        "OLD_U": {
+          "psnr": 29.979569069584535,
+          "ssim": 0.8716228008270264,
+          "lpips": 0.18785659968852997
+        },
+        "U_FFT": {
+          "psnr": 30.093253274533488,
+          "ssim": 0.8733550906181335,
+          "lpips": 0.17556700110435486
+        },
+        "V_FFT": {
+          "psnr": 29.180913222372222,
+          "ssim": 0.8028081059455872,
+          "lpips": 0.26506781578063965
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 5,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+        "image_id": "00559",
+        "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+        "dataset": "ffhq",
+        "task": "motion_deblur",
+        "image_index": 2,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 301559,
+        "mask_seed": 2001559,
+        "key": "ffhq_motion_deblur_00559_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 23.20323536898413,
+          "ssim": 0.675439178943634,
+          "lpips": 0.29463016986846924
+        },
+        "OLD_U": {
+          "psnr": 28.429661124387682,
+          "ssim": 0.8241851329803467,
+          "lpips": 0.18163171410560608
+        },
+        "U_FFT": {
+          "psnr": 28.8986823685713,
+          "ssim": 0.8505752682685852,
+          "lpips": 0.17608654499053955
+        },
+        "V_FFT": {
+          "psnr": 24.241062040091414,
+          "ssim": 0.494457870721817,
+          "lpips": 0.43174853920936584
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 9,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00608.png",
+        "image_id": "00608",
+        "image_sha256": "87e5a036895fd3701db64a8df899ef1ce5e6d87fb160855480153ac4ce60f509",
+        "dataset": "ffhq",
+        "task": "gaussian_deblur",
+        "image_index": 3,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 101608,
+        "key": "ffhq_gaussian_deblur_00608_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 24.328351575992468,
+          "ssim": 0.7731229662895203,
+          "lpips": 0.233375683426857
+        },
+        "OLD_U": {
+          "psnr": 27.90331263137681,
+          "ssim": 0.8660960793495178,
+          "lpips": 0.1888437122106552
+        },
+        "U_FFT": {
+          "psnr": 28.013689089758977,
+          "ssim": 0.8672590851783752,
+          "lpips": 0.18888454139232635
+        },
+        "V_FFT": {
+          "psnr": 27.430178079198264,
+          "ssim": 0.8111379146575928,
+          "lpips": 0.2887069880962372
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 8,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00608.png",
+        "image_id": "00608",
+        "image_sha256": "87e5a036895fd3701db64a8df899ef1ce5e6d87fb160855480153ac4ce60f509",
+        "dataset": "ffhq",
+        "task": "motion_deblur",
+        "image_index": 3,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 301608,
+        "mask_seed": 2001608,
+        "key": "ffhq_motion_deblur_00608_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 21.616961081259817,
+          "ssim": 0.6805076599121094,
+          "lpips": 0.27531084418296814
+        },
+        "OLD_U": {
+          "psnr": 27.29718178295596,
+          "ssim": 0.8396878838539124,
+          "lpips": 0.16745638847351074
+        },
+        "U_FFT": {
+          "psnr": 26.84418251123286,
+          "ssim": 0.8396952152252197,
+          "lpips": 0.20565277338027954
+        },
+        "V_FFT": {
+          "psnr": 23.581973732976277,
+          "ssim": 0.4708799123764038,
+          "lpips": 0.4267066717147827
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 9,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00873.png",
+        "image_id": "00873",
+        "image_sha256": "9a5d7b9808ac2639040c51c89dd46a6c93f24bcc17b13090f6815b4e89038d53",
+        "dataset": "ffhq",
+        "task": "gaussian_deblur",
+        "image_index": 4,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 101873,
+        "key": "ffhq_gaussian_deblur_00873_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 24.9218950334256,
+          "ssim": 0.7655474543571472,
+          "lpips": 0.20469297468662262
+        },
+        "OLD_U": {
+          "psnr": 28.478955225224276,
+          "ssim": 0.8640335202217102,
+          "lpips": 0.16224834322929382
+        },
+        "U_FFT": {
+          "psnr": 29.023631190548706,
+          "ssim": 0.8707132339477539,
+          "lpips": 0.15820147097110748
+        },
+        "V_FFT": {
+          "psnr": 28.266422970415825,
+          "ssim": 0.8313258290290833,
+          "lpips": 0.17553888261318207
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 6,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00873.png",
+        "image_id": "00873",
+        "image_sha256": "9a5d7b9808ac2639040c51c89dd46a6c93f24bcc17b13090f6815b4e89038d53",
+        "dataset": "ffhq",
+        "task": "motion_deblur",
+        "image_index": 4,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 301873,
+        "mask_seed": 2001873,
+        "key": "ffhq_motion_deblur_00873_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 20.753541827803975,
+          "ssim": 0.6274788975715637,
+          "lpips": 0.27528923749923706
+        },
+        "OLD_U": {
+          "psnr": 28.246681359956042,
+          "ssim": 0.843980610370636,
+          "lpips": 0.12955008447170258
+        },
+        "U_FFT": {
+          "psnr": 28.42621165249885,
+          "ssim": 0.8489009737968445,
+          "lpips": 0.14999136328697205
+        },
+        "V_FFT": {
+          "psnr": 23.903802529846622,
+          "ssim": 0.5513444542884827,
+          "lpips": 0.3310485780239105
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 8,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+        "image_id": "00951",
+        "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+        "dataset": "ffhq",
+        "task": "gaussian_deblur",
+        "image_index": 5,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 101951,
+        "key": "ffhq_gaussian_deblur_00951_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 23.893706331976272,
+          "ssim": 0.710080087184906,
+          "lpips": 0.21880078315734863
+        },
+        "OLD_U": {
+          "psnr": 28.279637274611538,
+          "ssim": 0.8524365425109863,
+          "lpips": 0.1474425345659256
+        },
+        "U_FFT": {
+          "psnr": 28.21684948306391,
+          "ssim": 0.8507165908813477,
+          "lpips": 0.14881616830825806
+        },
+        "V_FFT": {
+          "psnr": 27.884742550129356,
+          "ssim": 0.8275778293609619,
+          "lpips": 0.1405324935913086
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 7,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+        "image_id": "00951",
+        "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+        "dataset": "ffhq",
+        "task": "motion_deblur",
+        "image_index": 5,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 301951,
+        "mask_seed": 2001951,
+        "key": "ffhq_motion_deblur_00951_s1000"
+      },
+      "metrics": {
+        "C_IEEE": {
+          "psnr": 20.705497758850125,
+          "ssim": 0.6039601564407349,
+          "lpips": 0.2800704538822174
+        },
+        "OLD_U": {
+          "psnr": 27.038915523863952,
+          "ssim": 0.813731849193573,
+          "lpips": 0.12826766073703766
+        },
+        "U_FFT": {
+          "psnr": 27.090346896356007,
+          "ssim": 0.8163065910339355,
+          "lpips": 0.15318945050239563
+        },
+        "V_FFT": {
+          "psnr": 23.692483640275054,
+          "ssim": 0.5902207493782043,
+          "lpips": 0.2694573402404785
+        }
+      },
+      "resolved": {
+        "C_IEEE": 0,
+        "OLD_U": 9,
+        "U_FFT": 30,
+        "V_FFT": 30
+      }
+    }
+  ],
+  "quality_solve_actions": {
+    "U_FFT": {
+      "FFT_linear_calls": 88696,
+      "FFT_adjoint_calls": 88996,
+      "FFT_transforms": 355404,
+      "original_spatial_checks": 30,
+      "transfer_bytes": 519342800
+    },
+    "V_FFT": {
+      "FFT_linear_calls": 88595,
+      "FFT_adjoint_calls": 88895,
+      "FFT_transforms": 354980,
+      "original_spatial_checks": 30,
+      "transfer_bytes": 519045120
+    }
+  },
+  "measured_seconds_by_arm": {
+    "C_IEEE": 19.93575334083289,
+    "OLD_U": 144.29532281961292,
+    "U_FFT": 2249.122389310971,
+    "V_FFT": 2230.6064289733768
+  },
+  "limits": "Five OLD FFHQ images x Gaussian/Motion, seed1000/sigma.05. Same PRE,29 innovations and fixed30. New CPU zero-boundary float64 FFT/condition-budget solve; all FFT true residuals1e-5, independent original spatial checks at0/24/29. No failed FFT fallback: stop and preserve partial cost. OLD_U may retain its original128-CG fallback, explicitly counted. Inherited baseline training is reused, not a standalone30-call/deployment-cost proof. No TIME calibration, new images, noise/second-seed, curvature, four-task confirmation or broad transfer claim.",
+  "operator_accounting_scope": "FFT target actions and spatial crosschecks only; original q construction/measurement/OLD_U CG remain in full traces and total arm walltime, not an all-operator-action total."
+}
