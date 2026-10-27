@@ -2,8 +2,8 @@
 set -euo pipefail
 zaps_night_pkg=${1:-}
 case "$zaps_night_pkg" in
-  A56) zaps_night_min=e60df03;zaps_night_entry=a56_session.py;;
-  A57) zaps_night_min=e281433;zaps_night_entry=a57_session.py;;
+  A56) zaps_night_min=cb449fd;zaps_night_entry=a56_operator_repair_session.py;;
+  A57) zaps_night_min=cb449fd;zaps_night_entry=a57_operator_repair_session.py;;
   A58) zaps_night_min=309e291;zaps_night_entry=a58_session.py;;
   A59) zaps_night_min=fa2d7fa;zaps_night_entry=a59_session.py;;
   A60) zaps_night_min=3e855f2;zaps_night_entry=a60_session.py;;
@@ -17,4 +17,7 @@ env -u NO_PROXY -u no_proxy git -c http.proxy=http://127.0.0.1:10809 \
 git merge --ff-only origin/master
 git merge-base --is-ancestor "$zaps_night_min" HEAD
 cd projects
+case "$zaps_night_pkg" in
+  A56|A57) python -u "utils/$zaps_night_entry" --status;;
+esac
 exec python -u "utils/$zaps_night_entry"

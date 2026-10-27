@@ -1,0 +1,487 @@
+{
+  "experiment": "A58_blur_pcg_admission",
+  "classification": "NUMERICAL_ADMISSION_FAILED_NN_NOT_RUN",
+  "numerical_admitted": false,
+  "completed_solves": 24,
+  "completed_cases": 0,
+  "planned_cases": 10,
+  "method_nfe": 0,
+  "diagnostic_nfe": 0,
+  "input_backward_attempts": 0,
+  "metrology_operator_calls": 2185,
+  "metrology_preconditioner_calls": 647,
+  "metrology_spectral_setups": 4,
+  "quality_solve_actions": {
+    "C_IEEE": {
+      "linear_calls": 0,
+      "adjoint_calls": 0,
+      "preconditioner_calls": 0,
+      "spectral_setup_ffts": 0,
+      "fft_transforms": 0
+    },
+    "OLD_U": {
+      "linear_calls": 0,
+      "adjoint_calls": 0,
+      "preconditioner_calls": 0,
+      "spectral_setup_ffts": 0,
+      "fft_transforms": 0
+    },
+    "U_PCG": {
+      "linear_calls": 0,
+      "adjoint_calls": 0,
+      "preconditioner_calls": 0,
+      "spectral_setup_ffts": 0,
+      "fft_transforms": 0
+    },
+    "V_PCG": {
+      "linear_calls": 0,
+      "adjoint_calls": 0,
+      "preconditioner_calls": 0,
+      "spectral_setup_ffts": 0,
+      "fft_transforms": 0
+    }
+  },
+  "measured_quality_seconds_by_arm": {
+    "C_IEEE": 0,
+    "OLD_U": 0,
+    "U_PCG": 0,
+    "V_PCG": 0
+  },
+  "numerical_rows": [
+    {
+      "task": "gaussian_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "WHITE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.43768018490085564,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 0.8383229998871684
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "WHITE",
+      "variant": "CG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.42565554382008325,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 2.4719588551670313
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "WHITE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "preconditioner_calls": 128,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 0.030490294458203646,
+        "reason": "ITERATION_BUDGET_EXHAUSTED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 2.539250531233847
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.026586703998688982,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 0.6365398140624166
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "CG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.026348836074017275,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 1.6297853449359536
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "preconditioner_calls": 128,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 0.0031006521205716457,
+        "reason": "ITERATION_BUDGET_EXHAUSTED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 1.1996411634609103
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "WHITE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": true,
+        "iterations": 60,
+        "operator_calls": 61,
+        "relative_residual": 8.96102192403045e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.1308029368519783
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "WHITE",
+      "variant": "CG64",
+      "gate": {
+        "passed": true,
+        "iterations": 60,
+        "operator_calls": 61,
+        "relative_residual": 8.233577688413108e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.4437900986522436
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "WHITE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": true,
+        "iterations": 29,
+        "operator_calls": 30,
+        "preconditioner_calls": 29,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 9.205747623559854e-06,
+        "reason": "TRUE_RESIDUAL_PASSED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 0.36030589137226343
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": true,
+        "iterations": 59,
+        "operator_calls": 60,
+        "relative_residual": 9.228937546542455e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.11651619337499142
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "CG64",
+      "gate": {
+        "passed": true,
+        "iterations": 59,
+        "operator_calls": 60,
+        "relative_residual": 9.168860418520065e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.5561706805601716
+    },
+    {
+      "task": "gaussian_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": true,
+        "iterations": 30,
+        "operator_calls": 31,
+        "preconditioner_calls": 30,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 9.956400465285415e-06,
+        "reason": "TRUE_RESIDUAL_PASSED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 0.38680997490882874
+    },
+    {
+      "task": "motion_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "WHITE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.8146269387458672,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 0.4512192653492093
+    },
+    {
+      "task": "motion_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "WHITE",
+      "variant": "CG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.813845132052989,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 1.2645074855536222
+    },
+    {
+      "task": "motion_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "WHITE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "preconditioner_calls": 128,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 0.0848789719791137,
+        "reason": "ITERATION_BUDGET_EXHAUSTED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 1.183120958507061
+    },
+    {
+      "task": "motion_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.06611573227251097,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 0.3986655017361045
+    },
+    {
+      "task": "motion_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "CG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "relative_residual": 0.06508524025012782,
+        "reason": "ITERATION_BUDGET_EXHAUSTED"
+      },
+      "seconds": 1.3443744396790862
+    },
+    {
+      "task": "motion_deblur",
+      "step": 0,
+      "t": 999,
+      "eta": 1.588268594012756e-05,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": false,
+        "iterations": 128,
+        "operator_calls": 129,
+        "preconditioner_calls": 128,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 0.002775153235429945,
+        "reason": "ITERATION_BUDGET_EXHAUSTED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 1.2107067368924618
+    },
+    {
+      "task": "motion_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "WHITE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": true,
+        "iterations": 63,
+        "operator_calls": 64,
+        "relative_residual": 9.922467216795837e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.2642151555046439
+    },
+    {
+      "task": "motion_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "WHITE",
+      "variant": "CG64",
+      "gate": {
+        "passed": true,
+        "iterations": 63,
+        "operator_calls": 64,
+        "relative_residual": 9.860299758307845e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.6031367303803563
+    },
+    {
+      "task": "motion_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "WHITE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": true,
+        "iterations": 39,
+        "operator_calls": 40,
+        "preconditioner_calls": 39,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 9.15457886325828e-06,
+        "reason": "TRUE_RESIDUAL_PASSED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 0.4714897284284234
+    },
+    {
+      "task": "motion_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "LEGACY32",
+      "gate": {
+        "passed": true,
+        "iterations": 63,
+        "operator_calls": 64,
+        "relative_residual": 8.508374948608974e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.20702556520700455
+    },
+    {
+      "task": "motion_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "CG64",
+      "gate": {
+        "passed": true,
+        "iterations": 63,
+        "operator_calls": 64,
+        "relative_residual": 8.487997949984124e-06,
+        "reason": "TRUE_RESIDUAL_CHECK"
+      },
+      "seconds": 0.6883518481627107
+    },
+    {
+      "task": "motion_deblur",
+      "step": 24,
+      "t": 319,
+      "eta": 0.0022726816392157553,
+      "rhs": "IN_OPERATOR_RANGE",
+      "variant": "PCG64",
+      "gate": {
+        "passed": true,
+        "iterations": 37,
+        "operator_calls": 38,
+        "preconditioner_calls": 37,
+        "true_checks": 1,
+        "restarts": 0,
+        "relative_residual": 8.616449825066786e-06,
+        "reason": "TRUE_RESIDUAL_PASSED",
+        "arithmetic": "float64",
+        "rtol": 1e-05,
+        "maxiter": 128
+      },
+      "seconds": 0.4116357509046793
+    }
+  ],
+  "groups": [],
+  "per_image": [],
+  "limits": "Five OLD FFHQ images x two blur tasks; one seed and known sigma=.05. Zero-boundary original coefficient matrix; promoted float64 arithmetic and periodic SPD preconditioner only. 128 iterations and true-residual1e-5 unchanged; extra FFT/operator actions are charged separately. Synthetic RHS admission is not full trajectory admission. Unresolved trajectory steps retain original-q fallback. No unseen-image, exact posterior, curvature, sampling-grid or walltime-saving claim."
+}

@@ -1,6 +1,6 @@
 # 上午运行命令：恢复点
 
-A56—A60五包均已实现并推送。以下均是真实入口；实际Torch/CUDA与方法结果仍待服务器运行。
+A56—A60五包均已实现并推送。10/27中午更新：A57—A60摘要已在GitHub核验；A56未完成。A56/A57已切换独立算子接口修复入口，旧失败状态保留。历史夜间PDF不改写，最新解读见projects/reports/20261027_a57_a60_readout/README.md。
 下列五个完整代码块已填写各包真实最低SHA；本轮逐一核对入口/祖先提交和shell语法，不改各包冻结源文件。
 
 ## 1. A56：固定规则的新图/双数据集确认（代码已推）
@@ -14,12 +14,12 @@ git -c http.proxy=http://127.0.0.1:10809 \
 fetch https://github.com/lzy75/ZAPS.git \
 refs/heads/master:refs/remotes/origin/master &&
 git merge --ff-only origin/master &&
-git merge-base --is-ancestor e60df03 HEAD &&
+git merge-base --is-ancestor cb449fd HEAD &&
 cd projects &&
-python -u utils/a56_session.py
+python -u utils/a56_operator_repair_session.py
 ```
 
-实际服务器Torch/GPU尚未报告。9624前向/最多1204输入反向，6FFHQ+4ImageNet×SR/IP。
+A56尚未完成。9624前向/最多1204输入反向，6FFHQ+4ImageNet×SR/IP。
 每GPU至少12GiB空闲，只有一张符合时自动串行。断线重连同入口跟随；不重复启动。
 
 ## 2. A57：独立无学习30调用与原U等价（代码已推）
@@ -33,13 +33,13 @@ git -c http.proxy=http://127.0.0.1:10809 \
 fetch https://github.com/lzy75/ZAPS.git \
 refs/heads/master:refs/remotes/origin/master &&
 git merge --ff-only origin/master &&
-git merge-base --is-ancestor e281433 HEAD &&
+git merge-base --is-ancestor cb449fd HEAD &&
 cd projects &&
-python -u utils/a57_session.py
+python -u utils/a57_operator_repair_session.py
 ```
 
 依赖已有A55r2十例完成，不依赖尚未运行的A56。300新方法前向、≤300输入VJP，
-0优化更新；10旧例端点/创新配对和真实成本核对，无新图或10倍墙钟保证。
+0优化更新；10旧例端点/创新配对已通过，最大相对误差2.2951e-7；无新图或10倍墙钟保证。
 A56与A57建议顺序运行，避免共享GPU挤占；断线同入口重连，不重做已完成case。
 
 ## 3. A58：blur原目标预条件准入（代码已推）

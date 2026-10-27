@@ -1,0 +1,672 @@
+{
+  "experiment": "A60_direction_refresh",
+  "classification": "DEVELOPMENT_DIRECTION_REFRESH_DIAGNOSIS_ONLY",
+  "completed_cases": 10,
+  "planned_cases": 10,
+  "image_clusters": 5,
+  "method_nfe": 0,
+  "diagnostic_nfe": 900,
+  "input_backward_attempts": 550,
+  "planned_input_backward_max": 550,
+  "input_VJPs_by_arm": {
+    "CURRENT": 300,
+    "LAG2": 160,
+    "LAG4": 90
+  },
+  "measured_seconds_by_arm": {
+    "CURRENT": 72.22041655704379,
+    "LAG2": 58.270188968628645,
+    "LAG4": 54.71483439486474
+  },
+  "peak_memory_bytes_by_arm": {
+    "CURRENT": 2448874496,
+    "LAG2": 2448874496,
+    "LAG4": 2446586368
+  },
+  "linear_solve_actions": {
+    "CURRENT": {
+      "linear_calls": 1816,
+      "adjoint_calls": 2116
+    },
+    "LAG2": {
+      "linear_calls": 1812,
+      "adjoint_calls": 2112
+    },
+    "LAG4": {
+      "linear_calls": 1808,
+      "adjoint_calls": 2108
+    }
+  },
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arms": {
+        "LAG2": {
+          "mean_delta": {
+            "CURRENT": {
+              "psnr": -0.9379957563443,
+              "ssim": -0.02673051357269287,
+              "lpips": 0.04632541835308075
+            },
+            "C_IEEE": {
+              "psnr": 7.154445596019654,
+              "ssim": 0.19867552518844606,
+              "lpips": -0.08082912862300873
+            }
+          },
+          "fully_resolved": true,
+          "images_within_point10": 0,
+          "lower_VJP_cost_development_candidate": false,
+          "same_run_median_seconds_ratio": 0.8640157543008757
+        },
+        "LAG4": {
+          "mean_delta": {
+            "CURRENT": {
+              "psnr": -5.480066026314702,
+              "ssim": -0.16517776250839233,
+              "lpips": 0.15016958117485046
+            },
+            "C_IEEE": {
+              "psnr": 2.6123753260492513,
+              "ssim": 0.060228276252746585,
+              "lpips": 0.023015034198760987
+            }
+          },
+          "fully_resolved": true,
+          "images_within_point10": 0,
+          "lower_VJP_cost_development_candidate": false,
+          "same_run_median_seconds_ratio": 0.8328554589706431
+        }
+      }
+    },
+    {
+      "task": "inpainting",
+      "arms": {
+        "LAG2": {
+          "mean_delta": {
+            "CURRENT": {
+              "psnr": -2.249630626824596,
+              "ssim": -0.04350353479385376,
+              "lpips": 0.08206425756216049
+            },
+            "C_IEEE": {
+              "psnr": 6.093695948013616,
+              "ssim": 0.16836731433868407,
+              "lpips": -0.0680233120918274
+            }
+          },
+          "fully_resolved": true,
+          "images_within_point10": 0,
+          "lower_VJP_cost_development_candidate": false,
+          "same_run_median_seconds_ratio": 0.7931631547693417
+        },
+        "LAG4": {
+          "mean_delta": {
+            "CURRENT": {
+              "psnr": -7.658574392603817,
+              "ssim": -0.19217021465301515,
+              "lpips": 0.19917943924665452
+            },
+            "C_IEEE": {
+              "psnr": 0.6847521822343949,
+              "ssim": 0.019700634479522704,
+              "lpips": 0.04909186959266663
+            }
+          },
+          "fully_resolved": true,
+          "images_within_point10": 0,
+          "lower_VJP_cost_development_candidate": false,
+          "same_run_median_seconds_ratio": 0.7328561112915855
+        }
+      }
+    }
+  ],
+  "per_image": [
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+        "image_id": "00446",
+        "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "image_index": 1,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 1446,
+        "key": "ffhq_super_resolution_00446_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 28.566119625111202,
+          "ssim": 0.8291370868682861,
+          "lpips": 0.19889135658740997,
+          "loss": 0.4309673908383679
+        },
+        "LAG2": {
+          "psnr": 27.94505851382606,
+          "ssim": 0.8092090487480164,
+          "lpips": 0.22816181182861328,
+          "loss": 0.5185954847140958
+        },
+        "LAG4": {
+          "psnr": 23.442813950736145,
+          "ssim": 0.6788548827171326,
+          "lpips": 0.32127127051353455,
+          "loss": 1.0900551342689158
+        },
+        "C_IEEE": {
+          "psnr": 20.138165634674646,
+          "ssim": 0.6009317636489868,
+          "lpips": 0.31397199630737305
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 9.103034411557019,
+        "LAG2": 7.228346806950867,
+        "LAG4": 6.845327835530043
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00446.png",
+        "image_id": "00446",
+        "image_sha256": "47be54ca4010caf002152549986b799bb95eab20e736121e9a3c77fd4b230999",
+        "dataset": "ffhq",
+        "task": "inpainting",
+        "image_index": 1,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 201446,
+        "mask_seed": 2001446,
+        "key": "ffhq_inpainting_00446_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 31.162978960434266,
+          "ssim": 0.8940972685813904,
+          "lpips": 0.11386001110076904,
+          "loss": 27.220259265098168
+        },
+        "LAG2": {
+          "psnr": 29.475070699118675,
+          "ssim": 0.8582460880279541,
+          "lpips": 0.18683119118213654,
+          "loss": 27.173552526760467
+        },
+        "LAG4": {
+          "psnr": 24.08169972473673,
+          "ssim": 0.7229395508766174,
+          "lpips": 0.29636260867118835,
+          "loss": 27.706735605750882
+        },
+        "C_IEEE": {
+          "psnr": 22.44497685755426,
+          "ssim": 0.6663431525230408,
+          "lpips": 0.2699519395828247
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 8.474303803406656,
+        "LAG2": 5.348896864801645,
+        "LAG4": 4.87322149798274
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+        "image_id": "00559",
+        "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "image_index": 2,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 1559,
+        "key": "ffhq_super_resolution_00559_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 29.617764086805707,
+          "ssim": 0.8646267056465149,
+          "lpips": 0.1623973548412323,
+          "loss": 0.44758708296723054
+        },
+        "LAG2": {
+          "psnr": 29.236373267264838,
+          "ssim": 0.8489369750022888,
+          "lpips": 0.20781761407852173,
+          "loss": 0.5256685007438049
+        },
+        "LAG4": {
+          "psnr": 23.752855340538773,
+          "ssim": 0.7116179466247559,
+          "lpips": 0.3264453709125519,
+          "loss": 1.0900585454904665
+        },
+        "C_IEEE": {
+          "psnr": 21.78831655043121,
+          "ssim": 0.6730226874351501,
+          "lpips": 0.2925487160682678
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 7.9569399720057845,
+        "LAG2": 7.425425280816853,
+        "LAG4": 6.4837192595005035
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00559.png",
+        "image_id": "00559",
+        "image_sha256": "23628a13bb377736e12cc18f541a410e861754d2dcdb9c852fa4bfaa551155a3",
+        "dataset": "ffhq",
+        "task": "inpainting",
+        "image_index": 2,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 201559,
+        "mask_seed": 2001559,
+        "key": "ffhq_inpainting_00559_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 32.629682742893415,
+          "ssim": 0.9196334481239319,
+          "lpips": 0.08638715744018555,
+          "loss": 56.25240558456547
+        },
+        "LAG2": {
+          "psnr": 30.499228265707746,
+          "ssim": 0.8865974545478821,
+          "lpips": 0.16624701023101807,
+          "loss": 56.243515950537144
+        },
+        "LAG4": {
+          "psnr": 24.498980391217135,
+          "ssim": 0.7576504349708557,
+          "lpips": 0.27889248728752136,
+          "loss": 55.40018096433175
+        },
+        "C_IEEE": {
+          "psnr": 24.26246733817168,
+          "ssim": 0.7388198971748352,
+          "lpips": 0.2529752850532532
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 6.3829993782565,
+        "LAG2": 5.062759923748672,
+        "LAG4": 5.8017632914707065
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00608.png",
+        "image_id": "00608",
+        "image_sha256": "87e5a036895fd3701db64a8df899ef1ce5e6d87fb160855480153ac4ce60f509",
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "image_index": 3,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 1608,
+        "key": "ffhq_super_resolution_00608_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 27.843186679948026,
+          "ssim": 0.8656527400016785,
+          "lpips": 0.1979646533727646,
+          "loss": 0.4429426130696054
+        },
+        "LAG2": {
+          "psnr": 26.838109015632043,
+          "ssim": 0.839123547077179,
+          "lpips": 0.2575843632221222,
+          "loss": 0.540392803271244
+        },
+        "LAG4": {
+          "psnr": 22.888691880423877,
+          "ssim": 0.7194600105285645,
+          "lpips": 0.38033223152160645,
+          "loss": 1.0823262349030913
+        },
+        "C_IEEE": {
+          "psnr": 21.534756371451476,
+          "ssim": 0.699408233165741,
+          "lpips": 0.2870384454727173
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 8.116307572461665,
+        "LAG2": 7.225953112356365,
+        "LAG4": 6.922848613932729
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00608.png",
+        "image_id": "00608",
+        "image_sha256": "87e5a036895fd3701db64a8df899ef1ce5e6d87fb160855480153ac4ce60f509",
+        "dataset": "ffhq",
+        "task": "inpainting",
+        "image_index": 3,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 201608,
+        "mask_seed": 2001608,
+        "key": "ffhq_inpainting_00608_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 29.340489825579322,
+          "ssim": 0.9048137664794922,
+          "lpips": 0.13434752821922302,
+          "loss": 56.03901381944569
+        },
+        "LAG2": {
+          "psnr": 27.644114933012336,
+          "ssim": 0.8661466240882874,
+          "lpips": 0.2291107326745987,
+          "loss": 55.966072362159
+        },
+        "LAG4": {
+          "psnr": 22.982419548368984,
+          "ssim": 0.7239267826080322,
+          "lpips": 0.35522711277008057,
+          "loss": 56.191325002081406
+        },
+        "C_IEEE": {
+          "psnr": 23.080358563594142,
+          "ssim": 0.744758129119873,
+          "lpips": 0.24284636974334717
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 7.572714134119451,
+        "LAG2": 5.049936567433178,
+        "LAG4": 3.5307132489979267
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00873.png",
+        "image_id": "00873",
+        "image_sha256": "9a5d7b9808ac2639040c51c89dd46a6c93f24bcc17b13090f6815b4e89038d53",
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "image_index": 4,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 1873,
+        "key": "ffhq_super_resolution_00873_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 28.39494039171995,
+          "ssim": 0.8556850552558899,
+          "lpips": 0.15630078315734863,
+          "loss": 0.42678998538355245
+        },
+        "LAG2": {
+          "psnr": 27.19032196721336,
+          "ssim": 0.8277134895324707,
+          "lpips": 0.20603495836257935,
+          "loss": 0.536958823267564
+        },
+        "LAG4": {
+          "psnr": 23.230769831208413,
+          "ssim": 0.7071908116340637,
+          "lpips": 0.27015620470046997,
+          "loss": 1.0762409568561642
+        },
+        "C_IEEE": {
+          "psnr": 19.635982451845038,
+          "ssim": 0.6055285334587097,
+          "lpips": 0.28910091519355774
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 6.677301975898445,
+        "LAG2": 5.048642267473042,
+        "LAG4": 5.933033853769302
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00873.png",
+        "image_id": "00873",
+        "image_sha256": "9a5d7b9808ac2639040c51c89dd46a6c93f24bcc17b13090f6815b4e89038d53",
+        "dataset": "ffhq",
+        "task": "inpainting",
+        "image_index": 4,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 201873,
+        "mask_seed": 2001873,
+        "key": "ffhq_inpainting_00873_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 31.47724101105696,
+          "ssim": 0.9197826385498047,
+          "lpips": 0.07874014973640442,
+          "loss": 45.89172134115294
+        },
+        "LAG2": {
+          "psnr": 28.793561980058367,
+          "ssim": 0.8716451525688171,
+          "lpips": 0.15860427916049957,
+          "loss": 45.87416101797402
+        },
+        "LAG4": {
+          "psnr": 22.83500517503842,
+          "ssim": 0.7088435292243958,
+          "lpips": 0.27812930941581726,
+          "loss": 45.758544319093
+        },
+        "C_IEEE": {
+          "psnr": 22.5966568087415,
+          "ssim": 0.7017075419425964,
+          "lpips": 0.22476136684417725
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 4.37913001421839,
+        "LAG2": 4.231296326965094,
+        "LAG4": 3.4955301424488425
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+        "image_id": "00951",
+        "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+        "dataset": "ffhq",
+        "task": "super_resolution",
+        "image_index": 5,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 1951,
+        "key": "ffhq_super_resolution_00951_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 27.936569334949706,
+          "ssim": 0.8357212543487549,
+          "lpips": 0.1452890932559967,
+          "loss": 0.4612598098454781
+        },
+        "LAG2": {
+          "psnr": 26.45873857287679,
+          "ssim": 0.7921872138977051,
+          "lpips": 0.1928715854883194,
+          "loss": 0.6121265978321866
+        },
+        "LAG4": {
+          "psnr": 21.64311898405387,
+          "ssim": 0.607810378074646,
+          "lpips": 0.3134860694408417,
+          "loss": 1.5086152618004511
+        },
+        "C_IEEE": {
+          "psnr": 18.79915234831245,
+          "ssim": 0.544901430606842,
+          "lpips": 0.3139559030532837
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 8.928499519824982,
+        "LAG2": 7.714364247396588,
+        "LAG4": 7.436149565503001
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    },
+    {
+      "case": {
+        "image": "/home/lzy/FFHQ/00000/00000/00951.png",
+        "image_id": "00951",
+        "image_sha256": "84b82888facb6baf51d6531acfd4bd4691205efd3654147d725b55ee9d67b6fc",
+        "dataset": "ffhq",
+        "task": "inpainting",
+        "image_index": 5,
+        "sigma": 0.05,
+        "sampling_seed": 1000,
+        "measurement_seed": 201951,
+        "mask_seed": 2001951,
+        "key": "ffhq_inpainting_00951_s1000"
+      },
+      "metrics": {
+        "CURRENT": {
+          "psnr": 30.619106759819612,
+          "ssim": 0.8996766209602356,
+          "lpips": 0.08726448565721512,
+          "loss": 26.574150736632575
+        },
+        "LAG2": {
+          "psnr": 27.569370287763473,
+          "ssim": 0.8378507494926453,
+          "lpips": 0.17012740671634674,
+          "loss": 26.578429215660528
+        },
+        "LAG4": {
+          "psnr": 22.53852249740322,
+          "ssim": 0.6637923717498779,
+          "lpips": 0.28788501024246216,
+          "loss": 26.65547790633713
+        },
+        "C_IEEE": {
+          "psnr": 21.128406857530933,
+          "ssim": 0.6270207762718201,
+          "lpips": 0.2605022192001343
+        }
+      },
+      "resolved": {
+        "CURRENT": 30,
+        "LAG2": 30,
+        "LAG4": 30
+      },
+      "arm_seconds": {
+        "CURRENT": 4.6291857752949,
+        "LAG2": 3.9345675706863403,
+        "LAG4": 3.3925270857289433
+      },
+      "input_VJPs": {
+        "CURRENT": 30,
+        "LAG2": 16,
+        "LAG4": 9
+      }
+    }
+  ],
+  "limits": "Five OLD FFHQ development images x SR/IP, one seed, fixed30 grid. Current v and K||v|| at every step; only direction refresh interval1/2/4 changes. First/last mandatory. Stale direction contains old x,t AND v, so this is direction lag, not an exact frozen Jacobian on current v. All forwards retain graph-enabled arithmetic. Input VJP saving is not forward-NFE saving. Same-run fixed-order timing includes diagnostic writes and shared load; no production walltime guarantee, independent transfer or curvature-control claim."
+}

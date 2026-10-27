@@ -1,0 +1,323 @@
+{
+  "lightweight_return_receipts": [
+    {
+      "experiment": "A57",
+      "ref": "results/no-learning-replay-20261027",
+      "bundle": "projects/server_records/uncertainty_feedback_c5f6bda58ede6b65",
+      "summary_blob_sha": "eab7e5e11e6e773760344489ff12c02b00fcb05b",
+      "summary_url": "https://github.com/lzy75/ZAPS/blob/results/no-learning-replay-20261027/projects/server_records/uncertainty_feedback_c5f6bda58ede6b65/summary.json",
+      "manifest_blob_sha": "0f4387dbab7922d72af78bb501baac8c68d98305",
+      "observed_branch_head": "08584f6fbe711de806114974a8ca11a3b20ec985",
+      "manifest_summary_sha256": "b9caed2dd4ef880e90d452475f0bbdfa2133ce83730bdb0f35ffa4dfa4f29de6",
+      "summary_hash_verified": true,
+      "scope": "Fetched summary/manifest only. No PT download or tensor/model replay."
+    },
+    {
+      "experiment": "A58",
+      "ref": "results/blur-pcg-admission-20261027",
+      "bundle": "projects/server_records/uncertainty_feedback_c1173ce71f6c102a",
+      "summary_blob_sha": "c40f1cad383d53ed6f5d3f910e6d5a55682ca81a",
+      "summary_url": "https://github.com/lzy75/ZAPS/blob/results/blur-pcg-admission-20261027/projects/server_records/uncertainty_feedback_c1173ce71f6c102a/summary.json",
+      "manifest_blob_sha": "0b65ad8057348b22b96032695b55ad6a7b260a79",
+      "observed_branch_head": "e931715a8d325740a81461fdea05b55b88eefaea",
+      "manifest_summary_sha256": "95abd30b484e372808e1590109df77ce681318746a7dc2656dd99a5533013ff4",
+      "summary_hash_verified": true,
+      "scope": "Fetched summary/manifest only. No PT download or tensor/model replay."
+    },
+    {
+      "experiment": "A59",
+      "ref": "results/fixed-time-geometry-value-20261027",
+      "bundle": "projects/server_records/uncertainty_feedback_d4ce90da25303d22",
+      "summary_blob_sha": "4cf3514cfa9851136812a50d20f63f70a15410fe",
+      "summary_url": "https://github.com/lzy75/ZAPS/blob/results/fixed-time-geometry-value-20261027/projects/server_records/uncertainty_feedback_d4ce90da25303d22/summary.json",
+      "manifest_blob_sha": "4f68f9fecf3040750da73741d67d52deb7aa04e8",
+      "observed_branch_head": "ee50d15f173a99a43fbc59919b413637f9a71dd8",
+      "manifest_summary_sha256": "323e7fc880b4a0b08a67ef1f20d9724163e358a456d79b6f3d47c1daa6f6f7a5",
+      "summary_hash_verified": true,
+      "scope": "Fetched summary/manifest only. No PT download or tensor/model replay."
+    },
+    {
+      "experiment": "A60",
+      "ref": "results/direction-refresh-value-20261027",
+      "bundle": "projects/server_records/uncertainty_feedback_c4c7ac0e7117074f",
+      "summary_blob_sha": "1c6e3c83030d40437e35182b5dd8deb949c336ef",
+      "summary_url": "https://github.com/lzy75/ZAPS/blob/results/direction-refresh-value-20261027/projects/server_records/uncertainty_feedback_c4c7ac0e7117074f/summary.json",
+      "manifest_blob_sha": "7968f935e6803779dc4c69b00138a60ece8e257e",
+      "observed_branch_head": "a3bb71d9b8c80398c5d933c0ea0bf09f8752e3f6",
+      "manifest_summary_sha256": "0a12159de3f9dac0edb64811971a0d7a9813461f7360cc1c6f7562ff7e9171ac",
+      "summary_hash_verified": true,
+      "scope": "Fetched summary/manifest only. No PT download or tensor/model replay."
+    }
+  ],
+  "user_excerpt_numeric_exact_text_whitespace_equivalent": {
+    "A57": true,
+    "A58": true,
+    "A59": true
+  },
+  "A60_user_inline_key_fields_checked": true,
+  "A57": {
+    "all_ten_equivalent": true,
+    "max_relative_error": 2.2951040702257996e-07,
+    "forward_per_case": 30,
+    "forward_count_reduction_vs_inherited_300_protocol": 0.9,
+    "input_VJP_per_case": 30,
+    "mean_metrics": {
+      "super_resolution": {
+        "psnr": 28.471716023706918,
+        "ssim": 0.8501645684242248,
+        "lpips": 0.17216863632202148
+      },
+      "inpainting": {
+        "psnr": 31.04590191252651,
+        "ssim": 0.9076008200645447,
+        "lpips": 0.10011987239122391
+      }
+    },
+    "max_abs_delta_vs_cached_U": {
+      "psnr": 1.3157762701609954e-05,
+      "ssim": 5.960464477539063e-08,
+      "lpips": 2.9802322387695312e-08
+    },
+    "scope": "Old five FFHQ images, SR/IP, one seed; equivalence to cached U, not original C or all future inputs. No10x walltime claim."
+  },
+  "A58": {
+    "pcg_passes": 4,
+    "pcg_solves": 8,
+    "high_noise_failed": [
+      {
+        "task": "gaussian_deblur",
+        "rhs": "WHITE",
+        "relative_residual": 0.030490294458203646
+      },
+      {
+        "task": "gaussian_deblur",
+        "rhs": "IN_OPERATOR_RANGE",
+        "relative_residual": 0.0031006521205716457
+      },
+      {
+        "task": "motion_deblur",
+        "rhs": "WHITE",
+        "relative_residual": 0.0848789719791137
+      },
+      {
+        "task": "motion_deblur",
+        "rhs": "IN_OPERATOR_RANGE",
+        "relative_residual": 0.002775153235429945
+      }
+    ],
+    "low_noise_passes": 4,
+    "quality_not_run": true,
+    "scope": "Stop this128-cap periodic-preconditioner admission protocol; not mathematical impossibility of blur inversion."
+  },
+  "A59": {
+    "primary": {
+      "mae": {
+        "STAGE": 0.19365554975005436,
+        "PHYSICAL": 0.20657393807955698,
+        "GEOMETRY": 0.16614423748611695
+      },
+      "relative_mae_reduction": {
+        "STAGE": 0.14206312341394536,
+        "PHYSICAL": 0.195715398415213
+      },
+      "images_better_than_PHYSICAL": 4,
+      "per_image": {
+        "00446": {
+          "STAGE": 0.11916917442820996,
+          "PHYSICAL": 0.18079223859703575,
+          "GEOMETRY": 0.17445277337296736
+        },
+        "00559": {
+          "STAGE": 0.2449929847141671,
+          "PHYSICAL": 0.12212534611547217,
+          "GEOMETRY": 0.12152048634910291
+        },
+        "00608": {
+          "STAGE": 0.1029130038382043,
+          "PHYSICAL": 0.22814497005471956,
+          "GEOMETRY": 0.234003532180281
+        },
+        "00873": {
+          "STAGE": 0.1885916983189433,
+          "PHYSICAL": 0.22392919147573428,
+          "GEOMETRY": 0.14656925215865377
+        },
+        "00951": {
+          "STAGE": 0.3126108874507471,
+          "PHYSICAL": 0.2778779441548232,
+          "GEOMETRY": 0.15417514336957971
+        }
+      }
+    },
+    "per_task_and_cached_posthoc": {
+      "super_resolution": {
+        "STAGE": {
+          "MAE": 0.07196312021963548,
+          "sign_correct": 10,
+          "n": 15,
+          "cached_forced_binary_gain_vs_U": -0.001003405362369847
+        },
+        "PHYSICAL": {
+          "MAE": 0.07598580162720742,
+          "sign_correct": 5,
+          "n": 15,
+          "cached_forced_binary_gain_vs_U": -0.027513516700637553
+        },
+        "GEOMETRY": {
+          "MAE": 0.07220575551308007,
+          "sign_correct": 8,
+          "n": 15,
+          "cached_forced_binary_gain_vs_U": -0.026522183632967256
+        },
+        "action_differences_GEOMETRY_vs_STAGE": 6
+      },
+      "inpainting": {
+        "STAGE": {
+          "MAE": 0.31534797928047326,
+          "sign_correct": 12,
+          "n": 15,
+          "cached_forced_binary_gain_vs_U": -0.10227478868403068
+        },
+        "PHYSICAL": {
+          "MAE": 0.33716207453190655,
+          "sign_correct": 12,
+          "n": 15,
+          "cached_forced_binary_gain_vs_U": -0.07533142259262131
+        },
+        "GEOMETRY": {
+          "MAE": 0.26008271945915384,
+          "sign_correct": 14,
+          "n": 15,
+          "cached_forced_binary_gain_vs_U": -0.008497296526554976
+        },
+        "action_differences_GEOMETRY_vs_STAGE": 4
+      },
+      "ALL": {
+        "STAGE": {
+          "MAE": 0.19365554975005436,
+          "sign_correct": 22,
+          "n": 30,
+          "cached_forced_binary_gain_vs_U": -0.05163909702320026
+        },
+        "PHYSICAL": {
+          "MAE": 0.20657393807955698,
+          "sign_correct": 17,
+          "n": 30,
+          "cached_forced_binary_gain_vs_U": -0.05142246964662943
+        },
+        "GEOMETRY": {
+          "MAE": 0.16614423748611695,
+          "sign_correct": 22,
+          "n": 30,
+          "cached_forced_binary_gain_vs_U": -0.017509740079761117
+        },
+        "action_differences_GEOMETRY_vs_STAGE": 10
+      }
+    },
+    "posthoc_limits": "New arithmetic of existing cached endpoints/predictions ONLY; no new UNet, no prospective policy, no retuning. Each row is a single-step intervention, not a composed multi-step rollout. Gamma1 no-action option absent from forced binary diagnostic; do not deploy based on its MAE alone."
+  },
+  "A60": {
+    "fully_resolved_all_paths": true,
+    "lag2_PSNR_worse_images": 10,
+    "lag4_PSNR_worse_images": 10,
+    "total_forward": 900,
+    "input_VJP_by_arm": {
+      "CURRENT": 300,
+      "LAG2": 160,
+      "LAG4": 90
+    },
+    "groups": [
+      {
+        "task": "super_resolution",
+        "arms": {
+          "LAG2": {
+            "mean_delta": {
+              "CURRENT": {
+                "psnr": -0.9379957563443,
+                "ssim": -0.02673051357269287,
+                "lpips": 0.04632541835308075
+              },
+              "C_IEEE": {
+                "psnr": 7.154445596019654,
+                "ssim": 0.19867552518844606,
+                "lpips": -0.08082912862300873
+              }
+            },
+            "fully_resolved": true,
+            "images_within_point10": 0,
+            "lower_VJP_cost_development_candidate": false,
+            "same_run_median_seconds_ratio": 0.8640157543008757
+          },
+          "LAG4": {
+            "mean_delta": {
+              "CURRENT": {
+                "psnr": -5.480066026314702,
+                "ssim": -0.16517776250839233,
+                "lpips": 0.15016958117485046
+              },
+              "C_IEEE": {
+                "psnr": 2.6123753260492513,
+                "ssim": 0.060228276252746585,
+                "lpips": 0.023015034198760987
+              }
+            },
+            "fully_resolved": true,
+            "images_within_point10": 0,
+            "lower_VJP_cost_development_candidate": false,
+            "same_run_median_seconds_ratio": 0.8328554589706431
+          }
+        }
+      },
+      {
+        "task": "inpainting",
+        "arms": {
+          "LAG2": {
+            "mean_delta": {
+              "CURRENT": {
+                "psnr": -2.249630626824596,
+                "ssim": -0.04350353479385376,
+                "lpips": 0.08206425756216049
+              },
+              "C_IEEE": {
+                "psnr": 6.093695948013616,
+                "ssim": 0.16836731433868407,
+                "lpips": -0.0680233120918274
+              }
+            },
+            "fully_resolved": true,
+            "images_within_point10": 0,
+            "lower_VJP_cost_development_candidate": false,
+            "same_run_median_seconds_ratio": 0.7931631547693417
+          },
+          "LAG4": {
+            "mean_delta": {
+              "CURRENT": {
+                "psnr": -7.658574392603817,
+                "ssim": -0.19217021465301515,
+                "lpips": 0.19917943924665452
+              },
+              "C_IEEE": {
+                "psnr": 0.6847521822343949,
+                "ssim": 0.019700634479522704,
+                "lpips": 0.04909186959266663
+              }
+            },
+            "fully_resolved": true,
+            "images_within_point10": 0,
+            "lower_VJP_cost_development_candidate": false,
+            "same_run_median_seconds_ratio": 0.7328561112915855
+          }
+        }
+      }
+    ],
+    "scope": "Direction lag includes old x,t,v; not a matched frozen-Jacobian-on-current-v test. No quality-preserving low-VJP arm confirmed."
+  },
+  "new_returned_cost": {
+    "method_forward": 300,
+    "diagnostic_forward": 1660,
+    "forward_total": 1960,
+    "input_VJP_total": 1610,
+    "A58_operator_calls": 2185
+  },
+  "limits": "Only retrieved JSON summary/manifest and recomputed arithmetic. No binary tensors/models replayed. A56 user reports incomplete; no A56 result branch found this turn."
+}
