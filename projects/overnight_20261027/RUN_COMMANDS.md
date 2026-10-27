@@ -1,6 +1,6 @@
 # 上午运行命令：恢复点
 
-A56—A60五包均已实现并推送。10/27中午更新：A57—A60摘要已在GitHub核验；A56未完成。A56/A57已切换独立算子接口修复入口，旧失败状态保留。历史夜间PDF不改写，最新解读见projects/reports/20261027_a57_a60_readout/README.md。
+A56—A60五包均已实现并推送。10/27中午更新：A57—A60摘要已在GitHub核验；A56未完成。A56切换独立选样修订入口（f1ecf49）：候选pool不计作已使用；A57保留已完成的算子接口修复入口，旧失败状态保留。历史夜间PDF不改写，最新解读见projects/reports/20261027_a57_a60_readout/README.md。
 下列五个完整代码块已填写各包真实最低SHA；本轮逐一核对入口/祖先提交和shell语法，不改各包冻结源文件。
 
 ## 1. A56：固定规则的新图/双数据集确认（代码已推）
@@ -14,9 +14,9 @@ git -c http.proxy=http://127.0.0.1:10809 \
 fetch https://github.com/lzy75/ZAPS.git \
 refs/heads/master:refs/remotes/origin/master &&
 git merge --ff-only origin/master &&
-git merge-base --is-ancestor cb449fd HEAD &&
+git merge-base --is-ancestor f1ecf49 HEAD &&
 cd projects &&
-python -u utils/a56_operator_repair_session.py
+python -u utils/a56_selection_r2_session.py
 ```
 
 A56尚未完成。9624前向/最多1204输入反向，6FFHQ+4ImageNet×SR/IP。
