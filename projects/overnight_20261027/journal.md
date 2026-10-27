@@ -133,3 +133,7 @@
 ## 2026-10-27T14:17:58.812599+08:00 FFHQ计算完成；CPU提前汇总
 
 用户返回ffhq_0/1完成，12例训练+采样，共5772前向；IN0/8，running空，GPU空闲6026/10785MiB，均低于原12288工程门槛。用户要求先读FFHQ，故新增独立CPU读取dfd3ea7：全12例原门控/签名/产物/队列源核查，72次Alex LPIPS指标评价，0新UNet/VJP，12张对比图及原阈值汇总/独立results分支。显式记录按数据集提前评价的时序修订，不冒称仍全20例才首次看GT；原科学/队列绑定文件未动。6项纯聚合检查通过，Mac无Torch/图片/模型评价。新增A56M资源资格设计：最多72诊断前向/32输入VJP，覆盖原优化unroll与U及真实计量；尚未实现GPU入口，不能假称已通过。
+
+## 2026-10-27T21:51:41.146081+08:00 A56M1就绪；FFHQ回传核验
+
+GitHub结果c32bbae已取轻量summary/manifest/plan，Gitblob与summary SHA/bytes、原plan SHA、30项配对效应重算核验。两任务方向消融均6/6新图胜V/Q，但未超TIME，SR相对TIME均值SSIM/LPIPS超保护线。Mac无PT/GPU回放。新独立A56M1源码e7c5749：最多72诊断F/32输入B、原优化one-unroll与U真实计量，峰值reserved+1GiB准入；通过后原固定8例串行继续，新总最多3924F/514输入B。安全仅接管无IN子任务/attempt的idle等待器；真实Torch meter/adjoint/checkpoint门控服务器必跑，本机6纯资源检查过。旧科学/队列/FFHQ报告/模型文件未改。

@@ -52,7 +52,7 @@
     "A59 geometry signal is development-only, IP-driven and not an online control gain; gamma1/no-action remains necessary before future policy validation",
     "Blur quality remains untested after numerical admission failure; original full proposal system not established"
   ],
-  "next_action": "User executes CPU FFHQ report now; await actual PSNR/SSIM/LPIPS/panels and result push. ImageNet remains unconfirmed. A56M bounded memory qualification designed, GPU entry not yet implemented.",
+  "next_action": "User runs A56M1 native bounded metrology then automatic frozen ImageNet continuation. Await server profile/full result; no ImageNet efficacy claim yet.",
   "server_access": "User manual execution only; no direct Mac SSH. GPU results cannot be invented.",
   "last_checkpoint_local": "2026-10-27T12:38:45.955099+08:00",
   "automation_verified": {
@@ -203,5 +203,34 @@
     "local_pure_aggregation_checks": 6,
     "metric_and_image_execution_on_Mac": false,
     "timing_amendment": "User requests FFHQ evaluation before unfinished ImageNet. All12 FFHQ outputs frozen; full all20-before-first-label protocol no longer claimed."
+  },
+  "A56_FFHQ_remote_verified": {
+    "commit": "c32bbaea1c3b7998d96afdc25b8826e99a6d4e30",
+    "classification": "FFHQ_FROZEN_DIRECTION_TRANSFER_IN_2_OF_2_TASKS",
+    "cohort": "6 new-accessible-history FFHQ images x SR/IP, one seed",
+    "U_minus_V_PSNR": {
+      "SR": 1.0809714659449245,
+      "IP": 8.029050230170846
+    },
+    "U_minus_Q_PSNR": {
+      "SR": 1.1847365495589777,
+      "IP": 8.027313745396578
+    },
+    "U_minus_TIME_PSNR": {
+      "SR": -0.0324238279623111,
+      "IP": -0.03449991266310152
+    },
+    "limits": "No TIME superiority; SR SSIM/LPIPS vsTIME exceeds guards. No PT/GPU replay on Mac."
+  },
+  "A56M1": {
+    "code_commit": "e7c5749",
+    "entry": "utils/a56m_imagenet_session.py",
+    "profile_cap_F": 72,
+    "profile_cap_inputB": 32,
+    "total_max_new_F": 3924,
+    "total_max_new_inputB": 514,
+    "local_pure_tests_passed": 6,
+    "Torch_tests": "Mandatory server; not run on Mac",
+    "scope": "Native FP32256 unchanged model/grid; one memory probe then original8 cases only when qualified. FFHQ retained; no indefinite wait. OOM/failed case no retry."
   }
 }

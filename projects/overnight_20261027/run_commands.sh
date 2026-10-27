@@ -2,7 +2,7 @@
 set -euo pipefail
 zaps_night_pkg=${1:-}
 case "$zaps_night_pkg" in
-  A56) zaps_night_min=648030e;zaps_night_entry=a56_dataset_queue_session.py;;
+  A56) zaps_night_min=e7c5749;zaps_night_entry=a56m_imagenet_session.py;;
   A57) zaps_night_min=cb449fd;zaps_night_entry=a57_operator_repair_session.py;;
   A58) zaps_night_min=309e291;zaps_night_entry=a58_session.py;;
   A59) zaps_night_min=fa2d7fa;zaps_night_entry=a59_session.py;;
