@@ -137,3 +137,11 @@
 ## 2026-10-27T21:51:41.146081+08:00 A56M1就绪；FFHQ回传核验
 
 GitHub结果c32bbae已取轻量summary/manifest/plan，Gitblob与summary SHA/bytes、原plan SHA、30项配对效应重算核验。两任务方向消融均6/6新图胜V/Q，但未超TIME，SR相对TIME均值SSIM/LPIPS超保护线。Mac无PT/GPU回放。新独立A56M1源码e7c5749：最多72诊断F/32输入B、原优化one-unroll与U真实计量，峰值reserved+1GiB准入；通过后原固定8例串行继续，新总最多3924F/514输入B。安全仅接管无IN子任务/attempt的idle等待器；真实Torch meter/adjoint/checkpoint门控服务器必跑，本机6纯资源检查过。旧科学/队列/FFHQ报告/模型文件未改。
+
+## 2026-10-27T22:07:34.256314+08:00 A56M1已运行；TIME定义勘误与阶段结论
+
+用户日志确认profile72F/32输入B全过、peak_reserved7.65234375GiB，ImageNet00067 SR原基线300+采样192完成；原总计数6470（含FFHQ5772，IN698），下一例基线约206调用。质量仍未收齐。检查norm_gain_control.py发现此前FFHQ早读人类解释误写TIME乘原q；实际第49行是K*gbar*u，第77行实时算u。因此TIME仍含当前反馈方向，仅幅度冻结；原代码/数值/签名不改，新增独立结论勘误文档。复核A49—A60主线，支持FFHQ新图SR/IP方向机制，未确认实时幅度/余弦、四任务、多数据集、曲率/h及全成本收益。
+
+### 最新M1暂停结果覆盖先前运行快照
+
+用户返回3/8完整、第四SR基线保存，1200方法+552诊断F、182输入B，partial0；额外profile72/32，总新1824F。可供本进程free+reserved5.553GiB低于8.652GiB测量余量线，已暂停而非仍后台计算。结果41cc778已从GitHub取轻量summary/manifest并核SHA/bytes/费用；剩2100原调用可复用现有完整记录，原源未动。

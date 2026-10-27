@@ -1,5 +1,8 @@
 # A56 FFHQ新图回传核验
 
+解释勘误：TIME保持当前u方向，只把当前g替换成旧图时间中位数，不是时间倍率乘原q。
+远端早读报告的对应文字不准确，运行代码与数值不变。详见../20261027_state_feedback_conclusions.md。
+
 远端结果分支已核验，12例、6个新图像簇、SR/IP、一个seed。Git blob/SHA256/字节数及逐图配对均值核对通过；Mac没有加载PT或重跑模型。
 
 |任务|U−C_IEEE PSNR|U−V|U−Q|U−TIME|
