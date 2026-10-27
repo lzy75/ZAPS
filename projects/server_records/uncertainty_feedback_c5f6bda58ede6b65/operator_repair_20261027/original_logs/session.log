@@ -1,0 +1,21 @@
+A57 detached job; disconnecting the SSH log follower does not stop computation.
+A57:independent seed-only no-learning U inference;10 OLD cases x30;300 method forwards,<=300 input backwards;0 optimization;PRE only audited after output freeze.
+A57 PREPARE PASS:10 independent no-learning30-call paths;300 NEW method forwards,<=300 input backwards;0 optimize updates.
+A57 allocated GPUs: 1 1; >=6GiB free required; equal IDs mean serial shards.
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_no_learning_replay.py", line 222, in <module>
+    main()
+  File "/home/lzy/ZAPS/projects/utils/diag_no_learning_replay.py", line 212, in main
+    engine.worker(args)
+  File "/home/lzy/ZAPS/projects/utils/diag_angular_feedback_value.py", line 206, in worker
+    sample(root,p,c,args.phase,model,args.device);gc.collect();torch.cuda.empty_cache()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_no_learning_replay.py", line 107, in sample
+    operator, mask = support.make_operator(c, device); opgate = support.a40.operator_gate(operator, device)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_frozen_direction_transfer.py", line 188, in make_operator
+    raw = make_base(c['task'], device, shape_only, c['mask_seed'], None)
+                                                   ~^^^^^^^^^^^^^
+KeyError: 'mask_seed'
+A57 SESSION FAILED: RuntimeError('Launcher exited 1; records retained; no automatic failed-case retry')
