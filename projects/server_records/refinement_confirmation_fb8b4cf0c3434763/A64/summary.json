@@ -1,0 +1,559 @@
+{
+  "experiment": "A64_paper_clock_alignment",
+  "classification": "BASELINE_AND_WALLCLOCK_AUDIT_ONLY",
+  "dataset_status": {
+    "ffhq": "baseline_review_required",
+    "imagenet": "baseline_review_required"
+  },
+  "baseline_gates": {
+    "ffhq": {
+      "proceed": false,
+      "classification": "BASELINE_REVIEW_REQUIRED",
+      "tasks": {
+        "super_resolution": {
+          "mean": {
+            "psnr": 18.297127857791402,
+            "ssim": 0.4659331738948822,
+            "lpips": 0.40454651415348053
+          },
+          "paper": {
+            "psnr": 26.63,
+            "ssim": 0.768,
+            "lpips": 0.104
+          },
+          "severe_gap": {
+            "psnr": true,
+            "ssim": true,
+            "lpips": true
+          }
+        },
+        "gaussian_deblur": {
+          "mean": {
+            "psnr": 22.959072628635962,
+            "ssim": 0.6582000851631165,
+            "lpips": 0.22798065096139908
+          },
+          "paper": {
+            "psnr": 26.06,
+            "ssim": 0.757,
+            "lpips": 0.121
+          },
+          "severe_gap": {
+            "psnr": true,
+            "ssim": false,
+            "lpips": true
+          }
+        },
+        "inpainting": {
+          "mean": {
+            "psnr": 21.795058965047485,
+            "ssim": 0.6193418204784393,
+            "lpips": 0.28090550005435944
+          },
+          "paper": {
+            "psnr": 27.79,
+            "ssim": 0.813,
+            "lpips": 0.078
+          },
+          "severe_gap": {
+            "psnr": true,
+            "ssim": true,
+            "lpips": true
+          }
+        },
+        "motion_deblur": {
+          "mean": {
+            "psnr": 20.473206574974206,
+            "ssim": 0.5265517681837082,
+            "lpips": 0.3048161417245865
+          },
+          "paper": {
+            "psnr": 24.16,
+            "ssim": 0.709,
+            "lpips": 0.141
+          },
+          "severe_gap": {
+            "psnr": true,
+            "ssim": true,
+            "lpips": true
+          }
+        }
+      },
+      "limits": "Engineering severe-gap alarm on TWO images, not same-sample inference, author-implementation parity or 1000-image benchmark reproduction."
+    },
+    "imagenet": {
+      "proceed": false,
+      "classification": "BASELINE_REVIEW_REQUIRED",
+      "tasks": {
+        "super_resolution": {
+          "mean": {
+            "psnr": 20.158330213755924,
+            "ssim": 0.6200506687164307,
+            "lpips": 0.43102554976940155
+          },
+          "paper": {
+            "psnr": 23.82,
+            "ssim": 0.718,
+            "lpips": 0.186
+          },
+          "severe_gap": {
+            "psnr": true,
+            "ssim": false,
+            "lpips": true
+          }
+        },
+        "gaussian_deblur": {
+          "mean": {
+            "psnr": 25.079066331500663,
+            "ssim": 0.6961411237716675,
+            "lpips": 0.2930716946721077
+          },
+          "paper": {
+            "psnr": 22.45,
+            "ssim": 0.682,
+            "lpips": 0.225
+          },
+          "severe_gap": {
+            "psnr": false,
+            "ssim": false,
+            "lpips": false
+          }
+        }
+      },
+      "limits": "Engineering severe-gap alarm on TWO images, not same-sample inference, author-implementation parity or 1000-image benchmark reproduction."
+    }
+  },
+  "complete_runs": 16,
+  "planned_max_runs": 144,
+  "failed_or_started_runs": 0,
+  "groups": [
+    {
+      "dataset": "ffhq",
+      "task": "super_resolution",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": {
+        "psnr": 26.63,
+        "ssim": 0.768,
+        "lpips": 0.104
+      },
+      "mean_quality": {
+        "psnr": 18.297127857791402,
+        "ssim": 0.4659331738948822,
+        "lpips": 0.40454651415348053,
+        "float_psnr": 18.33428494073661
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "super_resolution",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 26.63,
+        "ssim": 0.768,
+        "lpips": 0.104
+      }
+    },
+    {
+      "dataset": "ffhq",
+      "task": "super_resolution",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 26.63,
+        "ssim": 0.768,
+        "lpips": 0.104
+      }
+    },
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": {
+        "psnr": 26.06,
+        "ssim": 0.757,
+        "lpips": 0.121
+      },
+      "mean_quality": {
+        "psnr": 22.959072628635962,
+        "ssim": 0.6582000851631165,
+        "lpips": 0.22798065096139908,
+        "float_psnr": 23.001796245558747
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 26.06,
+        "ssim": 0.757,
+        "lpips": 0.121
+      }
+    },
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 26.06,
+        "ssim": 0.757,
+        "lpips": 0.121
+      }
+    },
+    {
+      "dataset": "ffhq",
+      "task": "inpainting",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": {
+        "psnr": 27.79,
+        "ssim": 0.813,
+        "lpips": 0.078
+      },
+      "mean_quality": {
+        "psnr": 21.795058965047485,
+        "ssim": 0.6193418204784393,
+        "lpips": 0.28090550005435944,
+        "float_psnr": 21.8334831227754
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "inpainting",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 27.79,
+        "ssim": 0.813,
+        "lpips": 0.078
+      }
+    },
+    {
+      "dataset": "ffhq",
+      "task": "inpainting",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 27.79,
+        "ssim": 0.813,
+        "lpips": 0.078
+      }
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": {
+        "psnr": 24.16,
+        "ssim": 0.709,
+        "lpips": 0.141
+      },
+      "mean_quality": {
+        "psnr": 20.473206574974206,
+        "ssim": 0.5265517681837082,
+        "lpips": 0.3048161417245865,
+        "float_psnr": 20.504150970037976
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 24.16,
+        "ssim": 0.709,
+        "lpips": 0.141
+      }
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 24.16,
+        "ssim": 0.709,
+        "lpips": 0.141
+      }
+    },
+    {
+      "dataset": "imagenet",
+      "task": "super_resolution",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": {
+        "psnr": 23.82,
+        "ssim": 0.718,
+        "lpips": 0.186
+      },
+      "mean_quality": {
+        "psnr": 20.158330213755924,
+        "ssim": 0.6200506687164307,
+        "lpips": 0.43102554976940155,
+        "float_psnr": 20.121084427967663
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "super_resolution",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 23.82,
+        "ssim": 0.718,
+        "lpips": 0.186
+      }
+    },
+    {
+      "dataset": "imagenet",
+      "task": "super_resolution",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 23.82,
+        "ssim": 0.718,
+        "lpips": 0.186
+      }
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": {
+        "psnr": 22.45,
+        "ssim": 0.682,
+        "lpips": 0.225
+      },
+      "mean_quality": {
+        "psnr": 25.079066331500663,
+        "ssim": 0.6961411237716675,
+        "lpips": 0.2930716946721077,
+        "float_psnr": 25.070402884597083
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 22.45,
+        "ssim": 0.682,
+        "lpips": 0.225
+      }
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": {
+        "psnr": 22.45,
+        "ssim": 0.682,
+        "lpips": 0.225
+      }
+    },
+    {
+      "dataset": "imagenet",
+      "task": "inpainting",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": null,
+      "mean_quality": {
+        "psnr": 24.645293430782523,
+        "ssim": 0.7194882929325104,
+        "lpips": 0.33542124181985855,
+        "float_psnr": 24.599160153792713
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "inpainting",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": null
+    },
+    {
+      "dataset": "imagenet",
+      "task": "inpainting",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": null
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "arm": "PAPER_ZAPS",
+      "completed_runs": 2,
+      "planned_runs": 6,
+      "image_clusters": 2,
+      "paper_means": null,
+      "mean_quality": {
+        "psnr": 23.27598015404908,
+        "ssim": 0.6176958382129669,
+        "lpips": 0.43009884655475616,
+        "float_psnr": 23.260647811137723
+      },
+      "mean_fallback_steps": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "arm": "RESPONSE_300",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": null
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "arm": "RESPONSE_30",
+      "completed_runs": 0,
+      "planned_runs": 6,
+      "image_clusters": 0,
+      "paper_means": null
+    }
+  ],
+  "costs": {
+    "method_forward_attempts": 4800,
+    "method_forwards_completed": 4800,
+    "method_input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 160,
+    "diagnostic_warmup_forward_attempts": 2,
+    "diagnostic_warmup_input_vjp_attempts": 2,
+    "cost_is_lower_bound": false
+  },
+  "model_loads": [
+    {
+      "status": "baseline_review_required",
+      "pid": 2909705,
+      "dataset": "ffhq",
+      "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+      "model_load_seconds": 2.027684759348631,
+      "torch": "2.6.0+cu118",
+      "cuda": "11.8",
+      "gpu_name": "NVIDIA GeForce RTX 3090",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "packages": {
+        "numpy": "1.26.4",
+        "scipy": "1.11.4",
+        "PyWavelets": "1.5.0",
+        "scikit-image": "0.22.0",
+        "lpips": "0.1.4",
+        "Pillow": "10.2.0"
+      },
+      "precision": {
+        "api": "legacy",
+        "matmul": false,
+        "cudnn": false,
+        "matmul_precision": "highest"
+      },
+      "warmup": {
+        "status": "complete",
+        "forward_attempts": 1,
+        "forwards": 1,
+        "input_vjp_attempts": 1,
+        "seconds": 0.7490462763234973
+      },
+      "warmup_peak_reserved_bytes": 2833252352,
+      "motion_kernel_sha256": "f30d896a5a046f4d10568bac709af0979c045ddf8b0174b91444152bc157c68d",
+      "total_worker_seconds": 188.90710580628365
+    },
+    {
+      "status": "baseline_review_required",
+      "pid": 2894914,
+      "dataset": "imagenet",
+      "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+      "model_load_seconds": 9.411377699114382,
+      "torch": "2.6.0+cu118",
+      "cuda": "11.8",
+      "gpu_name": "NVIDIA GeForce RTX 3090",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "packages": {
+        "numpy": "1.26.4",
+        "scipy": "1.11.4",
+        "PyWavelets": "1.5.0",
+        "scikit-image": "0.22.0",
+        "lpips": "0.1.4",
+        "Pillow": "10.2.0"
+      },
+      "precision": {
+        "api": "legacy",
+        "matmul": false,
+        "cudnn": false,
+        "matmul_precision": "highest"
+      },
+      "warmup": {
+        "status": "complete",
+        "forward_attempts": 1,
+        "forwards": 1,
+        "input_vjp_attempts": 1,
+        "seconds": 1.1897237477824092
+      },
+      "warmup_peak_reserved_bytes": 8139046912,
+      "motion_kernel_sha256": "f30d896a5a046f4d10568bac709af0979c045ddf8b0174b91444152bc157c68d",
+      "total_worker_seconds": 759.5541673339903
+    }
+  ],
+  "limits": "TWO reused images/dataset, one seed, public major settings/local undisclosed conventions; not author parity or paper1000-image reproduction. Warm complete reconstruction timing includes ALL required learning/solves/backwards/transfers; model load/warmup separately listed. Shared GPU/fixed small cohort do not establish production speed/generalization. Failed baseline gate prevents candidate runs for entire dataset; no GT online action or best-output selection."
+}

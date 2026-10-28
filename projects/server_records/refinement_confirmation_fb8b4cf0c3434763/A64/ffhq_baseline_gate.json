@@ -1,0 +1,75 @@
+{
+  "proceed": false,
+  "classification": "BASELINE_REVIEW_REQUIRED",
+  "tasks": {
+    "super_resolution": {
+      "mean": {
+        "psnr": 18.297127857791402,
+        "ssim": 0.4659331738948822,
+        "lpips": 0.40454651415348053
+      },
+      "paper": {
+        "psnr": 26.63,
+        "ssim": 0.768,
+        "lpips": 0.104
+      },
+      "severe_gap": {
+        "psnr": true,
+        "ssim": true,
+        "lpips": true
+      }
+    },
+    "gaussian_deblur": {
+      "mean": {
+        "psnr": 22.959072628635962,
+        "ssim": 0.6582000851631165,
+        "lpips": 0.22798065096139908
+      },
+      "paper": {
+        "psnr": 26.06,
+        "ssim": 0.757,
+        "lpips": 0.121
+      },
+      "severe_gap": {
+        "psnr": true,
+        "ssim": false,
+        "lpips": true
+      }
+    },
+    "inpainting": {
+      "mean": {
+        "psnr": 21.795058965047485,
+        "ssim": 0.6193418204784393,
+        "lpips": 0.28090550005435944
+      },
+      "paper": {
+        "psnr": 27.79,
+        "ssim": 0.813,
+        "lpips": 0.078
+      },
+      "severe_gap": {
+        "psnr": true,
+        "ssim": true,
+        "lpips": true
+      }
+    },
+    "motion_deblur": {
+      "mean": {
+        "psnr": 20.473206574974206,
+        "ssim": 0.5265517681837082,
+        "lpips": 0.3048161417245865
+      },
+      "paper": {
+        "psnr": 24.16,
+        "ssim": 0.709,
+        "lpips": 0.141
+      },
+      "severe_gap": {
+        "psnr": true,
+        "ssim": true,
+        "lpips": true
+      }
+    }
+  },
+  "limits": "Engineering severe-gap alarm on TWO images, not same-sample inference, author-implementation parity or 1000-image benchmark reproduction."
+}

@@ -1,0 +1,41 @@
+{
+  "proceed": false,
+  "classification": "BASELINE_REVIEW_REQUIRED",
+  "tasks": {
+    "super_resolution": {
+      "mean": {
+        "psnr": 20.158330213755924,
+        "ssim": 0.6200506687164307,
+        "lpips": 0.43102554976940155
+      },
+      "paper": {
+        "psnr": 23.82,
+        "ssim": 0.718,
+        "lpips": 0.186
+      },
+      "severe_gap": {
+        "psnr": true,
+        "ssim": false,
+        "lpips": true
+      }
+    },
+    "gaussian_deblur": {
+      "mean": {
+        "psnr": 25.079066331500663,
+        "ssim": 0.6961411237716675,
+        "lpips": 0.2930716946721077
+      },
+      "paper": {
+        "psnr": 22.45,
+        "ssim": 0.682,
+        "lpips": 0.225
+      },
+      "severe_gap": {
+        "psnr": false,
+        "ssim": false,
+        "lpips": false
+      }
+    }
+  },
+  "limits": "Engineering severe-gap alarm on TWO images, not same-sample inference, author-implementation parity or 1000-image benchmark reproduction."
+}
