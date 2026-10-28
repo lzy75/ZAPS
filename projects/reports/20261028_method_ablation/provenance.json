@@ -1,0 +1,25 @@
+{
+  "status": "50_RAW_RECORDS_HASH_VERIFIED",
+  "local_inputs": [
+    {
+      "path": "projects/reports/20261027_completed_transfer_received/full_summary.json",
+      "sha256": "51183c51e7ee7681175cdef42b22f7806400c188fddd206ca4be59cf73f0e295"
+    },
+    {
+      "path": "projects/reports/20261028_a62_received/summary.json",
+      "sha256": "122c6206022372744e880fc3c37f71f17bc2464a0fec0793c05d4f5cbc98d5ec"
+    },
+    {
+      "path": "projects/reports/20261028_method_ablation/verified_timing_records.json",
+      "sha256": "ba611b215bbbf2e48e44bf6ee02e2f62a477015e829279a848eb4d7a898cd389"
+    }
+  ],
+  "raw_record_checks": [
+    "bytes",
+    "SHA256 against original archive manifest",
+    "Git blob SHA1 against fetch_file response",
+    "status complete"
+  ],
+  "record_scope": "20 A56 baseline +20 A56 sampling +10 A62 controls; no tensors downloaded",
+  "timing_adjustment": "C_IEEE: subtract only separately recorded VJP metrology seconds. Other diagnostic/logging overhead retained. Never subtract independently timed replay from 300-forward optimization."
+}
