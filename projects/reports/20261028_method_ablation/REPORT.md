@@ -130,9 +130,9 @@ J_m=(a/b²)Cov(x_0|x_t)。这些是带假设的局部先验几何关系。
 |---|---|---|
 |C_REPLAY|原q，原精度|原本地ZAPS及严格回放一致性|
 |C_IEEE|原q，与新组匹配IEEE精度和图前向|排除TF32/图前向差别；是主要新组对照|
-|Q_ORIGINAL|K||v|| q/||q|||保留q方向，只改长度规则；不是原C|
+|Q_ORIGINAL|K‖v‖ q/‖q‖|保留q方向，只改长度规则；不是原C|
 |V_PHYSICAL / V_FFT|Kv|去掉网络输入Jacobian，仍有物理加权与当前残差|
-|U_CURRENT / U_FFT|K||v|| u/||u|||当前响应方向与当前幅度；FFT只表示求解后端|
+|U_CURRENT / U_FFT|K‖v‖ u/‖u‖|当前响应方向与当前幅度；FFT只表示求解后端|
 |TIME_GAIN|K ḡ_task(t) u_current|仅移除本图幅度g，保留当前u|
 |OLD_U|旧128-CG能通过时用U，否则回到q|A62数值覆盖对照；不是完全无求解|
 
