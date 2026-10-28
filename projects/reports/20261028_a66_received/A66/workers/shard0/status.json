@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "shard": 0,
+  "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+  "model_load_seconds": 2.095182883553207,
+  "torch": "2.6.0+cu118",
+  "cuda": "11.8",
+  "gpu_name": "NVIDIA GeForce RTX 3090",
+  "warmup": {
+    "status": "complete",
+    "forward_attempts": 1,
+    "forwards": 1,
+    "input_vjp_attempts": 1,
+    "seconds": 0.7071560621261597
+  },
+  "error": "TypeError(\"count_operator.<locals>.adjoint() got an unexpected keyword argument 'output_size'\")",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_current_strong_anchor.py\", line 118, in worker\n    result=executor.measure(root,c,arm,repeat,model,args.device_uuid,versions)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py\", line 131, in measure\n    (out,details),seconds=common.clocks(torch.cuda.synchronize,operation)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py\", line 46, in clocks\n    result = operation()\n             ^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py\", line 130, in operation\n    return engine.execute(model,operator,y,case['seed'],arm,counts)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/historical_ffhq_runtime.py\", line 101, in execute\n    losses=z.optimize(y,verbose=False,x0_gt=None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/modules/zaps_algorithm.py\", line 648, in optimize\n    x0_est = self._reverse_diffusion(\n             ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py\", line 23, in _reverse_diffusion\n    return super()._reverse_diffusion(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/modules/zaps_algorithm.py\", line 406, in _reverse_diffusion\n    v        = self.A.transpose(residual)                 # A^⊤(残差)，图像空间 [B,C,H,W]\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/historical_ffhq_runtime.py\", line 84, in mapping\n    return original(value,output_size=output_size)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_ffhq_regression.py\", line 62, in transpose\n    return self.base.transpose(y, output_size=output_size)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: count_operator.<locals>.adjoint() got an unexpected keyword argument 'output_size'\n",
+  "worker_seconds": 112.0303448503837
+}
