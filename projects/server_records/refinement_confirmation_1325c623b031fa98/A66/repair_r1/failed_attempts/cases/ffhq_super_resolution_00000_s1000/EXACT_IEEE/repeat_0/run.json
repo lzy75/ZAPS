@@ -1,0 +1,72 @@
+{
+  "status": "failed",
+  "case": {
+    "image_id": "00000",
+    "image": "/home/lzy/FFHQ/00000/00000/00000.png",
+    "seed": 1000,
+    "key": "ffhq_super_resolution_00000_s1000",
+    "reference": {
+      "psnr": 29.88771132060024,
+      "ssim": 0.8719084858894348,
+      "lpips": 0.10121843218803406,
+      "observed_psnr": 28.871597290039062,
+      "final_mse": 0.0013887624954804778
+    },
+    "historical_optimization_seconds": 19.17050004005432,
+    "image_sha256": "556e67799296565e941b5fc4af025a5efc24f8ff4c244a08d2d5e4d917c04186"
+  },
+  "arm": "EXACT_IEEE",
+  "repeat": 0,
+  "plan_sha256": "471f4635016695883ba050e62c696a1214b859a21b100e1f5b1e779231b7a513",
+  "device_uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+  "observation": {
+    "path": "/data0/lzy/ZAPS-results/diag_current_strong_anchor/A66_20261028/observations/ffhq_super_resolution_00000_s1000.pt",
+    "sha256": "2c2ebd24cba815bca202af37a3ee44afa4ddfddcd3eee13186676d709c5f60cc",
+    "observed_psnr": 28.871597290039062,
+    "reference_observed_psnr": 28.871597290039062,
+    "true_operator_gate": {
+      "passed": true,
+      "vjp_relative_error": 0.0,
+      "increment_adjoint_relative_error": 1.181353994738753e-08,
+      "tolerance": 2e-05,
+      "score_calls": 0,
+      "scope": "IEEE operator-only gate; production sampling restores native policy"
+    },
+    "domain": "H(x_model)+.05*N(0,I); no unit-domain conversion",
+    "source_A65_observation": "/data0/lzy/ZAPS-results/diag_historical_ffhq_gain/A65_20261028/observations/ffhq_super_resolution_00000_s1000.pt"
+  },
+  "resource_before": {
+    "index": "1",
+    "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+    "free_bytes": 9741271040,
+    "own_reserved_bytes": 1216348160,
+    "required_bytes": 6442450944,
+    "admitted": true,
+    "load_snapshot": {
+      "gpu_util_percent": "100",
+      "memory_util_percent": "27",
+      "sm_clock_MHz": "1305",
+      "temperature_C": "78",
+      "power_W": "224.82"
+    },
+    "timestamp_utc": "2026-10-28T06:40:37Z"
+  },
+  "counts": {
+    "forward_attempts": 1,
+    "forwards": 1,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 1,
+    "base_adjoint_actions": 0,
+    "calls": [
+      999
+    ],
+    "guidance_mapping_actions": 1
+  },
+  "artifacts": {},
+  "cost_lower_bound": true,
+  "error": "TypeError(\"count_operator.<locals>.adjoint() got an unexpected keyword argument 'output_size'\")",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py\", line 131, in measure\n    (out,details),seconds=common.clocks(torch.cuda.synchronize,operation)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py\", line 46, in clocks\n    result = operation()\n             ^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py\", line 130, in operation\n    return engine.execute(model,operator,y,case['seed'],arm,counts)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/historical_ffhq_runtime.py\", line 101, in execute\n    losses=z.optimize(y,verbose=False,x0_gt=None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/modules/zaps_algorithm.py\", line 648, in optimize\n    x0_est = self._reverse_diffusion(\n             ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py\", line 23, in _reverse_diffusion\n    return super()._reverse_diffusion(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/modules/zaps_algorithm.py\", line 406, in _reverse_diffusion\n    v        = self.A.transpose(residual)                 # A^⊤(残差)，图像空间 [B,C,H,W]\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/historical_ffhq_runtime.py\", line 84, in mapping\n    return original(value,output_size=output_size)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_ffhq_regression.py\", line 62, in transpose\n    return self.base.transpose(y, output_size=output_size)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: count_operator.<locals>.adjoint() got an unexpected keyword argument 'output_size'\n",
+  "elapsed_until_failure": 0.24998101964592934
+}

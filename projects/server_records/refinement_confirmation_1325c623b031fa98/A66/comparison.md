@@ -1,0 +1,26 @@
+# 原文、本地9月17日基线与新方法对照
+
+任务：FFHQ四倍超分辨率。当前实验使用原十图、seed1000—1009；固定15/10/5网格，lr=.01。
+原文为1000图均值，不能与本十图作配对因果差值；粗体/下划线只给本次全部完成的同图实测行排名。
+
+| 方法 | 图数 | PSNR↑ | SSIM↑ | LPIPS↓ | 完整重建秒/图↓ | 前向NFE | 输入反向 | 参数反向 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 原文报告 | 1000 | 26.6300 | .7680 | .1040 | 非同机，不排名 | 300 | 未核验 | 10 |
+| 9月17日历史记录 | 10 | 28.1905 | .8360 | .1265 | 旧优化段18.303，非本轮完整计时 | 300 | 0 | 10 |
+| 9月17日配置本地复测 | 10 | 28.2262 | 0.8368 | 0.1262 | 未完成三次 | 300 | 0.0均值 | 10 |
+| 本地基线：统一精度 | 10 | 28.2244 | 0.8370 | 0.1262 | 未完成三次 | 300 | 0.0均值 | 10 |
+| 消融：仅改精确伴随 | 5 | 23.2735 | 0.6987 | 0.2077 | 未完成三次 | 300 | 0.0均值 | 10 |
+| 新方法：完整300次前向 | 0 | 未运行 | 未运行 | 未运行 | 未完成三次 | 300 | 待测 | 9 |
+| 新方法：独立30次前向 | 0 | 未运行 | 未运行 | 未运行 | 未完成三次 | 30 | 待测 | 0 |
+
+完整重建秒：三次独立完整运行的逐图中位数再跨图平均。计时包含观测读取、算子/参数构造、
+所有学习/CG/输入反向和CPU输出同步；模型加载/热身另列，GT指标/保存计时外。
+原文A100总体wall-clock为14.71秒，并非本机3090同任务逐图时间，不用于构造加速比。
+
+主要候选为独立30步，不在结果出来后换成另一个更好版本；完整300版本是同前向预算对照。
+历史经验上采样与真实伴随明确分开；若仅改伴随已经改善，不能把全部改善归给实时响应。
+当前响应的单位适配不是新调参：旧观测在模型坐标，因此使用H而不是.5H。
+判定：PRIMARY_COMPARISON_NOT_COMPLETE
+限度：Ten reused development images, one seed; no unseen confirmation, author-code parity, cross-task/data transfer, step-size or curvature-control proof User-authorized post-hoc continuation on current strong anchor; historical compatibility gate remains failed. Native repeat0 timing inherited from A65 on same GPU UUID; all other timings newly measured; no strict same-session native speed claim.
+
+A66续跑：原生基线首份输出和计时继承A65（28.226237dB），其余两份补测；其余版本三份均新增。A65历史门控仍为false，不重标通过。成本分新增与继承。

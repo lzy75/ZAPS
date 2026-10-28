@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "pid": 3113671,
+  "root": "/data0/lzy/ZAPS-results/diag_current_strong_anchor/A66_20261028",
+  "parent": "/data0/lzy/ZAPS-results/diag_historical_ffhq_gain/A65_20261028",
+  "error": "RuntimeError('A66 worker failed; records retained, no automatic retry')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/a66_session.py\", line 72, in coordinator\n    record['status']='complete' if phase(root,state,args) else 'resource_limited'\n                                   ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/a66_session.py\", line 57, in phase\n    if failed:raise RuntimeError('A66 worker failed; records retained, no automatic retry')\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: A66 worker failed; records retained, no automatic retry\n",
+  "finished_utc": "2026-10-28T06:43:23Z"
+}
