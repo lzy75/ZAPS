@@ -1,0 +1,48 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+A66 PROGRESS: 00000 RESPONSE_30 repeat 0 F= 30
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+A66 COMPLETE: 00000 RESPONSE_30 repeat 0 PSNR= 30.9589 full_seconds= 5.376
+A66 PROGRESS: 00001 RESPONSE_30 repeat 0 F= 30
+A66 COMPLETE: 00001 RESPONSE_30 repeat 0 PSNR= 29.5593 full_seconds= 5.18
+A66 PROGRESS: 00002 RESPONSE_30 repeat 0 F= 30
+A66 COMPLETE: 00002 RESPONSE_30 repeat 0 PSNR= 31.4767 full_seconds= 5.76
+A66 PROGRESS: 00003 RESPONSE_30 repeat 0 F= 30
+A66 COMPLETE: 00003 RESPONSE_30 repeat 0 PSNR= 29.8935 full_seconds= 5.544
+A66 PROGRESS: 00004 RESPONSE_30 repeat 0 F= 30
+A66 COMPLETE: 00004 RESPONSE_30 repeat 0 PSNR= 24.9241 full_seconds= 5.247
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 30
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 60
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 90
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 120
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 150
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 180
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 210
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 240
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 270
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 1 F= 300
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/a66r2_session.py", line 116, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/a66r2_session.py", line 113, in main
+    launcher.main()
+  File "/home/lzy/ZAPS/projects/utils/a66r1_session.py", line 74, in main
+    with patch.object(driver, 'summarize', summarize): driver.main()
+                                                       ^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_current_strong_anchor.py", line 192, in main
+    elif args.worker:worker(args)
+                     ^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_current_strong_anchor.py", line 118, in worker
+    result=executor.measure(root,c,arm,repeat,model,args.device_uuid,versions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py", line 147, in measure
+    r['repeat_relative_error']=error;rules.require(error<=1e-6,'Repeat drift; no best-output selection')
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py", line 44, in require
+    raise ValueError(message)
+ValueError: Repeat drift; no best-output selection

@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "shard": 0,
+  "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+  "model_load_seconds": 1.9639411019161344,
+  "torch": "2.6.0+cu118",
+  "cuda": "11.8",
+  "gpu_name": "NVIDIA GeForce RTX 3090",
+  "warmup": {
+    "status": "complete",
+    "forward_attempts": 1,
+    "forwards": 1,
+    "input_vjp_attempts": 1,
+    "seconds": 0.795764273032546
+  },
+  "error": "ValueError('Independent270 prefix differs')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_current_strong_anchor.py\", line 118, in worker\n    result=executor.measure(root,c,arm,repeat,model,args.device_uuid,versions)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py\", line 138, in measure\n    r['independent_prefix_gate']=gate;rules.require(gate['passed'],'Independent270 prefix differs')\n                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py\", line 44, in require\n    raise ValueError(message)\nValueError: Independent270 prefix differs\n",
+  "worker_seconds": 142.09029251523316
+}

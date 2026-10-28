@@ -1,0 +1,154 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00009",
+    "image": "/home/lzy/FFHQ/00000/00000/00009.png",
+    "seed": 1009,
+    "key": "ffhq_super_resolution_00009_s1009",
+    "reference": {
+      "psnr": 28.37441520243101,
+      "ssim": 0.8788397312164307,
+      "lpips": 0.12164632230997086,
+      "observed_psnr": 27.874351501464844,
+      "final_mse": 0.001429965253919363
+    },
+    "historical_optimization_seconds": 17.932678699493408,
+    "image_sha256": "b56998bcd3bdfa048f0266142a9d505e02612c45646f5e6ed4470bce5a493d42"
+  },
+  "arm": "RESPONSE_30",
+  "repeat": 2,
+  "plan_sha256": "471f4635016695883ba050e62c696a1214b859a21b100e1f5b1e779231b7a513",
+  "device_uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+  "observation": {
+    "path": "/data0/lzy/ZAPS-results/diag_current_strong_anchor/A66_20261028/observations/ffhq_super_resolution_00009_s1009.pt",
+    "sha256": "d36b1abe4c73e421f8464b479023dd242da1f50a7d3892bcd7bf5b5ae3a5d14c",
+    "observed_psnr": 27.874351501464844,
+    "reference_observed_psnr": 27.874351501464844,
+    "true_operator_gate": {
+      "passed": true,
+      "vjp_relative_error": 0.0,
+      "increment_adjoint_relative_error": 1.181353994738753e-08,
+      "tolerance": 2e-05,
+      "score_calls": 0,
+      "scope": "IEEE operator-only gate; production sampling restores native policy"
+    },
+    "domain": "H(x_model)+.05*N(0,I); no unit-domain conversion",
+    "source_A65_observation": "/data0/lzy/ZAPS-results/diag_historical_ffhq_gain/A65_20261028/observations/ffhq_super_resolution_00009_s1009.pt"
+  },
+  "resource_before": {
+    "index": "1",
+    "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+    "free_bytes": 8059355136,
+    "own_reserved_bytes": 2898264064,
+    "required_bytes": 6442450944,
+    "admitted": true,
+    "load_snapshot": {
+      "gpu_util_percent": "20",
+      "memory_util_percent": "6",
+      "sm_clock_MHz": "1695",
+      "temperature_C": "77",
+      "power_W": "238.37"
+    },
+    "timestamp_utc": "2026-10-28T07:58:54Z"
+  },
+  "counts": {
+    "forward_attempts": 30,
+    "forwards": 30,
+    "input_vjp_attempts": 30,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 391,
+    "base_adjoint_actions": 331,
+    "calls": [
+      999,
+      916,
+      833,
+      750,
+      667,
+      666,
+      629,
+      592,
+      555,
+      518,
+      482,
+      445,
+      408,
+      371,
+      334,
+      333,
+      309,
+      285,
+      262,
+      238,
+      214,
+      190,
+      166,
+      143,
+      119,
+      95,
+      71,
+      48,
+      24,
+      0
+    ],
+    "guidance_mapping_actions": 30
+  },
+  "artifacts": {
+    "output.pt": "678ad20cc633fccf08397a9f4de4876521e710d6ccab736ea61b9cc0dae8240e",
+    "entry_snapshot.pt": "4df7584a7990f8944ba0c89a9bf6fc33bdcf1a8d74fa7e532e5c75d745f920bd",
+    "trace.json": "6e27107658d9d3cdb5a56d87d322f1c6e05ef6cc21c4faa869068bbc6dc6a601",
+    "output.png": "ce87160ac773c5ee1eda78efc6272feab6c1a007233ec7b743fa8b2b6ee15b7f"
+  },
+  "cost_lower_bound": false,
+  "measurement_protocol": "A66R3_all_repeats_retained",
+  "noise_pairing_gate": {
+    "passed": true,
+    "learned_cache_read_for_inference": false,
+    "audit_after_timer": true
+  },
+  "repeat_relative_error": 0.0,
+  "repeat_gate": {
+    "passed": true,
+    "tolerance": 1e-06,
+    "relative_error": 0.0,
+    "policy": "Record every output; failed reproducibility remains failed; no output selection"
+  },
+  "precision": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest",
+    "benchmark": false,
+    "deterministic": true
+  },
+  "metrics": {
+    "psnr": 29.549725610201037,
+    "ssim": 0.9083070755004883,
+    "lpips": 0.11102065443992615,
+    "float_psnr": 29.60391478868257
+  },
+  "loss_history": [],
+  "complete_reconstruction_seconds": 6.4765414064750075,
+  "metric_seconds_excluded": 0.07511646021157503,
+  "all_attempt_seconds": 6.999001562595367,
+  "peak_reserved_bytes": 2898264064,
+  "peak_allocated_bytes": 2412667904,
+  "resource_after": {
+    "index": "1",
+    "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+    "free_bytes": 8059355136,
+    "own_reserved_bytes": 2898264064,
+    "required_bytes": 6442450944,
+    "admitted": true,
+    "load_snapshot": {
+      "gpu_util_percent": "100",
+      "memory_util_percent": "43",
+      "sm_clock_MHz": "1515",
+      "temperature_C": "79",
+      "power_W": "247.60"
+    },
+    "timestamp_utc": "2026-10-28T07:59:01Z"
+  },
+  "response_resolved_steps": 30,
+  "fallback_steps": 0
+}
