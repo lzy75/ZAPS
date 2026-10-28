@@ -1,0 +1,6 @@
+method,arm,images,complete_runs,psnr,ssim,lpips,float_psnr,complete_seconds,forward_nfe,mean_input_vjp,optimizer_backwards
+9月17日配置本地复测,HISTORICAL_NATIVE,10,10,28.226237487033025,0.8367690682411194,0.12623643800616263,28.276705906872014,,300,0,10
+本地基线：统一精度,LEGACY_IEEE,0,0,,,,,,300,,10
+消融：仅改精确伴随,EXACT_IEEE,0,0,,,,,,300,,10
+新方法：完整300次前向,RESPONSE_300,0,0,,,,,,300,,9
+新方法：独立30次前向,RESPONSE_30,0,0,,,,,,30,,0
