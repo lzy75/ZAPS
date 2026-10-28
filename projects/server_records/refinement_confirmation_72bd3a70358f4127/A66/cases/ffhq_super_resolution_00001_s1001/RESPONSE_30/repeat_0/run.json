@@ -1,0 +1,146 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00001",
+    "image": "/home/lzy/FFHQ/00000/00000/00001.png",
+    "seed": 1001,
+    "key": "ffhq_super_resolution_00001_s1001",
+    "reference": {
+      "psnr": 28.154116009467103,
+      "ssim": 0.8348148465156555,
+      "lpips": 0.10483852028846741,
+      "observed_psnr": 28.075647354125977,
+      "final_mse": 0.0014177322154864669
+    },
+    "historical_optimization_seconds": 18.70244026184082,
+    "image_sha256": "775f913a6f2969f89caa4be6467d832d1e3d3034b0d09009b696ba717225e17e"
+  },
+  "arm": "RESPONSE_30",
+  "repeat": 0,
+  "plan_sha256": "471f4635016695883ba050e62c696a1214b859a21b100e1f5b1e779231b7a513",
+  "device_uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+  "observation": {
+    "path": "/data0/lzy/ZAPS-results/diag_current_strong_anchor/A66_20261028/observations/ffhq_super_resolution_00001_s1001.pt",
+    "sha256": "ad434b1036e874221268f9735f7a98120e637827e5f371739a5c4fbeccb394d5",
+    "observed_psnr": 28.075647354125977,
+    "reference_observed_psnr": 28.075647354125977,
+    "true_operator_gate": {
+      "passed": true,
+      "vjp_relative_error": 0.0,
+      "increment_adjoint_relative_error": 1.181353994738753e-08,
+      "tolerance": 2e-05,
+      "score_calls": 0,
+      "scope": "IEEE operator-only gate; production sampling restores native policy"
+    },
+    "domain": "H(x_model)+.05*N(0,I); no unit-domain conversion",
+    "source_A65_observation": "/data0/lzy/ZAPS-results/diag_historical_ffhq_gain/A65_20261028/observations/ffhq_super_resolution_00001_s1001.pt"
+  },
+  "resource_before": {
+    "index": "1",
+    "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+    "free_bytes": 8059355136,
+    "own_reserved_bytes": 2898264064,
+    "required_bytes": 6442450944,
+    "admitted": true,
+    "load_snapshot": {
+      "gpu_util_percent": "100",
+      "memory_util_percent": "65",
+      "sm_clock_MHz": "1845",
+      "temperature_C": "77",
+      "power_W": "237.98"
+    },
+    "timestamp_utc": "2026-10-28T07:14:49Z"
+  },
+  "counts": {
+    "forward_attempts": 30,
+    "forwards": 30,
+    "input_vjp_attempts": 30,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 392,
+    "base_adjoint_actions": 332,
+    "calls": [
+      999,
+      916,
+      833,
+      750,
+      667,
+      666,
+      629,
+      592,
+      555,
+      518,
+      482,
+      445,
+      408,
+      371,
+      334,
+      333,
+      309,
+      285,
+      262,
+      238,
+      214,
+      190,
+      166,
+      143,
+      119,
+      95,
+      71,
+      48,
+      24,
+      0
+    ],
+    "guidance_mapping_actions": 30
+  },
+  "artifacts": {
+    "output.pt": "b82a78c540541a8b97e619e1f8d144e31951e6772877c7decc33cabcd3a08ef4",
+    "entry_snapshot.pt": "b33bfacd058772e60d353bf6699705e50bb3ed455c237c1799b7b4263a3f004d",
+    "trace.json": "d14324e76a06d15622da864c71e816fe4f4c40863c120339cd998c06fcff2eff",
+    "output.png": "3a71905dc9df19903863a9e8afd57b3ac63c1edd4efe29153045a55666212f2d"
+  },
+  "cost_lower_bound": false,
+  "noise_pairing_gate": {
+    "passed": true,
+    "learned_cache_read_for_inference": false,
+    "audit_after_timer": true
+  },
+  "precision": {
+    "api": "legacy",
+    "matmul": false,
+    "cudnn": false,
+    "matmul_precision": "highest",
+    "benchmark": false,
+    "deterministic": true
+  },
+  "metrics": {
+    "psnr": 29.559349185985152,
+    "ssim": 0.8715600967407227,
+    "lpips": 0.10021768510341644,
+    "float_psnr": 29.630901286910536
+  },
+  "loss_history": [],
+  "complete_reconstruction_seconds": 5.179766512475908,
+  "metric_seconds_excluded": 0.09376874752342701,
+  "all_attempt_seconds": 5.796165720559657,
+  "peak_reserved_bytes": 2898264064,
+  "peak_allocated_bytes": 2412667904,
+  "resource_after": {
+    "index": "1",
+    "uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+    "free_bytes": 8059355136,
+    "own_reserved_bytes": 2898264064,
+    "required_bytes": 6442450944,
+    "admitted": true,
+    "load_snapshot": {
+      "gpu_util_percent": "50",
+      "memory_util_percent": "23",
+      "sm_clock_MHz": "1560",
+      "temperature_C": "76",
+      "power_W": "259.50"
+    },
+    "timestamp_utc": "2026-10-28T07:14:55Z"
+  },
+  "response_resolved_steps": 30,
+  "fallback_steps": 0
+}

@@ -1,0 +1,100 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 30
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 60
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 90
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 120
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 150
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 180
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 210
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 240
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 270
+A66 PROGRESS: 00000 LEGACY_IEEE repeat 0 F= 300
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+A66 COMPLETE: 00000 LEGACY_IEEE repeat 0 PSNR= 30.023 full_seconds= 19.326
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 30
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 60
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 90
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 120
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 150
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 180
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 210
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 240
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 270
+A66 PROGRESS: 00001 LEGACY_IEEE repeat 0 F= 300
+A66 COMPLETE: 00001 LEGACY_IEEE repeat 0 PSNR= 28.1592 full_seconds= 20.14
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 30
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 60
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 90
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 120
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 150
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 180
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 210
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 240
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 270
+A66 PROGRESS: 00002 LEGACY_IEEE repeat 0 F= 300
+A66 COMPLETE: 00002 LEGACY_IEEE repeat 0 PSNR= 30.301 full_seconds= 21.137
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 30
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 60
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 90
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 120
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 150
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 180
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 210
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 240
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 270
+A66 PROGRESS: 00003 LEGACY_IEEE repeat 0 F= 300
+A66 COMPLETE: 00003 LEGACY_IEEE repeat 0 PSNR= 28.6658 full_seconds= 21.995
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 30
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 60
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 90
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 120
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 150
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 180
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 210
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 240
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 270
+A66 PROGRESS: 00004 LEGACY_IEEE repeat 0 F= 300
+A66 COMPLETE: 00004 LEGACY_IEEE repeat 0 PSNR= 23.6445 full_seconds= 21.572
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_current_strong_anchor.py", line 197, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_current_strong_anchor.py", line 192, in main
+    elif args.worker:worker(args)
+                     ^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_current_strong_anchor.py", line 118, in worker
+    result=executor.measure(root,c,arm,repeat,model,args.device_uuid,versions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py", line 131, in measure
+    (out,details),seconds=common.clocks(torch.cuda.synchronize,operation)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py", line 46, in clocks
+    result = operation()
+             ^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_historical_ffhq_gain.py", line 130, in operation
+    return engine.execute(model,operator,y,case['seed'],arm,counts)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/historical_ffhq_runtime.py", line 101, in execute
+    losses=z.optimize(y,verbose=False,x0_gt=None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/modules/zaps_algorithm.py", line 648, in optimize
+    x0_est = self._reverse_diffusion(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py", line 23, in _reverse_diffusion
+    return super()._reverse_diffusion(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/modules/zaps_algorithm.py", line 406, in _reverse_diffusion
+    v        = self.A.transpose(residual)                 # A^⊤(残差)，图像空间 [B,C,H,W]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/historical_ffhq_runtime.py", line 84, in mapping
+    return original(value,output_size=output_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_ffhq_regression.py", line 62, in transpose
+    return self.base.transpose(y, output_size=output_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: count_operator.<locals>.adjoint() got an unexpected keyword argument 'output_size'
