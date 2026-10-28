@@ -1,0 +1,48 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda
+
+=== Paired FFHQ multi-image timestep confirmation ===
+images=10; schedules=['paper_15_10_5', 'uniform_30', 'karras_rho_7']; lr=0.01; zeta_init=0.1; D_init=0.2; legacy transpose; fixed variance
+paper_15_10_5: [0, 24, 48, 71, 95, 119, 143, 166, 190, 214, 238, 262, 285, 309, 333, 334, 371, 408, 445, 482, 518, 555, 592, 629, 666, 667, 750, 833, 916, 999]
+uniform_30: [0, 34, 69, 103, 138, 172, 207, 241, 276, 310, 344, 379, 413, 448, 482, 517, 551, 586, 620, 655, 689, 723, 758, 792, 827, 861, 896, 930, 965, 999]
+karras_rho_7: [0, 2, 7, 16, 30, 52, 84, 129, 186, 253, 325, 394, 459, 517, 569, 616, 658, 697, 732, 765, 795, 823, 850, 875, 898, 920, 942, 962, 981, 999]
+CSV: /home/lzy/ZAPS/projects/results/diag_ffhq_timestep_multi/20260917_020040/metrics.csv
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+[01/10] 00000.png seed=1000 paper_15_10_5 PSNR=29.888 SSIM=0.8719 LPIPS=0.1012 delta=+1.016 time=19.2s
+[01/10] 00000.png seed=1000 uniform_30 PSNR=30.115 SSIM=0.8805 LPIPS=0.1059 delta=+1.243 time=18.4s
+[01/10] 00000.png seed=1000 karras_rho_7 PSNR=30.064 SSIM=0.8669 LPIPS=0.1284 delta=+1.192 time=18.9s
+[02/10] 00001.png seed=1001 paper_15_10_5 PSNR=28.154 SSIM=0.8348 LPIPS=0.1048 delta=+0.078 time=18.7s
+[02/10] 00001.png seed=1001 uniform_30 PSNR=28.274 SSIM=0.8410 LPIPS=0.1165 delta=+0.198 time=18.9s
+[02/10] 00001.png seed=1001 karras_rho_7 PSNR=28.361 SSIM=0.8294 LPIPS=0.1176 delta=+0.286 time=18.6s
+[03/10] 00002.png seed=1002 paper_15_10_5 PSNR=30.237 SSIM=0.8507 LPIPS=0.1319 delta=+0.857 time=17.4s
+[03/10] 00002.png seed=1002 uniform_30 PSNR=30.434 SSIM=0.8597 LPIPS=0.1311 delta=+1.053 time=18.5s
+[03/10] 00002.png seed=1002 karras_rho_7 PSNR=30.158 SSIM=0.8437 LPIPS=0.1818 delta=+0.778 time=19.0s
+[04/10] 00003.png seed=1003 paper_15_10_5 PSNR=28.536 SSIM=0.8501 LPIPS=0.0946 delta=+1.003 time=18.6s
+[04/10] 00003.png seed=1003 uniform_30 PSNR=28.571 SSIM=0.8635 LPIPS=0.0903 delta=+1.038 time=18.5s
+[04/10] 00003.png seed=1003 karras_rho_7 PSNR=28.567 SSIM=0.8470 LPIPS=0.1172 delta=+1.034 time=18.0s
+[05/10] 00004.png seed=1004 paper_15_10_5 PSNR=23.627 SSIM=0.7777 LPIPS=0.1684 delta=-0.227 time=17.6s
+[05/10] 00004.png seed=1004 uniform_30 PSNR=23.868 SSIM=0.7857 LPIPS=0.1739 delta=+0.015 time=18.6s
+[05/10] 00004.png seed=1004 karras_rho_7 PSNR=24.174 SSIM=0.7810 LPIPS=0.2020 delta=+0.320 time=18.6s
+[06/10] 00005.png seed=1005 paper_15_10_5 PSNR=28.609 SSIM=0.8143 LPIPS=0.1852 delta=+1.355 time=18.2s
+[06/10] 00005.png seed=1005 uniform_30 PSNR=28.787 SSIM=0.8268 LPIPS=0.1930 delta=+1.533 time=18.1s
+[06/10] 00005.png seed=1005 karras_rho_7 PSNR=28.643 SSIM=0.8160 LPIPS=0.2143 delta=+1.388 time=17.9s
+[07/10] 00006.png seed=1006 paper_15_10_5 PSNR=28.556 SSIM=0.8658 LPIPS=0.1221 delta=+0.738 time=18.4s
+[07/10] 00006.png seed=1006 uniform_30 PSNR=28.756 SSIM=0.8735 LPIPS=0.1271 delta=+0.937 time=18.6s
+[07/10] 00006.png seed=1006 karras_rho_7 PSNR=28.948 SSIM=0.8591 LPIPS=0.1392 delta=+1.130 time=18.4s
+[08/10] 00007.png seed=1007 paper_15_10_5 PSNR=27.111 SSIM=0.8072 LPIPS=0.1131 delta=+0.229 time=18.5s
+[08/10] 00007.png seed=1007 uniform_30 PSNR=26.970 SSIM=0.8101 LPIPS=0.1206 delta=+0.089 time=18.3s
+[08/10] 00007.png seed=1007 karras_rho_7 PSNR=27.065 SSIM=0.8007 LPIPS=0.1423 delta=+0.183 time=17.1s
+[09/10] 00008.png seed=1008 paper_15_10_5 PSNR=28.813 SSIM=0.8090 LPIPS=0.1215 delta=+1.155 time=18.6s
+[09/10] 00008.png seed=1008 uniform_30 PSNR=28.697 SSIM=0.8136 LPIPS=0.1201 delta=+1.040 time=18.3s
+[09/10] 00008.png seed=1008 karras_rho_7 PSNR=28.740 SSIM=0.8000 LPIPS=0.1522 delta=+1.082 time=18.3s
+[10/10] 00009.png seed=1009 paper_15_10_5 PSNR=28.374 SSIM=0.8788 LPIPS=0.1216 delta=+0.500 time=17.9s
+[10/10] 00009.png seed=1009 uniform_30 PSNR=28.571 SSIM=0.8840 LPIPS=0.1251 delta=+0.697 time=18.0s
+[10/10] 00009.png seed=1009 karras_rho_7 PSNR=28.628 SSIM=0.8714 LPIPS=0.1561 delta=+0.754 time=16.9s
+
+=== Summary by schedule ===
+            schedule   PSNR mean      std    median     SSIM     LPIPS  delta obs   improved        MSE   residual
+       paper_15_10_5     28.1905   1.8230   28.5462   0.8360    0.1265    +0.6704    9/10      0.001417     4.1723
+          uniform_30     28.3043   1.8258   28.6341   0.8438    0.1303    +0.7842   10/10      0.001713     4.5868
+        karras_rho_7     28.3348   1.7002   28.6355   0.8315    0.1551    +0.8147   10/10      0.001155     3.7660
+
+results: /home/lzy/ZAPS/projects/results/diag_ffhq_timestep_multi/20260917_020040
