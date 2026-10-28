@@ -1,0 +1,82 @@
+{
+  "remote_commit": "cdee9ba93c0d83fa2c59beafc469574ea5b3fe4a",
+  "branch": "results/blur-fft-quality-20261027",
+  "files": [
+    {
+      "file": "summary.json",
+      "bytes": 14691,
+      "sha256": "122c6206022372744e880fc3c37f71f17bc2464a0fec0793c05d4f5cbc98d5ec",
+      "git_blob": "0d12e04426a86295598d22c5a4e3cef2a798bf93"
+    },
+    {
+      "file": "plan.json",
+      "bytes": 98560,
+      "sha256": "ec22c0c8fb819145f22970a29390acbbec87e1107a1a90c8738260bda5401cf2",
+      "git_blob": "715a39d72b71d60b50490e04b09538b144917a0e"
+    }
+  ],
+  "paired_means_checked": 18,
+  "checks_passed": true,
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "means": {
+        "C_IEEE": {
+          "psnr": 24.97670286172625,
+          "ssim": 0.7518654346466065,
+          "lpips": 0.22136618196964264
+        },
+        "OLD_U": {
+          "psnr": 28.723222904351967,
+          "ssim": 0.8588965654373169,
+          "lpips": 0.17898271083831788
+        },
+        "U_FFT": {
+          "psnr": 28.880644135193485,
+          "ssim": 0.8608621597290039,
+          "lpips": 0.1770282506942749
+        },
+        "V_FFT": {
+          "psnr": 28.194975137403844,
+          "ssim": 0.8159427046775818,
+          "lpips": 0.21859840154647828
+        }
+      },
+      "old_resolved": 33,
+      "new_resolved": 150
+    },
+    {
+      "task": "motion_deblur",
+      "means": {
+        "C_IEEE": {
+          "psnr": 21.41304267733506,
+          "ssim": 0.6357473731040955,
+          "lpips": 0.2923354744911194
+        },
+        "OLD_U": {
+          "psnr": 27.81048477094536,
+          "ssim": 0.8261163473129273,
+          "lpips": 0.15892486572265624
+        },
+        "U_FFT": {
+          "psnr": 27.89249578588475,
+          "ssim": 0.8348272800445556,
+          "lpips": 0.17721734642982484
+        },
+        "V_FFT": {
+          "psnr": 23.92408481394094,
+          "ssim": 0.5380182445049286,
+          "lpips": 0.35158119201660154
+        }
+      },
+      "old_resolved": 44,
+      "new_resolved": 150
+    }
+  ],
+  "old_resolved_total": 77,
+  "old_resolved_fraction": 0.25666666666666665,
+  "new_resolved_total": 300,
+  "observed_U_seconds": 2249.122389310971,
+  "observed_U_vs_old_time_ratio": 15.586938962135685,
+  "scope": "Pinned lightweight JSON/manifest/blob and arithmetic only. No PT download or GPU replay. Timings are recorded experiment observations, not controlled production benchmarks."
+}
