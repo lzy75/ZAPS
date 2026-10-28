@@ -1,0 +1,19 @@
+# 导师汇报材料
+
+正文统一使用完整方法名称，不要求读者认识历史实验编号。实验仍暂停。
+
+- `REPORT.md`：完整解释、统一符号、十二个公式、伪代码、每项设计的动机/消融、原文与本地结果、开题关系、待解决问题。
+- `output/pdf/denoiser_response_briefing_20261028.pdf`：同一份报告的排版版，包含三线表、最优/次优标注和流程图。
+- `MAIN_TABLE.md`、`main_comparison.csv`：八个数据集—任务位置的文献/本地探索基线/当前候选并列，缺失明确留空。
+- `ABLATION_TABLE.md`、`module_ablations.csv`：预算内求解版本及已完成的模块消融，不把完整求解版本作为主方法。
+- `ANGLE_ABLATION.md`、`REFRESH_ABLATION.md`：旧开发图上的角度衰减、方向刷新证据，分别标明队列。
+- `conference_tables.tex`：采用booktabs的可插入表格片段；父文档需要中文支持。
+- `evidence.json`：轻量数值来源及哈希、原文表格阅读范围、实际网格审计和缺项。
+- `PROTOCOL_CORRECTION.md`：更正此前“原30点”的表述；原论文三段网格与继承探索网格不是同一协议。
+
+**完整重建耗时尚未按统一起止点测量，表中没有伪造该列。** 已有原优化段、末轮回放和独立推理计时分别披露，不拼接为整体加速比。
+原论文定量均值采用不同样本与硬件，单列作为背景，不与本地数据共同排名。
+真实图像评价在输出冻结后进行，本文只聚合既有资料，没有运行新的模型实验。
+
+复算表格：`python3 projects/reports/20261028_adviser_briefing/build_tables.py`。
+重新排版使用内置依赖Python运行`build_pdf.py`。编辑报告后重新渲染并检查完整页面；不能仅凭生成成功判断排版正确。

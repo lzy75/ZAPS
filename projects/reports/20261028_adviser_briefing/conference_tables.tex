@@ -1,0 +1,63 @@
+% Requires booktabs, graphicx and a parent document with CJK support.
+% Literature rows are contextual: no ranking across different cohorts/hardware.
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+数据集 / 任务 & 原文峰值信噪比 & 原文结构相似度 & 原文感知距离 & 本地峰值信噪比 & 本地结构相似度 & 本地感知距离 & 当前峰值信噪比 & 当前结构相似度 & 当前感知距离 \\
+\midrule
+FFHQ / 四倍超分辨率 & 26.630 & 0.768 & 0.104 & \underline{19.790} & \underline{0.542} & \underline{0.357} & \textbf{27.726} & \textbf{0.807} & \textbf{0.204} \\
+FFHQ / 随机遮挡修复 & 27.790 & 0.813 & 0.078 & \underline{21.980} & \underline{0.628} & \underline{0.300} & \textbf{30.369} & \textbf{0.880} & \textbf{0.116} \\
+FFHQ / 高斯去模糊 & 26.060 & 0.757 & 0.121 & \underline{24.977} & \underline{0.752} & \underline{0.221} & \textbf{28.723} & \textbf{0.859} & \textbf{0.179} \\
+FFHQ / 运动去模糊 & 24.160 & 0.709 & 0.141 & \underline{21.413} & \underline{0.636} & \underline{0.292} & \textbf{27.810} & \textbf{0.826} & \textbf{0.159} \\
+IMAGENET / 四倍超分辨率 & 23.820 & 0.718 & 0.186 & \underline{17.934} & \underline{0.400} & \underline{0.538} & \textbf{24.080} & \textbf{0.650} & \textbf{0.431} \\
+IMAGENET / 随机遮挡修复 & -- & -- & -- & \underline{19.365} & \underline{0.494} & \underline{0.348} & \textbf{26.371} & \textbf{0.767} & \textbf{0.262} \\
+IMAGENET / 高斯去模糊 & 22.450 & 0.682 & 0.225 & -- & -- & -- & -- & -- & -- \\
+IMAGENET / 运动去模糊 & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}}
+\caption{同任务同协议的本地结果中，加粗为最优，下划线为次优；原文结果只作背景。完整重建计时未完成；回放时间不用于总体加速结论。}
+\label{tab:main-comparison}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrrr}
+\toprule
+数据集/任务 & 方法 & 峰值信噪比 & 结构相似度 & 感知距离 & 完整秒 & 回放秒 \\
+\midrule
+FFHQ / 四倍超分辨率 & 本地零样本自适应采样（精度匹配） & 19.791 & 0.542 & 0.357 & 未测 & 2.36 \\
+FFHQ / 四倍超分辨率 & 保留原引导方向，匹配物理长度 & 26.541 & 0.726 & 0.337 & 未测 & 3.98 \\
+FFHQ / 四倍超分辨率 & 仅物理方向，匹配物理长度 & 26.645 & 0.732 & 0.308 & 未测 & 3.78 \\
+FFHQ / 四倍超分辨率 & 当前响应方向，实时幅度匹配（预算内求解） & \underline{27.726} & \underline{0.807} & \underline{0.204} & 未测 & 5.71 \\
+FFHQ / 四倍超分辨率 & 当前响应方向，冻结时间幅度 & \textbf{27.758} & \textbf{0.811} & \textbf{0.198} & 未测 & 6.60 \\
+FFHQ / 随机遮挡修复 & 本地零样本自适应采样（精度匹配） & 21.976 & \underline{0.628} & 0.300 & 未测 & 2.42 \\
+FFHQ / 随机遮挡修复 & 保留原引导方向，匹配物理长度 & 22.342 & 0.622 & 0.398 & 未测 & 3.02 \\
+FFHQ / 随机遮挡修复 & 仅物理方向，匹配物理长度 & 22.340 & 0.622 & 0.398 & 未测 & 3.00 \\
+FFHQ / 随机遮挡修复 & 当前响应方向，实时幅度匹配（预算内求解） & \underline{30.369} & \textbf{0.880} & \textbf{0.116} & 未测 & 4.86 \\
+FFHQ / 随机遮挡修复 & 当前响应方向，冻结时间幅度 & \textbf{30.404} & \textbf{0.880} & \underline{0.118} & 未测 & 5.54 \\
+FFHQ / 高斯去模糊 & 本地零样本自适应采样（精度匹配） & \underline{24.977} & \underline{0.752} & \underline{0.221} & 未测 & 2.05 \\
+FFHQ / 高斯去模糊 & 当前响应方向，预算内求解与回退 & \textbf{28.723} & \textbf{0.859} & \textbf{0.179} & 未测 & 14.43 \\
+FFHQ / 运动去模糊 & 本地零样本自适应采样（精度匹配） & \underline{21.413} & \underline{0.636} & \underline{0.292} & 未测 & 1.94 \\
+FFHQ / 运动去模糊 & 当前响应方向，预算内求解与回退 & \textbf{27.810} & \textbf{0.826} & \textbf{0.159} & 未测 & 14.43 \\
+IMAGENET / 四倍超分辨率 & 本地零样本自适应采样（精度匹配） & 17.932 & 0.400 & \underline{0.538} & 未测 & 8.78 \\
+IMAGENET / 四倍超分辨率 & 保留原引导方向，匹配物理长度 & 22.467 & 0.544 & 0.649 & 未测 & 10.13 \\
+IMAGENET / 四倍超分辨率 & 仅物理方向，匹配物理长度 & 22.282 & 0.532 & 0.631 & 未测 & 9.78 \\
+IMAGENET / 四倍超分辨率 & 当前响应方向，实时幅度匹配（预算内求解） & \underline{24.080} & \underline{0.650} & \textbf{0.431} & 未测 & 19.60 \\
+IMAGENET / 四倍超分辨率 & 当前响应方向，冻结时间幅度 & \textbf{24.188} & \textbf{0.671} & \textbf{0.431} & 未测 & 20.81 \\
+IMAGENET / 随机遮挡修复 & 本地零样本自适应采样（精度匹配） & 19.350 & 0.494 & 0.348 & 未测 & 8.99 \\
+IMAGENET / 随机遮挡修复 & 保留原引导方向，匹配物理长度 & 20.799 & 0.540 & 0.442 & 未测 & 10.17 \\
+IMAGENET / 随机遮挡修复 & 仅物理方向，匹配物理长度 & 20.799 & 0.540 & 0.442 & 未测 & 9.55 \\
+IMAGENET / 随机遮挡修复 & 当前响应方向，实时幅度匹配（预算内求解） & \textbf{26.371} & \textbf{0.767} & \underline{0.262} & 未测 & 19.43 \\
+IMAGENET / 随机遮挡修复 & 当前响应方向，冻结时间幅度 & \underline{26.196} & \underline{0.762} & \textbf{0.247} & 未测 & 29.25 \\
+\bottomrule
+\end{tabular}}
+\caption{同任务同协议的本地结果中，加粗为最优，下划线为次优；原文结果只作背景。完整重建计时未完成；回放时间不用于总体加速结论。}
+\label{tab:module-ablations}
+\end{table*}
