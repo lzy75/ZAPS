@@ -1,0 +1,33 @@
+{
+  "phase": "active",
+  "failures": [
+    {
+      "original": "cases/00000_n025_s1000/BASE",
+      "saved": "repair_r1/failed_cases/cases/00000_n025_s1000/BASE",
+      "run_sha256": "82b1c6649c2fb8b659264f4179fe9db70d70efdb8c67ce97233d2085de335ec9"
+    },
+    {
+      "original": "cases/00000_n050_s1000/BASE",
+      "saved": "repair_r1/failed_cases/cases/00000_n050_s1000/BASE",
+      "run_sha256": "becdd53f0a365061be0818ef95ebe2fdcd0f21daeaf8edc5c139cd8bd1ac8386"
+    }
+  ],
+  "recorded_failed_cost": {
+    "method_forward_attempts": 600,
+    "diagnostic_forward_attempts": 0,
+    "optimizer_backward_attempts": 20,
+    "input_vjp": 0,
+    "warmup_forward_attempts": 2
+  },
+  "original_plan_sha256": "d63e14ecb3818c2c8ddc8db278b1862cf14fc1821e8f2a409622bc04c52e067c",
+  "sources": {
+    "utils/a67r1_session.py": "a82ce2fd7dad902b3d8cf5b8900aa06ead791afb1371dc794e92b04aa492dbf1",
+    "experiment_cards/A67R1_model_flag_repair_20261028.md": "7e5f8b34744b2895afd2d3f1a2e31a91a3944e0d719d4c2e467945ec10a30942",
+    "utils/a67_model_freeze.py": "1cc71086675b233af44ada9d13555ff5aefaf61c0e41d816d3849b1e8c177829",
+    "utils/test_a67r1_repair.py": "70cbfcf938fccb2c807a6aaaea46417c8166e9f649feea50a1a9f02e8d103983",
+    "run_a67r1_20261028.sh": "0d97d11cf4f986ff07b4f867a5be09b2a7c7608ec5d4fc67109cb0006609c8a2"
+  },
+  "change": "NN requires_grad False only during execution; restore flags; original numerical sources unchanged",
+  "outputs_reusable": false,
+  "reason": "Failure was before output/entry save; two300-call baseline attempts must repeat"
+}

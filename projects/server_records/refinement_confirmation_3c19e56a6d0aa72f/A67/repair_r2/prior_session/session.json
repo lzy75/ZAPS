@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "pid": 1011568,
+  "root": "/data0/lzy/ZAPS-results/diag_noise_feasible_zaps/A67_20261028",
+  "error": "RuntimeError('A67 worker failed; original records retained')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/a67_session.py\", line 62, in coordinator\n    elif not phase(root,state,assigned,'feedback'):record['status']='resource_limited'\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/a67r1_session.py\", line 134, in phase\n    with patch.object(session.subprocess,'Popen',popen):return OLD_PHASE(root,state,assigned,name)\n                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/a67_session.py\", line 47, in phase\n    if failed:raise RuntimeError('A67 worker failed; original records retained')\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: A67 worker failed; original records retained\n",
+  "finished_utc": "2026-10-28T14:46:01Z"
+}

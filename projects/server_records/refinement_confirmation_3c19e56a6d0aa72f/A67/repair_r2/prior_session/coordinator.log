@@ -1,0 +1,37 @@
+test_a33_matches_original_grid (utils.test_noise_feasible_multiplier.ScalarTests.test_a33_matches_original_grid) ... ok
+test_cohort_fixed_old_images_no_silent_substitution (utils.test_noise_feasible_multiplier.ScalarTests.test_cohort_fixed_old_images_no_silent_substitution) ... ok
+test_increasing_noise_changes_action_without_changing_response (utils.test_noise_feasible_multiplier.ScalarTests.test_increasing_noise_changes_action_without_changing_response) ... ok
+test_infeasible_and_zero_response (utils.test_noise_feasible_multiplier.ScalarTests.test_infeasible_and_zero_response) ... ok
+test_nearest_is_not_old_first_crossing (utils.test_noise_feasible_multiplier.ScalarTests.test_nearest_is_not_old_first_crossing) ... ok
+test_projection_is_feasible_and_nearest_on_dense_grid (utils.test_noise_feasible_multiplier.ScalarTests.test_projection_is_feasible_and_nearest_on_dense_grid) ... ok
+test_actual_sr_operator_null_loop (utils.test_noise_feasible_runtime.RuntimeTests.test_actual_sr_operator_null_loop) ... ok
+test_feedback_preserves_prefix_and_has_no_input_vjp (utils.test_noise_feasible_runtime.RuntimeTests.test_feedback_preserves_prefix_and_has_no_input_vjp) ... ok
+test_null_final_loop_matches_unmodified_core_and_prefix (utils.test_noise_feasible_runtime.RuntimeTests.test_null_final_loop_matches_unmodified_core_and_prefix) ... ok
+test_exception_restores_flags_and_weight_update_detected (utils.test_a67r1_repair.FreezeTests.test_exception_restores_flags_and_weight_update_detected) ... ok
+test_full300_with_actual_default_flags_has_identical_output (utils.test_a67r1_repair.FreezeTests.test_full300_with_actual_default_flags_has_identical_output) ... ok
+test_trainable_default_is_frozen_and_flags_restored (utils.test_a67r1_repair.FreezeTests.test_trainable_default_is_frozen_and_flags_restored) ... ok
+test_exact_observed_failure_cost (utils.test_a67r1_repair.RecoveryTests.test_exact_observed_failure_cost) ... ok
+test_other_errors_or_partial_calls_are_rejected (utils.test_a67r1_repair.RecoveryTests.test_other_errors_or_partial_calls_are_rejected) ... ok
+test_recovery_preserves_failures_and_is_idempotent (utils.test_a67r1_repair.RecoveryTests.test_recovery_preserves_failures_and_is_idempotent) ... A67R1 READY: preserve600 failed forwards/20 optimization backwards/2 warmups; no saved outputs to reuse. Original plan/formulas unchanged.
+ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 138.765s
+
+OK
+A67 frozen plan reused.
+A67 WORKER START: feedback 0 GPU= 1
+A67 QUEUE: feedback {0: 'not_started', 1: 'not_started'}
+A67 WORKER END: feedback 0 exit= 2
+A67 QUEUE: feedback {0: 'not_started', 1: 'not_started'}
+A67 WORKER START: feedback 1 GPU= 1
+A67 QUEUE: feedback {0: 'not_started', 1: 'not_started'}
+A67 WORKER END: feedback 1 exit= 2
+A67 QUEUE: feedback {0: 'not_started', 1: 'not_started'}
+A67 SESSION FAILED: RuntimeError('A67 worker failed; original records retained')
+A67 Summary: {"experiment": "A67_strong_zaps_noise_feasible", "classification": "DEVELOPMENT_STRONG_ZAPS_SCALAR_COMPARISON", "completed_runs": 0, "planned_runs": 60, "groups": [], "paired_comparisons": [], "actual_cost": {"method_forward_attempts": 0, "diagnostic_forward_attempts": 0, "optimizer_backward_attempts": 0, "input_vjp": 0, "warmup_forward_attempts": 0}, "cost_is_lower_bound": false, "limits": "Six OLD FFHQ SR development images, noise boundaries first3 only, one seed/image; no independent confirmation, new theory, curve/step-size or NFE-saving claim. Noise-energy target is a discrepancy heuristic, not calibrated confidence coverage. State derivative uses A33 identity-response surrogate, not actual next-step network response."}
+A67R1 CUMULATIVE COST: {'method_forward_attempts': 600, 'diagnostic_forward_attempts': 0, 'optimizer_backward_attempts': 20, 'input_vjp': 0, 'warmup_forward_attempts': 2}
+Archive: /home/lzy/ZAPS/projects/server_records/refinement_confirmation_3f705736c41c9b5a Results commit: af836c8377c47de734a2cb75c37bb88239b518bf Branch: results/strong-zaps-noise-feasible-20261028
+To ssh://ssh.github.com:443/lzy75/ZAPS.git
+   da62cd0..af836c8  results/strong-zaps-noise-feasible-20261028 -> results/strong-zaps-noise-feasible-20261028
+RESULTS_PUSH_PASS: A67 strong ZAPS scalar comparison uploaded.

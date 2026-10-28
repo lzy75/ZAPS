@@ -1,0 +1,33 @@
+test_a33_matches_original_grid (utils.test_noise_feasible_multiplier.ScalarTests.test_a33_matches_original_grid) ... ok
+test_cohort_fixed_old_images_no_silent_substitution (utils.test_noise_feasible_multiplier.ScalarTests.test_cohort_fixed_old_images_no_silent_substitution) ... ok
+test_increasing_noise_changes_action_without_changing_response (utils.test_noise_feasible_multiplier.ScalarTests.test_increasing_noise_changes_action_without_changing_response) ... ok
+test_infeasible_and_zero_response (utils.test_noise_feasible_multiplier.ScalarTests.test_infeasible_and_zero_response) ... ok
+test_nearest_is_not_old_first_crossing (utils.test_noise_feasible_multiplier.ScalarTests.test_nearest_is_not_old_first_crossing) ... ok
+test_projection_is_feasible_and_nearest_on_dense_grid (utils.test_noise_feasible_multiplier.ScalarTests.test_projection_is_feasible_and_nearest_on_dense_grid) ... ok
+test_actual_sr_operator_null_loop (utils.test_noise_feasible_runtime.RuntimeTests.test_actual_sr_operator_null_loop) ... ok
+test_feedback_preserves_prefix_and_has_no_input_vjp (utils.test_noise_feasible_runtime.RuntimeTests.test_feedback_preserves_prefix_and_has_no_input_vjp) ... ok
+test_null_final_loop_matches_unmodified_core_and_prefix (utils.test_noise_feasible_runtime.RuntimeTests.test_null_final_loop_matches_unmodified_core_and_prefix) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 131.504s
+
+OK
+A67 PREPARE:12 image/noise cases,5 arms;18000 full-pipeline forwards +1800 paired replay;0 input VJP.
+A67 WORKER START: feedback 0 GPU= 1
+A67 QUEUE: feedback {0: 'not_started', 1: 'not_started'}
+A67 WORKER END: feedback 0 exit= 1
+A67 QUEUE: feedback {0: 'failed', 1: 'not_started'}
+A67 WORKER START: feedback 1 GPU= 1
+A67 QUEUE: feedback {0: 'failed', 1: 'not_started'}
+A67 WORKER END: feedback 1 exit= 1
+A67 QUEUE: feedback {0: 'failed', 1: 'failed'}
+A67 SESSION FAILED: RuntimeError('A67 worker failed; original records retained')
+A67 Summary: {"experiment": "A67_strong_zaps_noise_feasible", "classification": "DEVELOPMENT_STRONG_ZAPS_SCALAR_COMPARISON", "completed_runs": 0, "planned_runs": 60, "groups": [], "paired_comparisons": [], "actual_cost": {"method_forward_attempts": 600, "diagnostic_forward_attempts": 0, "optimizer_backward_attempts": 20, "input_vjp": 0, "warmup_forward_attempts": 2}, "cost_is_lower_bound": true, "limits": "Six OLD FFHQ SR development images, noise boundaries first3 only, one seed/image; no independent confirmation, new theory, curve/step-size or NFE-saving claim. Noise-energy target is a discrepancy heuristic, not calibrated confidence coverage. State derivative uses A33 identity-response surrogate, not actual next-step network response."}
+Archive: /home/lzy/ZAPS/projects/server_records/refinement_confirmation_3985a16210404e29 Results commit: da62cd027f2956085baf64ae393aab743fcefa40 Branch: results/strong-zaps-noise-feasible-20261028
+remote: 
+remote: Create a pull request for 'results/strong-zaps-noise-feasible-20261028' on GitHub by visiting:        
+remote:      https://github.com/lzy75/ZAPS/pull/new/results/strong-zaps-noise-feasible-20261028        
+remote: 
+To ssh://ssh.github.com:443/lzy75/ZAPS.git
+ * [new branch]      results/strong-zaps-noise-feasible-20261028 -> results/strong-zaps-noise-feasible-20261028
+RESULTS_PUSH_PASS: A67 strong ZAPS scalar comparison uploaded.
