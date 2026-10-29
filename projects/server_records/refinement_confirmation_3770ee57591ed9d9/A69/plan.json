@@ -1,0 +1,174 @@
+{
+  "experiment": "A69_scalar_gamma_solver",
+  "cases": [
+    {
+      "image_id": "00000",
+      "image": "/home/lzy/FFHQ/00000/00000/00000.png",
+      "seed": 1000,
+      "sigma": 0.05,
+      "key": "00000_n050_s1000",
+      "image_sha256": "556e67799296565e941b5fc4af025a5efc24f8ff4c244a08d2d5e4d917c04186"
+    },
+    {
+      "image_id": "00000",
+      "image": "/home/lzy/FFHQ/00000/00000/00000.png",
+      "seed": 1000,
+      "sigma": 0.1,
+      "key": "00000_n100_s1000",
+      "image_sha256": "556e67799296565e941b5fc4af025a5efc24f8ff4c244a08d2d5e4d917c04186"
+    },
+    {
+      "image_id": "00001",
+      "image": "/home/lzy/FFHQ/00000/00000/00001.png",
+      "seed": 1001,
+      "sigma": 0.05,
+      "key": "00001_n050_s1001",
+      "image_sha256": "775f913a6f2969f89caa4be6467d832d1e3d3034b0d09009b696ba717225e17e"
+    },
+    {
+      "image_id": "00001",
+      "image": "/home/lzy/FFHQ/00000/00000/00001.png",
+      "seed": 1001,
+      "sigma": 0.1,
+      "key": "00001_n100_s1001",
+      "image_sha256": "775f913a6f2969f89caa4be6467d832d1e3d3034b0d09009b696ba717225e17e"
+    },
+    {
+      "image_id": "00002",
+      "image": "/home/lzy/FFHQ/00000/00000/00002.png",
+      "seed": 1002,
+      "sigma": 0.05,
+      "key": "00002_n050_s1002",
+      "image_sha256": "f8df5fbac52541a1a58703872631b416d47187fe6971e1412624526749d4c427"
+    },
+    {
+      "image_id": "00002",
+      "image": "/home/lzy/FFHQ/00000/00000/00002.png",
+      "seed": 1002,
+      "sigma": 0.1,
+      "key": "00002_n100_s1002",
+      "image_sha256": "f8df5fbac52541a1a58703872631b416d47187fe6971e1412624526749d4c427"
+    },
+    {
+      "image_id": "00003",
+      "image": "/home/lzy/FFHQ/00000/00000/00003.png",
+      "seed": 1003,
+      "sigma": 0.05,
+      "key": "00003_n050_s1003",
+      "image_sha256": "070f2b1076aa5043fbbb32ebc2f4b02d51071e2773c4c27e8a31979de18ed50a"
+    },
+    {
+      "image_id": "00003",
+      "image": "/home/lzy/FFHQ/00000/00000/00003.png",
+      "seed": 1003,
+      "sigma": 0.1,
+      "key": "00003_n100_s1003",
+      "image_sha256": "070f2b1076aa5043fbbb32ebc2f4b02d51071e2773c4c27e8a31979de18ed50a"
+    }
+  ],
+  "config": {
+    "num_steps": 30,
+    "schedule": [
+      15,
+      10,
+      5
+    ],
+    "timestep_spacing": "linear",
+    "schedule_power": 2.0,
+    "num_epochs": 10,
+    "lr": 0.01,
+    "zeta_init": 0.1,
+    "d_init": 0.2,
+    "eta": 1.0,
+    "use_learned_var": false,
+    "sampler_mode": "ddpm",
+    "wave": "db4",
+    "level": 3,
+    "surrogate_score_jacobian": false
+  },
+  "grid": [
+    0,
+    24,
+    48,
+    71,
+    95,
+    119,
+    143,
+    166,
+    190,
+    214,
+    238,
+    262,
+    285,
+    309,
+    333,
+    334,
+    371,
+    408,
+    445,
+    482,
+    518,
+    555,
+    592,
+    629,
+    666,
+    667,
+    750,
+    833,
+    916,
+    999
+  ],
+  "arms": [
+    "BASE",
+    "FIRST_NOISE",
+    "REAL_ISO",
+    "MODEL_NEWTON",
+    "AUTO_NEWTON"
+  ],
+  "checkpoint": {
+    "path": "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt",
+    "sha256": "81d535743156ec6be34d8668e6920da94f0614074d7793a16c8fa9e306237faa"
+  },
+  "sources": {
+    "utils/scalar_gamma_newton.py": "46d4dcfc90e9a92f64fd8c15111d7e86d2e63292c9eeb486b824a99d1e439527",
+    "utils/scalar_gamma_newton_runtime.py": "6404bc161d8f1c642c695ba9051f8289df1bf745eef1f1a60816b7c44305353d",
+    "utils/next_response_bayes.py": "107013bdd9c962bae51dc2ee15e65affa1e46f9cdea9d54a84f73324fbf148b0",
+    "utils/next_response_bayes_runtime.py": "dec81b7b0eb0ef1f22c8741755fcd54b3d874afdbaa20618d91fd61d0f398588",
+    "utils/diag_scalar_gamma_solver.py": "2e11cb2d66db471bd8074df166c87e9d0cc6d699804cc75ca0c91158397232bf",
+    "utils/a69_session.py": "de4c85aadaf231e4342f4b9d5483938609017a8a7431aa868a3c7c1c8b813c88",
+    "utils/test_scalar_gamma_newton.py": "6f7fc2dbbed9cee833d107c4fe40e7ec69f67ac954f7528e54a4d04420de38ff",
+    "utils/test_scalar_gamma_newton_runtime.py": "7e063061ab05bd1c221b1a61b6c37ddf9399ffa5f6c3a329012cc315b5d4887a",
+    "utils/test_a69_cli.py": "a8880a81dd0fd090ae3d0714f6a89a3188ec1b6290dc121ba6057e2fd6c5ec89",
+    "utils/noise_feasible_runtime.py": "5a2b9e0209d9720ecb85e3efc161aed674eb5df174941dc1ba5b240c46a999f8",
+    "utils/noise_feasible_multiplier.py": "6c50ad600abe18e59735507837b3ee36996c83f0a6c42f374b497b6abc65012a",
+    "utils/current_score_runtime_r2.py": "87a0248e30614ff7706fbf0968eb5bbd5cda3f2c3f43c0a2f152b839b5b38f29",
+    "utils/current_score_runtime.py": "6d04b2d1f9a65b129c3a1289062b721870903d601564cdb8b236f55eeff19486",
+    "utils/test_current_score_checkpoint_r2.py": "ebf9855faa4dfa46b516e7150fed792306ac1be10b4c290a8d4c7421b640170b",
+    "utils/a67_model_freeze.py": "1cc71086675b233af44ada9d13555ff5aefaf61c0e41d816d3849b1e8c177829",
+    "utils/diag_noise_feasible_zaps.py": "ff995f8e45dab29c76a1b4c577022853ce640847296b310e7896436f44f45ebb",
+    "utils/historical_ffhq_gain.py": "0519debd0dca8892006b90d32a5ddf7f511424d3fd3259d56328ec0bbb6116d6",
+    "utils/historical_ffhq_runtime.py": "e9ba0f7ac92e9cba9d767cde757b9bb232301343b589974e1a23799f4138ed55",
+    "utils/paper_clock_runtime.py": "2f7333f54b7f6ea6bbd6e66e18ea43a28f633d2bf0c675aa1e273216995756bf",
+    "modules/zaps_algorithm.py": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427",
+    "modules/degradations.py": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696",
+    "modules/wavelet.py": "fd29252c73263aa379f3085089d054e6be6777fd7ef674e88036dfffed43459b",
+    "utils/metrics.py": "1bca2cc769a43eaa3c7a07c038c967be2dc89dc2e9089f00b4b48dac9579ca45",
+    "run_a69_20261029.sh": "0c725b6e3033d78894cac541bad2bcbabb72817b456564cb457b964927918efc",
+    "experiment_cards/A69_scalar_gamma_solver_20261029.md": "5b4fb8c9913056c7e899cff2ba79cbe3c8a7122fb5fd40749274456782c6bf46"
+  },
+  "budget": {
+    "max_method": 15016,
+    "max_paired_diagnostic": 4216,
+    "optimizer_backwards": 400,
+    "max_input_vjp": 928,
+    "warmups_separate": true
+  },
+  "protocol": {
+    "precision": "IEEE float32 ALL groups; no native-vs-IEEE causal comparison",
+    "measurement": "Historical model-coordinate H(x); sigma same units; empirical original guidance mapping retained",
+    "quality": "Same BASE pre-final270 learned state/noise paired replay; independent outputs also reported",
+    "clock": "Independent full pipeline incl optimization/probes/output CPU sync; metrics/files/model-load excluded",
+    "limitations": "Four OLD FFHQ SR images, two noise levels, one seed/image; scalar local Gaussian approximation, same A68 REAL_ISO objective with beta1; no global-minimum or speedup claim. Input backwards and NN calls fully paid. Continuous remapping can cancel current positive zeta amplitude; learned path and D direction retained."
+  },
+  "code_commit": "741c02ca121ef808ba93f0fad9f30e0df731ecc8"
+}
