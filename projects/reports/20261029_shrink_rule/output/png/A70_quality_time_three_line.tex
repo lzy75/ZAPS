@@ -1,0 +1,11 @@
+% Requires booktabs. No vertical rules.
+\begin{tabular}{llrrrrr}
+\toprule
+Task / noise & Method & PSNR $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ & Time (s) & NFE \\
+\midrule
+SR x4 | sigma 0.05 & ZAPS (local) & \underline{26.533} & \underline{0.8163} & \textbf{0.1664} & \textbf{22.85} & 300 \\
+ & Noise-aware shrinkage & \textbf{26.684} & \textbf{0.8293} & \underline{0.1707} & \underline{24.35} & 300 \\
+SR x4 | sigma 0.1 & ZAPS (local) & \underline{23.549} & \underline{0.5949} & \underline{0.4216} & \textbf{23.42} & 300 \\
+ & Noise-aware shrinkage & \textbf{25.374} & \textbf{0.7733} & \textbf{0.2132} & \underline{23.96} & 300 \\
+\bottomrule
+\end{tabular}
