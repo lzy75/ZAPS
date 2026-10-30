@@ -1,0 +1,12 @@
+# A73：全程倍率 vs 原ZAPS完整运行
+
+|任务|方法|PSNR|SSIM|LPIPS|完整秒数|NFE|
+|---|---|---:|---:|---:|---:|---:|
+|super_resolution|BASE|26.9148|0.82209|0.16134|21.954|300|
+|super_resolution|ALL_UNROLLS|27.0439|0.82798|0.16841|21.958|300|
+|gaussian_deblur|BASE|24.6105|0.73645|0.20429|23.739|300|
+|gaussian_deblur|ALL_UNROLLS|25.3878|0.76576|0.23136|27.296|300|
+|inpainting|BASE|26.5519|0.83196|0.12368|23.046|300|
+|inpainting|ALL_UNROLLS|26.8885|0.85510|0.10420|24.368|300|
+|motion_deblur|BASE|19.7519|0.48941|0.41757|24.089|300|
+|motion_deblur|ALL_UNROLLS|21.6862|0.62157|0.30612|27.446|300|

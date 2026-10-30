@@ -1,0 +1,189 @@
+{
+  "experiment": "A73_all_unroll_shrink",
+  "classification": "DEVELOPMENT_ALL_UNROLL_CONTROL_COMPARISON",
+  "completed_runs": 24,
+  "planned_runs": 24,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.914807953277453,
+        "ssim": 0.8220887978871664,
+        "lpips": 0.16134482125441232
+      },
+      "mean_full_seconds": 21.954077817810077,
+      "full_NFE": 300
+    },
+    {
+      "task": "super_resolution",
+      "arm": "ALL_UNROLLS",
+      "cases": 3,
+      "quality": {
+        "psnr": 27.04393708792146,
+        "ssim": 0.8279773791631063,
+        "lpips": 0.16841495037078857
+      },
+      "mean_full_seconds": 21.95792780847599,
+      "full_NFE": 300
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.610499629906084,
+        "ssim": 0.7364523808161417,
+        "lpips": 0.2042852739493052
+      },
+      "mean_full_seconds": 23.73871304250012,
+      "full_NFE": 300
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "ALL_UNROLLS",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.387817243496418,
+        "ssim": 0.765758752822876,
+        "lpips": 0.23136099676291147
+      },
+      "mean_full_seconds": 27.29647747737666,
+      "full_NFE": 300
+    },
+    {
+      "task": "inpainting",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.551941574756007,
+        "ssim": 0.8319612940152487,
+        "lpips": 0.12367527435223262
+      },
+      "mean_full_seconds": 23.045579532471795,
+      "full_NFE": 300
+    },
+    {
+      "task": "inpainting",
+      "arm": "ALL_UNROLLS",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.88850140813569,
+        "ssim": 0.8550962209701538,
+        "lpips": 0.10419570902983348
+      },
+      "mean_full_seconds": 24.367856413125992,
+      "full_NFE": 300
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 19.75194311385996,
+        "ssim": 0.48941083749135333,
+        "lpips": 0.4175720512866974
+      },
+      "mean_full_seconds": 24.088938363827765,
+      "full_NFE": 300
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "ALL_UNROLLS",
+      "cases": 3,
+      "quality": {
+        "psnr": 21.68622830081566,
+        "ssim": 0.6215693751970927,
+        "lpips": 0.3061180313428243
+      },
+      "mean_full_seconds": 27.44599728876104,
+      "full_NFE": 300
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "sigma": 0.05,
+      "ALL_minus_BASE": {
+        "psnr": 0.12912913464400924,
+        "ssim": 0.005888581275939941,
+        "lpips": 0.007070129116376241
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 0.12103461172348773,
+      "full_clock_ratio": 1.0001753656290127,
+      "ALL_minus_historical_last30": {
+        "psnr": 0.00038857093882664156,
+        "ssim": 4.192193349202474e-06,
+        "lpips": -2.9414892196655273e-05
+      }
+    },
+    {
+      "task": "gaussian_deblur",
+      "sigma": 0.05,
+      "ALL_minus_BASE": {
+        "psnr": 0.7773176135903365,
+        "ssim": 0.02930637200673421,
+        "lpips": 0.027075722813606262
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 0.28083712016339035,
+      "full_clock_ratio": 1.14987183292148,
+      "ALL_minus_historical_last30": {
+        "psnr": 0.002498793230702271,
+        "ssim": 0.00013065338134765625,
+        "lpips": -0.00038116176923116046
+      }
+    },
+    {
+      "task": "inpainting",
+      "sigma": 0.05,
+      "ALL_minus_BASE": {
+        "psnr": 0.3365598333796811,
+        "ssim": 0.023134926954905193,
+        "lpips": -0.01947956532239914
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 0.06542449429666064,
+      "full_clock_ratio": 1.0573765948819416,
+      "ALL_minus_historical_last30": {
+        "psnr": -0.0017773621612076813,
+        "ssim": -7.035334904988606e-05,
+        "lpips": 8.33397110303243e-05
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "sigma": 0.05,
+      "ALL_minus_BASE": {
+        "psnr": 1.9342851869557016,
+        "ssim": 0.13215853770573935,
+        "lpips": -0.11145401994387309
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 1.6128014897843848,
+      "full_clock_ratio": 1.13936101600784,
+      "ALL_minus_historical_last30": {
+        "psnr": 0.026317234087327297,
+        "ssim": 0.0012160738309224446,
+        "lpips": -5.95549742380778e-05
+      }
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 7200,
+    "optimizer_backward_attempts": 240,
+    "input_vjp_attempts": 0,
+    "warmup_forward_attempts": 2
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Original3 A71 FFHQ images x4 tasks, sigma=.05, same seed/observations. No new image/seed/dataset.",
+    "policy": "Unchanged A71 shrink formula, computed on all30 points in all10 unrolls. Gamma detached; original zeta/D graph retained.",
+    "learning": "Independent from-seed training per arm, no learned cache. Control and optimization interact.",
+    "timing": "Independent complete300 reconstruction, includes input loading/operator/init/optimization/CPU output sync; excludes model loading/warmup/metrics/disk writes.",
+    "output": "Tenth-unroll last_opt; no extra sampling or best-epoch selection. Baseline all gamma1."
+  }
+}
