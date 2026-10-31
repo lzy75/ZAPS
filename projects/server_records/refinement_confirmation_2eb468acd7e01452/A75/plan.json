@@ -1,0 +1,239 @@
+{
+  "experiment": "A75_dps_multiplier_transfer",
+  "parent": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029",
+  "parent_plan_sha256": "05f1a09fd0fd38024c3e27a3f424e0df8e4a6abb108be3c2338da95d2d17f299",
+  "cases": [
+    {
+      "image_id": "00226",
+      "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+      "task": "super_resolution",
+      "sigma": 0.05,
+      "seed": 1226,
+      "measurement_seed": 1226,
+      "mask_seed": 2001226,
+      "shard": 0,
+      "key": "super_resolution_00226_n050_s1226",
+      "image_sha256": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7"
+    },
+    {
+      "image_id": "00226",
+      "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+      "task": "motion_deblur",
+      "sigma": 0.05,
+      "seed": 1226,
+      "measurement_seed": 1226,
+      "mask_seed": 2001226,
+      "shard": 1,
+      "key": "motion_deblur_00226_n050_s1226",
+      "image_sha256": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7"
+    },
+    {
+      "image_id": "00443",
+      "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+      "task": "super_resolution",
+      "sigma": 0.05,
+      "seed": 1443,
+      "measurement_seed": 1443,
+      "mask_seed": 2001443,
+      "shard": 0,
+      "key": "super_resolution_00443_n050_s1443",
+      "image_sha256": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1"
+    },
+    {
+      "image_id": "00443",
+      "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+      "task": "motion_deblur",
+      "sigma": 0.05,
+      "seed": 1443,
+      "measurement_seed": 1443,
+      "mask_seed": 2001443,
+      "shard": 1,
+      "key": "motion_deblur_00443_n050_s1443",
+      "image_sha256": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1"
+    },
+    {
+      "image_id": "00963",
+      "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+      "task": "super_resolution",
+      "sigma": 0.05,
+      "seed": 1963,
+      "measurement_seed": 1963,
+      "mask_seed": 2001963,
+      "shard": 0,
+      "key": "super_resolution_00963_n050_s1963",
+      "image_sha256": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709"
+    },
+    {
+      "image_id": "00963",
+      "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+      "task": "motion_deblur",
+      "sigma": 0.05,
+      "seed": 1963,
+      "measurement_seed": 1963,
+      "mask_seed": 2001963,
+      "shard": 1,
+      "key": "motion_deblur_00963_n050_s1963",
+      "image_sha256": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709"
+    }
+  ],
+  "observations": {
+    "super_resolution_00226_n050_s1226": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00226_n050_s1226/y.pt",
+    "motion_deblur_00226_n050_s1226": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00226_n050_s1226/y.pt",
+    "super_resolution_00443_n050_s1443": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00443_n050_s1443/y.pt",
+    "motion_deblur_00443_n050_s1443": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00443_n050_s1443/y.pt",
+    "super_resolution_00963_n050_s1963": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00963_n050_s1963/y.pt",
+    "motion_deblur_00963_n050_s1963": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00963_n050_s1963/y.pt"
+  },
+  "checkpoint": {
+    "path": "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt",
+    "sha256": "81d535743156ec6be34d8668e6920da94f0614074d7793a16c8fa9e306237faa"
+  },
+  "dps_root": "/home/lzy/ZAPS/DPS",
+  "diffusion_config": {
+    "sampler": "ddpm",
+    "steps": 1000,
+    "noise_schedule": "linear",
+    "model_mean_type": "epsilon",
+    "model_var_type": "learned_range",
+    "dynamic_threshold": false,
+    "clip_denoised": true,
+    "rescale_timesteps": false,
+    "timestep_respacing": 1000
+  },
+  "task_configs": {
+    "super_resolution": {
+      "conditioning": {
+        "method": "ps",
+        "params": {
+          "scale": 0.3
+        }
+      },
+      "data": {
+        "name": "ffhq",
+        "root": "./data/samples/"
+      },
+      "measurement": {
+        "operator": {
+          "name": "super_resolution",
+          "in_shape": [
+            1,
+            3,
+            256,
+            256
+          ],
+          "scale_factor": 4
+        },
+        "noise": {
+          "name": "gaussian",
+          "sigma": 0.05
+        }
+      }
+    },
+    "motion_deblur": {
+      "conditioning": {
+        "method": "ps",
+        "params": {
+          "scale": 0.3
+        }
+      },
+      "data": {
+        "name": "ffhq",
+        "root": "./data/samples/"
+      },
+      "measurement": {
+        "operator": {
+          "name": "motion_blur",
+          "kernel_size": 61,
+          "intensity": 0.5
+        },
+        "noise": {
+          "name": "gaussian",
+          "sigma": 0.05
+        }
+      }
+    }
+  },
+  "inputs": {
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00226_n050_s1226/observation.json": "281742a08e99a8fd2beb13c06a5d89de92ff63ef7856c067b67b770b99156250",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00226_n050_s1226/y.pt": "0d8d99bb15b9b92fa03b076f0a21c3b47c065ea1f50db9e10bcdc845253e5b56",
+    "/home/lzy/FFHQ/00000/00000/00226.png": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00226_n050_s1226/observation.json": "63594bc891989d5bbde68365ee0ba2130271eeb0ff123b777fa2424333d754c8",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00226_n050_s1226/y.pt": "757906d0a027a7533572782cf4a22a78941f1629b10ddee70d1cbe5054ffef78",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00443_n050_s1443/observation.json": "0819fd5a98c4d43024651209572b262ca327367e09f04628afe5174afbf356ad",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00443_n050_s1443/y.pt": "c9819ca162e1c5f8ba6a7f6b3258b30d797c87ada3616bc38e015f1167bba44d",
+    "/home/lzy/FFHQ/00000/00000/00443.png": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00443_n050_s1443/observation.json": "345df8c0819792ddad7fbdaba9f25eb8d9767ffc48c48c291bf8f7189bafb6c8",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00443_n050_s1443/y.pt": "ba03899cd3ff7a8c9423756b8e7a8170f5d1b698e27300ccce18c0eede167bb4",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00963_n050_s1963/observation.json": "0cb5468a17d5c38432bb886daab7387216d0e63cd85aebe6cbcb80ccf1235f0f",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00963_n050_s1963/y.pt": "ae8786a23a2087c8bd6fd49ec1d26f0d54d2c78cc56172e44666708668181515",
+    "/home/lzy/FFHQ/00000/00000/00963.png": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00963_n050_s1963/observation.json": "81676eac5604406f66337b26af414716a5b17c1ea35f3084f79af95af85c84f1",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00963_n050_s1963/y.pt": "5d62c1d9bf3b3fcf93cd34b07949ffb1b37b308cd66cfe4fb43ede42779fe64d",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/motion_kernel.npy": "1296d9174030d2e40ba8145cda0043f1bc1dd53ce9b4812339fd1eb73e064825"
+  },
+  "sources": {
+    "utils/dps_multiplier_transfer.py": "e1d4b4b7e4446f7bf7e935a53f955ba291989caf80f68fe3ba408fcf703587a7",
+    "utils/dps_multiplier_transfer_runtime.py": "e57c85c3973465017f76432c3d67034f26a9ea2fc008ceec3ad3160c3f7ce1ca",
+    "utils/diag_dps_multiplier_transfer.py": "6c5a735811d1fe1f8a0ed03eb1107bd09d1d408a988878156953e90193e41020",
+    "utils/a75_session.py": "41a919eda13c6311230c167c923b7967b084fe71dd5d1ee80806fe80a7613142",
+    "utils/test_dps_multiplier_transfer.py": "fb907b7c976346b5e5a09577d72587f123a44b0a1f3d8eb6ebc5cf451d669f8b",
+    "utils/test_dps_multiplier_transfer_runtime.py": "0bbb278253170a94f3c27372caea1b0e02735e9e2eec457de04cb226fbcb9aa8",
+    "utils/current_score_runtime_r2.py": "87a0248e30614ff7706fbf0968eb5bbd5cda3f2c3f43c0a2f152b839b5b38f29",
+    "utils/diag_zaps_sampler_parity.py": "e55b23ac35954be401e84ee3b8fa12e3fd0e454e580c8451b24385a23a7b10ae",
+    "run_a75_20261031.sh": "36e2429a7dab4f79bc1f2fe6c47fc2b96e4ec5843b492dc2bf7bcfc856533ae3",
+    "experiment_cards/A75_dps_multiplier_transfer_20261031.md": "b46dbc5cb43f3284812d5dca23a3d8cb206b2c65d45e574708a9394ca48e28ba",
+    "../DPS/guided_diffusion/gaussian_diffusion.py": "73ac99d0b89a8a23a855b6dfe797b334be541014fc5abf04cf812434befdad0d",
+    "../DPS/guided_diffusion/condition_methods.py": "8738434de01dc16684551cb1bc7038ba544a3af80e144ac2875693fdfaf8d1bd",
+    "../DPS/guided_diffusion/posterior_mean_variance.py": "142158469a747c5b7fb2e63d06a7963a486807d9fd195a37cbbca5d90e7fbc6a",
+    "../DPS/util/img_utils.py": "010a84af5de956ab775cd0abf57a427f98b036a5cd2eddc57c711f1104020165",
+    "../DPS/configs/diffusion_config.yaml": "4d0c7d5892080dcf83e824dd1efcd6d5a06a177729f84b930f6989b9ee5761d9",
+    "../DPS/configs/super_resolution_config.yaml": "d2f6f4c731933d297004d3eb3ff0f0ee27cdd2b0afca5a27a6967eecc42e63a2",
+    "../DPS/configs/motion_deblur_config.yaml": "e39ded2883d810900c37188b9f4888263647410b174274be48e8541dd22638d9",
+    "utils/shrink_multitask.py": "3cab691d349c5cebbe26cb2efe11ff7a8608062706ecd51de98b94bc8028dc17",
+    "utils/shrink_multitask_runtime.py": "8d39679a62bc66d2c1de9fc4ef1c74aa433bb04375c818a8a5098f6f9e0e13d0",
+    "utils/diag_shrink_multitask.py": "4a1b6bb97c08eacd3eb8d32b4410c23844c68697cd6f69aef5c45962adee2861",
+    "utils/a71_session.py": "8411b8b066f618afd4519961e713816e1c7250108d2c2f4bfe38f2fa96d33fe5",
+    "utils/render_shrink_panel.py": "119fc3cc66b89eb7f20ed50206c9af02585b76abe918be6c32d7a15c637afe54",
+    "utils/test_shrink_multitask.py": "29b8ebb671a140eaabd2b035b73efd426cb5fe2fc0d1650ba0349bd58f72a886",
+    "utils/test_shrink_multitask_runtime.py": "ea4e25e635e91a99c598e82fb9f556978982400c8957a2397b2c53d411af5bad",
+    "utils/test_a71_cli.py": "69cf50f7fa7cbff6c65eebdde3fd3a7c0fc8fa314511d8bec47d32aaa03aca6b",
+    "utils/noise_signal_shrink.py": "7e38ad0c7198774a5eab3077d7b1fe09b3825a4a66b2f47a360236c3d4ec86d1",
+    "utils/noise_signal_shrink_runtime.py": "723ba03b06d5539a8d687cccde2a715fbf70005047ef80c92fbc30b8c036d859",
+    "utils/noise_feasible_runtime.py": "5a2b9e0209d9720ecb85e3efc161aed674eb5df174941dc1ba5b240c46a999f8",
+    "utils/historical_ffhq_gain.py": "0519debd0dca8892006b90d32a5ddf7f511424d3fd3259d56328ec0bbb6116d6",
+    "utils/historical_ffhq_runtime.py": "e9ba0f7ac92e9cba9d767cde757b9bb232301343b589974e1a23799f4138ed55",
+    "utils/paper_clock_runtime.py": "2f7333f54b7f6ea6bbd6e66e18ea43a28f633d2bf0c675aa1e273216995756bf",
+    "utils/diag_ffhq_four_tasks_unit.py": "c15892b461ce6df0677df73e69db1a58efb5ec0d405e071546278bf613baf7a1",
+    "utils/a67_model_freeze.py": "1cc71086675b233af44ada9d13555ff5aefaf61c0e41d816d3849b1e8c177829",
+    "utils/metrics.py": "1bca2cc769a43eaa3c7a07c038c967be2dc89dc2e9089f00b4b48dac9579ca45",
+    "modules/main_single.py": "8dcc7a36bed335178bb00126345897381dd3eb98a0d1c314d8d734c46a6bf39f",
+    "modules/degradations.py": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696",
+    "modules/zaps_algorithm.py": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427",
+    "modules/wavelet.py": "fd29252c73263aa379f3085089d054e6be6777fd7ef674e88036dfffed43459b",
+    "run_a71_20261029.sh": "7b7c49af5618a15c94f247cf08e4646f6d8df68b8b15a95b1f73eeefd3def87a",
+    "experiment_cards/A71_shrink_multitask_20261029.md": "75424ec74a22f408f76fade94dd631e28a725653ced878737d5b63b02de4f6c9"
+  },
+  "arms": [
+    "DPS",
+    "PROJECT",
+    "SHRINK"
+  ],
+  "budget": {
+    "method_forwards": 18000,
+    "method_input_vjp": 18000,
+    "optimizer_backwards": 0,
+    "model_probe_per_load": {
+      "forwards": 1,
+      "input_vjp": 1
+    }
+  },
+  "code_commit": "f980fe5824e78ddcf2d2e4dd3a27da318939fb90",
+  "protocol": {
+    "scope": "Same3 FFHQ images, SR4/Motion, model-coordinate sigma=.05. No new measurement/model downloads.",
+    "baseline": "Unmodified official vendored DPS loop, native1000 DDPM learned_range, PS scale=.3. Existing shared H/y, not paper benchmark reproduction.",
+    "insertion": "Original gradient correction q=-.3*grad norm(y-H(clean)); scale q only, original noise and q_sample RNG unchanged.",
+    "policy": "PROJECT uses unshrunk projection; SHRINK uses identical A71 noise correction. Same-time identity response proxy, no next-denoiser probes.",
+    "timing": "Independent complete1000 loop with existing input VJP; excludes model load/probe/metrics/writes. No extra VJP for scalar module.",
+    "limits": "Development transfer, not universal improvement/state necessity/posterior sampling guarantee. Positive original amplitude is canceled by projection."
+  }
+}

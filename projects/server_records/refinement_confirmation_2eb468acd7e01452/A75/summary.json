@@ -1,0 +1,153 @@
+{
+  "experiment": "A75_dps_multiplier_transfer",
+  "classification": "DEVELOPMENT_DPS_MULTIPLIER_TRANSFER",
+  "completed_runs": 18,
+  "planned_runs": 18,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.997963433827795,
+        "ssim": 0.6344222823778788,
+        "lpips": 0.2578464597463608
+      },
+      "mean_full_seconds": 126.89847967835765,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "PROJECT",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.288072076733894,
+        "ssim": 0.5365300277868906,
+        "lpips": 0.3894736667474111
+      },
+      "mean_full_seconds": 130.2061022069926,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.03044910571698,
+        "ssim": 0.7977186838785807,
+        "lpips": 0.10590410729249318
+      },
+      "mean_full_seconds": 127.87279840372503,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 21.29027026495315,
+        "ssim": 0.571251779794693,
+        "lpips": 0.25665949781735736
+      },
+      "mean_full_seconds": 129.1085279136896,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "PROJECT",
+      "cases": 3,
+      "quality": {
+        "psnr": 23.068427086971788,
+        "ssim": 0.6007165908813477,
+        "lpips": 0.36216140786806744
+      },
+      "mean_full_seconds": 134.70661956816912,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.395622312286083,
+        "ssim": 0.7694363792737325,
+        "lpips": 0.1531460483868917
+      },
+      "mean_full_seconds": 129.2604861566797,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "arm": "PROJECT",
+      "minus_DPS": {
+        "psnr": -0.7098913570939018,
+        "ssim": -0.09789225459098816,
+        "lpips": 0.13162720700105032
+      },
+      "images_PSNR_positive": 1,
+      "worst_PSNR": -2.277416478982712,
+      "full_clock_ratio": 1.0260651076121525
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 3.0324856718891824,
+        "ssim": 0.1632964015007019,
+        "lpips": -0.15194235245386759
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 2.0663289319515776,
+      "full_clock_ratio": 1.00767793852091
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "PROJECT",
+      "minus_DPS": {
+        "psnr": 1.7781568220186372,
+        "ssim": 0.029464811086654663,
+        "lpips": 0.10550191005071004
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 1.0483639797005395,
+      "full_clock_ratio": 1.043359580849856
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 4.105352047332935,
+        "ssim": 0.19818459947903952,
+        "lpips": -0.1035134494304657
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 3.7604583893701786,
+      "full_clock_ratio": 1.0011769806800963
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 18000,
+    "input_vjp_attempts": 18000,
+    "optimizer_backward_attempts": 0,
+    "probe_forward_attempts": 2,
+    "probe_input_vjp_attempts": 2
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Same3 FFHQ images, SR4/Motion, model-coordinate sigma=.05. No new measurement/model downloads.",
+    "baseline": "Unmodified official vendored DPS loop, native1000 DDPM learned_range, PS scale=.3. Existing shared H/y, not paper benchmark reproduction.",
+    "insertion": "Original gradient correction q=-.3*grad norm(y-H(clean)); scale q only, original noise and q_sample RNG unchanged.",
+    "policy": "PROJECT uses unshrunk projection; SHRINK uses identical A71 noise correction. Same-time identity response proxy, no next-denoiser probes.",
+    "timing": "Independent complete1000 loop with existing input VJP; excludes model load/probe/metrics/writes. No extra VJP for scalar module.",
+    "limits": "Development transfer, not universal improvement/state necessity/posterior sampling guarantee. Positive original amplitude is canceled by projection."
+  }
+}
