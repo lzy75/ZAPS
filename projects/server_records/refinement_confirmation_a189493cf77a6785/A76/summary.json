@@ -1,0 +1,250 @@
+{
+  "experiment": "A76_dps_feedback_ablation",
+  "classification": "DEVELOPMENT_DPS_FEEDBACK_ABLATION",
+  "completed_runs": 24,
+  "planned_runs": 24,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.997963433827795,
+        "ssim": 0.6344222823778788,
+        "lpips": 0.2578464597463608
+      },
+      "mean_full_seconds": 126.89847967835765,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.03044910571698,
+        "ssim": 0.7977186838785807,
+        "lpips": 0.10590410729249318
+      },
+      "mean_full_seconds": 127.87279840372503,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "FIXED_LOO",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.012429073709086,
+        "ssim": 0.7968624234199524,
+        "lpips": 0.10693879425525665
+      },
+      "mean_full_seconds": 130.95802497956902,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "MISMATCH",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.007103660029433,
+        "ssim": 0.7966429591178894,
+        "lpips": 0.10760809232791264
+      },
+      "mean_full_seconds": 131.16916044149548,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 21.29027026495315,
+        "ssim": 0.571251779794693,
+        "lpips": 0.25665949781735736
+      },
+      "mean_full_seconds": 129.1085279136896,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.395622312286083,
+        "ssim": 0.7694363792737325,
+        "lpips": 0.1531460483868917
+      },
+      "mean_full_seconds": 129.2604861566797,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "FIXED_LOO",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.41796299156351,
+        "ssim": 0.7652151981989542,
+        "lpips": 0.1530710607767105
+      },
+      "mean_full_seconds": 138.27162152094147,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "MISMATCH",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.417066332217814,
+        "ssim": 0.7640746831893921,
+        "lpips": 0.15296069284280142
+      },
+      "mean_full_seconds": 135.2891947502891,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 3.0324856718891824,
+        "ssim": 0.1632964015007019,
+        "lpips": -0.15194235245386759
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 2.0663289319515776,
+      "full_clock_ratio": 1.00767793852091
+    },
+    {
+      "task": "super_resolution",
+      "arm": "FIXED_LOO",
+      "minus_DPS": {
+        "psnr": 3.0144656398812892,
+        "ssim": 0.16244014104207358,
+        "lpips": -0.15090766549110413
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 1.9575802018358566,
+      "full_clock_ratio": 1.031990495957878
+    },
+    {
+      "task": "super_resolution",
+      "arm": "MISMATCH",
+      "minus_DPS": {
+        "psnr": 3.009140226201636,
+        "ssim": 0.1622206767400106,
+        "lpips": -0.15023836741844812
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 1.9632765632535616,
+      "full_clock_ratio": 1.0336543099173645
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 4.105352047332935,
+        "ssim": 0.19818459947903952,
+        "lpips": -0.1035134494304657
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 3.7604583893701786,
+      "full_clock_ratio": 1.0011769806800963
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "FIXED_LOO",
+      "minus_DPS": {
+        "psnr": 4.127692726610362,
+        "ssim": 0.19396341840426126,
+        "lpips": -0.10358843704064687
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 3.284526996226287,
+      "full_clock_ratio": 1.0709720245077652
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "MISMATCH",
+      "minus_DPS": {
+        "psnr": 4.126796067264664,
+        "ssim": 0.1928229033946991,
+        "lpips": -0.10369880497455597
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 3.14848995550998,
+      "full_clock_ratio": 1.0478718713354964
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 12000,
+    "input_vjp_attempts": 12000,
+    "optimizer_backward_attempts": 0,
+    "probe_forward_attempts": 2,
+    "probe_input_vjp_attempts": 2
+  },
+  "source_A75_cost": {
+    "method_forward_attempts": 18000,
+    "input_vjp_attempts": 18000,
+    "optimizer_backward_attempts": 0,
+    "probe_forward_attempts": 2,
+    "probe_input_vjp_attempts": 2
+  },
+  "reused_runs": 12,
+  "new_completed_runs": 12,
+  "online_minus_control": [
+    {
+      "task": "super_resolution",
+      "control": "FIXED_LOO",
+      "delta": {
+        "psnr": 0.01802003200789315,
+        "ssim": 0.0008562604586283366,
+        "lpips": -0.0010346869627634685
+      }
+    },
+    {
+      "task": "super_resolution",
+      "control": "MISMATCH",
+      "delta": {
+        "psnr": 0.023345445687546373,
+        "ssim": 0.001075724760691325,
+        "lpips": -0.0017039850354194641
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "control": "FIXED_LOO",
+      "delta": {
+        "psnr": -0.022340679277427,
+        "ssim": 0.004221181074778239,
+        "lpips": 7.498761018117268e-05
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "control": "MISMATCH",
+      "delta": {
+        "psnr": -0.021444019931729248,
+        "ssim": 0.005361696084340413,
+        "lpips": 0.000185355544090271
+      }
+    }
+  ],
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Same A75 three FFHQ images x SR4/Motion, sigma=.05, same H/y/seed/model/native1000 sampler.",
+    "controls": "Fixed1000 table: per-step median of OTHER two images; mismatch: sorted-image cyclic donor within same task. Frozen using gamma traces only, no labels.",
+    "reuse": "12 original DPS/SHRINK completed runs reused;12 controls newly sampled. No A75 baseline replay.",
+    "timing": "Fresh controls complete1000; A75 reference clocks historical, not same-session randomized timing. Fixed implementation retains unused online statistic arithmetic, so not optimized fixed runtime.",
+    "decision": "Compare online SHRINK against both controls per image and across PSNR/SSIM/LPIPS; DPS comparison alone does not establish matching benefit.",
+    "limits": "Three reused development images, donor traces paid in A75. Fixed table also preserves stage structure. No independent transfer claim."
+  }
+}
