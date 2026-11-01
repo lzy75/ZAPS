@@ -1,0 +1,25 @@
+{
+  "experiment": "A77_dps_imagenet_transfer",
+  "classification": "DEVELOPMENT_DPS_IMAGENET_TRANSFER",
+  "completed_runs": 0,
+  "planned_runs": 12,
+  "image_clusters": 3,
+  "groups": [],
+  "comparisons": [],
+  "actual_new_cost": {
+    "method_forward_attempts": 0,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "probe_forward_attempts": 0,
+    "probe_input_vjp_attempts": 0
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Three existing ImageNet images x SR4/Motion; ImageNet256 unconditional pretrained prior; two arms DPS/SHRINK.",
+    "baseline": "Same original native1000 DDPM learned_range DPS scale=.3; same A75 multiplier formula without calibration, clipping2, or extra gradients.",
+    "prior": "Different weights AND network architecture from FFHQ; model/data change together, not an isolated dataset effect.",
+    "resources": "Allocated GPU>=10GiB free before loading; actual input-VJP probe peak+1GiB checked before each run. No precision/resolution changes; resource pause only before attempts.",
+    "timing": "Complete1000 includes input load/operator/init/sampling/CPU output sync; model loading/probe/measurement creation/metrics/output writes separate; periodic progress bookkeeping included. Same NFE/VJP1000 per arm.",
+    "limits": "Small fixed previously used panel, one seed. Native local DPS reference, not paper benchmark reproduction. Multiplier module adds no NN/VJP."
+  }
+}
