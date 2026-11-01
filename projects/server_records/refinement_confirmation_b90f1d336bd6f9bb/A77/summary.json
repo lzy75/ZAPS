@@ -1,0 +1,103 @@
+{
+  "experiment": "A77_dps_imagenet_transfer",
+  "classification": "DEVELOPMENT_DPS_IMAGENET_TRANSFER",
+  "completed_runs": 12,
+  "planned_runs": 12,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.651688474287155,
+        "ssim": 0.6197823236385981,
+        "lpips": 0.32057449221611023
+      },
+      "mean_full_seconds": 610.2263923774784,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.610473160286464,
+        "ssim": 0.7004850407441457,
+        "lpips": 0.16910924017429352
+      },
+      "mean_full_seconds": 619.977210653325,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.720493001602915,
+        "ssim": 0.5536210139592489,
+        "lpips": 0.34423959751923877
+      },
+      "mean_full_seconds": 604.0904723588998,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.67513617976592,
+        "ssim": 0.735912024974823,
+        "lpips": 0.28214848041534424
+      },
+      "mean_full_seconds": 611.6918066569293,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 0.9587846859993091,
+        "ssim": 0.08070271710554759,
+        "lpips": -0.1514652520418167
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -0.7164531187648908,
+      "full_clock_ratio": 1.015979017619767
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 2.954643178163009,
+        "ssim": 0.18229101101557413,
+        "lpips": -0.062091117103894554
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 2.233602067915683,
+      "full_clock_ratio": 1.0125831057529302
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 12000,
+    "input_vjp_attempts": 12000,
+    "optimizer_backward_attempts": 0,
+    "probe_forward_attempts": 2,
+    "probe_input_vjp_attempts": 2
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Three existing ImageNet images x SR4/Motion; ImageNet256 unconditional pretrained prior; two arms DPS/SHRINK.",
+    "baseline": "Same original native1000 DDPM learned_range DPS scale=.3; same A75 multiplier formula without calibration, clipping2, or extra gradients.",
+    "prior": "Different weights AND network architecture from FFHQ; model/data change together, not an isolated dataset effect.",
+    "resources": "Allocated GPU>=10GiB free before loading; actual input-VJP probe peak+1GiB checked before each run. No precision/resolution changes; resource pause only before attempts.",
+    "timing": "Complete1000 includes input load/operator/init/sampling/CPU output sync; model loading/probe/measurement creation/metrics/output writes separate; periodic progress bookkeeping included. Same NFE/VJP1000 per arm.",
+    "limits": "Small fixed previously used panel, one seed. Native local DPS reference, not paper benchmark reproduction. Multiplier module adds no NN/VJP."
+  }
+}
