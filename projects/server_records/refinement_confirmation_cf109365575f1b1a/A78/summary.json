@@ -1,0 +1,326 @@
+{
+  "experiment": "A78_dps_imagenet_feedback_ablation",
+  "classification": "DEVELOPMENT_IMAGENET_MATCHING_ABLATION",
+  "completed_runs": 24,
+  "planned_runs": 24,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.651688474287155,
+        "ssim": 0.6197823236385981,
+        "lpips": 0.32057449221611023
+      },
+      "mean_full_seconds": 610.2263923774784,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.610473160286464,
+        "ssim": 0.7004850407441457,
+        "lpips": 0.16910924017429352
+      },
+      "mean_full_seconds": 619.977210653325,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "FIXED_LOO",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.334027649146684,
+        "ssim": 0.6724729835987091,
+        "lpips": 0.3244095693031947
+      },
+      "mean_full_seconds": 621.7299102641022,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "super_resolution",
+      "arm": "MISMATCH",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.81150907299637,
+        "ssim": 0.6842049956321716,
+        "lpips": 0.3080367098251979
+      },
+      "mean_full_seconds": 629.2458205300694,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.720493001602915,
+        "ssim": 0.5536210139592489,
+        "lpips": 0.34423959751923877
+      },
+      "mean_full_seconds": 604.0904723588998,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.67513617976592,
+        "ssim": 0.735912024974823,
+        "lpips": 0.28214848041534424
+      },
+      "mean_full_seconds": 611.6918066569293,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "FIXED_LOO",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.80053408722376,
+        "ssim": 0.7170569996039072,
+        "lpips": 0.263598029812177
+      },
+      "mean_full_seconds": 636.0245626109341,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "MISMATCH",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.185598485926867,
+        "ssim": 0.6914033989111582,
+        "lpips": 0.25717296202977497
+      },
+      "mean_full_seconds": 643.2049293400099,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 0.9587846859993091,
+        "ssim": 0.08070271710554759,
+        "lpips": -0.1514652520418167
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -0.7164531187648908,
+      "full_clock_ratio": 1.015979017619767
+    },
+    {
+      "task": "super_resolution",
+      "arm": "FIXED_LOO",
+      "minus_DPS": {
+        "psnr": -0.31766082514046917,
+        "ssim": 0.052690659960110985,
+        "lpips": 0.003835077087084452
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -2.439945046637341,
+      "full_clock_ratio": 1.0188512296916648
+    },
+    {
+      "task": "super_resolution",
+      "arm": "MISMATCH",
+      "minus_DPS": {
+        "psnr": 0.1598205987092148,
+        "ssim": 0.0644226719935735,
+        "lpips": -0.012537782390912374
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -0.8858143431862509,
+      "full_clock_ratio": 1.0311678229427117
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 2.954643178163009,
+        "ssim": 0.18229101101557413,
+        "lpips": -0.062091117103894554
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 2.233602067915683,
+      "full_clock_ratio": 1.0125831057529302
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "FIXED_LOO",
+      "minus_DPS": {
+        "psnr": 4.080041085620846,
+        "ssim": 0.16343598564465842,
+        "lpips": -0.08064156770706177
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 1.432421096782015,
+      "full_clock_ratio": 1.0528630920586044
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "MISMATCH",
+      "minus_DPS": {
+        "psnr": 3.465105484323953,
+        "ssim": 0.1377823849519094,
+        "lpips": -0.0870666354894638
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 1.2404345554875427,
+      "full_clock_ratio": 1.0647493360197735
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 12000,
+    "input_vjp_attempts": 12000,
+    "optimizer_backward_attempts": 0,
+    "probe_forward_attempts": 2,
+    "probe_input_vjp_attempts": 2
+  },
+  "source_A77_cost": {
+    "method_forward_attempts": 12000,
+    "input_vjp_attempts": 12000,
+    "optimizer_backward_attempts": 0,
+    "probe_forward_attempts": 2,
+    "probe_input_vjp_attempts": 2
+  },
+  "reused_runs": 12,
+  "new_completed_runs": 12,
+  "online_minus_control": [
+    {
+      "task": "super_resolution",
+      "control": "FIXED_LOO",
+      "delta": {
+        "psnr": 1.2764455111397783,
+        "ssim": 0.028012057145436604,
+        "lpips": -0.15530032912890115
+      }
+    },
+    {
+      "task": "super_resolution",
+      "control": "MISMATCH",
+      "delta": {
+        "psnr": 0.7989640872900944,
+        "ssim": 0.01628004511197408,
+        "lpips": -0.13892746965090433
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "control": "FIXED_LOO",
+      "delta": {
+        "psnr": -1.125397907457837,
+        "ssim": 0.01885502537091573,
+        "lpips": 0.018550450603167217
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "control": "MISMATCH",
+      "delta": {
+        "psnr": -0.5104623061609436,
+        "ssim": 0.04450862606366476,
+        "lpips": 0.024975518385569256
+      }
+    }
+  ],
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Same A77 three ImageNet images x SR4/Motion, sigma=.05, same H/y/seed/model/native1000 sampler.",
+    "controls": "Fixed1000 table: per-step median of OTHER two images; mismatch: sorted-image cyclic donor within same task. Frozen using gamma traces only, no labels.",
+    "reuse": "12 original A77 DPS/SHRINK completed runs reused;12 controls newly sampled. No baseline replay.",
+    "timing": "Fresh controls complete1000; A77 reference clocks historical, not same-session randomized timing. Fixed implementation retains unused online statistic arithmetic, so not optimized fixed runtime.",
+    "decision": "Compare online SHRINK against both controls per image and across PSNR/SSIM/LPIPS; DPS comparison alone does not establish matching benefit.",
+    "resources": "Allocated>=10GiB before load; measured real VJP peak+1GiB required before each run; no model/precision/grid changes.",
+    "limits": "Three reused development images, donor traces paid in A77. Fixed table also preserves stage structure. No independent transfer claim."
+  },
+  "matching_tests": [
+    {
+      "task": "super_resolution",
+      "comparisons": [
+        {
+          "control": "FIXED_LOO",
+          "delta": {
+            "psnr": 1.2764455111397783,
+            "ssim": 0.028012057145436604,
+            "lpips": -0.15530032912890115
+          },
+          "images_PSNR_positive": 2,
+          "passed": true
+        },
+        {
+          "control": "MISMATCH",
+          "delta": {
+            "psnr": 0.7989640872900944,
+            "ssim": 0.01628004511197408,
+            "lpips": -0.13892746965090433
+          },
+          "images_PSNR_positive": 2,
+          "passed": true
+        }
+      ],
+      "development_matching_candidate": true
+    },
+    {
+      "task": "motion_deblur",
+      "comparisons": [
+        {
+          "control": "FIXED_LOO",
+          "delta": {
+            "psnr": -1.125397907457837,
+            "ssim": 0.01885502537091573,
+            "lpips": 0.018550450603167217
+          },
+          "images_PSNR_positive": 1,
+          "passed": false
+        },
+        {
+          "control": "MISMATCH",
+          "delta": {
+            "psnr": -0.5104623061609436,
+            "ssim": 0.04450862606366476,
+            "lpips": 0.024975518385569256
+          },
+          "images_PSNR_positive": 1,
+          "passed": false
+        }
+      ],
+      "development_matching_candidate": false
+    }
+  ],
+  "cached_diagnosis": {
+    "method_nfe": 0,
+    "input_vjp": 0,
+    "scope": "Cached A77 labels and traces only; labels never select donors or gamma.",
+    "psnr_negative_images": [
+      {
+        "key": "imagenet_super_resolution_00193_s1193",
+        "delta": {
+          "psnr": -0.7164531187648908,
+          "ssim": 0.16797815263271332,
+          "lpips": -0.2690223455429077
+        },
+        "final_measurement_mse_noise_ratio": {
+          "DPS": 10.169383990367214,
+          "SHRINK": 0.9991140353490311
+        },
+        "psnr_down_ssim_up_lpips_down": true
+      }
+    ],
+    "limits": "Same-time response proxy only. Block statistics are descriptive, not causal proof, true next-denoiser response or trajectory curvature."
+  }
+}
