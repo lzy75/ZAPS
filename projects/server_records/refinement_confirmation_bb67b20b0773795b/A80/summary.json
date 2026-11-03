@@ -1,0 +1,454 @@
+{
+  "experiment": "A80_diffpir_host_aware",
+  "classification": "DEVELOPMENT_DIFFPIR_HOST_OBJECTIVE_ADAPTATION",
+  "completed_runs": 24,
+  "planned_runs": 24,
+  "image_clusters": 6,
+  "groups": [
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "arm": "DIFFPIR_REFERENCE",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.207643263593578,
+        "ssim": 0.7870780825614929,
+        "lpips": 0.15600243707497916
+      },
+      "mean_full_seconds": 5.818675726652145,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "arm": "HOST_AWARE",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.494038115179617,
+        "ssim": 0.7137298583984375,
+        "lpips": 0.23125266035397848
+      },
+      "mean_full_seconds": 6.651979035076995,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "arm": "CACHED_OLD_PROJECTION",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.04597077941449,
+        "ssim": 0.7383988300959269,
+        "lpips": 0.22294395665327707
+      },
+      "mean_full_seconds": 7.01338497394075,
+      "clock_source": "A79R1_ARCHIVED",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "arm": "DIFFPIR_REFERENCE",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.463068323351614,
+        "ssim": 0.7533637682596842,
+        "lpips": 0.16280307372411093
+      },
+      "mean_full_seconds": 6.370332397830983,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "arm": "HOST_AWARE",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.69312078233434,
+        "ssim": 0.6287422776222229,
+        "lpips": 0.2784582277139028
+      },
+      "mean_full_seconds": 6.493610011724134,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "arm": "CACHED_OLD_PROJECTION",
+      "cases": 3,
+      "quality": {
+        "psnr": 23.29885738182426,
+        "ssim": 0.6595672369003296,
+        "lpips": 0.2645217180252075
+      },
+      "mean_full_seconds": 7.062304405185084,
+      "clock_source": "A79R1_ARCHIVED",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "arm": "DIFFPIR_REFERENCE",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.152663287129016,
+        "ssim": 0.6483777264753977,
+        "lpips": 0.2952313870191574
+      },
+      "mean_full_seconds": 29.87599650863558,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "arm": "HOST_AWARE",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.164477974133405,
+        "ssim": 0.6325341959794363,
+        "lpips": 0.3108153243859609
+      },
+      "mean_full_seconds": 30.885933408824105,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "arm": "CACHED_OLD_PROJECTION",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.58561513598201,
+        "ssim": 0.6481067637602488,
+        "lpips": 0.3049904505411784
+      },
+      "mean_full_seconds": 29.951920836232603,
+      "clock_source": "A79R1_ARCHIVED",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "arm": "DIFFPIR_REFERENCE",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.20253156303131,
+        "ssim": 0.714284876982371,
+        "lpips": 0.3166200667619705
+      },
+      "mean_full_seconds": 32.52507346185545,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "arm": "HOST_AWARE",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.91395950376529,
+        "ssim": 0.5667503376801809,
+        "lpips": 0.5455477635065714
+      },
+      "mean_full_seconds": 30.941275421840448,
+      "clock_source": "A80_FRESH",
+      "NFE": 100,
+      "input_VJP": 0
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "arm": "CACHED_OLD_PROJECTION",
+      "cases": 3,
+      "quality": {
+        "psnr": 23.365175075615934,
+        "ssim": 0.5998500883579254,
+        "lpips": 0.5106737315654755
+      },
+      "mean_full_seconds": 33.85289816527317,
+      "clock_source": "A79R1_ARCHIVED",
+      "NFE": 100,
+      "input_VJP": 0
+    }
+  ],
+  "comparisons": [
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "baseline": "DIFFPIR_REFERENCE",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -1.713605148413959,
+        "ssim": -0.07334822416305542,
+        "lpips": 0.07525022327899933
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -2.1244599758782243,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": 1.1432118488074439
+    },
+    {
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "baseline": "CACHED_OLD_PROJECTION",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -0.5519326642348711,
+        "ssim": -0.02466897169748942,
+        "lpips": 0.008308703700701395
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -0.6223458783134888,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": null
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "baseline": "DIFFPIR_REFERENCE",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -2.769947541017276,
+        "ssim": -0.12462149063746135,
+        "lpips": 0.11565515398979187
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -3.24101578106146,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": 1.0193518338124907
+    },
+    {
+      "dataset": "ffhq",
+      "task": "motion_deblur",
+      "baseline": "CACHED_OLD_PROJECTION",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -0.6057365994899216,
+        "ssim": -0.03082495927810669,
+        "lpips": 0.013936509688695272
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -0.6400465199953445,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": null
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "baseline": "DIFFPIR_REFERENCE",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -0.9881853129956125,
+        "ssim": -0.015843530495961506,
+        "lpips": 0.015583937366803488
+      },
+      "images_PSNR_positive": 1,
+      "worst_PSNR": -1.9085026358899668,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": 1.0338042916793286
+    },
+    {
+      "dataset": "imagenet",
+      "task": "gaussian_deblur",
+      "baseline": "CACHED_OLD_PROJECTION",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -0.42113716184860667,
+        "ssim": -0.015572567780812582,
+        "lpips": 0.005824873844782512
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -0.6074957351927424,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": null
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "baseline": "DIFFPIR_REFERENCE",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -3.2885720592660177,
+        "ssim": -0.14753453930219015,
+        "lpips": 0.22892769674460092
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -6.053856510785188,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": 0.9513053201287174
+    },
+    {
+      "dataset": "imagenet",
+      "task": "motion_deblur",
+      "baseline": "CACHED_OLD_PROJECTION",
+      "candidate": "HOST_AWARE",
+      "candidate_minus_baseline": {
+        "psnr": -0.45121557185064276,
+        "ssim": -0.033099750677744545,
+        "lpips": 0.034874031941095986
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -0.6203786541096434,
+      "reference_repeat_gate_passed": true,
+      "positive_development_candidate": false,
+      "same_session_full_clock_ratio": null
+    }
+  ],
+  "proximal_identity_diagnostics": [
+    {
+      "case": "ffhq_gaussian_deblur_00226",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 8.476433995702792e-07,
+      "max_abs_gamma_minus_weight": 3.381172892780171e-07,
+      "gamma_min": 0.1441334657547857,
+      "gamma_max": 0.9697875576068443
+    },
+    {
+      "case": "ffhq_motion_deblur_00226",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 2.5616348298084466e-06,
+      "max_abs_gamma_minus_weight": 6.114060229073237e-07,
+      "gamma_min": 0.11933933400348272,
+      "gamma_max": 0.9634428244915746
+    },
+    {
+      "case": "ffhq_gaussian_deblur_00443",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 1.8238195697032027e-06,
+      "max_abs_gamma_minus_weight": 5.821823899909706e-07,
+      "gamma_min": 0.15960555019989334,
+      "gamma_max": 0.9386127434662679
+    },
+    {
+      "case": "ffhq_motion_deblur_00443",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 2.8445961070134697e-06,
+      "max_abs_gamma_minus_weight": 8.167255722557609e-07,
+      "gamma_min": 0.1435577960429509,
+      "gamma_max": 0.9258132196061555
+    },
+    {
+      "case": "ffhq_gaussian_deblur_00963",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 3.2344968817994375e-06,
+      "max_abs_gamma_minus_weight": 9.213277289421562e-07,
+      "gamma_min": 0.14242256873860487,
+      "gamma_max": 0.9653779231378129
+    },
+    {
+      "case": "ffhq_motion_deblur_00963",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 1.2504945697720843e-06,
+      "max_abs_gamma_minus_weight": 3.160934534118809e-07,
+      "gamma_min": 0.11493303278769502,
+      "gamma_max": 0.9586121111879414
+    },
+    {
+      "case": "imagenet_gaussian_deblur_00067",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 2.176015837406119e-06,
+      "max_abs_gamma_minus_weight": 3.596626720336893e-07,
+      "gamma_min": 0.08264265555309086,
+      "gamma_max": 0.8709086483541584
+    },
+    {
+      "case": "imagenet_motion_deblur_00067",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 3.3160088957871205e-06,
+      "max_abs_gamma_minus_weight": 4.019228548729492e-07,
+      "gamma_min": 0.06060360516023609,
+      "gamma_max": 0.8844333781182407
+    },
+    {
+      "case": "imagenet_gaussian_deblur_00151",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 2.8037307854329394e-06,
+      "max_abs_gamma_minus_weight": 6.784483205651837e-07,
+      "gamma_min": 0.120185334389816,
+      "gamma_max": 0.9559525895306187
+    },
+    {
+      "case": "imagenet_motion_deblur_00151",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 8.20463047708822e-06,
+      "max_abs_gamma_minus_weight": 1.5069494366248826e-06,
+      "gamma_min": 0.09183454860460866,
+      "gamma_max": 0.9464052611522742
+    },
+    {
+      "case": "imagenet_gaussian_deblur_00193",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 4.896087260447969e-06,
+      "max_abs_gamma_minus_weight": 1.6075087902744922e-06,
+      "gamma_min": 0.16416339979818592,
+      "gamma_max": 0.9079710107234962
+    },
+    {
+      "case": "imagenet_motion_deblur_00193",
+      "resolved_steps": 99,
+      "max_stationarity_relative_error": 2.81944227708779e-06,
+      "max_abs_gamma_minus_weight": 1.0233763617362168e-06,
+      "gamma_min": 0.18148611436405024,
+      "gamma_max": 0.9157361923669282
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 2400,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "native_data_solve_attempts": 2376,
+    "module_H_actions": 2376,
+    "module_q_norms": 1188,
+    "probe_forward_attempts": 2
+  },
+  "source_A79R1_recorded_cost": {
+    "method_forward_attempts": 4800,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "native_data_solve_attempts": 4752,
+    "module_H_actions": 4752,
+    "probe_forward_attempts": 2
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Same6 A79R1 images x2blur tasks; fresh paired STABLE DiffPIR and host-aware runs, cached old-policy quality.",
+    "numeric_factor": "Stable equivalent sf1 solver fixed in both NEW arms; no new numerical-form scan.",
+    "metrology": "Before NN: native32 diagnostic; original64 residual<=1e-8, stable32 residual<=1e-5 and stable32-vs-original64 relative solution<=1e-3. Gate proves stable solve, not native32 accuracy.",
+    "baseline": "Pinned DiffPIR main_ddpir.py sampling For AST executed unmodified. Native100 quadratic sequence, eta0, U1, learned_range, clip_denoisedTrue.",
+    "parameters": "Paper supplement Table3 NFE100/sigma_y=.05: FFHQ Gaussian(lambda7,zeta.3),Motion(7,.4);ImageNet Gaussian(8,.3),Motion(8,.7). No quality-based selection.",
+    "noise": "Exact given A79R1 y reused; physical[0,1] sigma=.05, model-coordinate sigma=.10; circular convolution.",
+    "insertion": "Clean-coordinate prox correction only; stable sf1 solution, native sampling AST/grid/zeta/lambda/RNG/output unchanged.",
+    "preserved": "Native rho/lambda/zeta and proximal q retained; on exact proximal states gamma=omega. No new gradients, next-denoiser probes or coefficient fitting.",
+    "output": "Original x_0 derived from x is returned; the native last unused pred_xstart evaluation is retained and counted. No final-output replacement, clamp, extra sampling or GT selection.",
+    "timing": "Same-session complete100 per arm, alternating order. Includes y/kernel/init/FFT/NN/CPU sync/progress. Excludes load/probe/metrics/parent comparisons/writes.",
+    "limits": "Small reused development panel, local paper-parameter native-loop reference with shared fixed kernels, not author benchmark reproduction. Both model/dataset changes paired; no universal improvement or state-necessity claim.",
+    "adaptation": "Same gamma objective plus known host quadratic kappa=rho*||q||^2. Gamma=omega*positive(r.d)/(||d||^2+kappa), no new fitted coefficient.",
+    "identity": "For exact linear proximal solve, r.d=||d||^2+rho||q||^2 and gamma=omega. This is noise-aware damping, not a new denoiser-response or uncertainty estimator.",
+    "cost": "24 NEW complete100 runs=2400F/0VJP/0optimizerB plus model probes; old A79R1 4800F recorded separately.",
+    "reuse": "Same y/kernels/images/checkpoints and frozen sources; completed old STABLE_SHRINK quality only. Historical clock is labeled and excluded from fresh paired ratios.",
+    "reference_gate": "Fresh baseline vs cached STABLE_DIFFPIR: relative output L2<=1e-3; PSNR<=.02dB, SSIM/LPIPS<=.001. Failure retains outputs and makes support inconclusive, no rerun.",
+    "decision": "Per task/dataset: mean PSNR>=+.1dB, >=2/3 PSNR wins, SSIM nondecrease and LPIPS nonincrease; all paired baseline repeat gates must pass. No parameter scan."
+  }
+}

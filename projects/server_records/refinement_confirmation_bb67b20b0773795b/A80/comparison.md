@@ -1,0 +1,18 @@
+# A80 DiffPIR原目标适配验证
+
+旧倍率质量复用A79R1；仅FRESH两臂耗时可作同场比值。
+
+|数据集|任务|方法|PSNR|SSIM|LPIPS|秒数|clock来源|
+|---|---|---|---:|---:|---:|---:|---|
+|ffhq|gaussian_deblur|DIFFPIR_REFERENCE|26.208|0.7871|0.1560|5.819|A80_FRESH|
+|ffhq|gaussian_deblur|HOST_AWARE|24.494|0.7137|0.2313|6.652|A80_FRESH|
+|ffhq|gaussian_deblur|CACHED_OLD_PROJECTION|25.046|0.7384|0.2229|7.013|A79R1_ARCHIVED|
+|ffhq|motion_deblur|DIFFPIR_REFERENCE|25.463|0.7534|0.1628|6.370|A80_FRESH|
+|ffhq|motion_deblur|HOST_AWARE|22.693|0.6287|0.2785|6.494|A80_FRESH|
+|ffhq|motion_deblur|CACHED_OLD_PROJECTION|23.299|0.6596|0.2645|7.062|A79R1_ARCHIVED|
+|imagenet|gaussian_deblur|DIFFPIR_REFERENCE|25.153|0.6484|0.2952|29.876|A80_FRESH|
+|imagenet|gaussian_deblur|HOST_AWARE|24.164|0.6325|0.3108|30.886|A80_FRESH|
+|imagenet|gaussian_deblur|CACHED_OLD_PROJECTION|24.586|0.6481|0.3050|29.952|A79R1_ARCHIVED|
+|imagenet|motion_deblur|DIFFPIR_REFERENCE|26.203|0.7143|0.3166|32.525|A80_FRESH|
+|imagenet|motion_deblur|HOST_AWARE|22.914|0.5668|0.5455|30.941|A80_FRESH|
+|imagenet|motion_deblur|CACHED_OLD_PROJECTION|23.365|0.5999|0.5107|33.853|A79R1_ARCHIVED|
