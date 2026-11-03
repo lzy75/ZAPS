@@ -1,0 +1,29 @@
+{
+  "experiment": "A79_diffpir_multiplier_transfer",
+  "classification": "DEVELOPMENT_NATIVE_DIFFPIR_TRANSFER",
+  "completed_runs": 0,
+  "planned_runs": 24,
+  "image_clusters": 6,
+  "groups": [],
+  "comparisons": [],
+  "actual_new_cost": {
+    "method_forward_attempts": 0,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "native_data_solve_attempts": 0,
+    "module_H_actions": 0,
+    "probe_forward_attempts": 0
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "FFHQ and ImageNet existing3 images each x Gaussian61/sigma3 and frozenMotion61 x two arms.",
+    "baseline": "Pinned DiffPIR main_ddpir.py sampling For AST executed unmodified. Native100 quadratic sequence, eta0, U1, learned_range, clip_denoisedTrue.",
+    "parameters": "Paper supplement Table3 NFE100/sigma_y=.05: FFHQ Gaussian(lambda7,zeta.3),Motion(7,.4);ImageNet Gaussian(8,.3),Motion(8,.7). No quality-based selection.",
+    "noise": "Physical[0,1] sigma=.05, equivalent model-coordinate sigma=.10. Native circular FFT convolution; NEW shared y per arm, not old A75/A77 zero-boundary y.",
+    "insertion": "q_clean=z_prox-m; d=H(q_clean), r=y-H(m) in[0,1]. Same noise_signal_shrink.select scales q_clean only. No 1/sqrt(alpha) factor because correction already in clean coordinates.",
+    "preserved": "Original rho_t/lambda spectral direction and zeta noise injection retained. Like prior projection, positive global guidance amplitude is canceled by gamma. No optimizer/input derivative or next-denoiser probe.",
+    "output": "Original x_0 derived from x is returned; the native last unused pred_xstart evaluation is retained and counted. No final-output replacement, clamp, extra sampling or GT selection.",
+    "timing": "Complete100 loop: y/operator/init/FFT/NN/sampling/CPU output sync and progress bookkeeping included; model load/probe/measurement generation/metrics/output writes separate.",
+    "limits": "Small reused development panel, local paper-parameter native-loop reference with shared fixed kernels, not author benchmark reproduction. Both model/dataset changes paired; no universal improvement or state-necessity claim."
+  }
+}

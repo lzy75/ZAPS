@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "error": "ValueError('Native FFT metrology failed BEFORE model load; inspect /data0/lzy/ZAPS-results/diag_diffpir_multiplier_transfer/A79_20261103/metrology/ffhq_gaussian_deblur_00226.json')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_diffpir_multiplier_transfer.py\", line 199, in worker\n    for c in cases:metrology(root,p,c,'cuda:0')\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_diffpir_multiplier_transfer.py\", line 140, in metrology\n    files.write(f,result);files.require(result['passed'],'Native FFT metrology failed BEFORE model load; inspect '+str(f))\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py\", line 44, in require\n    raise ValueError(message)\nValueError: Native FFT metrology failed BEFORE model load; inspect /data0/lzy/ZAPS-results/diag_diffpir_multiplier_transfer/A79_20261103/metrology/ffhq_gaussian_deblur_00226.json\n"
+}
