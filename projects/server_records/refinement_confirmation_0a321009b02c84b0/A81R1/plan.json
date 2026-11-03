@@ -1,0 +1,415 @@
+{
+  "seed_repair": {
+    "status_path": "/data0/lzy/ZAPS-results/diag_daps_multiplier_transfer/A81_20261104_session/session.json",
+    "log_path": "/data0/lzy/ZAPS-results/diag_daps_multiplier_transfer/A81_20261104_session/coordinator.log",
+    "formal_model_runs": 0,
+    "reason": "Original seed helper covered Torch only; official Motion uses NumPy RNG too"
+  },
+  "experiment": "A81R1_daps_multiplier_transfer",
+  "parent": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029",
+  "parent_plan_sha256": "05f1a09fd0fd38024c3e27a3f424e0df8e4a6abb108be3c2338da95d2d17f299",
+  "cases": [
+    {
+      "key": "ffhq_super_resolution_00226",
+      "dataset": "ffhq",
+      "image_id": "00226",
+      "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+      "task": "super_resolution",
+      "seed": 1226,
+      "measurement_seed": 2226,
+      "kernel_seed": 3226,
+      "sigma": 0.05,
+      "shard": 0,
+      "arms": [
+        "DAPS",
+        "SHRINK"
+      ]
+    },
+    {
+      "key": "ffhq_motion_deblur_00226",
+      "dataset": "ffhq",
+      "image_id": "00226",
+      "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+      "task": "motion_deblur",
+      "seed": 1226,
+      "measurement_seed": 2226,
+      "kernel_seed": 3226,
+      "sigma": 0.05,
+      "shard": 1,
+      "arms": [
+        "DAPS",
+        "SHRINK"
+      ]
+    },
+    {
+      "key": "ffhq_super_resolution_00443",
+      "dataset": "ffhq",
+      "image_id": "00443",
+      "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+      "task": "super_resolution",
+      "seed": 1443,
+      "measurement_seed": 2443,
+      "kernel_seed": 3443,
+      "sigma": 0.05,
+      "shard": 0,
+      "arms": [
+        "DAPS",
+        "SHRINK"
+      ]
+    },
+    {
+      "key": "ffhq_motion_deblur_00443",
+      "dataset": "ffhq",
+      "image_id": "00443",
+      "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+      "task": "motion_deblur",
+      "seed": 1443,
+      "measurement_seed": 2443,
+      "kernel_seed": 3443,
+      "sigma": 0.05,
+      "shard": 1,
+      "arms": [
+        "DAPS",
+        "SHRINK"
+      ]
+    },
+    {
+      "key": "ffhq_super_resolution_00963",
+      "dataset": "ffhq",
+      "image_id": "00963",
+      "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+      "task": "super_resolution",
+      "seed": 1963,
+      "measurement_seed": 2963,
+      "kernel_seed": 3963,
+      "sigma": 0.05,
+      "shard": 0,
+      "arms": [
+        "DAPS",
+        "SHRINK"
+      ]
+    },
+    {
+      "key": "ffhq_motion_deblur_00963",
+      "dataset": "ffhq",
+      "image_id": "00963",
+      "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+      "task": "motion_deblur",
+      "seed": 1963,
+      "measurement_seed": 2963,
+      "kernel_seed": 3963,
+      "sigma": 0.05,
+      "shard": 1,
+      "arms": [
+        "DAPS",
+        "SHRINK"
+      ]
+    }
+  ],
+  "checkpoint": {
+    "path": "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt",
+    "sha256": "81d535743156ec6be34d8668e6920da94f0614074d7793a16c8fa9e306237faa"
+  },
+  "configs": {
+    "super_resolution": {
+      "sampler": {
+        "annealing_scheduler_config": {
+          "name": "edm",
+          "num_steps": 200,
+          "sigma_max": 100,
+          "sigma_min": 0.1,
+          "timestep": "poly-7"
+        },
+        "diffusion_scheduler_config": {
+          "name": "edm",
+          "num_steps": 5,
+          "sigma_min": 0.01,
+          "timestep": "poly-7"
+        },
+        "mcmc_sampler_config": {
+          "num_steps": 100,
+          "lr": 0.0001,
+          "tau": 0.01,
+          "lr_min_ratio": 0.01,
+          "mc_algo": "langevin",
+          "prior_solver": "gaussian"
+        }
+      },
+      "operator": {
+        "name": "down_sampling",
+        "resolution": 256,
+        "scale_factor": 4,
+        "sigma": 0.05
+      }
+    },
+    "motion_deblur": {
+      "sampler": {
+        "annealing_scheduler_config": {
+          "name": "edm",
+          "num_steps": 200,
+          "sigma_max": 100,
+          "sigma_min": 0.1,
+          "timestep": "poly-7"
+        },
+        "diffusion_scheduler_config": {
+          "name": "edm",
+          "num_steps": 5,
+          "sigma_min": 0.01,
+          "timestep": "poly-7"
+        },
+        "mcmc_sampler_config": {
+          "num_steps": 100,
+          "lr": 5e-05,
+          "tau": 0.01,
+          "lr_min_ratio": 0.01,
+          "mc_algo": "langevin",
+          "prior_solver": "gaussian"
+        }
+      },
+      "operator": {
+        "name": "motion_blur",
+        "kernel_size": 61,
+        "intensity": 0.5,
+        "sigma": 0.05
+      }
+    }
+  },
+  "model_config": {
+    "image_size": 256,
+    "num_channels": 128,
+    "num_res_blocks": 1,
+    "channel_mult": "",
+    "learn_sigma": true,
+    "class_cond": false,
+    "use_checkpoint": false,
+    "attention_resolutions": 16,
+    "num_heads": 4,
+    "num_head_channels": 64,
+    "num_heads_upsample": -1,
+    "use_scale_shift_norm": true,
+    "dropout": 0.0,
+    "resblock_updown": true,
+    "use_fp16": false,
+    "use_new_attention_order": false,
+    "model_path": "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt"
+  },
+  "inputs": {
+    "/home/lzy/FFHQ/00000/00000/00226.png": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7",
+    "/home/lzy/FFHQ/00000/00000/00443.png": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1",
+    "/home/lzy/FFHQ/00000/00000/00963.png": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709",
+    "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt": "81d535743156ec6be34d8668e6920da94f0614074d7793a16c8fa9e306237faa",
+    "/data0/lzy/ZAPS-results/diag_daps_multiplier_transfer/A81_20261104_session/session.json": "cbb0c6241ab4c8ea3201a6d05735376458c9107ab8017c6097e5f7bcd8e4a702",
+    "/data0/lzy/ZAPS-results/diag_daps_multiplier_transfer/A81_20261104_session/coordinator.log": "41abfe9c80bccbd368412ead515c278aebc0759b13db7222d1cb04cc5b1ae933"
+  },
+  "sources": {
+    "utils/daps_multiplier_transfer.py": "0ad2dd598c78c6d7692f8dab3fd5943dfb26b1bf1166703dbe54e2e8d48b2feb",
+    "utils/daps_multiplier_runtime.py": "d07768c874165dd46ff5392f87b05e9c5a1d06d7ecb139d0a9598b143993484b",
+    "utils/diag_daps_seed_repair.py": "31402c28639baee35375abce0d622de25a092bb119983c57519421669cb5f220",
+    "utils/a81r1_session.py": "8a5c77a1b3f79e22449bb01b7136784f439e9a0c3ad6159aa155cdf76f162182",
+    "utils/test_daps_multiplier_transfer.py": "19a4c858d31e1e4f82be790630f58ee0fdd69d3a7cb97ac70684b75385167394",
+    "utils/test_daps_multiplier_runtime.py": "bd8365afbb854ae068bfac8001ad3ad89c9a0cf507568d59d4b283b61955ff90",
+    "run_a81r1_offline_20261104.sh": "067fe964e0e8d6a8e4bbf9022a9cf452194cc5526f9311a6157eb538ce92e864",
+    "experiment_cards/A81R1_daps_numpy_seed_20261104.md": "e9452695c2e9872891bc87643520c3133dcd6e697bce002ba2fac1da5e75c23e",
+    "utils/daps_seed_repair.py": "54458d9795448d404aa27a2560942a3fc09e441f48e5f0548ec18a70b242087c",
+    "utils/test_daps_seed_repair.py": "1c37035acf658e7e8e232ffbcb645aee899941c784284c7ecad3138aead1fefa",
+    "utils/test_daps_seed_repair_runtime.py": "1fdff133ca1f19d082969d70ba55a320ca3c65acafd5f941df36d5e5ccee17c9",
+    "utils/diag_daps_multiplier_transfer.py": "d8566e39876230b7128aa990e46519ce9ee2a6e6e85499407f3c830c70aee364",
+    "utils/a81_offline_dependency.py": "c77193a5842a3b3c74f004be648a4e13f0284b9c6cc88d54d963a0c91d54474e",
+    "utils/shrink_multitask.py": "3cab691d349c5cebbe26cb2efe11ff7a8608062706ecd51de98b94bc8028dc17",
+    "utils/shrink_multitask_runtime.py": "8d39679a62bc66d2c1de9fc4ef1c74aa433bb04375c818a8a5098f6f9e0e13d0",
+    "utils/diag_shrink_multitask.py": "4a1b6bb97c08eacd3eb8d32b4410c23844c68697cd6f69aef5c45962adee2861",
+    "utils/a71_session.py": "8411b8b066f618afd4519961e713816e1c7250108d2c2f4bfe38f2fa96d33fe5",
+    "utils/render_shrink_panel.py": "119fc3cc66b89eb7f20ed50206c9af02585b76abe918be6c32d7a15c637afe54",
+    "utils/test_shrink_multitask.py": "29b8ebb671a140eaabd2b035b73efd426cb5fe2fc0d1650ba0349bd58f72a886",
+    "utils/test_shrink_multitask_runtime.py": "ea4e25e635e91a99c598e82fb9f556978982400c8957a2397b2c53d411af5bad",
+    "utils/test_a71_cli.py": "69cf50f7fa7cbff6c65eebdde3fd3a7c0fc8fa314511d8bec47d32aaa03aca6b",
+    "utils/noise_signal_shrink.py": "7e38ad0c7198774a5eab3077d7b1fe09b3825a4a66b2f47a360236c3d4ec86d1",
+    "utils/noise_signal_shrink_runtime.py": "723ba03b06d5539a8d687cccde2a715fbf70005047ef80c92fbc30b8c036d859",
+    "utils/noise_feasible_runtime.py": "5a2b9e0209d9720ecb85e3efc161aed674eb5df174941dc1ba5b240c46a999f8",
+    "utils/historical_ffhq_gain.py": "0519debd0dca8892006b90d32a5ddf7f511424d3fd3259d56328ec0bbb6116d6",
+    "utils/historical_ffhq_runtime.py": "e9ba0f7ac92e9cba9d767cde757b9bb232301343b589974e1a23799f4138ed55",
+    "utils/paper_clock_runtime.py": "2f7333f54b7f6ea6bbd6e66e18ea43a28f633d2bf0c675aa1e273216995756bf",
+    "utils/diag_ffhq_four_tasks_unit.py": "c15892b461ce6df0677df73e69db1a58efb5ec0d405e071546278bf613baf7a1",
+    "utils/a67_model_freeze.py": "1cc71086675b233af44ada9d13555ff5aefaf61c0e41d816d3849b1e8c177829",
+    "utils/metrics.py": "1bca2cc769a43eaa3c7a07c038c967be2dc89dc2e9089f00b4b48dac9579ca45",
+    "modules/main_single.py": "8dcc7a36bed335178bb00126345897381dd3eb98a0d1c314d8d734c46a6bf39f",
+    "modules/degradations.py": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696",
+    "modules/zaps_algorithm.py": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427",
+    "modules/wavelet.py": "fd29252c73263aa379f3085089d054e6be6777fd7ef674e88036dfffed43459b",
+    "run_a71_20261029.sh": "7b7c49af5618a15c94f247cf08e4646f6d8df68b8b15a95b1f73eeefd3def87a",
+    "experiment_cards/A71_shrink_multitask_20261029.md": "75424ec74a22f408f76fade94dd631e28a725653ced878737d5b63b02de4f6c9",
+    "vendor/daps_0b182726/data.py": "36084c533049aab733caf3a4b3f2dbec73717c34ed98fae1b7fcc3750270e4c3",
+    "vendor/daps_0b182726/README.md": "a2a3beaf884a611d6549349c27724a7df3eb7253111c5d490c4a5c411d3f9941",
+    "vendor/daps_0b182726/UPSTREAM.json": "5ca6d2cbaac7a5cd128d42948a596b91b3cd366aa10d8a607f083f031ac8be43",
+    "vendor/daps_0b182726/sampler.py": "da2d516c82f7be61916c12aee42c85d91c374f90a9b87632ac1cb56e1a66a165",
+    "vendor/daps_0b182726/LICENSE": "41e10004c36a5b530baec3dc0a4576dfa94358c237f2a0cfe90a3a5ee3016235",
+    "vendor/daps_0b182726/commands/pixel_imagenet.sh": "2c596058f91fe7029c1d2474c248f894074beb6760c8006921c2eca8b03f6890",
+    "vendor/daps_0b182726/commands/pixel_ffhq.sh": "0d34270bcb21ef216de2da279fff7b3f9bf71eb0ee0f3a5eb150ff3fe7e8c5a7",
+    "vendor/daps_0b182726/forward_operator/__init__.py": "e6e7e888ac2fa35ba01b3c7cbb317bc6d28db89830f98428b28e6de234348bd8",
+    "vendor/daps_0b182726/forward_operator/resizer.py": "9c1608459afee012b714178fc99bef5b3c0cb7dba73b9c709db27287d4c6d78a",
+    "vendor/daps_0b182726/forward_operator/motionblur/motionblur.py": "71c81f9249d88dfdabbdb6481f07181a32844179fb7affe1f62836a9348815fc",
+    "vendor/daps_0b182726/cores/scheduler.py": "1773e5b132a71bf213dafd9b1373cd7cdfc0bc40b6bab737bda5d50423cbb8ae",
+    "vendor/daps_0b182726/cores/mcmc.py": "a22532b2373b0ec21f45fb23d52f377202fc21e6f4a71306081d6a64fde4e989",
+    "vendor/daps_0b182726/cores/trajectory.py": "89a3df4ef5992e7cce7889f5ad286e3c4d939785f9bc9a97bc00801979df18c4",
+    "vendor/daps_0b182726/configs/default.yaml": "3330d2ad2682383b75aeaa745972cd80b0379170890f205624863ad92c81487e",
+    "vendor/daps_0b182726/configs/task/motion_blur.yaml": "e10206fd61c666f3f774a610656fe5b950c7718351ed3842826b9162716e5073",
+    "vendor/daps_0b182726/configs/task/down_sampling.yaml": "7dd7d8e5eaacfaf5d4d2a87ffbdb86c811a1d9bf80ad55f8b0e38cc58fb4f494",
+    "vendor/daps_0b182726/configs/sampler/edm_daps.yaml": "3c7f5815dedb87f76a8c6d05ad8e846a03ef5a3b4b09db268a011f77e1d5e6d6",
+    "vendor/daps_0b182726/configs/model/ffhq256ddpm.yaml": "2e822d93381009a8e39b7f2b851092af7cd642d14355e1121723678048d8e70c",
+    "vendor/daps_0b182726/configs/model/imagenet256ddpm.yaml": "1605b37b735829699f3cf36b92182bbff3cfaf9c2d5609391e0d0697b49f3e7d",
+    "vendor/daps_0b182726/model/__init__.py": "62e488124d5cbcf42c6d04af1e6c15671f2d4f35dce8b953d48f8f81b7b6365c",
+    "vendor/daps_0b182726/model/precond.py": "55487dc6983d02fd2d9e3e2da4270622d3b6f3a791c011493bbc873fdacc79d5",
+    "vendor/daps_0b182726/model/ddpm/fp16_util.py": "1e6a37b5748bbf8f00e87a205a2755ce74ee51d9ff307da06daf984f45830bc5",
+    "vendor/daps_0b182726/model/ddpm/nn.py": "d9547fb22b421a16dc079cb82a9d98630100b5e1b2a710d343f4d3f90b8661f3",
+    "vendor/daps_0b182726/model/ddpm/unet.py": "a4b46b31e08093cb0b16adb82686ea6989e72a9c4ff178b5f5342f7cb0266b45"
+  },
+  "arms": [
+    "DAPS",
+    "SHRINK"
+  ],
+  "upstream": {
+    "repository": "https://github.com/zhangbingliang2019/DAPS",
+    "commit": "0b182726f84df1ad26fde4dccebefda4747b82d8",
+    "files": [
+      {
+        "path": "LICENSE",
+        "git_blob_sha": "c5e0304769a3bde3c34cfe5baf109a2f559e285e",
+        "bytes": 1107
+      },
+      {
+        "path": "README.md",
+        "git_blob_sha": "8ea51fbc8f69674295a41eddff2a3823a14b1c30",
+        "bytes": 9950
+      },
+      {
+        "path": "sampler.py",
+        "git_blob_sha": "0e0d1bf9d7893278c8d5589583ba1d3f10bcd972",
+        "bytes": 9090
+      },
+      {
+        "path": "cores/mcmc.py",
+        "git_blob_sha": "63acf780e8049dbe3af1b78f8c197404ee85d402",
+        "bytes": 7889
+      },
+      {
+        "path": "cores/scheduler.py",
+        "git_blob_sha": "85056e20039042a6818d98a0bc9f7b3ea516db7c",
+        "bytes": 18397
+      },
+      {
+        "path": "cores/trajectory.py",
+        "git_blob_sha": "dfec6f522b7329ff3c75c20ca0d7f300fb14743b",
+        "bytes": 2097
+      },
+      {
+        "path": "model/__init__.py",
+        "git_blob_sha": "0575dcd4f31ed377bcc9ed9286dfc0d0debbaf4a",
+        "bytes": 11072
+      },
+      {
+        "path": "model/precond.py",
+        "git_blob_sha": "be0907a91c72a7fdd1fb52c694430a16b38071d9",
+        "bytes": 11272
+      },
+      {
+        "path": "model/ddpm/unet.py",
+        "git_blob_sha": "a9b61b142a082f62d139c05328989a1907017ece",
+        "bytes": 39927
+      },
+      {
+        "path": "model/ddpm/nn.py",
+        "git_blob_sha": "a4cd59c2324b003626b8cf4c7581effd334908d3",
+        "bytes": 5020
+      },
+      {
+        "path": "model/ddpm/fp16_util.py",
+        "git_blob_sha": "c1961650ea28affa1fe64a1794f6342d355050aa",
+        "bytes": 7919
+      },
+      {
+        "path": "forward_operator/__init__.py",
+        "git_blob_sha": "b52f73993ff0e63ad48605fbfd3b95ab68f82aef",
+        "bytes": 13842
+      },
+      {
+        "path": "forward_operator/resizer.py",
+        "git_blob_sha": "fa916954ed0b3bde7fe00826fcccaeb543a81624",
+        "bytes": 11125
+      },
+      {
+        "path": "forward_operator/motionblur/motionblur.py",
+        "git_blob_sha": "ef50de8912773ff4db65e34daadbb323ee5411c1",
+        "bytes": 13126
+      },
+      {
+        "path": "data.py",
+        "git_blob_sha": "5f673f4af6b7c53585fd228a6d9e063e67ed5ef2",
+        "bytes": 3120
+      },
+      {
+        "path": "configs/default.yaml",
+        "git_blob_sha": "00b685ebd8523209f8a1d90c57b4f455c46089f9",
+        "bytes": 306
+      },
+      {
+        "path": "configs/model/ffhq256ddpm.yaml",
+        "git_blob_sha": "3e9427c04d664629ffb42ba94598532cdba625b5",
+        "bytes": 415
+      },
+      {
+        "path": "configs/model/imagenet256ddpm.yaml",
+        "git_blob_sha": "910e75a427189492e746db4f65bf48dc8393edba",
+        "bytes": 426
+      },
+      {
+        "path": "configs/sampler/edm_daps.yaml",
+        "git_blob_sha": "4817a9105374d880888ae0ca762c0187e7ab669c",
+        "bytes": 226
+      },
+      {
+        "path": "configs/task/down_sampling.yaml",
+        "git_blob_sha": "144412e69597b5a390d59d3b20d1522ad81c9f01",
+        "bytes": 1115
+      },
+      {
+        "path": "configs/task/motion_blur.yaml",
+        "git_blob_sha": "680552d5fb6ce469dd283a67e8dac07fb82d5a9d",
+        "bytes": 1104
+      },
+      {
+        "path": "commands/pixel_ffhq.sh",
+        "git_blob_sha": "f7399dfcd97d2aaa8e689145df5042f5ce22a736",
+        "bytes": 3092
+      },
+      {
+        "path": "commands/pixel_imagenet.sh",
+        "git_blob_sha": "5dc7dc3a2eebd4c43be4723798eda96eabdd02f3",
+        "bytes": 3192
+      }
+    ]
+  },
+  "code_commit": "38200cd67c6d5f32f104913fa0f3dd8d70114c92",
+  "budget": {
+    "runs": 12,
+    "method_forwards": 12000,
+    "operator_gradient_attempts": 240000,
+    "input_vjp": 0,
+    "optimizer_backwards": 0,
+    "extra_module_H_actions": 120000,
+    "probe_per_model_load": 1
+  },
+  "protocol": {
+    "scope": "Three reused FFHQ images x SR4/Motion, original FFHQ pixel DDPM prior. Initial transfer stage only; no new datasets/checkpoints.",
+    "baseline": "Official pinned DAPS/PFODE/MCMC/VPPrecond/DDPM/operator AST and unmodified Euler torchdiffeq0.2.5; config commands/pixel_ffhq.sh. Batch1 and fixed existing image panel, not author benchmark mean.",
+    "grids": "200 annealing outer steps;5 Euler network calls/outer=1000F;100 Langevin updates/outer=20000 measurement gradients. Gaussian prior needs no additional NN.",
+    "parameters": "Original pixel tau=.01 (not measurement sigma=.05); lr SR1e-4/Motion5e-5, lr_min_ratio=.01. Anneal sigma100/min.1, diffusion min.01, poly7; no tuning.",
+    "observations": "NEW y from official operators on model[-1,1] sigma=.05; SR uses original antialiased Resizer, Motion61/intensity.5 reflection convolution and seeded original kernel constructor. Shared given y/operator state per pair; not old zero/circular y.",
+    "insertion": "Only original operator gradient/data drift scaled. q=-lr*gradient(loss)/tau^2 in clean x coordinates, r=y-Hx, d=Hq. Same A71 select; no alpha conversion, extra NN, VJP or finite differences.",
+    "preserved": "Original prior score, xt term, lr schedule, Langevin random term, annealing re-noising and returned xt retained. Positive global data-drift amplitude can be canceled by projection.",
+    "gradient_cost": "Original measurement gradients counted separately; no UNet input derivative. Candidate reuses original measurement prediction and adds ONE Hq per MCMC update; RNG untouched.",
+    "failure": "Native NaN zero-output fallback is rejected as a failed run, never accepted as reconstructed quality. No automatic failed-case rerun or policy fallback.",
+    "timing": "Same-session complete1000 includes y/operator-state load, original operator construction, init/PFODE/MCMC/re-noising/CPU sync and progress. Model load/probe/measurement generation/metrics/writes separate.",
+    "limits": "State-dependent likelihood drift changes the MCMC target; no inherited exact-posterior theorem. Small reused development panel; no universal improvement/state-necessity claim.",
+    "decision": "Mean PSNR>=+.1dB, >=2/3 PSNR wins, SSIM nondecrease and LPIPS nonincrease per task, paired init/final RNG and NN-call fingerprints equal. No hyperparameter scan."
+  }
+}

@@ -1,0 +1,22 @@
+test_official_reference_configs_and_counts (utils.test_daps_multiplier_transfer.Tests.test_official_reference_configs_and_counts) ... ok
+test_prepare_parent_immutable_and_no_old_measurement_reused (utils.test_daps_multiplier_transfer.Tests.test_prepare_parent_immutable_and_no_old_measurement_reused) ... ok
+test_worker_cli_requires_allocated_device (utils.test_daps_multiplier_transfer.Tests.test_worker_cli_requires_allocated_device) ... ok
+test_original_loop_gamma_one_noise_grid_and_measurement_gradients (utils.test_daps_multiplier_runtime.TorchTests.test_original_loop_gamma_one_noise_grid_and_measurement_gradients) ... /home/lzy/ZAPS/projects/vendor/daps_0b182726/cores/mcmc.py:38: DeprecationWarning: invalid escape sequence '\l'
+  """
+ok
+test_original_motion_state_reproducible_and_input_gradient_finite (utils.test_daps_multiplier_runtime.TorchTests.test_original_motion_state_reproducible_and_input_gradient_finite) ... FAIL
+test_strict_weight_reload_rejects_upstream_random_fallback (utils.test_daps_multiplier_runtime.TorchTests.test_strict_weight_reload_rejects_upstream_random_fallback) ... ok
+
+======================================================================
+FAIL: test_original_motion_state_reproducible_and_input_gradient_finite (utils.test_daps_multiplier_runtime.TorchTests.test_original_motion_state_reproducible_and_input_gradient_finite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/test_daps_multiplier_runtime.py", line 60, in test_original_motion_state_reproducible_and_input_gradient_finite
+    self.assertTrue(all(torch.equal(v,runtime.operator_state(second)[k]) for k,v in first.items()))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.652s
+
+FAILED (failures=1)
+A81 SESSION FAILED: CalledProcessError(1, ['/home/lzy/anaconda3/bin/python', '-u', '-m', 'unittest', '-v', 'utils.test_daps_multiplier_transfer', 'utils.test_daps_multiplier_runtime'])

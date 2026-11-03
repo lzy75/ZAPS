@@ -1,0 +1,120 @@
+{
+  "experiment": "A81R1_daps_multiplier_transfer",
+  "classification": "DEVELOPMENT_OFFICIAL_DAPS_TRANSFER",
+  "completed_runs": 12,
+  "planned_runs": 12,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "DAPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 27.504950130326208,
+        "ssim": 0.8133935928344727,
+        "lpips": 0.16832909484704336
+      },
+      "mean_full_seconds": 102.4445097912103,
+      "NFE": 1000,
+      "operator_gradients": 20000,
+      "input_VJP": 0
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 27.334826903842153,
+        "ssim": 0.809763491153717,
+        "lpips": 0.16863640149434408
+      },
+      "mean_full_seconds": 139.144345424138,
+      "NFE": 1000,
+      "operator_gradients": 20000,
+      "input_VJP": 0
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DAPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 27.906488399141715,
+        "ssim": 0.8132585883140564,
+        "lpips": 0.13137856870889664
+      },
+      "mean_full_seconds": 147.61352832304934,
+      "NFE": 1000,
+      "operator_gradients": 20000,
+      "input_VJP": 0
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.855956099480846,
+        "ssim": 0.7868440945943197,
+        "lpips": 0.177592600385348
+      },
+      "mean_full_seconds": 201.60905705330273,
+      "NFE": 1000,
+      "operator_gradients": 20000,
+      "input_VJP": 0
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "candidate": "SHRINK",
+      "minus_DAPS": {
+        "psnr": -0.17012322648405487,
+        "ssim": -0.0036301016807556152,
+        "lpips": 0.0003073066473007202
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -0.2291520285377473,
+      "paired_noise_and_grid_passed": true,
+      "full_clock_ratio": 1.3582411171445379,
+      "positive_development_candidate": false
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "SHRINK",
+      "minus_DAPS": {
+        "psnr": -1.0505322996608666,
+        "ssim": -0.026414493719736736,
+        "lpips": 0.04621403167645136
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -1.1324802439731307,
+      "paired_noise_and_grid_passed": true,
+      "full_clock_ratio": 1.3657898388018017,
+      "positive_development_candidate": false
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 12000,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "operator_gradient_attempts": 240000,
+    "operator_gradients_completed": 240000,
+    "base_H_actions": 360000,
+    "module_H_actions": 120000,
+    "probe_forward_attempts": 2
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Three reused FFHQ images x SR4/Motion, original FFHQ pixel DDPM prior. Initial transfer stage only; no new datasets/checkpoints.",
+    "baseline": "Official pinned DAPS/PFODE/MCMC/VPPrecond/DDPM/operator AST and unmodified Euler torchdiffeq0.2.5; config commands/pixel_ffhq.sh. Batch1 and fixed existing image panel, not author benchmark mean.",
+    "grids": "200 annealing outer steps;5 Euler network calls/outer=1000F;100 Langevin updates/outer=20000 measurement gradients. Gaussian prior needs no additional NN.",
+    "parameters": "Original pixel tau=.01 (not measurement sigma=.05); lr SR1e-4/Motion5e-5, lr_min_ratio=.01. Anneal sigma100/min.1, diffusion min.01, poly7; no tuning.",
+    "observations": "NEW y from official operators on model[-1,1] sigma=.05; SR uses original antialiased Resizer, Motion61/intensity.5 reflection convolution and seeded original kernel constructor. Shared given y/operator state per pair; not old zero/circular y.",
+    "insertion": "Only original operator gradient/data drift scaled. q=-lr*gradient(loss)/tau^2 in clean x coordinates, r=y-Hx, d=Hq. Same A71 select; no alpha conversion, extra NN, VJP or finite differences.",
+    "preserved": "Original prior score, xt term, lr schedule, Langevin random term, annealing re-noising and returned xt retained. Positive global data-drift amplitude can be canceled by projection.",
+    "gradient_cost": "Original measurement gradients counted separately; no UNet input derivative. Candidate reuses original measurement prediction and adds ONE Hq per MCMC update; RNG untouched.",
+    "failure": "Native NaN zero-output fallback is rejected as a failed run, never accepted as reconstructed quality. No automatic failed-case rerun or policy fallback.",
+    "timing": "Same-session complete1000 includes y/operator-state load, original operator construction, init/PFODE/MCMC/re-noising/CPU sync and progress. Model load/probe/measurement generation/metrics/writes separate.",
+    "limits": "State-dependent likelihood drift changes the MCMC target; no inherited exact-posterior theorem. Small reused development panel; no universal improvement/state-necessity claim.",
+    "decision": "Mean PSNR>=+.1dB, >=2/3 PSNR wins, SSIM nondecrease and LPIPS nonincrease per task, paired init/final RNG and NN-call fingerprints equal. No hyperparameter scan."
+  }
+}
