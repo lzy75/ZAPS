@@ -1,0 +1,260 @@
+{
+  "experiment": "A88_dps_missing_tasks",
+  "model_dataset": "ffhq",
+  "parent": "/data0/lzy/ZAPS-results/diag_dps_multiplier_transfer/A75_20261031",
+  "parent_plan_sha256": "463fd6407ff620b8c495c4691eaa172476881723c3035264c594fd6c06b599e7",
+  "operator_root": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029",
+  "cases": [
+    {
+      "key": "ffhq_gaussian_deblur_00226_s1226",
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "image_id": "00226",
+      "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+      "sigma": 0.05,
+      "seed": 1226,
+      "measurement_seed": 1226,
+      "mask_seed": 2001226,
+      "scale": 0.3,
+      "shard": 0
+    },
+    {
+      "key": "ffhq_gaussian_deblur_00443_s1443",
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "image_id": "00443",
+      "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+      "sigma": 0.05,
+      "seed": 1443,
+      "measurement_seed": 1443,
+      "mask_seed": 2001443,
+      "scale": 0.3,
+      "shard": 1
+    },
+    {
+      "key": "ffhq_gaussian_deblur_00963_s1963",
+      "dataset": "ffhq",
+      "task": "gaussian_deblur",
+      "image_id": "00963",
+      "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+      "sigma": 0.05,
+      "seed": 1963,
+      "measurement_seed": 1963,
+      "mask_seed": 2001963,
+      "scale": 0.3,
+      "shard": 0
+    },
+    {
+      "key": "ffhq_inpainting_00226_s1226",
+      "dataset": "ffhq",
+      "task": "inpainting",
+      "image_id": "00226",
+      "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+      "sigma": 0.05,
+      "seed": 1226,
+      "measurement_seed": 1226,
+      "mask_seed": 2001226,
+      "scale": 0.5,
+      "shard": 1
+    },
+    {
+      "key": "ffhq_inpainting_00443_s1443",
+      "dataset": "ffhq",
+      "task": "inpainting",
+      "image_id": "00443",
+      "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+      "sigma": 0.05,
+      "seed": 1443,
+      "measurement_seed": 1443,
+      "mask_seed": 2001443,
+      "scale": 0.5,
+      "shard": 0
+    },
+    {
+      "key": "ffhq_inpainting_00963_s1963",
+      "dataset": "ffhq",
+      "task": "inpainting",
+      "image_id": "00963",
+      "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+      "sigma": 0.05,
+      "seed": 1963,
+      "measurement_seed": 1963,
+      "mask_seed": 2001963,
+      "scale": 0.5,
+      "shard": 1
+    }
+  ],
+  "observations": {
+    "ffhq_gaussian_deblur_00226_s1226": "/data0/lzy/ZAPS-results/diag_dps_missing_tasks/A88_ffhq_20261104/observations/ffhq_gaussian_deblur_00226_s1226/y.pt",
+    "ffhq_gaussian_deblur_00443_s1443": "/data0/lzy/ZAPS-results/diag_dps_missing_tasks/A88_ffhq_20261104/observations/ffhq_gaussian_deblur_00443_s1443/y.pt",
+    "ffhq_gaussian_deblur_00963_s1963": "/data0/lzy/ZAPS-results/diag_dps_missing_tasks/A88_ffhq_20261104/observations/ffhq_gaussian_deblur_00963_s1963/y.pt",
+    "ffhq_inpainting_00226_s1226": "/data0/lzy/ZAPS-results/diag_dps_missing_tasks/A88_ffhq_20261104/observations/ffhq_inpainting_00226_s1226/y.pt",
+    "ffhq_inpainting_00443_s1443": "/data0/lzy/ZAPS-results/diag_dps_missing_tasks/A88_ffhq_20261104/observations/ffhq_inpainting_00443_s1443/y.pt",
+    "ffhq_inpainting_00963_s1963": "/data0/lzy/ZAPS-results/diag_dps_missing_tasks/A88_ffhq_20261104/observations/ffhq_inpainting_00963_s1963/y.pt"
+  },
+  "checkpoint": {
+    "path": "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt",
+    "sha256": "81d535743156ec6be34d8668e6920da94f0614074d7793a16c8fa9e306237faa"
+  },
+  "dps_root": "/home/lzy/ZAPS/DPS",
+  "diffusion_config": {
+    "sampler": "ddpm",
+    "steps": 1000,
+    "noise_schedule": "linear",
+    "model_mean_type": "epsilon",
+    "model_var_type": "learned_range",
+    "dynamic_threshold": false,
+    "clip_denoised": true,
+    "rescale_timesteps": false,
+    "timestep_respacing": 1000
+  },
+  "task_configs": {
+    "gaussian_deblur": {
+      "conditioning": {
+        "method": "ps",
+        "params": {
+          "scale": 0.3
+        }
+      },
+      "data": {
+        "name": "ffhq",
+        "root": "./data/samples/"
+      },
+      "measurement": {
+        "operator": {
+          "name": "gaussian_blur",
+          "kernel_size": 61,
+          "intensity": 3.0
+        },
+        "noise": {
+          "name": "gaussian",
+          "sigma": 0.05
+        }
+      }
+    },
+    "inpainting": {
+      "conditioning": {
+        "method": "ps",
+        "params": {
+          "scale": 0.5
+        }
+      },
+      "data": {
+        "name": "ffhq",
+        "root": "./data/samples/"
+      },
+      "measurement": {
+        "operator": {
+          "name": "inpainting"
+        },
+        "mask_opt": {
+          "mask_type": "random",
+          "mask_prob_range": [
+            0.3,
+            0.7
+          ],
+          "image_size": 256
+        },
+        "noise": {
+          "name": "gaussian",
+          "sigma": 0.05
+        }
+      }
+    }
+  },
+  "inputs": {
+    "/home/lzy/FFHQ/00000/00000/00226.png": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7",
+    "/home/lzy/FFHQ/00000/00000/00443.png": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1",
+    "/home/lzy/FFHQ/00000/00000/00963.png": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/motion_kernel.npy": "1296d9174030d2e40ba8145cda0043f1bc1dd53ce9b4812339fd1eb73e064825",
+    "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/plan.json": "05f1a09fd0fd38024c3e27a3f424e0df8e4a6abb108be3c2338da95d2d17f299",
+    "/home/lzy/ZAPS/DPS/configs/diffusion_config.yaml": "4d0c7d5892080dcf83e824dd1efcd6d5a06a177729f84b930f6989b9ee5761d9",
+    "/home/lzy/ZAPS/DPS/configs/gaussian_deblur_config.yaml": "7626ecbf970fdee99ef879b139e6003a682114d2559aab78eb2e684ebade6516",
+    "/home/lzy/ZAPS/DPS/configs/inpainting_config.yaml": "49b31b297ba358b27c66227e67353be6c22e851c78e8631da168cf7468f78ed9",
+    "/home/lzy/ZAPS/DPS/configs/model_config.yaml": "de9e42ee55f6753cbf14c56c9a8341dba805f2ea21f4150daa77dbc3d6e3bcdd"
+  },
+  "sources": {
+    "utils/diag_dps_missing_tasks.py": "b32d550ebfc00856c31353f80a6dce4c4276f2be84d3ce0aa20b84bb9fb0f92d",
+    "utils/dps_missing_tasks.py": "ed25590067faa5cec56758cd5c09eb7586db52c7007baba70df8bd4bbb80bb73",
+    "utils/dps_missing_tasks_runtime.py": "031afc70ff02fdaf41db194fcb859a8a7ea1cce4a589e9c7e79f98decf770714",
+    "utils/a88_session.py": "64f955d7865d5222eef92be7a3fe224b1479e79b110fe64cabc472ec0e041cfe",
+    "utils/test_dps_missing_tasks.py": "9e7f7946435bfcc31bb41765894cffa357ef04120cd0739ae38b54f1645e5581",
+    "utils/test_dps_missing_tasks_runtime.py": "688b83de773b609ade9d6eb4521d2a6cd519d3a498b84c074b222c9bbffedc1c",
+    "utils/test_current_score_checkpoint_r2.py": "ebf9855faa4dfa46b516e7150fed792306ac1be10b4c290a8d4c7421b640170b",
+    "utils/a65_session.py": "3a6f12c7363ca78386d36cefa678fcb7a1a18c2855170a983edfced2b57fca28",
+    "utils/a54_session.py": "54c41bf0a43d7718cc877a12c8057057beab646a86a41f7d30f8e6a8b57c2e89",
+    "modules/diffusion_model.py": "1c1ffd561699cea98f86feef616be412e68ec7f3650d4cc086de4ce0b1d9d473",
+    "../DPS/guided_diffusion/unet.py": "8603ed3a59f550448787446b238488500a553a0b3ac3606fe4652191341c87d4",
+    "../DPS/guided_diffusion/nn.py": "d9547fb22b421a16dc079cb82a9d98630100b5e1b2a710d343f4d3f90b8661f3",
+    "run_a88_20261104.sh": "876c6d5dd2e7cc514a66b86a60a4d3030cc99334aa86ed767853def77d2e5438",
+    "experiment_cards/A88_dps_missing_tasks_20261104.md": "cf28677015fe7c6b54b7407fee2eedb633402ee0682072210e4f70e115809a86",
+    "utils/dps_multiplier_transfer.py": "e1d4b4b7e4446f7bf7e935a53f955ba291989caf80f68fe3ba408fcf703587a7",
+    "utils/dps_multiplier_transfer_runtime.py": "e57c85c3973465017f76432c3d67034f26a9ea2fc008ceec3ad3160c3f7ce1ca",
+    "utils/diag_dps_multiplier_transfer.py": "6c5a735811d1fe1f8a0ed03eb1107bd09d1d408a988878156953e90193e41020",
+    "utils/a75_session.py": "41a919eda13c6311230c167c923b7967b084fe71dd5d1ee80806fe80a7613142",
+    "utils/test_dps_multiplier_transfer.py": "fb907b7c976346b5e5a09577d72587f123a44b0a1f3d8eb6ebc5cf451d669f8b",
+    "utils/test_dps_multiplier_transfer_runtime.py": "0bbb278253170a94f3c27372caea1b0e02735e9e2eec457de04cb226fbcb9aa8",
+    "utils/current_score_runtime_r2.py": "87a0248e30614ff7706fbf0968eb5bbd5cda3f2c3f43c0a2f152b839b5b38f29",
+    "utils/diag_zaps_sampler_parity.py": "e55b23ac35954be401e84ee3b8fa12e3fd0e454e580c8451b24385a23a7b10ae",
+    "run_a75_20261031.sh": "36e2429a7dab4f79bc1f2fe6c47fc2b96e4ec5843b492dc2bf7bcfc856533ae3",
+    "experiment_cards/A75_dps_multiplier_transfer_20261031.md": "b46dbc5cb43f3284812d5dca23a3d8cb206b2c65d45e574708a9394ca48e28ba",
+    "../DPS/guided_diffusion/gaussian_diffusion.py": "73ac99d0b89a8a23a855b6dfe797b334be541014fc5abf04cf812434befdad0d",
+    "../DPS/guided_diffusion/condition_methods.py": "8738434de01dc16684551cb1bc7038ba544a3af80e144ac2875693fdfaf8d1bd",
+    "../DPS/guided_diffusion/posterior_mean_variance.py": "142158469a747c5b7fb2e63d06a7963a486807d9fd195a37cbbca5d90e7fbc6a",
+    "../DPS/util/img_utils.py": "010a84af5de956ab775cd0abf57a427f98b036a5cd2eddc57c711f1104020165",
+    "../DPS/configs/diffusion_config.yaml": "4d0c7d5892080dcf83e824dd1efcd6d5a06a177729f84b930f6989b9ee5761d9",
+    "../DPS/configs/super_resolution_config.yaml": "d2f6f4c731933d297004d3eb3ff0f0ee27cdd2b0afca5a27a6967eecc42e63a2",
+    "../DPS/configs/motion_deblur_config.yaml": "e39ded2883d810900c37188b9f4888263647410b174274be48e8541dd22638d9",
+    "utils/shrink_multitask.py": "3cab691d349c5cebbe26cb2efe11ff7a8608062706ecd51de98b94bc8028dc17",
+    "utils/shrink_multitask_runtime.py": "8d39679a62bc66d2c1de9fc4ef1c74aa433bb04375c818a8a5098f6f9e0e13d0",
+    "utils/diag_shrink_multitask.py": "4a1b6bb97c08eacd3eb8d32b4410c23844c68697cd6f69aef5c45962adee2861",
+    "utils/a71_session.py": "8411b8b066f618afd4519961e713816e1c7250108d2c2f4bfe38f2fa96d33fe5",
+    "utils/render_shrink_panel.py": "119fc3cc66b89eb7f20ed50206c9af02585b76abe918be6c32d7a15c637afe54",
+    "utils/test_shrink_multitask.py": "29b8ebb671a140eaabd2b035b73efd426cb5fe2fc0d1650ba0349bd58f72a886",
+    "utils/test_shrink_multitask_runtime.py": "ea4e25e635e91a99c598e82fb9f556978982400c8957a2397b2c53d411af5bad",
+    "utils/test_a71_cli.py": "69cf50f7fa7cbff6c65eebdde3fd3a7c0fc8fa314511d8bec47d32aaa03aca6b",
+    "utils/noise_signal_shrink.py": "7e38ad0c7198774a5eab3077d7b1fe09b3825a4a66b2f47a360236c3d4ec86d1",
+    "utils/noise_signal_shrink_runtime.py": "723ba03b06d5539a8d687cccde2a715fbf70005047ef80c92fbc30b8c036d859",
+    "utils/noise_feasible_runtime.py": "5a2b9e0209d9720ecb85e3efc161aed674eb5df174941dc1ba5b240c46a999f8",
+    "utils/historical_ffhq_gain.py": "0519debd0dca8892006b90d32a5ddf7f511424d3fd3259d56328ec0bbb6116d6",
+    "utils/historical_ffhq_runtime.py": "e9ba0f7ac92e9cba9d767cde757b9bb232301343b589974e1a23799f4138ed55",
+    "utils/paper_clock_runtime.py": "2f7333f54b7f6ea6bbd6e66e18ea43a28f633d2bf0c675aa1e273216995756bf",
+    "utils/diag_ffhq_four_tasks_unit.py": "c15892b461ce6df0677df73e69db1a58efb5ec0d405e071546278bf613baf7a1",
+    "utils/a67_model_freeze.py": "1cc71086675b233af44ada9d13555ff5aefaf61c0e41d816d3849b1e8c177829",
+    "utils/metrics.py": "1bca2cc769a43eaa3c7a07c038c967be2dc89dc2e9089f00b4b48dac9579ca45",
+    "modules/main_single.py": "8dcc7a36bed335178bb00126345897381dd3eb98a0d1c314d8d734c46a6bf39f",
+    "modules/degradations.py": "e25293451e787ef2fe52fd904436f6c33aadfdc522d2cb7de1b557e4628be696",
+    "modules/zaps_algorithm.py": "e66d72ec5c9b4b973d1b59445c297248b938fc088d802511c9fc6eb67317a427",
+    "modules/wavelet.py": "fd29252c73263aa379f3085089d054e6be6777fd7ef674e88036dfffed43459b",
+    "run_a71_20261029.sh": "7b7c49af5618a15c94f247cf08e4646f6d8df68b8b15a95b1f73eeefd3def87a",
+    "experiment_cards/A71_shrink_multitask_20261029.md": "75424ec74a22f408f76fade94dd631e28a725653ced878737d5b63b02de4f6c9"
+  },
+  "arms": [
+    "DPS",
+    "SHRINK"
+  ],
+  "budget": {
+    "method_forwards": 12000,
+    "method_input_vjp": 12000,
+    "optimizer_backwards": 0,
+    "module_H_actions": 18000,
+    "model_probe_per_load": {
+      "forwards": 1,
+      "input_vjp": 1
+    }
+  },
+  "code_commit": "d95e8819e850d706686d00639ccaec2a0541d5c9",
+  "protocol": {
+    "scope": "ffhq: three existing images x Gaussian61/sigma3 zero boundary and random70% missing; DPS/SHRINK only. Completes missing A75/A77 task cells.",
+    "baseline": "Original vendored native1000 DDPM learned_range DPS loop and PS condition; official task scales Gaussian=.3, inpainting=.5. Existing A71 physical operators, not author benchmark reproduction.",
+    "observation": "NEW shared y per pair, model[-1,1] sigma=.05. Full-output additive Gaussian noise retained, including missing coordinates, as in official DPS sample_condition.py. Mask fixed from case seed; measurement is never replaced/clamped.",
+    "module": "Unchanged A71 continuous noise_signal_shrink.select; observed RGB entries only for inpainting. Same-time Hq/sqrt(alpha) proxy. No beta, clipping2, calibration or next-denoiser probes.",
+    "pairing": "Independent from seed; same observation/operator, initial/final CPU+CUDA RNG fingerprints and grid required. Alternating two-arm run order; no learned state.",
+    "cost": "1000 forwards+1000 existing input VJP per run. Scalar module adds three H evaluations per step (residual plus two response evaluations); no extra NN/VJP/optimizer.",
+    "resources": "FFHQ>=6GiB, ImageNet>=10GiB free before load; real checkpoint VJP peak+1GiB required before attempts. No precision/resolution change, no process termination.",
+    "timing": "Full reconstruction includes given-y load/operator/init/native1000/outputCPU sync/bookkeeping; model load, probe, shared observation creation, metrics and artifact writes separately recorded. Same NFE/VJP per arm.",
+    "output": "Original returned DPS next-state; no clean-output replacement or GT-based output selection. Save original GT/observation/BASE/SHRINK PNGs and fixed triptych per case.",
+    "decision": "Per dataset/task: mean PSNR>=+.1dB, >=2/3 image wins, SSIM nondecrease, LPIPS nonincrease, paired noise/grid pass. Preserve mixed and negative results without tuning.",
+    "limits": "Small reused panel, one seed, sigma=.05 only. No universal/state-necessity/posterior guarantee; positive scalar DPS amplitude may be canceled by projection. No rerun of completed SR/Motion."
+  }
+}
