@@ -1,0 +1,111 @@
+{
+  "experiment": "A82",
+  "host": "MPGD_WO_PROJ",
+  "classification": "DEVELOPMENT_NATIVE_RAY_TRANSFER",
+  "completed_runs": 12,
+  "planned_runs": 12,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.43809325722092,
+        "ssim": 0.7642247478167216,
+        "lpips": 0.16004613041877747
+      },
+      "mean_full_seconds": 8.041033878922462,
+      "NFE": 100
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.53315227237416,
+        "ssim": 0.7125874161720276,
+        "lpips": 0.18086373309294382
+      },
+      "mean_full_seconds": 8.108594099991024,
+      "NFE": 100
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.63745660608519,
+        "ssim": 0.7298721671104431,
+        "lpips": 0.16725226740042368
+      },
+      "mean_full_seconds": 8.895460738800466,
+      "NFE": 100
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.660636939655216,
+        "ssim": 0.7298933267593384,
+        "lpips": 0.17217658956845602
+      },
+      "mean_full_seconds": 8.796972844749689,
+      "NFE": 100
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "SHRINK_minus_BASE": {
+        "psnr": -0.9049409848467617,
+        "ssim": -0.05163733164469401,
+        "lpips": 0.020817602674166363
+      },
+      "images_PSNR_positive": 0,
+      "worst_PSNR": -1.4752179460439727,
+      "paired_noise_grid_passed": true,
+      "full_clock_ratio": 1.008401932150249,
+      "positive_development_candidate": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "SHRINK_minus_BASE": {
+        "psnr": 0.02318033357002373,
+        "ssim": 2.1159648895263672e-05,
+        "lpips": 0.004924322168032329
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -0.2238282722675926,
+      "paired_noise_grid_passed": true,
+      "full_clock_ratio": 0.9889282975955153,
+      "positive_development_candidate": false
+    }
+  ],
+  "actual_new_cost": {
+    "forward_attempts": 1200,
+    "forwards": 1200,
+    "input_vjp_attempts": 0,
+    "operator_gradient_attempts": 1200,
+    "module_H_actions": 1200,
+    "base_H_actions": 1200
+  },
+  "probe_forwards": 2,
+  "probe_input_VJP": 0,
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Three reused FFHQ images x SR4/Gaussian; paired BASE/SHRINK, one seed; not an author benchmark mean.",
+    "module": "Unchanged A71 noise_signal_shrink.select; gamma>=0 continuous, no clipping2, beta, search, or policy fallback.",
+    "coordinates": "Model[-1,1] sigma=.05. Each host owns its original H; NEW y shared within its two arms. Cross-host observations are not identical.",
+    "response": "MPGD exact linear clean-space Hq. DMPS/PGDM same-time identity clean-response proxy Hq/sqrt(alpha_t); not a measured next-denoiser response.",
+    "baseline": "Pinned author loop/conditioning/operator AST; only one explicit correction expression can be instrumented; forced gamma1 and unmodified native loop must match.",
+    "MPGD": "Original x0ddim100,eta.5; scale5 for BOTH tasks from paper appendixD.1. Released SR100 script4 / CLI default10 differ and are not quality-selected. No autoencoder.",
+    "DMPS": "Original DDPM1000 learned_range,scale1.75. Original bicubicSR and configuredGaussian61/intensity3 actually constructs31-tap separable native SVD kernel.",
+    "PIGDM": "Author RED-diff PGDM, released default50 uniform t980..0,eta0,awdTrue,weight1; SR native average-pooling SVD, Gaussian native5-tap sigma25. Raw clean predictor, native pseudo-inverse initialization, native final xs. No noise-covariance modification.",
+    "cost": "No extra UNet/input VJP from module; TWO extra H evaluations/candidate step. MPGD original clean/operator gradients are separate from UNet VJP.",
+    "timing": "Full loop includes given-y load, native operator construction/SVD, RNG/init/sampling/outputCPU sync and progress bookkeeping. Excludes model load/probe, creation of shared y, metrics and artifact writes; record each separately.",
+    "boundaries": "Original positive correction amplitude can be canceled by projection. Do not inherit manifold/posterior guarantees or infer state necessity from two-arm gain.",
+    "decision": "Per host/task: mean PSNR>=+.1dB,>=2/3 PSNR wins,SSIM nondecrease,LPIPS nonincrease; require init/finalRNG/grid pairing. Mixed quality reported separately. No rescue tuning."
+  }
+}
