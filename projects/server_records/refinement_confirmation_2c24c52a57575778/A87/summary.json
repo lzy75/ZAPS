@@ -1,0 +1,87 @@
+{
+  "experiment": "A87_mask_stage_response",
+  "classification": "STAGE_AND_PAIRED_RESPONSE_DIAGNOSIS_ONLY",
+  "completed_runs": 15,
+  "planned_runs": 15,
+  "groups": [
+    {
+      "arm": "BASE_CHECK",
+      "images": 3,
+      "means": {
+        "psnr": 26.29628097571678,
+        "ssim": 0.8134177923202515,
+        "lpips": 0.11963597685098648,
+        "mse_full": 0.009781887550896989,
+        "mse_observed": 0.0037948308069576425,
+        "mse_missing": 0.012349738232283474
+      }
+    },
+    {
+      "arm": "SHRINK_CHECK",
+      "images": 3,
+      "means": {
+        "psnr": 25.932065735154385,
+        "ssim": 0.8110781709353129,
+        "lpips": 0.13104736059904099,
+        "mse_full": 0.010628990088721106,
+        "mse_observed": 0.003754045586891687,
+        "mse_missing": 0.013578336840027882
+      }
+    },
+    {
+      "arm": "BASE_EARLY",
+      "images": 3,
+      "means": {
+        "psnr": 26.332038112458985,
+        "ssim": 0.8220287958780924,
+        "lpips": 0.11962059140205383,
+        "mse_full": 0.009654674710943653,
+        "mse_observed": 0.0037239790535843753,
+        "mse_missing": 0.012198252092791748
+      }
+    },
+    {
+      "arm": "BASE_MIDDLE",
+      "images": 3,
+      "means": {
+        "psnr": 26.15462238582225,
+        "ssim": 0.8169184724489847,
+        "lpips": 0.12567141155401865,
+        "mse_full": 0.010094753843807624,
+        "mse_observed": 0.0036930651195620813,
+        "mse_missing": 0.012840887299180403
+      }
+    },
+    {
+      "arm": "BASE_LATE",
+      "images": 3,
+      "means": {
+        "psnr": 25.73631562415109,
+        "ssim": 0.7973907788594564,
+        "lpips": 0.1394247164328893,
+        "mse_full": 0.011118119157622139,
+        "mse_observed": 0.003952629149002398,
+        "mse_missing": 0.014191999067337974
+      }
+    }
+  ],
+  "recorded_forwards": 459,
+  "operator_actions": {
+    "H": 1350,
+    "adjoint": 450,
+    "probe_mask": 27
+  },
+  "paired_response_probe_forwards": 9,
+  "warmup_forwards": 1,
+  "lpips_evaluation_attempts": 15,
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Original3 FFHQ sigma=.10 inpainting development images, same cached270-prefix parameters/init/RNG. Complete method remains300F.",
+    "interventions": "Only force gamma1 at steps0..9 /10..19 /20..29; all other decisions recomputed live. Diagnostic interventions, NOT a proposed fixed-time policy.",
+    "response": "SHRINK_CHECK only, steps4/14/24: counterfactual gamma1 next-state uses SAME DDPM innovation as current gamma. One extra denoiser per point; natural next prediction reused.",
+    "metrics": "Observed/missing/full clean MSE perstep; paired next-clean finite response, not numerical integration error, posterior uncertainty or trajectory cosine.",
+    "GT": "Offline error reporting only, not multiplier/probe/step/output/arm selection.",
+    "gates": "BASE_CHECK and SHRINK_CHECK vs cached output relativeL2<=1e-6 before hybrid arms; all arms final RNG equal; exactly30F or33F with probes; no input/optimizer backwards.",
+    "limits": "A86 excluded direct terminal missing correction as maincause. This locates trajectory-stage effects; no new positive-method/transfer/step-size/curvature claim. No parameter scan."
+  }
+}
