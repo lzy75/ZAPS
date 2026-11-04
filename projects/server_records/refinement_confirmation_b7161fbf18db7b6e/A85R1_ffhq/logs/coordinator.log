@@ -1,0 +1,43 @@
+test_baseline_admission_blocks_before_comparison (utils.test_pigdm_noisy_r1.Tests.test_baseline_admission_blocks_before_comparison) ... A85R1 BASELINE ADMISSION: {"passed": true, "rows": [{"task": "super_resolution", "psnr": 25.0, "ssim": 0.8, "raw_rms": 0.5, "passed": true}, {"task": "gaussian_deblur", "psnr": 25.0, "ssim": 0.8, "raw_rms": 0.5, "passed": true}, {"task": "inpainting", "psnr": 25.0, "ssim": 0.8, "raw_rms": 0.5, "passed": true}, {"task": "motion_deblur", "psnr": 25.0, "ssim": 0.8, "raw_rms": 0.5, "passed": true}], "limits": "Numerical completion and catastrophic-quality screen only, not author benchmark certification. No GT enters sampler/tuning."}
+A85R1 BASELINE ADMISSION: {"passed": false, "rows": [{"task": "super_resolution", "psnr": 6.0, "ssim": 0.01, "raw_rms": 4.0, "passed": false}, {"task": "gaussian_deblur", "psnr": 6.0, "ssim": 0.01, "raw_rms": 4.0, "passed": false}, {"task": "inpainting", "psnr": 6.0, "ssim": 0.01, "raw_rms": 4.0, "passed": false}, {"task": "motion_deblur", "psnr": 6.0, "ssim": 0.01, "raw_rms": 4.0, "passed": false}], "limits": "Numerical completion and catastrophic-quality screen only, not author benchmark certification. No GT enters sampler/tuning."}
+ok
+test_full_grid_linear_surrogate_regression (utils.test_pigdm_noisy_r1.Tests.test_full_grid_linear_surrogate_regression) ... ok
+test_no_update_of_original_module_or_gradient_calls_added (utils.test_pigdm_noisy_r1.Tests.test_no_update_of_original_module_or_gradient_calls_added) ... ok
+test_original_a85_bound_files_are_unchanged (utils.test_pigdm_noisy_r1.Tests.test_original_a85_bound_files_are_unchanged) ... ok
+test_protocol_budget_coefficient_and_only_two_arms (utils.test_pigdm_noisy_r1.Tests.test_protocol_budget_coefficient_and_only_two_arms) ... ok
+test_real_cli_and_phase_separation (utils.test_pigdm_noisy_r1.Tests.test_real_cli_and_phase_separation) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.485s
+
+OK
+A85R1 PREPARE/FREEZE: ffhq {'runs': 24, 'method_forwards': 2400, 'input_VJP': 2400, 'module_H_actions': 1200, 'probes': 'Four nominal real NN+inputVJP probes: two baseline workers then two comparison workers; resumes counted separately'}
+test_dense_operator_adjoint_solve_multichannel (utils.test_pigdm_noisy_r1_runtime.Tests.test_dense_operator_adjoint_solve_multichannel) ... ok
+test_fixed_state_vjp_is_noisy_paper_gradient (utils.test_pigdm_noisy_r1_runtime.Tests.test_fixed_state_vjp_is_noisy_paper_gradient) ... ok
+test_original_author_update_matches_noisy_extension (utils.test_pigdm_noisy_r1_runtime.Tests.test_original_author_update_matches_noisy_extension) ... ok
+test_published_coefficient_and_forced_one_rng (utils.test_pigdm_noisy_r1_runtime.Tests.test_published_coefficient_and_forced_one_rng) ... ok
+test_real_size_operator_state_and_mask_sensor_count (utils.test_pigdm_noisy_r1_runtime.Tests.test_real_size_operator_state_and_mask_sensor_count) ... ok
+test_original_checkpoint_input_vjp_preserves_weights_and_flags (utils.test_current_score_checkpoint_r2.LegacyCheckpointTests.test_original_checkpoint_input_vjp_preserves_weights_and_flags) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.346s
+
+OK
+ffhq WORKER START: 0 GPU= 0
+ffhq WORKER START: 1 GPU= 1
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq WORKER END: 0 exit= 0
+ffhq WORKER END: 1 exit= 0
+ffhq QUEUE: {0: 'complete', 1: 'complete'}
+A85R1 BASELINE ADMISSION: {"passed": true, "rows": [{"task": "super_resolution", "psnr": 27.337504381438272, "ssim": 0.8578968048095703, "raw_rms": 0.4903368643451275, "passed": true}, {"task": "gaussian_deblur", "psnr": 25.47286890401939, "ssim": 0.811610758304596, "raw_rms": 0.49493899207853276, "passed": true}, {"task": "inpainting", "psnr": 31.398184545912116, "ssim": 0.9341716170310974, "raw_rms": 0.4888681864189863, "passed": true}, {"task": "motion_deblur", "psnr": 24.310088083040245, "ssim": 0.7802329659461975, "raw_rms": 0.5021855569632933, "passed": true}], "limits": "Numerical completion and catastrophic-quality screen only, not author benchmark certification. No GT enters sampler/tuning."}
+ffhq WORKER START: 0 GPU= 0
+ffhq WORKER START: 1 GPU= 1
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq WORKER END: 0 exit= 0
+ffhq WORKER END: 1 exit= 0
+ffhq QUEUE: {0: 'complete', 1: 'complete'}

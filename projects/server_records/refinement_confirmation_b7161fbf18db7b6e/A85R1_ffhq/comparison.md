@@ -1,0 +1,12 @@
+# A85R1 PIGDM_NOISY_PUBLISHED_COEFF
+
+|Task|Arm|PSNR|SSIM|LPIPS|Full seconds|NFE|
+|---|---|---:|---:|---:|---:|---:|
+|super_resolution|BASE|27.0134|0.83548|0.10373|10.970|100|
+|super_resolution|SHRINK|27.1739|0.83956|0.12363|10.995|100|
+|gaussian_deblur|BASE|25.8386|0.79474|0.12405|11.978|100|
+|gaussian_deblur|SHRINK|27.0259|0.82439|0.14928|13.045|100|
+|inpainting|BASE|30.8997|0.92192|0.07930|10.277|100|
+|inpainting|SHRINK|31.1598|0.92922|0.06389|10.199|100|
+|motion_deblur|BASE|23.7351|0.73518|0.19690|13.540|100|
+|motion_deblur|SHRINK|27.3478|0.82195|0.15636|13.078|100|
