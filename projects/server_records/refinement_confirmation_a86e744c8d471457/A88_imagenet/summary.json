@@ -1,0 +1,122 @@
+{
+  "experiment": "A88_dps_missing_tasks",
+  "classification": "DEVELOPMENT_DPS_MISSING_TASKS_TRANSFER",
+  "completed_runs": 12,
+  "planned_runs": 12,
+  "dataset": "imagenet",
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 24.38281266181251,
+        "ssim": 0.6190050343672434,
+        "lpips": 0.28752020994822186
+      },
+      "mean_full_seconds": 636.1985504884893,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.606801694844485,
+        "ssim": 0.6925777693589529,
+        "lpips": 0.25237498184045154
+      },
+      "mean_full_seconds": 664.4377779637774,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "inpainting",
+      "arm": "DPS",
+      "cases": 3,
+      "quality": {
+        "psnr": 27.88764246084655,
+        "ssim": 0.7286414007345835,
+        "lpips": 0.26014158378044766
+      },
+      "mean_full_seconds": 636.7905546296388,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    },
+    {
+      "task": "inpainting",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 28.04308417190883,
+        "ssim": 0.7972686688105265,
+        "lpips": 0.09137364601095517
+      },
+      "mean_full_seconds": 643.7408205677444,
+      "full_NFE": 1000,
+      "input_VJP": 1000
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "gaussian_deblur",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 1.2239890330319743,
+        "ssim": 0.0735727349917094,
+        "lpips": -0.035145228107770286
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 0.7702769760539638,
+      "full_clock_ratio": 1.0443874439097751,
+      "paired_noise_grid_passed": true,
+      "positive_development_candidate": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "SHRINK",
+      "minus_DPS": {
+        "psnr": 0.15544171106228077,
+        "ssim": 0.068627268075943,
+        "lpips": -0.16876793776949248
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -0.3205123313403746,
+      "full_clock_ratio": 1.0109145242302595,
+      "paired_noise_grid_passed": true,
+      "positive_development_candidate": true
+    }
+  ],
+  "actual_new_cost": {
+    "method_forward_attempts": 12000,
+    "input_vjp_attempts": 12000,
+    "optimizer_backward_attempts": 0,
+    "module_H_actions": 18000,
+    "base_H_actions": 30000,
+    "probe_forward_attempts": 2,
+    "probe_input_vjp_attempts": 2
+  },
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "imagenet: three existing images x Gaussian61/sigma3 zero boundary and random70% missing; DPS/SHRINK only. Completes missing A75/A77 task cells.",
+    "baseline": "Original vendored native1000 DDPM learned_range DPS loop and PS condition; official task scales Gaussian=.3, inpainting=.5. Existing A71 physical operators, not author benchmark reproduction.",
+    "observation": "NEW shared y per pair, model[-1,1] sigma=.05. Full-output additive Gaussian noise retained, including missing coordinates, as in official DPS sample_condition.py. Mask fixed from case seed; measurement is never replaced/clamped.",
+    "module": "Unchanged A71 continuous noise_signal_shrink.select; observed RGB entries only for inpainting. Same-time Hq/sqrt(alpha) proxy. No beta, clipping2, calibration or next-denoiser probes.",
+    "pairing": "Independent from seed; same observation/operator, initial/final CPU+CUDA RNG fingerprints and grid required. Alternating two-arm run order; no learned state.",
+    "cost": "1000 forwards+1000 existing input VJP per run. Scalar module adds three H evaluations per step (residual plus two response evaluations); no extra NN/VJP/optimizer.",
+    "resources": "FFHQ>=6GiB, ImageNet>=10GiB free before load; real checkpoint VJP peak+1GiB required before attempts. No precision/resolution change, no process termination.",
+    "timing": "Full reconstruction includes given-y load/operator/init/native1000/outputCPU sync/bookkeeping; model load, probe, shared observation creation, metrics and artifact writes separately recorded. Same NFE/VJP per arm.",
+    "output": "Original returned DPS next-state; no clean-output replacement or GT-based output selection. Save original GT/observation/BASE/SHRINK PNGs and fixed triptych per case.",
+    "decision": "Per dataset/task: mean PSNR>=+.1dB, >=2/3 image wins, SSIM nondecrease, LPIPS nonincrease, paired noise/grid pass. Preserve mixed and negative results without tuning.",
+    "limits": "Small reused panel, one seed, sigma=.05 only. No universal/state-necessity/posterior guarantee; positive scalar DPS amplitude may be canceled by projection. No rerun of completed SR/Motion."
+  },
+  "separate_clock_seconds": {
+    "model_load": 22.252957073040307,
+    "probe": 2.2391740260645747,
+    "observation_creation": 1.2578977486118674,
+    "metrics": 3.6529532000422478,
+    "artifact_writes": 0.6459894524887204
+  }
+}
