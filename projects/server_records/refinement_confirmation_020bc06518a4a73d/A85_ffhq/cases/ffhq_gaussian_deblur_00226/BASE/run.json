@@ -1,0 +1,49 @@
+{
+  "status": "failed",
+  "case": {
+    "key": "ffhq_gaussian_deblur_00226",
+    "dataset": "ffhq",
+    "image_id": "00226",
+    "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+    "task": "gaussian_deblur",
+    "sigma": 0.05,
+    "seed": 1226,
+    "measurement_seed": 2226,
+    "kernel_seed": 3226,
+    "shard": 1
+  },
+  "arm": "BASE",
+  "counts": {
+    "forward_attempts": 11,
+    "forwards": 11,
+    "input_vjp_attempts": 11,
+    "operator_gradient_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "base_H_actions": 11,
+    "module_H_actions": 0,
+    "corrections": 11,
+    "calls": [
+      990.0,
+      980.0,
+      970.0,
+      960.0,
+      950.0,
+      940.0,
+      930.0,
+      920.0,
+      910.0,
+      900.0,
+      890.0
+    ],
+    "base_fft_actions": 22,
+    "base_ifft_actions": 22,
+    "base_regularized_solves": 11,
+    "base_adjoint_actions": 11
+  },
+  "plan_sha256": "09fd735a6d2c9fd6f7d55419b15d54253bda859b5979f679618720b7b12352e8",
+  "artifacts": {},
+  "device_uuid": "GPU-e21d8c3c-cde6-c10f-878d-b20a4ded1742",
+  "error": "RuntimeError('Nonfinite trajectory, no output fallback')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_pigdm_noisy_transfer.py\", line 166, in measure\n    (out,detail),seconds=clock.clocks(torch.cuda.synchronize,operation)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py\", line 46, in clocks\n    result = operation()\n             ^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_pigdm_noisy_transfer.py\", line 165, in operation\n    return runtime.run(p['experiment'],model,op,y,c,arm,count,progress=tick)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/pigdm_noisy_runtime.py\", line 110, in run\n    if not bool(torch.isfinite(x).all()):raise RuntimeError('Nonfinite trajectory, no output fallback')\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Nonfinite trajectory, no output fallback\n",
+  "cost_is_lower_bound": true
+}

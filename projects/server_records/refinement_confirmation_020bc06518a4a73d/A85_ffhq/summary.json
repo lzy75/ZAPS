@@ -1,0 +1,49 @@
+{
+  "experiment": "A85",
+  "host": "PIGDM_PAPER_NOISY",
+  "dataset": "ffhq",
+  "classification": "DEVELOPMENT_PAPER_NOISY_PIGDM_TRANSFER",
+  "completed_runs": 0,
+  "planned_runs": 24,
+  "image_clusters": 3,
+  "groups": [],
+  "comparisons": [],
+  "actual_new_cost": {
+    "forward_attempts": 22,
+    "forwards": 22,
+    "input_vjp_attempts": 22,
+    "operator_gradient_attempts": 0,
+    "module_H_actions": 0,
+    "base_H_actions": 22,
+    "base_adjoint_actions": 22,
+    "base_regularized_solves": 22,
+    "base_fft_actions": 22,
+    "base_ifft_actions": 22,
+    "module_fft_actions": 0,
+    "module_ifft_actions": 0
+  },
+  "probe_forwards": 2,
+  "probe_input_VJP": 2,
+  "cost_is_lower_bound": true,
+  "separate_clock_seconds": {
+    "model_load": 5.978024415671825,
+    "observation_creation": 0.2226121360436082,
+    "metrics": 0,
+    "artifact_writes": 0
+  },
+  "limits": {
+    "baseline": "Local implementation of PiGDM ICLR2023 Algorithm1 NOISY branch, appendixA.3; not RED-diff default or author benchmark reproduction.",
+    "grid": "100 uniform indices990..0, final clean endpoint -1; original linear1000 beta schedule; eta1; pureGaussian initialization; raw clean prediction; returned final next-state.",
+    "formula": "rt_squared=1-alpha_t; v=Ht(HHt+sigma_y^2/rt_squared I)^-1(y-Hm); g=Jm^T v; q=sqrt(alpha_t)*g. No extra sqrt(alpha_s).",
+    "operators": "Model[-1,1], sigma=.05; averagePool4, normalizedGaussian61/sigma3 periodic, normalizedfrozenDPSMotion61 periodic, random70% missing observed-only RGB coordinates. NEW shared y/operator per pair, not A84 Gaussian.",
+    "module": "Unchanged A71 noise_signal_shrink.select on r=y-Hm and d=Hq/sqrt(alpha_t). Scale q only. Same-time identity clean-response proxy, no next-denoiser response claim.",
+    "preserved": "Original noisyPiGDM direction, DDIM coefficients/eta/noise/grid retained. Positive global correction amplitude may be canceled by gamma.",
+    "pairing": "Same observation/operator/init/finalCPU+CUDA RNG/grid/NN timestamps; independent from-seed runs, first image per task BASE first, remaining arm order alternates; no learned cache.",
+    "cost": "100 forwards+100 inputVJP per run, no optimizer; SHRINK adds one Hq/step, residual reused. Analytic SR/mask and exactFFT blur solves, no CG or iterative tuning.",
+    "timing": "Complete100 includes given-y load/operator creation/init/sampling/CPU sync/bookkeeping. Load/probe/observation creation/metrics/artifact writes separate; same-session loop times, no claimed production speedup.",
+    "admission": "Required CUDA algebra/adjoint/dense-solve/Algorithm1/forced-one/RNG tests and actual checkpoint VJP probe. First image per task BASE first; remaining order alternates without label-based screening. Any failed numerical gate/NaN stops; no quality tuning.",
+    "decision": "Each dataset/task: PSNRmean>=+.1dB, >=2of3 wins, SSIMnondecrease, LPIPSnonincrease, pairingpassed. Baseline PSNR<10 or SSIM<.1 flagged unqualified descriptively; all outputs retained, no policy fallback.",
+    "limits": "Three reused images/dataset, one seed, sigma.05 only. Different architecture+data together. Small local paired transfer; no state-necessity/universal/posterior guarantee. No fixed/mismatch arms."
+  },
+  "qualitative_panels": []
+}

@@ -1,0 +1,28 @@
+test_cli_has_real_entries_and_no_old_sources_written (utils.test_pigdm_noisy_transfer.Tests.test_cli_has_real_entries_and_no_old_sources_written) ... ok
+test_noisy_variance_and_spectral_stability (utils.test_pigdm_noisy_transfer.Tests.test_noisy_variance_and_spectral_stability) ... ok
+test_observed_noise_energy_and_existing_policy (utils.test_pigdm_noisy_transfer.Tests.test_observed_noise_energy_and_existing_policy) ... ok
+test_original_sources_not_changed (utils.test_pigdm_noisy_transfer.Tests.test_original_sources_not_changed) ... ok
+test_panel_budget_and_only_two_arms (utils.test_pigdm_noisy_transfer.Tests.test_panel_budget_and_only_two_arms) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.430s
+
+OK
+A85 PREPARE/FREEZE: ffhq {'runs': 24, 'method_forwards': 2400, 'input_VJP': 2400, 'module_H_actions': 1200, 'probes': 'One real NN+inputVJP per worker/model load; every resume counted separately'}
+test_dense_operator_adjoint_solve_multichannel (utils.test_pigdm_noisy_runtime.Tests.test_dense_operator_adjoint_solve_multichannel) ... ok
+test_fixed_state_vjp_is_noisy_paper_gradient (utils.test_pigdm_noisy_runtime.Tests.test_fixed_state_vjp_is_noisy_paper_gradient) ... ok
+test_real_size_operator_state_and_mask_sensor_count (utils.test_pigdm_noisy_runtime.Tests.test_real_size_operator_state_and_mask_sensor_count) ... ok
+test_uninstrumented_algorithm1_and_forced_one_rng (utils.test_pigdm_noisy_runtime.Tests.test_uninstrumented_algorithm1_and_forced_one_rng) ... ok
+test_original_checkpoint_input_vjp_preserves_weights_and_flags (utils.test_current_score_checkpoint_r2.LegacyCheckpointTests.test_original_checkpoint_input_vjp_preserves_weights_and_flags) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.692s
+
+OK
+ffhq WORKER START: 0 GPU= 0
+ffhq WORKER START: 1 GPU= 1
+ffhq QUEUE: {0: 'not_started', 1: 'not_started'}
+ffhq WORKER END: 0 exit= 1
+ffhq WORKER END: 1 exit= 1
+ffhq QUEUE: {0: 'failed', 1: 'failed'}
+ffhq SESSION FAILED: RuntimeError('ffhq worker failed; records retained, no automatic retry')

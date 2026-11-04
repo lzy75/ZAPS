@@ -1,0 +1,25 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+A85 PROGRESS: ffhq_super_resolution_00226 BASE 10 / 100
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_pigdm_noisy_transfer.py", line 325, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_pigdm_noisy_transfer.py", line 320, in main
+    elif args.worker:worker(args)
+                     ^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_pigdm_noisy_transfer.py", line 230, in worker
+    if not measure(root,p,c,arm,model,args.device_uuid):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_pigdm_noisy_transfer.py", line 166, in measure
+    (out,detail),seconds=clock.clocks(torch.cuda.synchronize,operation)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py", line 46, in clocks
+    result = operation()
+             ^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_pigdm_noisy_transfer.py", line 165, in operation
+    return runtime.run(p['experiment'],model,op,y,c,arm,count,progress=tick)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/pigdm_noisy_runtime.py", line 110, in run
+    if not bool(torch.isfinite(x).all()):raise RuntimeError('Nonfinite trajectory, no output fallback')
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Nonfinite trajectory, no output fallback
