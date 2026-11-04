@@ -1,0 +1,42 @@
+{
+  "experiment": "A91_directional_reliability",
+  "classification": "PAIRED_PREFIX_DIRECTION_ONLY_FROZEN_NOISE_RELIABILITY",
+  "completed_runs": 0,
+  "planned_runs": 72,
+  "groups": [],
+  "comparisons": [],
+  "recorded_diagnostic_forwards": 0,
+  "recorded_input_vjp_attempts": 0,
+  "recorded_optimizer_backward_attempts": 0,
+  "operator_H": 0,
+  "calibration": {
+    "banks": 0,
+    "native_mapping_attempts": 0,
+    "shape_H_actions": 0,
+    "seconds": 0,
+    "qualification_mapping_attempts": 0,
+    "qualifications_complete": 0,
+    "UNet": 0
+  },
+  "directional_steps": 0,
+  "module_dwt_analysis": 0,
+  "module_dwt_synthesis": 0,
+  "warmup_forwards": 0,
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Same3 FFHQ images x4tasks x sigma.05/.10; same completedA71 cached nine-unroll prefix, learned zeta/D, original tau and RNG. Three arms only; no new image/seed/model.",
+    "rule": "DIRECTIONAL uses only each band E=||Wq||^2 and N=sigma^2 sum ell^2 diag(W T T^T W^T), w=(1-N/E)+. Original native q is shrunk in db4/level3 coordinates. No global gamma/projection/noise weight/scalar radius/anchor/fallback. Native zeta amplitude retained.",
+    "mapping": "T is actual native correction mapping. SR legacy bicubic is not renamed exact H-adjoint. Other task mappings unchanged. ell=zeta/sqrt(alpha)*(1+(1-alpha)D), signed D squared through ell for nonnegative variance; never interpret D as covariance.",
+    "noise": "Known measurement sigma only. Independent16 unit Rademacher probes estimate coefficient variance per fixed operator/mask once. Unit variance reused over images/noise/t; split8/8 noise estimates logged, no quality-based K selection.",
+    "assumptions": "Noise propagation freezes current clean prediction and learned parameters: nominal pure-measurement-noise contribution only. Actual m(y),D(y),zeta(y) dependencies and diffusion-prediction uncertainty are not calibrated. No unbiased final-image risk/SURE/posterior coverage claim.",
+    "calibration": "6 mappings: SR/Gaussian/Motion shared,3 fixed masks.96 native T+96 db4 analysis,0UNet. Each24 cached entry additionally verifies frozen-noise coefficient identity at first/lastt with1T,3analysis,2synthesis;0UNet. Independent RNG does not consume sampling RNG.",
+    "cost": "All arms30F; directional online adds one analysis of native q and at most one synthesis,0 extra H/T/UNet/VJP/optimizer and no QR/NNLS. One-time noise calibration cost explicitly separate; actual transform count/time retained.",
+    "coordinates": "Same original db4/level3/periodic coefficient packing, LL3 plusLH/HL/HH levels1..3, ten weights shared acrossRGB/positions per band. Weights0..1 are noise-retention fractions, not a0..2 bound on fitted gamma.",
+    "baseline": "BASE_CHECK original ZAPS; SCALAR_CHECK old noise-corrected projection is comparator only and never read by directional rule. Weight1 exactly gives native q, weight0 exactzero. Multiplying native zeta scales update rather than being canceled by a new projection.",
+    "gates": "Original BASE/SCALAR replay relativeL2<=1e-6 before directional; exactly30F/zeroB and same finalCPU/CUDA RNG; field finite/nonnegative, model unchanged. Required real Torch/operator-noise/RNG tests, no skip. No numerical or quality-based fallback.",
+    "timing": "30-call suffix includes given-y/entry/noise-bank load, native operator/init/sampling/controller/outputCPU sync; one-time noise calibration/model load/warmup/metrics/writes separate. Full method remains300F; no independent30-call reconstruction or complete clock claim.",
+    "GT": "Only final metrics and observed/missing region error, never energy/noise estimate or weights.",
+    "decision": "Per task/noise compare to BOTH original and scalar: PSNRmean>=+.1dB,>=2/3 wins,SSIM nondecrease,LPIPS nonincrease. Report failures/tradeoffs. Native-only shrinkage need not match a projection rule that also amplifies; no amplitude rescue or per-task tuning.",
+    "limits": "Small reused panel. Tests direction-specific noise-retention mechanism independent of scalar rule, not general matrix superiority or calibrated posterior uncertainty. No new image/seed/dataset or additional policy variants."
+  }
+}
