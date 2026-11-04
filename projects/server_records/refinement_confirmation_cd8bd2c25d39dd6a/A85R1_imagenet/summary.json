@@ -1,0 +1,211 @@
+{
+  "experiment": "A85R1",
+  "host": "PIGDM_NOISY_PUBLISHED_COEFF",
+  "dataset": "imagenet",
+  "classification": "DEVELOPMENT_NOISY_PIGDM_PUBLISHED_COEFFICIENT_TRANSFER",
+  "completed_runs": 24,
+  "planned_runs": 24,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.617818834885256,
+        "ssim": 0.7328792810440063,
+        "lpips": 0.18520685782035193
+      },
+      "mean_full_seconds": 35.402302398967244,
+      "NFE": 100
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.72638369533866,
+        "ssim": 0.7338044146696726,
+        "lpips": 0.19309150179227194
+      },
+      "mean_full_seconds": 34.897544597586,
+      "NFE": 100
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.321753812870348,
+        "ssim": 0.7338995337486267,
+        "lpips": 0.2856937994559606
+      },
+      "mean_full_seconds": 61.04037638287991,
+      "NFE": 100
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 27.02028914639964,
+        "ssim": 0.7438640296459198,
+        "lpips": 0.2638974189758301
+      },
+      "mean_full_seconds": 59.658661397484444,
+      "NFE": 100
+    },
+    {
+      "task": "inpainting",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 29.582717036360933,
+        "ssim": 0.8407811522483826,
+        "lpips": 0.14190078775087991
+      },
+      "mean_full_seconds": 35.230182505212724,
+      "NFE": 100
+    },
+    {
+      "task": "inpainting",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 29.43118246322737,
+        "ssim": 0.837043027083079,
+        "lpips": 0.13188918431599936
+      },
+      "mean_full_seconds": 36.22551267128438,
+      "NFE": 100
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 22.180773400637694,
+        "ssim": 0.6384698748588562,
+        "lpips": 0.33297866582870483
+      },
+      "mean_full_seconds": 61.379865144068994,
+      "NFE": 100
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 27.054123583034794,
+        "ssim": 0.7845747669537863,
+        "lpips": 0.20758270223935446
+      },
+      "mean_full_seconds": 66.97502431304504,
+      "NFE": 100
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "SHRINK_minus_BASE": {
+        "psnr": 0.10856486045340692,
+        "ssim": 0.0009251336256663004,
+        "lpips": 0.007884643971920013
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -0.3670509292421187,
+      "paired_noise_grid_passed": true,
+      "full_clock_ratio": 0.9857422323640744,
+      "baseline_anomaly_screen_passed": true,
+      "positive_development_candidate": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "SHRINK_minus_BASE": {
+        "psnr": 0.6985353335292915,
+        "ssim": 0.00996449589729309,
+        "lpips": -0.021796380480130512
+      },
+      "images_PSNR_positive": 2,
+      "worst_PSNR": -0.3711066092248245,
+      "paired_noise_grid_passed": true,
+      "full_clock_ratio": 0.9773639176677325,
+      "baseline_anomaly_screen_passed": true,
+      "positive_development_candidate": true
+    },
+    {
+      "task": "inpainting",
+      "SHRINK_minus_BASE": {
+        "psnr": -0.15153457313356355,
+        "ssim": -0.0037381251653035483,
+        "lpips": -0.010011603434880575
+      },
+      "images_PSNR_positive": 1,
+      "worst_PSNR": -0.5903797713903742,
+      "paired_noise_grid_passed": true,
+      "full_clock_ratio": 1.0282522001106404,
+      "baseline_anomaly_screen_passed": true,
+      "positive_development_candidate": false
+    },
+    {
+      "task": "motion_deblur",
+      "SHRINK_minus_BASE": {
+        "psnr": 4.8733501823970995,
+        "ssim": 0.14610489209493002,
+        "lpips": -0.12539596358935037
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 3.572159450751526,
+      "paired_noise_grid_passed": true,
+      "full_clock_ratio": 1.0911562636353673,
+      "baseline_anomaly_screen_passed": true,
+      "positive_development_candidate": true
+    }
+  ],
+  "actual_new_cost": {
+    "forward_attempts": 2400,
+    "forwards": 2400,
+    "input_vjp_attempts": 2400,
+    "operator_gradient_attempts": 0,
+    "module_H_actions": 1200,
+    "base_H_actions": 2400,
+    "base_adjoint_actions": 2400,
+    "base_regularized_solves": 2400,
+    "base_fft_actions": 2400,
+    "base_ifft_actions": 2400,
+    "module_fft_actions": 600,
+    "module_ifft_actions": 600
+  },
+  "probe_forwards": 4,
+  "probe_input_VJP": 4,
+  "cost_is_lower_bound": false,
+  "separate_clock_seconds": {
+    "model_load": 60.12912596669048,
+    "observation_creation": 0.61675507389009,
+    "metrics": 7.549353851005435,
+    "artifact_writes": 0.9722004551440477
+  },
+  "limits": {
+    "baseline": "Local NOISY extension using published RED-diff awd=True,mcg=False coefficient sqrt(alpha_s*alpha_t). Not literal paperAlgorithm1 reproduction. A85 literal coefficient failed on real FFHQ before SHRINK.",
+    "grid": "100 uniform indices990..0, final clean endpoint -1; original linear1000 beta schedule; eta1; pureGaussian initialization; raw clean prediction; returned final next-state.",
+    "formula": "rt_squared=1-alpha_t; v=Ht(HHt+sigma_y^2/rt_squared I)^-1(y-Hm); g=Jm^T v; q=sqrt(alpha_s*alpha_t)*g.",
+    "operators": "Model[-1,1], sigma=.05; averagePool4, normalizedGaussian61/sigma3 periodic, normalizedfrozenDPSMotion61 periodic, random70% missing observed-only RGB coordinates. NEW shared y/operator per pair, not A84 Gaussian.",
+    "module": "Unchanged A71 noise_signal_shrink.select on r=y-Hm and d=Hq/sqrt(alpha_t). Scale q only. Same-time identity clean-response proxy, no next-denoiser response claim.",
+    "preserved": "Original noisyPiGDM direction, DDIM coefficients/eta/noise/grid retained. Positive global correction amplitude may be canceled by gamma.",
+    "pairing": "Same observation/operator/init/finalCPU+CUDA RNG/grid/NN timestamps; independent from-seed runs, first image per task BASE first, remaining arm order alternates; no learned cache.",
+    "cost": "100 forwards+100 inputVJP per run, no optimizer; SHRINK adds one Hq/step, residual reused. Analytic SR/mask and exactFFT blur solves, no CG or iterative tuning.",
+    "timing": "Complete100 includes given-y load/operator creation/init/sampling/CPU sync/bookkeeping. Load/probe/observation creation/metrics/artifact writes separate; same-session loop times, no claimed production speedup.",
+    "admission": "Required CUDA operator/gradient/forced-one/RNG and native-source update-equivalence gates. First one BASE per task must complete100 on actual weights before any SHRINK. Offline anomaly floor PSNR>=10,SSIM>=.1; no label-based tuning, fallback or sample substitution.",
+    "decision": "Each dataset/task: PSNRmean>=+.1dB, >=2of3 wins, SSIMnondecrease, LPIPSnonincrease, pairingpassed. Baseline PSNR<10 or SSIM<.1 flagged unqualified descriptively; all outputs retained, no policy fallback.",
+    "limits": "Three reused images/dataset, one seed, sigma.05 only. Different architecture+data together. Small local paired transfer; no state-necessity/universal/posterior guarantee. No fixed/mismatch arms.",
+    "lineage": "New root and new protocol. A85 failed22 forwards+22 VJPs and2 real probes retained and reported separately; no failed trajectory reuse. Existing A85 observations reused with binary hashes when present.",
+    "probes": "Two baseline workers then two comparison workers: nominal4 real-model forward+VJP probes/dataset, every load/resume counted. Baseline qualification runs are reused, not rerun.",
+    "scope": "Keep A85 operators,100 grid,eta1,pureGaussian init,shared observations and unchanged A71 gamma. Only restore published next-time coefficient and add staged qualification/diagnostics. Still a candidate local baseline until real run returns."
+  },
+  "qualitative_panels": [
+    "/data0/lzy/ZAPS-results/diag_pigdm_noisy_transfer/A85R1_imagenet_20261104/qualitative_super_resolution.png",
+    "/data0/lzy/ZAPS-results/diag_pigdm_noisy_transfer/A85R1_imagenet_20261104/qualitative_gaussian_deblur.png",
+    "/data0/lzy/ZAPS-results/diag_pigdm_noisy_transfer/A85R1_imagenet_20261104/qualitative_inpainting.png",
+    "/data0/lzy/ZAPS-results/diag_pigdm_noisy_transfer/A85R1_imagenet_20261104/qualitative_motion_deblur.png"
+  ]
+}
