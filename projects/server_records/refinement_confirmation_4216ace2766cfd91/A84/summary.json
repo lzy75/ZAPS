@@ -1,0 +1,74 @@
+{
+  "experiment": "A84",
+  "host": "PIGDM",
+  "classification": "DEVELOPMENT_NATIVE_RAY_TRANSFER",
+  "completed_runs": 6,
+  "planned_runs": 12,
+  "image_clusters": 3,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "cases": 3,
+      "quality": {
+        "psnr": 25.837572734493982,
+        "ssim": 0.7566237449645996,
+        "lpips": 0.16147351264953613
+      },
+      "mean_full_seconds": 8.395461602446934,
+      "NFE": 50
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "cases": 3,
+      "quality": {
+        "psnr": 26.561749584141747,
+        "ssim": 0.8236507972081503,
+        "lpips": 0.12473110357920329
+      },
+      "mean_full_seconds": 8.771668534725904,
+      "NFE": 50
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "SHRINK_minus_BASE": {
+        "psnr": 0.7241768496477666,
+        "ssim": 0.06702705224355061,
+        "lpips": -0.03674240907033285
+      },
+      "images_PSNR_positive": 3,
+      "worst_PSNR": 0.6305474395965618,
+      "paired_noise_grid_passed": true,
+      "full_clock_ratio": 1.0448107501521204,
+      "positive_development_candidate": true
+    }
+  ],
+  "actual_new_cost": {
+    "forward_attempts": 300,
+    "forwards": 300,
+    "input_vjp_attempts": 300,
+    "operator_gradient_attempts": 0,
+    "module_H_actions": 300,
+    "base_H_actions": 300
+  },
+  "probe_forwards": 1,
+  "probe_input_VJP": 1,
+  "cost_is_lower_bound": false,
+  "limits": {
+    "scope": "Three reused FFHQ images x SR4/Gaussian; paired BASE/SHRINK, one seed; not an author benchmark mean.",
+    "module": "Unchanged A71 noise_signal_shrink.select; gamma>=0 continuous, no clipping2, beta, search, or policy fallback.",
+    "coordinates": "Model[-1,1] sigma=.05. Each host owns its original H; NEW y shared within its two arms. Cross-host observations are not identical.",
+    "response": "MPGD exact linear clean-space Hq. DMPS/PGDM same-time identity clean-response proxy Hq/sqrt(alpha_t); not a measured next-denoiser response.",
+    "baseline": "Pinned author loop/conditioning/operator AST; only one explicit correction expression can be instrumented; forced gamma1 and unmodified native loop must match.",
+    "MPGD": "Original x0ddim100,eta.5; scale5 for BOTH tasks from paper appendixD.1. Released SR100 script4 / CLI default10 differ and are not quality-selected. No autoencoder.",
+    "DMPS": "Original DDPM1000 learned_range,scale1.75. Original bicubicSR and configuredGaussian61/intensity3 actually constructs31-tap separable native SVD kernel.",
+    "PIGDM": "Author RED-diff PGDM, released default50 uniform t980..0,eta0,awdTrue,weight1; SR native average-pooling SVD, Gaussian native5-tap sigma25. Raw clean predictor, native pseudo-inverse initialization, native final xs. No noise-covariance modification.",
+    "cost": "No extra UNet/input VJP from module; TWO extra H evaluations/candidate step. MPGD original clean/operator gradients are separate from UNet VJP.",
+    "timing": "Full loop includes given-y load, native operator construction/SVD, RNG/init/sampling/outputCPU sync and progress bookkeeping. Excludes model load/probe, creation of shared y, metrics and artifact writes; record each separately.",
+    "boundaries": "Original positive correction amplitude can be canceled by projection. Do not inherit manifold/posterior guarantees or infer state necessity from two-arm gain.",
+    "decision": "Per host/task: mean PSNR>=+.1dB,>=2/3 PSNR wins,SSIM nondecrease,LPIPS nonincrease; require init/finalRNG/grid pairing. Mixed quality reported separately. No rescue tuning."
+  }
+}

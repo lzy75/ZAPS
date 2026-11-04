@@ -1,0 +1,35 @@
+test_cli_requires_explicit_worker_device (utils.test_native_ray_transfer.Tests.test_cli_requires_explicit_worker_device) ... ok
+test_fixed_panel_has_no_outcome_selection (utils.test_native_ray_transfer.Tests.test_fixed_panel_has_no_outcome_selection) ... ok
+test_native_configs_and_actual_budget (utils.test_native_ray_transfer.Tests.test_native_configs_and_actual_budget) ... ok
+test_pinned_bytes_and_exactly_one_insertion (utils.test_native_ray_transfer.Tests.test_pinned_bytes_and_exactly_one_insertion) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.223s
+
+OK
+A84 PREPARE/FREEZE: {'runs': 12, 'method_forwards': 600, 'input_VJP': 600, 'operator_gradients': 0, 'module_H_actions': 600, 'numerical_tests': 'Toy native-vs-hooked loops; no real UNet. Real weight probe1 forward/load separately counted.'}
+test_dmps_cuda_numpy_index_only_changes_transport (utils.test_native_ray_transfer_runtime.Tests.test_dmps_cuda_numpy_index_only_changes_transport) ... ok
+test_native_loop_and_forced_one_are_identical (utils.test_native_ray_transfer_runtime.Tests.test_native_loop_and_forced_one_are_identical) ... ok
+test_real_native_operators_reproduce_state_and_gradient (utils.test_native_ray_transfer_runtime.Tests.test_real_native_operators_reproduce_state_and_gradient) ... namespace(name='pgdm', deg='sr4', awd=True, cond_awd=False, grad_term_weight=1, sigma_y=0.05, eta=0.0, mcg=False, lr=0.25)
+deg sr4
+namespace(name='pgdm', deg='sr4', awd=True, cond_awd=False, grad_term_weight=1, sigma_y=0.05, eta=0.0, mcg=False, lr=0.25)
+deg sr4
+namespace(name='pgdm', deg='deblur_gauss', awd=True, cond_awd=False, grad_term_weight=1, sigma_y=0.05, eta=0.0, mcg=False, lr=0.25)
+deg deblur_gauss
+namespace(name='pgdm', deg='deblur_gauss', awd=True, cond_awd=False, grad_term_weight=1, sigma_y=0.05, eta=0.0, mcg=False, lr=0.25)
+deg deblur_gauss
+ok
+test_original_checkpoint_input_vjp_preserves_weights_and_flags (utils.test_current_score_checkpoint_r2.LegacyCheckpointTests.test_original_checkpoint_input_vjp_preserves_weights_and_flags) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.190s
+
+OK
+A84 WORKER START: 0 GPU= 0
+A84 WORKER START: 1 GPU= 1
+A84 QUEUE: {0: 'not_started', 1: 'not_started'}
+A84 WORKER END: 1 exit= 0
+A84 QUEUE: {0: 'not_started', 1: 'resource_limited'}
+A84 QUEUE: {0: 'not_started', 1: 'resource_limited'}
+A84 WORKER END: 0 exit= 0
+A84 QUEUE: {0: 'complete', 1: 'resource_limited'}
