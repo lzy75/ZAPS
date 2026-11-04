@@ -1,0 +1,134 @@
+{
+  "experiment": "A86_terminal_mask_counterfactual",
+  "classification": "TERMINAL_COUNTERFACTUAL_ONLY",
+  "completed_cases": 3,
+  "groups": [
+    {
+      "arm": "BASE",
+      "images": 3,
+      "means": {
+        "psnr": 26.29628097571678,
+        "ssim": 0.8134177923202515,
+        "lpips": 0.11963597685098648,
+        "mse_full": 0.009781887550896989,
+        "mse_observed": 0.0037948308069576425,
+        "mse_missing": 0.012349738232283474,
+        "measurement_mse_observed": 0.0070487999433919745
+      }
+    },
+    {
+      "arm": "SHRINK",
+      "images": 3,
+      "means": {
+        "psnr": 25.932065735154385,
+        "ssim": 0.8110781709353129,
+        "lpips": 0.13104736059904099,
+        "mse_full": 0.010628990088721106,
+        "mse_observed": 0.003754045586891687,
+        "mse_missing": 0.013578336840027882,
+        "measurement_mse_observed": 0.00945401035415761
+      }
+    },
+    {
+      "arm": "END_OBS_RESTORE",
+      "images": 3,
+      "means": {
+        "psnr": 25.966798708548765,
+        "ssim": 0.806550145149231,
+        "lpips": 0.1296465794245402,
+        "mse_full": 0.010548120217258239,
+        "mse_observed": 0.003484599275493072,
+        "mse_missing": 0.013578336840027882,
+        "measurement_mse_observed": 0.0062308471463419874
+      }
+    },
+    {
+      "arm": "END_MISSING_RESTORE",
+      "images": 3,
+      "means": {
+        "psnr": 25.932065735154385,
+        "ssim": 0.8110781709353129,
+        "lpips": 0.13104736059904099,
+        "mse_full": 0.01062899008872105,
+        "mse_observed": 0.003754045586891687,
+        "mse_missing": 0.013578336840027799,
+        "measurement_mse_observed": 0.00945401035415761
+      }
+    },
+    {
+      "arm": "END_BOTH_RESTORE",
+      "images": 3,
+      "means": {
+        "psnr": 25.966798708548765,
+        "ssim": 0.806550145149231,
+        "lpips": 0.1296465794245402,
+        "mse_full": 0.01054812021725818,
+        "mse_observed": 0.003484599275493072,
+        "mse_missing": 0.013578336840027799,
+        "measurement_mse_observed": 0.0062308471463419874
+      }
+    }
+  ],
+  "UNet_forward_attempts": 0,
+  "input_vjp_attempts": 0,
+  "optimizer_backward_attempts": 0,
+  "lpips_evaluation_calls": 15,
+  "diagnostic_cpu_seconds": 3.6239036060869694,
+  "gates": [
+    {
+      "case": "inpainting_00226_n100_s1226",
+      "cpu_vs_archived_relative_errors": {
+        "residual_energy": 0.0,
+        "response_energy": 2.6388655361601316e-09,
+        "residual_response_dot": 1.3192383395099182e-09
+      },
+      "reconstructed_gamma": 0.0,
+      "active_measurements": 59010,
+      "passed": true,
+      "q_energy": 19.61104706868699,
+      "q_observed_energy": 19.61104706868699,
+      "q_missing_energy": 1.3141521097136512e-17,
+      "q_missing_energy_fraction": 6.701080799566084e-19
+    },
+    {
+      "case": "inpainting_00443_n100_s1443",
+      "cpu_vs_archived_relative_errors": {
+        "residual_energy": 0.0,
+        "response_energy": 6.96713848279265e-09,
+        "residual_response_dot": 3.4833334808881347e-09
+      },
+      "reconstructed_gamma": 0.0,
+      "active_measurements": 59154,
+      "passed": true,
+      "q_energy": 19.519267827842047,
+      "q_observed_energy": 19.519267827842047,
+      "q_missing_energy": 1.68759271906508e-17,
+      "q_missing_energy_fraction": 8.645778796364063e-19
+    },
+    {
+      "case": "inpainting_00963_n100_s1963",
+      "cpu_vs_archived_relative_errors": {
+        "residual_energy": 0.0,
+        "response_energy": 2.8564763767085806e-09,
+        "residual_response_dot": 1.428019012472381e-09
+      },
+      "reconstructed_gamma": 0.0,
+      "active_measurements": 58689,
+      "passed": true,
+      "q_energy": 20.067330689496696,
+      "q_observed_energy": 20.067330689496696,
+      "q_missing_energy": 1.166918477553267e-17,
+      "q_missing_energy_fraction": 5.815015936145587e-19
+    }
+  ],
+  "limits": {
+    "scope": "Original3 FFHQ high-noise inpainting cases, sigma_model=.10, original last-unroll SHRINK trajectory unchanged.",
+    "terminal": "Only cases with archived lastt=0,next=-1,gamma=0 qualify; stored SHRINK output is exactly terminal clean prediction.",
+    "output": "Cached BASE/SHRINK plus terminal restore observed,missing,both components of original q. No new trajectory/no oracle arm selection.",
+    "decision": "GT used only for region error and final metrics, never q/gamma. Read all three terminal counterfactuals, do not pick best as final method.",
+    "cost": "0 UNet,0 VJP,0 optimizer; original CPU wavelet actions only;15 LPIPS evaluation calls separately counted. Not a runtime benchmark.",
+    "fidelity": "CPU reconstruction of original q checked against archived observed-space dot/norm: relative error<=1e-3. Gate failure stops, no fallback.",
+    "interpretation": "Terminal diagnostic, not evidence that a full30-step partitioned policy improves. q_missing is original correction in missing area, not an independently estimated prior.",
+    "risk": "Observed+missing rawMSE decomposition, clamp-displayMSE, PSNR/SSIM/LPIPS, raw q regional energy. No full-image unbiased-risk claim."
+  }
+}
