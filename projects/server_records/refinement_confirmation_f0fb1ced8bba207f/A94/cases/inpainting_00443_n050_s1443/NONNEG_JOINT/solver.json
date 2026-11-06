@@ -1,0 +1,58 @@
+{
+  "solver": {
+    "arm": "NONNEG_JOINT",
+    "prior_precision": 1.0,
+    "reference_full_field_prior_std": 1.0,
+    "effective_scalar_prior_std": null,
+    "constraint": "nonnegative",
+    "accepted_updates": 2,
+    "solver_status": "FIXED_UPDATE_BUDGET",
+    "initial_data": 186701.44494257067,
+    "final_data": 182161.1927619497,
+    "final_prior": 27.68675645504472,
+    "coefficient_count": 196608,
+    "negative_fraction": 0.0,
+    "gamma_RMS": 0.01678226001014837,
+    "gamma_abs_quantiles": {
+      "p50": 3.373497565917205e-05,
+      "p90": 0.0019570304080843938,
+      "p99": 0.04038662735372778,
+      "max": 1.8820197582244873
+    },
+    "native_norm": 10.0832520675613,
+    "correction_norm": 1.1322963010370732,
+    "cosine_to_initial_physical": 0.5168929271055405,
+    "cosine_to_native": 0.27548558202323287,
+    "first_gradient_reused": true,
+    "trace": [
+      {
+        "iteration": 0,
+        "backtrack": 0,
+        "eta": 0.006069140565022021,
+        "data": 184358.44303982038,
+        "prior": 7.172835340299608,
+        "objective": 184365.61587516067,
+        "old_objective": 186701.44494257067,
+        "majorization_rhs": 185505.24556048075,
+        "tolerance": 1.4244189830213216,
+        "accepted": true
+      },
+      {
+        "iteration": 1,
+        "backtrack": 0,
+        "eta": 0.006069140565022021,
+        "data": 182161.1927619497,
+        "prior": 27.68675645504472,
+        "objective": 182188.87951840475,
+        "old_objective": 184365.61587516067,
+        "majorization_rhs": 183230.80984787087,
+        "tolerance": 1.406598021508489,
+        "accepted": true
+      }
+    ],
+    "objective": "0.5*observed_residual_sum_of_squares/sigma_y^2 + 0.5*prior_precision*sum(gamma^2)",
+    "claims": "Nonlinear working MAP objective, not unbiased full-image risk or converged global optimum"
+  },
+  "solver_seconds": 0.1688495734706521,
+  "continuation_seconds": 0.46628651581704617
+}
