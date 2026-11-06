@@ -1,0 +1,54 @@
+{
+  "experiment": "A95_response_target_lm",
+  "classification": "NORMAL_NOISE_FIXED_STATE_RESPONSE_TARGET_DIAGNOSIS",
+  "completed_runs": 0,
+  "planned_runs": 48,
+  "completed_prefixes": 0,
+  "groups": [],
+  "comparisons": [],
+  "actual_new_cost": {
+    "forward_attempts": 0,
+    "forwards": 0,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "base_H_actions": 0,
+    "base_adjoint_actions": 0,
+    "guidance_mapping_actions": 0,
+    "module_dwt_analysis": 0,
+    "module_dwt_synthesis": 0
+  },
+  "cost_is_lower_bound": false,
+  "loads": [
+    {
+      "model_load_seconds": 2.730037455447018,
+      "probe_F": 2,
+      "probe_JVP": 1,
+      "probe_VJP": 1,
+      "environment": {
+        "python": "3.11.7 (main, Dec 15 2023, 18:12:31) [GCC 11.2.0]",
+        "torch": "2.6.0+cu118",
+        "cuda": "11.8",
+        "device": "NVIDIA GeForce RTX 3090"
+      },
+      "probe_seconds": 1.2669193372130394,
+      "peak_allocated_bytes": 2352249856
+    }
+  ],
+  "protocol": {
+    "scope": "Original3 FFHQ x4 tasks, sigma_model=.05 only, one seed. Same A92 intervention index15 t333->309; original14 updates afterwards. No high-noise, image, window or grid expansion.",
+    "objective": "base=PHm_s(z_s); r=Py-base; omega=(1-M*sigma^2/||r||^2)+. All real-response arms minimize .5||PHm_s(z_s+Delta)-(base+omega*r)||^2. Freeze omega in this solve. No gain penalty, dimension-dependent scalar penalty, coefficientwise target or image-GT feedback.",
+    "arms": "LEGACY_SCALAR recomputes originalA71 at CURRENT A92 state. NEXT_PROXY_SCALAR changes base/time to cached next uncorrected clean and uses frozen-eps Hq/sqrt(alpha_s). REAL_SCALAR beta>=0 on q/||q||, same target. REAL_DIAG solves physical p=(Wq)*gamma jointly, signed full coefficients, support=(Wq)!=0.",
+    "attribution": "LEGACY vs NEXT_PROXY tests base/time proxy convention; NEXT_PROXY vs REAL_SCALAR tests real nonlinear response; REAL_SCALAR vs REAL_DIAG tests shape freedom under the SAME target. OriginalZAPS and physical-direct single-step controls are SHA-bound A92 outputs, not newly sampled.",
+    "scalar_initialization": "REAL_SCALAR starts NEXT_PROXY physical length. REAL_DIAG starts the real scalar solution as a feasible point only; no norm bound/attraction penalty or GT choice. Both costs retained separately; diagonal deployment would also pay for scalar initialization.",
+    "geometry": "Optimization coordinates are physical length for scalar, orthogonal db4 coefficient p for diagonal. Exact-zero native coefficients remain0. All nonzero coefficients admit signed gains; no subband sharing or gamma clipping. Gamma ratios are diagnostic only, never computed to generate the update.",
+    "solver": "Matrix-free inexact Gauss-Newton/LM. True AD JVP and original-checkpoint VJP, full cross terms J^T J. Damping applies to numerical step, not final objective; trust agreement adapts it. Same projected stationarity rule, not fixed2 updates. Outer/trial budgets/stall remain explicitly unqualified, with last accepted iterate retained for diagnostic reconstruction; no policy fallback or retries.",
+    "derivative": "Original custom checkpoint lacks forward AD. Only within JVP temporarily call the exact same checkpointed functions directly, restoring globals afterwards. Native values/VJP/sampling retain original implementation. Actual model primal parity, JVP/VJP adjoint identity and memory probe are REQUIRED; no finite-difference response probes.",
+    "replay": "One shared16F original replay per case recovers CURRENT clean for originalA71 formula, verifies q/uncond relativeL2<=1e-6 and exact CPU/CUDA RNG against A92. Old scalar gammas from different trajectories are never transplanted. Prefix/inputs/source/model hashes retained.",
+    "noise": "Same A71 noise-energy heuristic, observedRGB only for masks. Not calibrated SURE/unbiased full-image risk; no new uncertainty estimator in this experiment. Current and next prediction baselines deliberately separated by NEXT_PROXY.",
+    "limits": "Small reused panel, fixed state only. Full signed coefficient diagonal is nearly an arbitrary vector representation; a matrix itself is not a novel method. Local objective/stationarity does not guarantee best PSNR/global minimum or posterior sampling.",
+    "qualification": "Primary REAL_DIAG vs REAL_SCALAR needs both solvers numerically qualified, >=+.1dB meanPSNR,>=2of3 wins,SSIM nondecrease,LPIPS nonincrease. Also compare legacy scalar, native, direct, target gain and offline signal/noise gain. All finite budget-limited images retained but never called converged or used to certify matrix superiority.",
+    "accounting": "Count every JVP/VJP NN forward, rejected trust trial, true-CG-residual product, shared16F replay and14F continuation. Warmup actual checkpoint2F/1JVP/1VJP separate. Acquisition of parent caches was previously paid. Numerical caps are recorded, no timing-based ranking or complete300-clock/speedup claim.",
+    "resources": "AllocatedGPU>=8GiB, actual forwardAD/VJP peak+1GiB before work. No process termination/precision or resolution changes. Same final RNG as A92; no optimizer or NN weight update; data-GT read only after final action. No automatic continuation to full30."
+  }
+}
