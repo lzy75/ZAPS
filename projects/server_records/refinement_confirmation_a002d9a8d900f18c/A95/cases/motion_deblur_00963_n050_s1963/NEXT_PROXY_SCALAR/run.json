@@ -1,0 +1,106 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00963",
+    "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+    "task": "motion_deblur",
+    "sigma": 0.05,
+    "seed": 1963,
+    "measurement_seed": 1963,
+    "mask_seed": 2001963,
+    "shard": 0,
+    "key": "motion_deblur_00963_n050_s1963",
+    "image_sha256": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709",
+    "entry": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/motion_deblur_00963_n050_s1963/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/motion_deblur_00963_n050_s1963/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00963_n050_s1963/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/motion_deblur_00963_n050_s1963/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/motion_deblur_00963_n050_s1963/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/motion_deblur_00963_n050_s1963/PHYS_DIRECT_100/run.json"
+    }
+  },
+  "arm": "NEXT_PROXY_SCALAR",
+  "counts": {
+    "forward_attempts": 14,
+    "forwards": 14,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 18,
+    "base_adjoint_actions": 14,
+    "calls": [
+      309,
+      285,
+      262,
+      238,
+      214,
+      190,
+      166,
+      143,
+      119,
+      95,
+      71,
+      48,
+      24,
+      0
+    ]
+  },
+  "suffix_seconds": 0.5156754571944475,
+  "detail": {
+    "solver": {
+      "status": "CLOSED_FORM_PROXY",
+      "converged": null,
+      "gamma": 0.8623174118373476,
+      "proxy": {
+        "gamma": 0.8623174118373476,
+        "weight": 0.36773691973011,
+        "signal_variance": 0.0014540502648562716,
+        "noise_energy": 491.5200000000001,
+        "resolved": true,
+        "reason": "NOISE_CORRECTED_PROJECTION",
+        "residual_energy": 777.3979144728619,
+        "response_energy": 19.286589024456106,
+        "residual_response_dot": 45.22570522139998,
+        "predicted_residual": 713.7414284898252
+      }
+    },
+    "target": {
+      "omega": 0.36773691973011,
+      "residual_energy": 777.3979144728619,
+      "measurements": 196608,
+      "noise_energy": 491.5200000000001
+    },
+    "actual_target_objective": 46.490961136957516,
+    "solver_seconds": 0.0022399621084332466,
+    "continuation_seconds": 0.4876193320378661,
+    "correction_norm": 3.46909060549132,
+    "native_norm": 4.022985819679064
+  },
+  "offline_seconds": 0.07748040929436684,
+  "metrics": {
+    "psnr": 20.83627816921979,
+    "ssim": 0.5011350512504578,
+    "lpips": 0.4002665579319
+  },
+  "audit": {
+    "physical_gain": 21.59188585566655,
+    "clean_measurement_gain": 21.601310091405296,
+    "fitted_noise_gain": -0.009424236164957661,
+    "decomposition_error": 4.2621259299657765e-10,
+    "offline_H_actions": 3,
+    "physical_first_order_gain": 24.713777020032488,
+    "residual_energy_before": 777.3979144728619,
+    "residual_energy_after": 734.2141425670206,
+    "active_measurements": 196608,
+    "next_clean_full_mse": 0.034994481495327606,
+    "reference_next_clean_full_mse": 0.03695794259810206
+  },
+  "artifacts": {
+    "output.pt": "a410e1e9d5c61769648ee4db86eb9b0e93c2b541cd0f9f05dbbf0c6021fb2f9b",
+    "correction.pt": "8ab0ae428c09773cbd9ea9ff1d12328bb3f94c57a091349a6a6fd0dbaf8818ed",
+    "final_rng.pt": "820ea4269dd7ca451b9ecb361a083e7d5dab7ca71ce9d9d0c0133d4eacd07f26",
+    "output.png": "c5cb00828b984ce5973dd33837e90099acfe7e87d5f60019532fb4fd10223568",
+    "solver.json": "5531396467b7d411bbaa9a2a4dbf796e1c57898cd844fcd9a3b450d80585b4dd"
+  }
+}

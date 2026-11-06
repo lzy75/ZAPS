@@ -1,0 +1,107 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00963",
+    "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+    "task": "super_resolution",
+    "sigma": 0.05,
+    "seed": 1963,
+    "measurement_seed": 1963,
+    "mask_seed": 2001963,
+    "shard": 1,
+    "key": "super_resolution_00963_n050_s1963",
+    "image_sha256": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709",
+    "entry": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00963_n050_s1963/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00963_n050_s1963/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00963_n050_s1963/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/super_resolution_00963_n050_s1963/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/super_resolution_00963_n050_s1963/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/super_resolution_00963_n050_s1963/PHYS_DIRECT_100/run.json"
+    }
+  },
+  "arm": "NEXT_PROXY_SCALAR",
+  "counts": {
+    "forward_attempts": 14,
+    "forwards": 14,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 18,
+    "base_adjoint_actions": 0,
+    "calls": [
+      309,
+      285,
+      262,
+      238,
+      214,
+      190,
+      166,
+      143,
+      119,
+      95,
+      71,
+      48,
+      24,
+      0
+    ],
+    "guidance_mapping_actions": 14
+  },
+  "suffix_seconds": 0.4878611294552684,
+  "detail": {
+    "solver": {
+      "status": "CLOSED_FORM_PROXY",
+      "converged": null,
+      "gamma": 0.6873642385376616,
+      "proxy": {
+        "gamma": 0.6873642385376616,
+        "weight": 0.3407924081125717,
+        "signal_variance": 0.001292432051399858,
+        "noise_energy": 30.720000000000006,
+        "resolved": true,
+        "reason": "NOISE_CORRECTED_PROJECTION",
+        "residual_energy": 46.60140504760146,
+        "response_energy": 8.384156933963151,
+        "residual_response_dot": 16.9104989122592,
+        "predicted_residual": 27.315319874282828
+      }
+    },
+    "target": {
+      "omega": 0.3407924081125717,
+      "residual_energy": 46.60140504760146,
+      "measurements": 12288,
+      "noise_energy": 30.720000000000006
+    },
+    "actual_target_objective": 2.197224159599581,
+    "solver_seconds": 0.0010271910578012466,
+    "continuation_seconds": 0.4546366073191166,
+    "correction_norm": 5.519890199117159,
+    "native_norm": 8.030517204128339
+  },
+  "offline_seconds": 0.07664829306304455,
+  "metrics": {
+    "psnr": 28.005321281140397,
+    "ssim": 0.8275745511054993,
+    "lpips": 0.16036108136177063
+  },
+  "audit": {
+    "physical_gain": 2.025356131669288,
+    "clean_measurement_gain": 1.4383973927958174,
+    "fitted_noise_gain": 0.586958738147725,
+    "decomposition_error": 7.257454637255023e-10,
+    "offline_H_actions": 3,
+    "physical_first_order_gain": 2.2056531068976817,
+    "residual_energy_before": 46.60140504760146,
+    "residual_energy_after": 42.55069282368153,
+    "active_measurements": 12288,
+    "next_clean_full_mse": 0.00724662475059356,
+    "reference_next_clean_full_mse": 0.007506855712206229
+  },
+  "artifacts": {
+    "output.pt": "524fcaad1a87ad2a8eb5f26600d526ec09d7d3a2adceee326743cc0dc41bffc3",
+    "correction.pt": "8cec5947f4f8d096105a0c884647c60e99f9dee2180ae3ba1e5b68a0a3e2ecd1",
+    "final_rng.pt": "820ea4269dd7ca451b9ecb361a083e7d5dab7ca71ce9d9d0c0133d4eacd07f26",
+    "output.png": "42aeab308c9b22fae9c69f3807b443411babd4bf229b7ee8a12e9f7491426cb2",
+    "solver.json": "b7842aa60d0916c5e5f0b156b83613d21a3aa148af7409df0c66a5ce972a420c"
+  }
+}

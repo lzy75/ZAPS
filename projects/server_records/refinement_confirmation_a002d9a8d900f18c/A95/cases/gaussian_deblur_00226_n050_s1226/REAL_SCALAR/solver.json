@@ -1,0 +1,119 @@
+{
+  "solver": {
+    "status": "GRADIENT_TOLERANCE",
+    "converged": true,
+    "accepted_updates": 5,
+    "initial_value": 59.32553953424275,
+    "final_value": 57.923255781767736,
+    "gradient_norm": 1.1444091796875e-05,
+    "gradient_threshold": 0.0012728067169189452,
+    "initial_gradient_norm": 1.2718067169189453,
+    "trace": [
+      {
+        "iteration": 0,
+        "trial": 0,
+        "old_value": 59.32553953424275,
+        "gradient_norm": 1.2718067169189453,
+        "damping": 1.0,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 0.0
+        },
+        "accepted": true,
+        "new_value": 58.48107251015289,
+        "predicted_gain": 0.8481409902235342,
+        "actual_gain": 0.8444670240898589,
+        "agreement": 0.9956682129787089,
+        "step_norm": 0.8134603500366211
+      },
+      {
+        "iteration": 1,
+        "trial": 0,
+        "old_value": 58.48107251015289,
+        "gradient_norm": 0.8044610023498535,
+        "damping": 0.3333333333333333,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 7.409266309999405e-08
+        },
+        "accepted": true,
+        "new_value": 57.99329425346301,
+        "predicted_gain": 0.4927806694298553,
+        "actual_gain": 0.48777825668987873,
+        "agreement": 0.9898486019231145,
+        "step_norm": 0.8939723968505859
+      },
+      {
+        "iteration": 2,
+        "trial": 0,
+        "old_value": 57.99329425346301,
+        "gradient_norm": 0.2861185073852539,
+        "damping": 0.1111111111111111,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 0.0
+        },
+        "accepted": true,
+        "new_value": 57.924652855573584,
+        "predicted_gain": 0.06988078559665212,
+        "actual_gain": 0.06864139788942936,
+        "agreement": 0.9822642562380962,
+        "step_norm": 0.41997814178466797
+      },
+      {
+        "iteration": 3,
+        "trial": 0,
+        "old_value": 57.924652855573584,
+        "gradient_norm": 0.040461063385009766,
+        "damping": 0.037037037037037035,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 2.7621209000573507e-07
+        },
+        "accepted": true,
+        "new_value": 57.92326193130662,
+        "predicted_gain": 0.0014262665151036913,
+        "actual_gain": 0.0013909242669640776,
+        "agreement": 0.9752204459928414,
+        "step_norm": 0.06645774841308594
+      },
+      {
+        "iteration": 4,
+        "trial": 0,
+        "old_value": 57.92326193130662,
+        "gradient_norm": 0.0014300346374511719,
+        "damping": 0.012345679012345678,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 1.628386422937386e-07
+        },
+        "accepted": true,
+        "new_value": 57.923255781767736,
+        "predicted_gain": 1.7922726485153362e-06,
+        "actual_gain": 6.149538883448713e-06,
+        "agreement": 3.4311402835627733,
+        "step_norm": 0.0024466514587402344
+      }
+    ],
+    "objective": "0.5*||actual_next_observation - (base_observation+omega*base_residual)||^2",
+    "note": "Local projected stationarity only. Budget exhaustion is not convergence; no GT or best-image selection.",
+    "beta": 6.021923542022705,
+    "gamma": 1.1435009067243933
+  },
+  "target": {
+    "omega": 0.4063383784549752,
+    "residual_energy": 827.9463959971042,
+    "measurements": 196608,
+    "noise_energy": 491.5200000000001
+  },
+  "actual_target_objective": 57.923255781767736,
+  "solver_seconds": 4.264091158285737,
+  "continuation_seconds": 0.47651513013988733,
+  "correction_norm": 6.0219236332974795,
+  "native_norm": 5.266216674259367
+}

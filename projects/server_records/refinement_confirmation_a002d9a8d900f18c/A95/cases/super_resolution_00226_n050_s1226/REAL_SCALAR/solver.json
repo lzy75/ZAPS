@@ -1,0 +1,173 @@
+{
+  "solver": {
+    "status": "GRADIENT_TOLERANCE",
+    "converged": true,
+    "accepted_updates": 8,
+    "initial_value": 4.457888782636422,
+    "final_value": 4.3024619100431165,
+    "gradient_norm": 1.049041748046875e-05,
+    "gradient_threshold": 8.70128402709961e-05,
+    "initial_gradient_norm": 0.0860128402709961,
+    "trace": [
+      {
+        "iteration": 0,
+        "trial": 0,
+        "old_value": 4.457888782636422,
+        "gradient_norm": 0.0860128402709961,
+        "damping": 1.0,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 0.0
+        },
+        "accepted": true,
+        "new_value": 4.450748180740397,
+        "predicted_gain": 0.00713285450004264,
+        "actual_gain": 0.007140601896025167,
+        "agreement": 1.001086156458467,
+        "step_norm": 0.0839395523071289
+      },
+      {
+        "iteration": 1,
+        "trial": 0,
+        "old_value": 4.450748180740397,
+        "gradient_norm": 0.08409547805786133,
+        "damping": 0.3333333333333333,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 8.85969049911598e-08
+        },
+        "accepted": true,
+        "new_value": 4.431634626919287,
+        "predicted_gain": 0.019066961912714397,
+        "actual_gain": 0.019113553821109797,
+        "agreement": 1.0024435937203153,
+        "step_norm": 0.2348470687866211
+      },
+      {
+        "iteration": 2,
+        "trial": 0,
+        "old_value": 4.431634626919287,
+        "gradient_norm": 0.07867813110351562,
+        "damping": 0.1111111111111111,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 0.0
+        },
+        "accepted": true,
+        "new_value": 4.390008015288575,
+        "predicted_gain": 0.041354052391478824,
+        "actual_gain": 0.04162661163071224,
+        "agreement": 1.0065908713529022,
+        "step_norm": 0.5785398483276367
+      },
+      {
+        "iteration": 3,
+        "trial": 0,
+        "old_value": 4.390008015288575,
+        "gradient_norm": 0.06518268585205078,
+        "damping": 0.037037037037037035,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 0.0
+        },
+        "accepted": true,
+        "new_value": 4.334801785192757,
+        "predicted_gain": 0.054417864961373574,
+        "actual_gain": 0.05520623009581804,
+        "agreement": 1.0144872485350915,
+        "step_norm": 1.0469207763671875
+      },
+      {
+        "iteration": 4,
+        "trial": 0,
+        "old_value": 4.334801785192757,
+        "gradient_norm": 0.040108680725097656,
+        "damping": 0.012345679012345678,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 9.287924546387054e-08
+        },
+        "accepted": true,
+        "new_value": 4.306314993397747,
+        "predicted_gain": 0.02782644371229903,
+        "actual_gain": 0.028486791795010014,
+        "agreement": 1.0237309549699702,
+        "step_norm": 1.0488996505737305
+      },
+      {
+        "iteration": 5,
+        "trial": 0,
+        "old_value": 4.306314993397747,
+        "gradient_norm": 0.014032363891601562,
+        "damping": 0.004115226337448559,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 1.3273668194797719e-07
+        },
+        "accepted": true,
+        "new_value": 4.302569491510825,
+        "predicted_gain": 0.0036338975621177383,
+        "actual_gain": 0.003745501886921687,
+        "agreement": 1.030712017302686,
+        "step_norm": 0.4567422866821289
+      },
+      {
+        "iteration": 6,
+        "trial": 0,
+        "old_value": 4.302569491510825,
+        "gradient_norm": 0.002361297607421875,
+        "damping": 0.0013717421124828531,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 9.859253244384465e-08
+        },
+        "accepted": true,
+        "new_value": 4.302462151616392,
+        "predicted_gain": 0.00010328585671715018,
+        "actual_gain": 0.0001073398944333448,
+        "agreement": 1.0392506568183546,
+        "step_norm": 0.08343124389648438
+      },
+      {
+        "iteration": 7,
+        "trial": 0,
+        "old_value": 4.302462151616392,
+        "gradient_norm": 0.00020503997802734375,
+        "damping": 0.0004572473708276177,
+        "cg": {
+          "passed": true,
+          "iterations": 1,
+          "true_relative_residual": 0.0
+        },
+        "accepted": true,
+        "new_value": 4.3024619100431165,
+        "predicted_gain": 7.828394466002919e-07,
+        "actual_gain": 2.415732751614996e-07,
+        "agreement": 0.3085859766144921,
+        "step_norm": 0.007475852966308594
+      }
+    ],
+    "objective": "0.5*||actual_next_observation - (base_observation+omega*base_residual)||^2",
+    "note": "Local projected stationarity only. Budget exhaustion is not convergence; no GT or best-image selection.",
+    "beta": 11.279894828796387,
+    "gamma": 1.3171509870213927
+  },
+  "target": {
+    "omega": 0.4531125244244494,
+    "residual_energy": 56.17243285315672,
+    "measurements": 12288,
+    "noise_energy": 30.720000000000006
+  },
+  "actual_target_objective": 4.3024619100431165,
+  "solver_seconds": 7.036371190100908,
+  "continuation_seconds": 0.5238582631573081,
+  "correction_norm": 11.279894516265639,
+  "native_norm": 8.563858616015434
+}

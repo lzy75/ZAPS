@@ -1,0 +1,122 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00963",
+    "image": "/home/lzy/FFHQ/00000/00000/00963.png",
+    "task": "inpainting",
+    "sigma": 0.05,
+    "seed": 1963,
+    "measurement_seed": 1963,
+    "mask_seed": 2001963,
+    "shard": 1,
+    "key": "inpainting_00963_n050_s1963",
+    "image_sha256": "e61b12a128be5bf2d7da64288975a037c8d2e7bd9b10919b51c697d962746709",
+    "entry": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00963_n050_s1963/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00963_n050_s1963/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/inpainting_00963_n050_s1963/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00963_n050_s1963/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00963_n050_s1963/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00963_n050_s1963/PHYS_DIRECT_100/run.json"
+    }
+  },
+  "arm": "NEXT_PROXY_SCALAR",
+  "counts": {
+    "forward_attempts": 14,
+    "forwards": 14,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 32,
+    "base_adjoint_actions": 14,
+    "calls": [
+      309,
+      285,
+      262,
+      238,
+      214,
+      190,
+      166,
+      143,
+      119,
+      95,
+      71,
+      48,
+      24,
+      0
+    ]
+  },
+  "suffix_seconds": 0.48039322160184383,
+  "detail": {
+    "solver": {
+      "status": "CLOSED_FORM_PROXY",
+      "converged": null,
+      "gamma": 1.2926622237074372,
+      "proxy": {
+        "gamma": 1.2926622237074372,
+        "weight": 0.7259718476743664,
+        "signal_variance": 0.006623150226656991,
+        "noise_energy": 146.72250000000003,
+        "resolved": true,
+        "reason": "NOISE_CORRECTED_PROJECTION",
+        "residual_energy": 535.4285636522721,
+        "response_energy": 149.63803222476574,
+        "residual_response_dot": 266.4448106445502,
+        "predicted_residual": 96.6237851668208
+      }
+    },
+    "target": {
+      "omega": 0.7259718476743664,
+      "residual_energy": 535.4285636522721,
+      "measurements": 58689,
+      "noise_energy": 146.72250000000003
+    },
+    "actual_target_objective": 114.78558356579508,
+    "solver_seconds": 0.0009192712604999542,
+    "continuation_seconds": 0.44868561532348394,
+    "correction_norm": 9.652849698295192,
+    "native_norm": 7.4674181867356655
+  },
+  "offline_seconds": 0.0850798636674881,
+  "metrics": {
+    "psnr": 27.824791562192065,
+    "ssim": 0.8501196503639221,
+    "lpips": 0.10828065127134323,
+    "mse_full": 0.006538770954783463,
+    "mse_observed": 0.0020547112233612872,
+    "mse_missing": 0.008446883554044162,
+    "observed_fraction": 0.2985076904296875,
+    "float_psnr_full": 27.865638665077643,
+    "float_psnr_observed": 32.89309198163738,
+    "float_psnr_missing": 26.753634841448015
+  },
+  "audit": {
+    "physical_gain": 38.34566900907586,
+    "clean_measurement_gain": 37.01198431384726,
+    "fitted_noise_gain": 1.333684653642646,
+    "decomposition_error": 4.1585959120737925e-08,
+    "offline_H_actions": 3,
+    "physical_first_order_gain": 42.18001021875155,
+    "residual_energy_before": 535.4285636522721,
+    "residual_energy_after": 458.737225661061,
+    "active_measurements": 58689,
+    "next_clean_full_mse": 0.007983961762564253,
+    "reference_next_clean_full_mse": 0.009064898705978328,
+    "next_clean_region_errors": {
+      "mse_full": 0.007983961762564253,
+      "mse_observed": 0.0056629015444201024,
+      "mse_missing": 0.008971648035975908,
+      "observed_fraction": 0.2985076904296875,
+      "float_psnr_full": 26.998415430019435,
+      "float_psnr_observed": 28.490209803083136,
+      "float_psnr_missing": 26.4918776375896
+    }
+  },
+  "artifacts": {
+    "output.pt": "6d1d19fbdff87985d759bae881c7596b54a8e64bbd1830617567bcb78e91388e",
+    "correction.pt": "1e796ee8b616e034f648a31b8f9fd9b90df3bab75a87205de85ab36a7a8c93a3",
+    "final_rng.pt": "820ea4269dd7ca451b9ecb361a083e7d5dab7ca71ce9d9d0c0133d4eacd07f26",
+    "output.png": "f4e15cc2618181e98620b91cf74644c9ce45fe6140873f3618cc547ed8df2894",
+    "solver.json": "2e4741c878a3484e1aaf722c3a7c5d92872b5c94cbea7e34808f1a9c9f6a3d2a"
+  }
+}

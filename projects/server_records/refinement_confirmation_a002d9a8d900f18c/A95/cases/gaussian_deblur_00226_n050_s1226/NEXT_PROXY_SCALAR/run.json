@@ -1,0 +1,106 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00226",
+    "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+    "task": "gaussian_deblur",
+    "sigma": 0.05,
+    "seed": 1226,
+    "measurement_seed": 1226,
+    "mask_seed": 2001226,
+    "shard": 0,
+    "key": "gaussian_deblur_00226_n050_s1226",
+    "image_sha256": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7",
+    "entry": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/gaussian_deblur_00226_n050_s1226/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/gaussian_deblur_00226_n050_s1226/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/gaussian_deblur_00226_n050_s1226/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/gaussian_deblur_00226_n050_s1226/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/gaussian_deblur_00226_n050_s1226/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/gaussian_deblur_00226_n050_s1226/PHYS_DIRECT_100/run.json"
+    }
+  },
+  "arm": "NEXT_PROXY_SCALAR",
+  "counts": {
+    "forward_attempts": 14,
+    "forwards": 14,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 32,
+    "base_adjoint_actions": 14,
+    "calls": [
+      309,
+      285,
+      262,
+      238,
+      214,
+      190,
+      166,
+      143,
+      119,
+      95,
+      71,
+      48,
+      24,
+      0
+    ]
+  },
+  "suffix_seconds": 0.4933604411780834,
+  "detail": {
+    "solver": {
+      "status": "CLOSED_FORM_PROXY",
+      "converged": null,
+      "gamma": 0.7264433903288869,
+      "proxy": {
+        "gamma": 0.7264433903288869,
+        "weight": 0.4063383784549752,
+        "signal_variance": 0.0017111531371923018,
+        "noise_energy": 491.5200000000001,
+        "resolved": true,
+        "reason": "NOISE_CORRECTED_PROJECTION",
+        "residual_energy": 827.9463959971042,
+        "response_energy": 41.44908577807912,
+        "residual_response_dot": 74.101822508496,
+        "predicted_residual": 742.1583491718325
+      }
+    },
+    "target": {
+      "omega": 0.4063383784549752,
+      "residual_energy": 827.9463959971042,
+      "measurements": 196608,
+      "noise_energy": 491.5200000000001
+    },
+    "actual_target_objective": 59.325542117712246,
+    "solver_seconds": 0.0022839782759547234,
+    "continuation_seconds": 0.46291795186698437,
+    "correction_norm": 3.8256083989505565,
+    "native_norm": 5.266216674259367
+  },
+  "offline_seconds": 0.06876732409000397,
+  "metrics": {
+    "psnr": 24.294317215904396,
+    "ssim": 0.7397502064704895,
+    "lpips": 0.20948511362075806
+  },
+  "audit": {
+    "physical_gain": 28.181637602374984,
+    "clean_measurement_gain": 28.13084783790996,
+    "fitted_noise_gain": 0.05078975957494462,
+    "decomposition_error": 4.890078189601077e-09,
+    "offline_H_actions": 3,
+    "physical_first_order_gain": 32.39291519716957,
+    "residual_energy_before": 827.9463959971042,
+    "residual_energy_after": 771.5831206862863,
+    "active_measurements": 196608,
+    "next_clean_full_mse": 0.01712329166383639,
+    "reference_next_clean_full_mse": 0.018485395368519644
+  },
+  "artifacts": {
+    "output.pt": "414c05e933bfea768cb1832d2f92f2c3d936e6593e57158c4cefca54d045a247",
+    "correction.pt": "45874032f079c2a83c7c7fc7c136517dda29e4aee20845443c7c127ab6977930",
+    "final_rng.pt": "b8cd3dce89cf42394ab81cc4dc4539e3db152f90acf65d267d2f078030aa242c",
+    "output.png": "d87a5bd41adde4c51fd7f3ae4baf745defaf2ffd38ea9a2ac4f537da9f59e66c",
+    "solver.json": "46ec37e1d54a481acf58726768f7345e0473c358dac11b549d29980dd8ffd6fa"
+  }
+}
