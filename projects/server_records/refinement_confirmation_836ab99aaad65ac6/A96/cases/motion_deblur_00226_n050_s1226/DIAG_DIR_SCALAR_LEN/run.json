@@ -1,0 +1,181 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00226",
+    "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+    "task": "motion_deblur",
+    "sigma": 0.05,
+    "seed": 1226,
+    "measurement_seed": 1226,
+    "mask_seed": 2001226,
+    "shard": 0,
+    "key": "motion_deblur_00226_n050_s1226",
+    "image_sha256": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7",
+    "entry": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/motion_deblur_00226_n050_s1226/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/motion_deblur_00226_n050_s1226/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/motion_deblur_00226_n050_s1226/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/motion_deblur_00226_n050_s1226/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/motion_deblur_00226_n050_s1226/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/motion_deblur_00226_n050_s1226/PHYS_DIRECT_100/run.json"
+    },
+    "a95": {
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/motion_deblur_00226_n050_s1226/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/motion_deblur_00226_n050_s1226/REAL_DIAG/run.json"
+    }
+  },
+  "arm": "DIAG_DIR_SCALAR_LEN",
+  "counts": {
+    "forward_attempts": 14,
+    "forwards": 14,
+    "input_vjp_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 14,
+    "base_adjoint_actions": 14,
+    "calls": [
+      309,
+      285,
+      262,
+      238,
+      214,
+      190,
+      166,
+      143,
+      119,
+      95,
+      71,
+      48,
+      24,
+      0
+    ]
+  },
+  "suffix_seconds": 0.4865537201985717,
+  "geometry": {
+    "native_norm": 4.570721120506307,
+    "scalar_norm": 7.3682862725381435,
+    "diagonal_norm": 30.080392066270047,
+    "correction_norm": 7.3682860595964925,
+    "scalar_ray_coefficient": 1.6120620966089358
+  },
+  "replay": null,
+  "offline_seconds": 0.1224219910800457,
+  "metrics": {
+    "psnr": 20.080588658111587,
+    "ssim": 0.5507872700691223,
+    "lpips": 0.4122587740421295
+  },
+  "audit": {
+    "physical_gain": 33.65046824145492,
+    "clean_measurement_gain": 33.12718366030936,
+    "fitted_noise_gain": 0.5232845786954242,
+    "decomposition_error": 2.450129099607068e-09,
+    "offline_H_actions": 3,
+    "physical_first_order_gain": 35.458309668610674,
+    "residual_energy_before": 854.4546284469703,
+    "residual_energy_after": 787.1536918574546,
+    "active_measurements": 196608,
+    "next_clean_full_mse": 0.03857053468009869,
+    "reference_next_clean_full_mse": 0.04496787288682019,
+    "response_target_objective": 63.87571941928969
+  },
+  "stages": {
+    "16": {
+      "raw_mse": 0.038570534680098696,
+      "clamped_mse": 0.038570534680098696,
+      "clamp_fraction": 0.0,
+      "band_mse_contributions": {
+        "LL3": 0.020944085801584744,
+        "LH3": 0.003369886302964057,
+        "HL3": 0.0052429570659790386,
+        "HH3": 0.0015530069511447426,
+        "LH2": 0.0021430919691396914,
+        "HL2": 0.002714706251849544,
+        "HH2": 0.0006073516546497693,
+        "LH1": 0.0007006685032450169,
+        "HL1": 0.001083530311720351,
+        "HH1": 0.0002112391649707673
+      },
+      "coarse_LL3_mse": 0.020944085801584744,
+      "detail_mse": 0.01762643817566298,
+      "scope": "Orthogonal image-error energy contributions, not H-nullspace or independent risk estimates",
+      "t": 309,
+      "clean_measurement_mse": 0.00161204312482808
+    },
+    "24": {
+      "raw_mse": 0.040477401272091956,
+      "clamped_mse": 0.040477401272091956,
+      "clamp_fraction": 0.0,
+      "band_mse_contributions": {
+        "LL3": 0.01966081276051726,
+        "LH3": 0.003853251997133198,
+        "HL3": 0.005960398381161491,
+        "HH3": 0.001917199192432612,
+        "LH2": 0.0026294934793985015,
+        "HL2": 0.0034693557225360405,
+        "HH2": 0.000761684237638221,
+        "LH1": 0.0008267821749136033,
+        "HL1": 0.0012014306014015534,
+        "HH1": 0.00019698152742313844
+      },
+      "coarse_LL3_mse": 0.01966081276051726,
+      "detail_mse": 0.020816577314038357,
+      "scope": "Orthogonal image-error energy contributions, not H-nullspace or independent risk estimates",
+      "t": 119,
+      "clean_measurement_mse": 0.001170967331659812
+    },
+    "29": {
+      "raw_mse": 0.03964208858158925,
+      "clamped_mse": 0.03964208858158925,
+      "clamp_fraction": 0.0,
+      "band_mse_contributions": {
+        "LL3": 0.018323543645754187,
+        "LH3": 0.0037735503775704437,
+        "HL3": 0.005904377999417715,
+        "HH3": 0.0019332470451180444,
+        "LH2": 0.002761859926046021,
+        "HL2": 0.003751148439488795,
+        "HH2": 0.0008218688709682847,
+        "LH1": 0.0008720109190012331,
+        "HL1": 0.0012974350970953472,
+        "HH1": 0.00020303544051979852
+      },
+      "coarse_LL3_mse": 0.018323543645754187,
+      "detail_mse": 0.02131853411522568,
+      "scope": "Orthogonal image-error energy contributions, not H-nullspace or independent risk estimates",
+      "t": 0,
+      "clean_measurement_mse": 0.0008875156257259123
+    },
+    "output": {
+      "raw_mse": 0.039167118611879735,
+      "clamped_mse": 0.03916711816485769,
+      "clamp_fraction": 9.663899982115254e-05,
+      "band_mse_contributions": {
+        "LL3": 0.018033108250135464,
+        "LH3": 0.0037206073426658964,
+        "HL3": 0.005856894584758407,
+        "HH3": 0.0019054774436362346,
+        "LH2": 0.0027374542634602504,
+        "HL2": 0.00373273906754024,
+        "HH2": 0.0008144638794135087,
+        "LH1": 0.0008686967296807215,
+        "HL1": 0.001294880897061354,
+        "HH1": 0.00020278547190320144
+      },
+      "coarse_LL3_mse": 0.018033108250135464,
+      "detail_mse": 0.02113399968011981,
+      "scope": "Orthogonal image-error energy contributions, not H-nullspace or independent risk estimates",
+      "t": -1,
+      "clean_measurement_mse": 0.0008302095353048583
+    }
+  },
+  "offline_extra_H_actions": 7,
+  "artifacts": {
+    "output.pt": "beaf598fd091af7b6601fc65555b5ada7beb5a15319630f174a189f75daebe4a",
+    "snapshots.pt": "78aca48d9d9911697c075e804273a86629db5d3d0fa782a356b7ccd3db59047c",
+    "final_rng.pt": "b8cd3dce89cf42394ab81cc4dc4539e3db152f90acf65d267d2f078030aa242c",
+    "correction.pt": "5636db109ab48788902e2b6d81dbd98d95bbd5c5ab423684df3cd38f9b288f66",
+    "output.png": "46f9a96d3a1d2e807e1aea1e029b773e8c004b9f02ff634cb984b20ec521e951",
+    "diagnosis.json": "1b3c5a3feb1d9d5eae23910240b2580787b05d1415fe175c8407215a4de62de0"
+  }
+}
