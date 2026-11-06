@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "pid": 3430539,
+  "root": "/data0/lzy/ZAPS-results/diag_response_target/A95R1_20261106",
+  "error": "AttributeError(\"'FFHQDiffusionModel' object has no attribute 'modules'\")",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_response_target_lm.py\", line 220, in main\n    execute(root,p);status['status']='complete'\n    ^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_response_target_lm_r1.py\", line 53, in execute\n    ORIGINAL_EXECUTE(root,p)\n  File \"/home/lzy/ZAPS/projects/utils/diag_response_target_lm.py\", line 87, in execute\n    try:probe['gate']=runtime.checkpoint_probe(model,p['grid'][16],probe)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_response_target_lm_r1.py\", line 46, in probe\n    sources=repair.loaded_sources(model);path=root/'actual_checkpoint_sources.json'\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/a95_checkpoint_scope_r1.py\", line 31, in loaded_sources\n    for namespace in namespaces(model):\n                     ^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/a95_checkpoint_scope_r1.py\", line 12, in namespaces\n    for layer in model.modules():\n                 ^^^^^^^^^^^^^\nAttributeError: 'FFHQDiffusionModel' object has no attribute 'modules'\n"
+}
