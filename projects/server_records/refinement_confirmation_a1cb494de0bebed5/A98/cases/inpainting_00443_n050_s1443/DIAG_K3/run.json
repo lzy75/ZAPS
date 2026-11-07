@@ -1,0 +1,93 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00443",
+    "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+    "task": "inpainting",
+    "sigma": 0.05,
+    "seed": 1443,
+    "measurement_seed": 1443,
+    "mask_seed": 2001443,
+    "shard": 1,
+    "key": "inpainting_00443_n050_s1443",
+    "image_sha256": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1",
+    "entry": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/inpainting_00443_n050_s1443/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00443_n050_s1443/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00443_n050_s1443/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00443_n050_s1443/PHYS_DIRECT_100/run.json"
+    },
+    "a95": {
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/inpainting_00443_n050_s1443/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/inpainting_00443_n050_s1443/REAL_DIAG/run.json"
+    },
+    "full_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/BASE/paired.pt",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/SHRINK/paired.pt"
+    },
+    "a97_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/BASE/run.json",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/LEGACY_SCALAR/run.json",
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/REAL_DIAG/run.json"
+    }
+  },
+  "arm": "DIAG_K3",
+  "device_uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3",
+  "completed_steps": 30,
+  "counts": {
+    "forward_attempts": 320,
+    "forwards": 320,
+    "input_vjp_attempts": 87,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 411,
+    "base_adjoint_actions": 30,
+    "response_base_forward_attempts": 29,
+    "module_dwt_analysis": 118,
+    "solver_vjp_forward_attempts": 87,
+    "module_dwt_synthesis": 379,
+    "input_vjp_completed": 87,
+    "input_jvp_attempts": 87,
+    "solver_jvp_forward_attempts": 87,
+    "input_jvp_completed": 87,
+    "solver_value_attempts": 87,
+    "terminal_operator_vjp_attempts": 1,
+    "terminal_operator_vjp_completed": 1
+  },
+  "suffix_seconds": 31.979101356118917,
+  "replay_gate": null,
+  "metrics": {
+    "psnr": 28.266359275088057,
+    "ssim": 0.8935520648956299,
+    "lpips": 0.051734134554862976,
+    "mse_full": 0.005942935156348426,
+    "mse_observed": 0.001207316050702638,
+    "mse_missing": 0.00798093195946344,
+    "observed_fraction": 0.300872802734375,
+    "float_psnr_full": 28.280589996518998,
+    "float_psnr_observed": 35.20239016915139,
+    "float_psnr_missing": 27.00006383032406
+  },
+  "equivalent_full_method_forward": 590,
+  "solver_stops": {
+    "scalar": {
+      "GRADIENT_TOLERANCE": 0,
+      "OUTER_BUDGET": 0,
+      "TRIAL_BUDGET": 0
+    },
+    "diagonal": {
+      "GRADIENT_TOLERANCE": 1,
+      "OUTER_BUDGET": 0,
+      "TRIAL_BUDGET": 0
+    }
+  },
+  "artifacts": {
+    "output.pt": "35d1ea411c64af088160b31f9db89b3f9261d23d606dbfc35049c94bca4fee04",
+    "final_rng.pt": "8f89fabb50e85eed3b9551e74b8afac3587e0fa6904ef09ee6c9aa6460464896",
+    "trajectory.json": "d12b46c655c0ac13f5da8c556221f8f80c99d80df7ee03810db2c741b37b6c4c",
+    "output.png": "0c58b0139ceb601fa45dffc6473d6fdf9b78685b384b64b9d9400e68b2d162f7"
+  }
+}
