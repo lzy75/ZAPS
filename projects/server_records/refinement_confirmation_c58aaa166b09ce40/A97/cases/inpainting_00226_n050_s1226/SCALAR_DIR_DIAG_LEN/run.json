@@ -1,0 +1,87 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00226",
+    "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+    "task": "inpainting",
+    "sigma": 0.05,
+    "seed": 1226,
+    "measurement_seed": 1226,
+    "mask_seed": 2001226,
+    "shard": 1,
+    "key": "inpainting_00226_n050_s1226",
+    "image_sha256": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7",
+    "entry": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00226_n050_s1226/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00226_n050_s1226/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/inpainting_00226_n050_s1226/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00226_n050_s1226/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00226_n050_s1226/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00226_n050_s1226/PHYS_DIRECT_100/run.json"
+    },
+    "a95": {
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/inpainting_00226_n050_s1226/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/inpainting_00226_n050_s1226/REAL_DIAG/run.json"
+    },
+    "full_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00226_n050_s1226/BASE/paired.pt",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00226_n050_s1226/SHRINK/paired.pt"
+    }
+  },
+  "arm": "SCALAR_DIR_DIAG_LEN",
+  "device_uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3",
+  "completed_steps": 30,
+  "counts": {
+    "forward_attempts": 21107,
+    "forwards": 21107,
+    "input_vjp_attempts": 10220,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 21199,
+    "base_adjoint_actions": 30,
+    "response_base_forward_attempts": 29,
+    "module_dwt_analysis": 9793,
+    "solver_vjp_forward_attempts": 10220,
+    "input_vjp_completed": 10220,
+    "input_jvp_attempts": 10163,
+    "solver_jvp_forward_attempts": 10163,
+    "input_jvp_completed": 10163,
+    "solver_value_attempts": 665,
+    "module_dwt_synthesis": 29683,
+    "terminal_operator_vjp_attempts": 2,
+    "terminal_operator_vjp_completed": 2
+  },
+  "suffix_seconds": 2957.9461711589247,
+  "replay_gate": null,
+  "metrics": {
+    "psnr": 26.903715675438686,
+    "ssim": 0.8611227869987488,
+    "lpips": 0.1428636759519577,
+    "mse_full": 0.008106097896362647,
+    "mse_observed": 0.002263776175651964,
+    "mse_missing": 0.010611624173918551,
+    "observed_fraction": 0.300140380859375,
+    "float_psnr_full": 26.93248146968752,
+    "float_psnr_observed": 32.47226506304915,
+    "float_psnr_missing": 25.762781309151094
+  },
+  "equivalent_full_method_forward": 21377,
+  "solver_stops": {
+    "scalar": {
+      "GRADIENT_TOLERANCE": 30,
+      "OUTER_BUDGET": 0,
+      "TRIAL_BUDGET": 0
+    },
+    "diagonal": {
+      "GRADIENT_TOLERANCE": 7,
+      "OUTER_BUDGET": 23,
+      "TRIAL_BUDGET": 0
+    }
+  },
+  "artifacts": {
+    "output.pt": "6fdfed3f366f54115903ea2c4c4274cc2665d7c79c25c829f4bd15af15cdb276",
+    "final_rng.pt": "b8cd3dce89cf42394ab81cc4dc4539e3db152f90acf65d267d2f078030aa242c",
+    "trajectory.json": "e869e2a5d5bf9060bb9cfdfec3fd7d7741e671c916c254d298621f76e70a09ce",
+    "output.png": "2f5eb36e169ab6c86a8fcb33b81590b2cf053ba67eaefc682974ee7ba078adec"
+  }
+}

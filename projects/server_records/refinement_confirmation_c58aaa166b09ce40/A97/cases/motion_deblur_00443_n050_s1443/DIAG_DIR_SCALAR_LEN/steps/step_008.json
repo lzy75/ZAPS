@@ -1,0 +1,61 @@
+{
+  "status": "complete",
+  "step": 8,
+  "sha256": "a85441f17bf5992a296762e056a28bfa445b4f21ec3ad0bc1d3c8d3d03cb8f2b",
+  "detail": {
+    "omega": 0.828584764535047,
+    "q_norm": 60.330545411617045,
+    "scalar_norm": 11.469080266681093,
+    "scalar_gamma": 0.19010403259349665,
+    "scalar": {
+      "status": "TRIAL_BUDGET",
+      "converged": false,
+      "accepted_updates": 3,
+      "initial_value": 401.1434471297668,
+      "final_value": 398.9969470942144,
+      "gradient_norm": 0.02623271942138672,
+      "gradient_threshold": 0.0060296283493042,
+      "initial_gradient_norm": 6.028628349304199,
+      "objective": "0.5*||actual_next_observation - (base_observation+omega*base_residual)||^2",
+      "note": "Local projected stationarity only. Budget exhaustion is not convergence; no GT or best-image selection."
+    },
+    "diagonal_norm": 32.21557663720979,
+    "diagonal_cosine_to_native": 0.43798727346179567,
+    "negative_gain_fraction": 0.4022878110408783,
+    "diagonal": {
+      "status": "OUTER_BUDGET",
+      "converged": false,
+      "accepted_updates": 20,
+      "initial_value": 398.9969830539036,
+      "final_value": 188.19315214283736,
+      "gradient_norm": 0.4920937685185057,
+      "gradient_threshold": 0.03798805368298123,
+      "initial_gradient_norm": 37.98705368298123,
+      "objective": "0.5*||actual_next_observation - (base_observation+omega*base_residual)||^2",
+      "note": "Local projected stationarity only. Budget exhaustion is not convergence; no GT or best-image selection."
+    },
+    "applied_norm": 11.469080559042048,
+    "step": 8,
+    "t": 555,
+    "next_t": 518,
+    "NN_calls_this_step": 877
+  },
+  "counts": {
+    "forward_attempts": 7864,
+    "forwards": 7864,
+    "input_vjp_attempts": 3816,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 7882,
+    "base_adjoint_actions": 9,
+    "response_base_forward_attempts": 9,
+    "module_dwt_analysis": 3717,
+    "solver_vjp_forward_attempts": 3816,
+    "input_vjp_completed": 3816,
+    "input_jvp_attempts": 3810,
+    "solver_jvp_forward_attempts": 3810,
+    "input_jvp_completed": 3810,
+    "solver_value_attempts": 220,
+    "module_dwt_synthesis": 11268
+  }
+}

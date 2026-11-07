@@ -1,0 +1,80 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00443",
+    "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+    "task": "super_resolution",
+    "sigma": 0.05,
+    "seed": 1443,
+    "measurement_seed": 1443,
+    "mask_seed": 2001443,
+    "shard": 1,
+    "key": "super_resolution_00443_n050_s1443",
+    "image_sha256": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1",
+    "entry": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00443_n050_s1443/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00443_n050_s1443/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00443_n050_s1443/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/super_resolution_00443_n050_s1443/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/super_resolution_00443_n050_s1443/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/super_resolution_00443_n050_s1443/PHYS_DIRECT_100/run.json"
+    },
+    "a95": {
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/super_resolution_00443_n050_s1443/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/super_resolution_00443_n050_s1443/REAL_DIAG/run.json"
+    },
+    "full_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00443_n050_s1443/BASE/paired.pt",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00443_n050_s1443/SHRINK/paired.pt"
+    }
+  },
+  "arm": "SCALAR_DIR_DIAG_LEN",
+  "device_uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3",
+  "completed_steps": 30,
+  "counts": {
+    "forward_attempts": 20187,
+    "forwards": 20187,
+    "input_vjp_attempts": 9755,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 20249,
+    "base_adjoint_actions": 30,
+    "response_base_forward_attempts": 29,
+    "module_dwt_analysis": 9325,
+    "solver_vjp_forward_attempts": 9755,
+    "input_vjp_completed": 9755,
+    "input_jvp_attempts": 9715,
+    "solver_jvp_forward_attempts": 9715,
+    "input_jvp_completed": 9715,
+    "solver_value_attempts": 658,
+    "module_dwt_synthesis": 28264,
+    "terminal_operator_vjp_attempts": 2,
+    "terminal_operator_vjp_completed": 2
+  },
+  "suffix_seconds": 2714.7918224157766,
+  "replay_gate": null,
+  "metrics": {
+    "psnr": 25.146815011586,
+    "ssim": 0.7713802456855774,
+    "lpips": 0.19351840019226074
+  },
+  "equivalent_full_method_forward": 20457,
+  "solver_stops": {
+    "scalar": {
+      "GRADIENT_TOLERANCE": 27,
+      "OUTER_BUDGET": 0,
+      "TRIAL_BUDGET": 3
+    },
+    "diagonal": {
+      "GRADIENT_TOLERANCE": 6,
+      "OUTER_BUDGET": 24,
+      "TRIAL_BUDGET": 0
+    }
+  },
+  "artifacts": {
+    "output.pt": "c35418acf6464689e7ffca18b1aecd3a1e84ab637901e30364cafb1e0a06260f",
+    "final_rng.pt": "8f89fabb50e85eed3b9551e74b8afac3587e0fa6904ef09ee6c9aa6460464896",
+    "trajectory.json": "2f18234542935d8dcd5457aa8e1e4ef98b859110620056f1a7c5f322c4a46d62",
+    "output.png": "05d266467faebc082fecb8c1083306507bce757434cffea0d2ef885f73f1efd0"
+  }
+}
