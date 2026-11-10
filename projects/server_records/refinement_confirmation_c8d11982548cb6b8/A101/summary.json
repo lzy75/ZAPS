@@ -1,0 +1,64 @@
+{
+  "experiment": "A101_equal_nfe_feedback",
+  "classification": "STRICT_EQUAL_300_NFE_ZAPS_SCALAR_DIAGONAL",
+  "completed_runs": 2,
+  "planned_runs": 360,
+  "image_clusters": 1,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "sigma": 0.025,
+      "arm": "ZAPS_LOCAL_300",
+      "images": 1,
+      "quality": {
+        "psnr": 30.805601039736942,
+        "ssim": 0.9048574566841125,
+        "lpips": 0.08502025157213211
+      },
+      "mean_full_seconds": 13.449892724864185,
+      "mean_peak_reserved_bytes": 1195376640,
+      "mean_operator_counts": {
+        "base_H_actions": 310,
+        "base_adjoint_actions": 0
+      }
+    },
+    {
+      "task": "super_resolution",
+      "sigma": 0.05,
+      "arm": "ZAPS_LOCAL_300",
+      "images": 1,
+      "quality": {
+        "psnr": 30.03637776710411,
+        "ssim": 0.8742550015449524,
+        "lpips": 0.10258907079696655
+      },
+      "mean_full_seconds": 15.301969541236758,
+      "mean_peak_reserved_bytes": 1195376640,
+      "mean_operator_counts": {
+        "base_H_actions": 310,
+        "base_adjoint_actions": 0
+      }
+    }
+  ],
+  "comparisons": [],
+  "actual_new_cost": {
+    "method_forward_attempts": 1171,
+    "optimizer_backward_attempts": 39,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0,
+    "warmup_forward_attempts": 2
+  },
+  "cost_is_lower_bound": true,
+  "protocol": {
+    "baseline": "9/17 strong local ZAPS implementation, not author-code parity or the paper 1000-image mean.",
+    "scope": "Fixed FFHQ IDs00000-00009 x4 tasks x model-coordinate sigma .025/.05/.10 x3 arms. One seed/image; all cells retained.",
+    "arms": "ZAPS_LOCAL_300 is unmodified local ZAPS. CLOSED_SCALAR_300 is the A71 noise-corrected native-q ray. CLOSED_DIAG_300 starts from that scalar and makes one exact steepest-descent update in the native db4 coefficient support for the same frozen linear observation target.",
+    "objective": "omega=(1-Msigma^2/||r||^2)+; minimize .5||PH(delta/sqrt(alpha_t))-omega Pr||^2. Scalar is the nested ray solution; diagonal changes direction and length. This is a current-state frozen response proxy, not an actual next-denoiser response.",
+    "equal_nfe": "Every complete reconstruction must have exactly300 denoiser forwards,10 optimizer backwards,0 input VJP,0 input JVP and the identical30x10 grid. H/Ht and db4 counts are separate.",
+    "pairing": "Same image, y, operator, initial/final RNG and learned-prefix entry per arm. Independent from-seed complete runs; no cached learned policy, GT action, best epoch or output selection.",
+    "tasks": "SR4 empirical historical bicubic guidance; Gaussian61/sigma3 zero boundary; frozen DPS motion61/intensity.5; random70% missing. Inpainting statistics use observed RGB coordinates.",
+    "decision": "For each task/noise and candidate-vs-reference: mean PSNR>=+.1dB, >=7/10 PSNR wins, SSIM nondecrease, LPIPS nonincrease and paired gates. Report all failures/tradeoffs.",
+    "qualitative": "Before outcomes, IDs00001/00004/00008 fixed for panels. Show GT, observation, all three outputs; no best/worst selection.",
+    "limits": "Small ten-image local confirmation. No actual-response, posterior, author-reproduction, acceleration, universal-transfer or curvature claim."
+  }
+}
