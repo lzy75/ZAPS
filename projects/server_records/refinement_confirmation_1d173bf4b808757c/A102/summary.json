@@ -1,0 +1,311 @@
+{
+  "experiment": "A102_shared_prefix_feedback",
+  "classification": "SHARED_PREFIX_EQUIVALENT_300_NFE",
+  "completed_cases": 40,
+  "planned_cases": 40,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "ZAPS_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 28.21226255411085,
+        "ssim": 0.8368411362171173,
+        "lpips": 0.12579603493213654
+      },
+      "mean_equivalent_seconds": 15.441928144544363
+    },
+    {
+      "task": "super_resolution",
+      "arm": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 28.332731412824167,
+        "ssim": 0.8468853235244751,
+        "lpips": 0.12352144047617912
+      },
+      "mean_equivalent_seconds": 15.49262896599248
+    },
+    {
+      "task": "super_resolution",
+      "arm": "CLOSED_DIAG_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 28.242548857639683,
+        "ssim": 0.8424444377422333,
+        "lpips": 0.11682255715131759
+      },
+      "mean_equivalent_seconds": 16.164043608214705
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "ZAPS_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 25.77694507224629,
+        "ssim": 0.7708544790744781,
+        "lpips": 0.17422650903463363
+      },
+      "mean_equivalent_seconds": 15.772939053364098
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 26.47719221411044,
+        "ssim": 0.8016366004943848,
+        "lpips": 0.17641851902008057
+      },
+      "mean_equivalent_seconds": 15.82100872695446
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "CLOSED_DIAG_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 27.028191325162762,
+        "ssim": 0.8196289837360382,
+        "lpips": 0.16066908612847328
+      },
+      "mean_equivalent_seconds": 16.454564497806132
+    },
+    {
+      "task": "inpainting",
+      "arm": "ZAPS_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 28.03477490772528,
+        "ssim": 0.8524619936943054,
+        "lpips": 0.0962163157761097
+      },
+      "mean_equivalent_seconds": 14.928954969812185
+    },
+    {
+      "task": "inpainting",
+      "arm": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 28.593854876383396,
+        "ssim": 0.8721326410770416,
+        "lpips": 0.08661475926637649
+      },
+      "mean_equivalent_seconds": 14.93862827150151
+    },
+    {
+      "task": "inpainting",
+      "arm": "CLOSED_DIAG_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 28.59680214576051,
+        "ssim": 0.8721834421157837,
+        "lpips": 0.08658390939235687
+      },
+      "mean_equivalent_seconds": 15.494106775615364
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "ZAPS_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 20.816129474341828,
+        "ssim": 0.5404492169618607,
+        "lpips": 0.36308169960975645
+      },
+      "mean_equivalent_seconds": 15.682111128233373
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 22.593170588056857,
+        "ssim": 0.6678900480270386,
+        "lpips": 0.2377074584364891
+      },
+      "mean_equivalent_seconds": 15.7080007920973
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "CLOSED_DIAG_SUFFIX",
+      "images": 10,
+      "quality": {
+        "psnr": 23.658568028818046,
+        "ssim": 0.7091281592845917,
+        "lpips": 0.21322912126779556
+      },
+      "mean_equivalent_seconds": 16.26728328252211
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "candidate": "CLOSED_SCALAR_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.12046885871331696,
+        "ssim": 0.010044187307357788,
+        "lpips": -0.002274594455957413
+      },
+      "psnr_wins": 7,
+      "positive": true
+    },
+    {
+      "task": "super_resolution",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.030286303528832548,
+        "ssim": 0.005603301525115967,
+        "lpips": -0.00897347778081894
+      },
+      "psnr_wins": 6,
+      "positive": false
+    },
+    {
+      "task": "super_resolution",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": -0.09018255518448441,
+        "ssim": -0.004440885782241821,
+        "lpips": -0.006698883324861527
+      },
+      "psnr_wins": 0,
+      "positive": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "CLOSED_SCALAR_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.7002471418641505,
+        "ssim": 0.030782121419906616,
+        "lpips": 0.0021920099854469298
+      },
+      "psnr_wins": 9,
+      "positive": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 1.251246252916475,
+        "ssim": 0.04877450466156006,
+        "lpips": -0.013557422906160355
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.5509991110523245,
+        "ssim": 0.01799238324165344,
+        "lpips": -0.015749432891607285
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "inpainting",
+      "candidate": "CLOSED_SCALAR_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.5590799686581182,
+        "ssim": 0.019670647382736207,
+        "lpips": -0.0096015565097332
+      },
+      "psnr_wins": 8,
+      "positive": true
+    },
+    {
+      "task": "inpainting",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.5620272380352329,
+        "ssim": 0.01972144842147827,
+        "lpips": -0.009632406383752823
+      },
+      "psnr_wins": 8,
+      "positive": true
+    },
+    {
+      "task": "inpainting",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.0029472693771147363,
+        "ssim": 5.080103874206543e-05,
+        "lpips": -3.0849874019622805e-05
+      },
+      "psnr_wins": 10,
+      "positive": false
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "CLOSED_SCALAR_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 1.7770411137150268,
+        "ssim": 0.12744083106517792,
+        "lpips": -0.12537424117326737
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 2.842438554476217,
+        "ssim": 0.168678942322731,
+        "lpips": -0.14985257834196092
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 1.0653974407611901,
+        "ssim": 0.0412381112575531,
+        "lpips": -0.02447833716869354
+      },
+      "psnr_wins": 10,
+      "positive": true
+    }
+  ],
+  "actual_cost": {
+    "forwards": 14400
+  },
+  "cost_is_lower_bound": false,
+  "protocol": {
+    "scope": "FFHQ IDs00000-00009 x4 tasks x sigma_model.05; three suffixes from one exact common prefix.",
+    "accounting": "Common prefix270F/9B once, each suffix30F/1B. Method-equivalent per arm300F/10B; actual joint case360F/12B. Both reported.",
+    "pairing": "Same learned zeta/D, initial, RNG, y, operator and grid by construction. No GT action/output selection.",
+    "baseline": "Local September17 ZAPS configuration; not author benchmark parity.",
+    "controllers": "Native ZAPS suffix; A71 closed scalar; closed diagonal with real H-adjoint and forward-exact native-q straight-through only for final unused update.",
+    "decision": "Per task: mean PSNR>=+.1dB, >=7/10 wins, SSIM nondecrease, LPIPS nonincrease. All cells retained.",
+    "limits": "Shared-prefix causal suffix comparison at sigma.05; no multi-noise/data/model or acceleration claim."
+  }
+}
