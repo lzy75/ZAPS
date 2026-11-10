@@ -1,0 +1,24 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py", line 139, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py", line 133, in main
+    elif args.worker: worker(args)
+                      ^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py", line 91, in worker
+    original.worker(args)
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback.py", line 266, in worker
+    for arm in order: measure(root, plan, case, arm, model, args.device_uuid)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py", line 79, in measure
+    return original.measure(root, plan, case, arm, model, uuid)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py", line 79, in measure
+    return original.measure(root, plan, case, arm, model, uuid)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py", line 79, in measure
+    return original.measure(root, plan, case, arm, model, uuid)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 993 more times]
+RecursionError: maximum recursion depth exceeded

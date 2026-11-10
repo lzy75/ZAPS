@@ -1,0 +1,36 @@
+{
+  "experiment": "A101R1_equal_nfe_feedback",
+  "classification": "STRICT_EQUAL_300_NFE_PAIRED_RNG_TRUE_ADJOINT_R1",
+  "completed_runs": 0,
+  "planned_runs": 360,
+  "image_clusters": 0,
+  "groups": [],
+  "comparisons": [],
+  "actual_new_cost": {
+    "method_forward_attempts": 0,
+    "optimizer_backward_attempts": 0,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0,
+    "warmup_forward_attempts": 2
+  },
+  "cost_is_lower_bound": true,
+  "protocol": {
+    "baseline": "Paired local ZAPS300: original learned update and historical bicubic guidance are unchanged; final-unroll RNG only is explicitly shared.",
+    "scope": "Fixed FFHQ IDs00000-00009 x4 tasks x model-coordinate sigma .025/.05/.10 x3 arms. One seed/image; all cells retained.",
+    "arms": "ZAPS_LOCAL_300 is unmodified local ZAPS. CLOSED_SCALAR_300 is the A71 noise-corrected native-q ray. CLOSED_DIAG_300 starts from that scalar and makes one exact steepest-descent update in the native db4 coefficient support for the same frozen linear observation target.",
+    "objective": "omega=(1-Msigma^2/||r||^2)+; minimize .5||PH(delta/sqrt(alpha_t))-omega Pr||^2. Scalar is the nested ray solution; diagonal changes direction and length. This is a current-state frozen response proxy, not an actual next-denoiser response.",
+    "equal_nfe": "Every complete reconstruction must have exactly300 denoiser forwards,10 optimizer backwards,0 input VJP,0 input JVP and the identical30x10 grid. H/Ht and db4 counts are separate.",
+    "pairing": "Each arm independently executes270 prefix forwards and9 optimization backwards. zeta/D/tau/initial must independently match at the final entry; then only CPU/CUDA RNG state is copied from baseline so the30-step innovations are exactly paired. No learned state, latent, direction or output is copied.",
+    "tasks": "SR4 empirical historical bicubic guidance; Gaussian61/sigma3 zero boundary; frozen DPS motion61/intensity.5; random70% missing. Inpainting statistics use observed RGB coordinates.",
+    "decision": "For each task/noise and candidate-vs-reference: mean PSNR>=+.1dB, >=7/10 PSNR wins, SSIM nondecrease, LPIPS nonincrease and paired gates. Report all failures/tradeoffs.",
+    "qualitative": "Before outcomes, IDs00001/00004/00008 fixed for panels. Show GT, observation, all three outputs; no best/worst selection.",
+    "limits": "Small ten-image local confirmation. No actual-response, posterior, author-reproduction, acceleration, universal-transfer or curvature claim.",
+    "diagonal_adjoint": "The diagonal quadratic uses the real H-adjoint. SR ZAPS itself keeps the historical bicubic empirical guidance map; it is not mislabeled H-adjoint."
+  },
+  "repair_of": {
+    "experiment": "A101_equal_nfe_feedback",
+    "root": "/data0/lzy/ZAPS-results/diag_equal_nfe_feedback/A101_20261110",
+    "reason": "A101 independently seeded final RNG drifted and SR diagonal used legacy bicubic mapping inside an exact quadratic descent gate.",
+    "reuse": "No A101 output or learned state reused; separate root and result branch."
+  }
+}

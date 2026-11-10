@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3",
+  "load_seconds": 1.8872536597773433,
+  "warmup_forward_attempts": 1,
+  "error": "RecursionError('maximum recursion depth exceeded')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback.py\", line 266, in worker\n    for arm in order: measure(root, plan, case, arm, model, args.device_uuid)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py\", line 79, in measure\n    return original.measure(root, plan, case, arm, model, uuid)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py\", line 79, in measure\n    return original.measure(root, plan, case, arm, model, uuid)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r1.py\", line 79, in measure\n    return original.measure(root, plan, case, arm, model, uuid)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  [Previous line repeated 993 more times]\nRecursionError: maximum recursion depth exceeded\n"
+}
