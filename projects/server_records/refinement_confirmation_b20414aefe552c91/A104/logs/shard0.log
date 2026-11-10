@@ -1,0 +1,17 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py", line 180, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py", line 177, in main
+    elif a.worker:worker(a)
+                  ^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py", line 143, in worker
+    if c['shard']==args.shard:run_case(root,p,c,model,args.device_uuid)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py", line 97, in run_case
+    if arm=='ZAPS300':gate=relative_error(output,reference_tensor(c['references'][arm]));files.require(gate<=1e-6,'ZAPS300 reproduction failed')
+                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py", line 44, in require
+    raise ValueError(message)
+ValueError: ZAPS300 reproduction failed

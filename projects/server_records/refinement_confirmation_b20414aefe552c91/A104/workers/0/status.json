@@ -1,0 +1,5 @@
+{
+  "status": "failed",
+  "error": "ValueError('ZAPS300 reproduction failed')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py\", line 143, in worker\n    if c['shard']==args.shard:run_case(root,p,c,model,args.device_uuid)\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py\", line 97, in run_case\n    if arm=='ZAPS300':gate=relative_error(output,reference_tensor(c['references'][arm]));files.require(gate<=1e-6,'ZAPS300 reproduction failed')\n                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py\", line 44, in require\n    raise ValueError(message)\nValueError: ZAPS300 reproduction failed\n"
+}

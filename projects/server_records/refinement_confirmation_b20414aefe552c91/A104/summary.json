@@ -1,0 +1,311 @@
+{
+  "experiment": "A104R1_actual_response_budget_control",
+  "classification": "FULL_CLOCK_300_450_445_NFE_CONTROL",
+  "completed_cases": 6,
+  "planned_cases": 12,
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "arm": "ZAPS300",
+      "images": 3,
+      "quality": {
+        "psnr": 24.610499629906084,
+        "ssim": 0.7364523808161417,
+        "lpips": 0.2042852739493052
+      },
+      "mean_full_seconds": 15.76714379992336,
+      "cost": {
+        "forwards": 300,
+        "optimizer_backward": 10,
+        "input_vjp": 0,
+        "input_jvp": 0
+      }
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "ZAPS450",
+      "images": 3,
+      "quality": {
+        "psnr": 23.98961289097384,
+        "ssim": 0.7058350245157877,
+        "lpips": 0.22077547013759613
+      },
+      "mean_full_seconds": 23.288023866092164,
+      "cost": {
+        "forwards": 450,
+        "optimizer_backward": 15,
+        "input_vjp": 0,
+        "input_jvp": 0
+      }
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "REAL_RAY445",
+      "images": 3,
+      "quality": {
+        "psnr": 25.460529911849786,
+        "ssim": 0.7692485054334005,
+        "lpips": 0.22220644354820251
+      },
+      "mean_full_seconds": 28.445771992517013,
+      "cost": {
+        "forwards": 445,
+        "optimizer_backward": 9,
+        "input_vjp": 29,
+        "input_jvp": 29
+      }
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "REAL_DIAG445",
+      "images": 3,
+      "quality": {
+        "psnr": 25.90643017487369,
+        "ssim": 0.786037266254425,
+        "lpips": 0.22129827737808228
+      },
+      "mean_full_seconds": 28.157092838548124,
+      "cost": {
+        "forwards": 445,
+        "optimizer_backward": 9,
+        "input_vjp": 29,
+        "input_jvp": 29
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "ZAPS300",
+      "images": 3,
+      "quality": {
+        "psnr": 19.75194311385996,
+        "ssim": 0.48941083749135333,
+        "lpips": 0.4175720512866974
+      },
+      "mean_full_seconds": 15.306658853466311,
+      "cost": {
+        "forwards": 300,
+        "optimizer_backward": 10,
+        "input_vjp": 0,
+        "input_jvp": 0
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "ZAPS450",
+      "images": 3,
+      "quality": {
+        "psnr": 19.694039009163273,
+        "ssim": 0.4729391535123189,
+        "lpips": 0.4314959943294525
+      },
+      "mean_full_seconds": 22.74786887411028,
+      "cost": {
+        "forwards": 450,
+        "optimizer_backward": 15,
+        "input_vjp": 0,
+        "input_jvp": 0
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "REAL_RAY445",
+      "images": 3,
+      "quality": {
+        "psnr": 21.900545434935253,
+        "ssim": 0.6312050620714823,
+        "lpips": 0.29368526736895245
+      },
+      "mean_full_seconds": 27.708025408598285,
+      "cost": {
+        "forwards": 445,
+        "optimizer_backward": 9,
+        "input_vjp": 29,
+        "input_jvp": 29
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "REAL_DIAG445",
+      "images": 3,
+      "quality": {
+        "psnr": 22.57079001129187,
+        "ssim": 0.6569076577822367,
+        "lpips": 0.2832951347033183
+      },
+      "mean_full_seconds": 28.412227606090408,
+      "cost": {
+        "forwards": 445,
+        "optimizer_backward": 9,
+        "input_vjp": 29,
+        "input_jvp": 29
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "gaussian_deblur",
+      "candidate": "ZAPS450",
+      "reference": "ZAPS300",
+      "images": 3,
+      "delta": {
+        "psnr": -0.6208867389322409,
+        "ssim": -0.030617356300354004,
+        "lpips": 0.016490196188290913
+      },
+      "psnr_wins": 0
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "REAL_RAY445",
+      "reference": "ZAPS300",
+      "images": 3,
+      "delta": {
+        "psnr": 0.8500302819437048,
+        "ssim": 0.032796124617258705,
+        "lpips": 0.017921169598897297
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "REAL_DIAG445",
+      "reference": "ZAPS300",
+      "images": 3,
+      "delta": {
+        "psnr": 1.2959305449676097,
+        "ssim": 0.04958488543828329,
+        "lpips": 0.017013003428777058
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "REAL_RAY445",
+      "reference": "ZAPS450",
+      "images": 3,
+      "delta": {
+        "psnr": 1.4709170208759457,
+        "ssim": 0.06341348091761272,
+        "lpips": 0.0014309734106063843
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "REAL_DIAG445",
+      "reference": "ZAPS450",
+      "images": 3,
+      "delta": {
+        "psnr": 1.9168172838998505,
+        "ssim": 0.08020224173863728,
+        "lpips": 0.000522807240486145
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "REAL_DIAG445",
+      "reference": "REAL_RAY445",
+      "images": 3,
+      "delta": {
+        "psnr": 0.44590026302390484,
+        "ssim": 0.016788760821024578,
+        "lpips": -0.0009081661701202393
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "ZAPS450",
+      "reference": "ZAPS300",
+      "images": 3,
+      "delta": {
+        "psnr": -0.05790410469668572,
+        "ssim": -0.016471683979034424,
+        "lpips": 0.013923943042755127
+      },
+      "psnr_wins": 2
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "REAL_RAY445",
+      "reference": "ZAPS300",
+      "images": 3,
+      "delta": {
+        "psnr": 2.148602321075297,
+        "ssim": 0.141794224580129,
+        "lpips": -0.12388678391774495
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "REAL_DIAG445",
+      "reference": "ZAPS300",
+      "images": 3,
+      "delta": {
+        "psnr": 2.8188468974319107,
+        "ssim": 0.1674968202908834,
+        "lpips": -0.13427691658337912
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "REAL_RAY445",
+      "reference": "ZAPS450",
+      "images": 3,
+      "delta": {
+        "psnr": 2.2065064257719826,
+        "ssim": 0.15826590855916342,
+        "lpips": -0.1378107269605001
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "REAL_DIAG445",
+      "reference": "ZAPS450",
+      "images": 3,
+      "delta": {
+        "psnr": 2.8767510021285965,
+        "ssim": 0.18396850426991782,
+        "lpips": -0.14820085962613425
+      },
+      "psnr_wins": 3
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "REAL_DIAG445",
+      "reference": "REAL_RAY445",
+      "images": 3,
+      "delta": {
+        "psnr": 0.6702445763566137,
+        "ssim": 0.025702595710754395,
+        "lpips": -0.010390132665634155
+      },
+      "psnr_wins": 3
+    }
+  ],
+  "actual_joint_cost": {
+    "forwards": 8220,
+    "optimizer_backward": 204,
+    "input_vjp": 348,
+    "input_jvp": 348
+  },
+  "summed_method_equivalent_cost": {
+    "forwards": 9840,
+    "optimizer_backward": 258,
+    "input_vjp": 348,
+    "input_jvp": 348
+  },
+  "cost_is_lower_bound": true,
+  "protocol": {
+    "scope": "Frozen A100 three FFHQ images x four tasks x sigma_model.05; same observations/operators/seeds/grid.",
+    "accounting": "NFE counts denoiser forwards only. ZAPS300=300F/10 optimizer backwards; ZAPS450=450F/15B; response methods=445F/9B/29VJP/29JVP. Operator and wavelet calls separate.",
+    "comparison": "Primary same-derivative comparison diagonal445 vs ray445. ZAPS450 is a near-NFE control for extra forwards, not derivative-equivalent. Full method-equivalent clocks are reported.",
+    "pairing": "Response arms share exactly one independently reproduced 270F/9B learned prefix, then independently replay the same RNG. ZAPS arms are independent from-seed executions.",
+    "gates": "ZAPS300 must reproduce frozen BASE; response arms must reproduce frozen A100 outputs; learned prefix snapshot must reproduce frozen entry. No failed-case retry or quality fallback.",
+    "limits": "Small reused development panel. No author benchmark, universal improvement, acceleration or posterior guarantee."
+  }
+}

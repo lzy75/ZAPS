@@ -1,0 +1,49 @@
+{
+  "status": "failed",
+  "case": {
+    "image_id": "00226",
+    "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+    "task": "super_resolution",
+    "sigma": 0.05,
+    "seed": 1226,
+    "measurement_seed": 1226,
+    "mask_seed": 2001226,
+    "shard": 0,
+    "key": "super_resolution_00226_n050_s1226",
+    "image_sha256": "8b9bad51f7d8076032b8f42e428071488130927f4231695ed0859c3b90e878b7",
+    "entry": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00226_n050_s1226/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00226_n050_s1226/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/super_resolution_00226_n050_s1226/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/super_resolution_00226_n050_s1226/state.pt",
+    "references": {
+      "ZAPS300": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/super_resolution_00226_n050_s1226/BASE/run.json",
+      "REAL_RAY445": "/data0/lzy/ZAPS-results/diag_equal_budget_ray_diagonal/A100_20261109/cases/super_resolution_00226_n050_s1226/RAY_K1_EQ/run.json",
+      "REAL_DIAG445": "/data0/lzy/ZAPS-results/diag_equal_budget_ray_diagonal/A100_20261109/cases/super_resolution_00226_n050_s1226/DIAG_K1_EQ/run.json"
+    },
+    "a95": {
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/super_resolution_00226_n050_s1226/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/super_resolution_00226_n050_s1226/REAL_DIAG/run.json"
+    },
+    "full_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00226_n050_s1226/BASE/paired.pt",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_noise_signal_shrink/A70_20261029/cases/00226_n050_s1226/SHRINK/paired.pt"
+    },
+    "a97_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/super_resolution_00226_n050_s1226/BASE/run.json",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/super_resolution_00226_n050_s1226/LEGACY_SCALAR/run.json",
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/super_resolution_00226_n050_s1226/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/super_resolution_00226_n050_s1226/REAL_DIAG/run.json"
+    },
+    "comparison_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/super_resolution_00226_n050_s1226/BASE/run.json",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/super_resolution_00226_n050_s1226/LEGACY_SCALAR/run.json",
+      "SCALAR_K0": "/data0/lzy/ZAPS-results/diag_fast_response/A98_20261107/cases/super_resolution_00226_n050_s1226/SCALAR_K0/run.json",
+      "DIAG_K1": "/data0/lzy/ZAPS-results/diag_fast_response/A98_20261107/cases/super_resolution_00226_n050_s1226/DIAG_K1/run.json"
+    }
+  },
+  "arms": {},
+  "counts": {},
+  "cost_is_lower_bound": true,
+  "error": "ValueError('ZAPS300 reproduction failed')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py\", line 97, in run_case\n    if arm=='ZAPS300':gate=relative_error(output,reference_tensor(c['references'][arm]));files.require(gate<=1e-6,'ZAPS300 reproduction failed')\n                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py\", line 44, in require\n    raise ValueError(message)\nValueError: ZAPS300 reproduction failed\n"
+}
