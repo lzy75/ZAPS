@@ -138,7 +138,7 @@ def worker(args):
   model=load_diffusion_model('ffhq','cuda:0');model.model.eval()
   try:
    with frozen_network(model.model),patch.object(rt,'forward_ad_checkpoint_scope',repair.forward_ad_checkpoint_scope):
-    probe={};rt.checkpoint_probe(model,p['grid'][16],probe);write(folder/'checkpoint_probe.json',probe)
+    probe={};probe['gate']=runtime.checkpoint_probe(model,p['grid'][16],probe);write(folder/'checkpoint_probe.json',probe)
     for c in p['cases']:
      if c['shard']==args.shard:run_case(root,p,c,model,args.device_uuid)
    write(folder/'status.json',dict(status='complete'))

@@ -3,10 +3,10 @@
 TASKS = ('super_resolution', 'gaussian_deblur', 'inpainting', 'motion_deblur')
 ARMS = ('ZAPS300', 'ZAPS450', 'REAL_RAY445', 'REAL_DIAG445')
 RESPONSE_ARMS = ARMS[2:]
-EXPERIMENT = 'A104_actual_response_budget_control'
-ROOT = '/data0/lzy/ZAPS-results/diag_actual_response_budget/A104_20261111'
+EXPERIMENT = 'A104R1_actual_response_budget_control'
+ROOT = '/data0/lzy/ZAPS-results/diag_actual_response_budget/A104R1_20261111'
 PARENT = '/data0/lzy/ZAPS-results/diag_equal_budget_ray_diagonal/A100_20261109'
-BRANCH = 'results/zaps-actual-response-budget-control-20261111'
+BRANCH = 'results/zaps-actual-response-budget-control-r1-20261111'
 
 
 def expected_cost(arm):
