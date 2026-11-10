@@ -16,6 +16,7 @@ from utils.paper_clock_alignment import digest, read, require, write
 A104 = Path('/data0/lzy/ZAPS-results/diag_actual_response_budget/A104R1_20261111')
 A103 = Path('/data0/lzy/ZAPS-results/diag_shared_prefix_feedback/A103_20261111')
 A105 = Path('/data0/lzy/ZAPS-results/diag_shared_prefix_feedback/A105_20261111')
+A105R1 = A105.with_name('A105R1_20261111')
 TASKS = ('super_resolution', 'inpainting')
 IMAGES = ('00001', '00004', '00008')
 BASE = 'ZAPS_SUFFIX'
@@ -24,6 +25,7 @@ METRICS = ('psnr', 'ssim', 'lpips')
 FROZEN_NOISE = .10
 CONTROLLER_NOISES = (.10, .05)
 CARD = PROJECTS / 'experiment_cards/A105_controller_noise_ablation.md'
+R1_CARD = CARD.with_name('A105R1_same_session_noise_ablation.md')
 
 
 def a104_status(root):
@@ -147,7 +149,21 @@ def cached_audit(root, report_path):
     print('CACHED AUDIT:', json.dumps(groups, ensure_ascii=False), flush=True)
 
 
-def sigma_ablation(parent, root):
+def ablation_schedule(same_session):
+    true = [(f'{arm}_sigma0.10', arm, .10) for arm in ARMS]
+    fixed = [(f'{arm}_sigma0.05', arm, .05) for arm in ARMS]
+    if not same_session:
+        return true + fixed
+    repeats = [(key+'_repeat', arm, sigma) for key, arm, sigma in true]
+    return true + repeats + [(BASE, BASE, .10)] + fixed
+
+
+def relative_output_error(output, reference):
+    reference = reference.double()
+    return float((output.double()-reference).norm()/reference.norm().clamp_min(1e-30))
+
+
+def sigma_ablation(parent, root, *, same_session=False):
     import torch
     from modules.main_single import load_diffusion_model, load_image_as_tensor
     from utils import diag_shared_prefix_feedback as base, paper_clock_runtime as clock
@@ -174,22 +190,29 @@ def sigma_ablation(parent, root):
         if case['task'] == 'inpainting':
             sources[case['key']]['mask_sha256'] = digest(y_path.parent / 'mask.pt')
     require(torch.cuda.is_available(), 'A105 requires one assigned CUDA GPU')
+    if same_session:
+        require(torch.cuda.device_count() == 1, 'Expose exactly one assigned GPU to A105R1')
     require(torch.cuda.mem_get_info(0)[0] >= 6 * 1024**3, 'A105 needs at least 6 GiB free')
     expected = plan['checkpoint']
     checkpoint = PROJECTS / 'modules/models/ffhq_10m.pt'
     require(digest(checkpoint) == expected['sha256'], 'FFHQ checkpoint differs from A103')
     require(not root.exists(), f'Existing A105 run retained: {root}')
     require(not root.resolve().is_relative_to(parent.resolve()), 'Use a separate result root')
+    schedule = ablation_schedule(same_session)
+    experiment = 'A105R1_same_session_noise_ablation' if same_session else 'A105_controller_noise_ablation'
+    card = R1_CARD if same_session else CARD
+    actual_nfe_cap = len(cases) * (270 + 30 * len(schedule))
     root.mkdir(parents=True)
-    write(root / 'plan.json', dict(experiment='A105_controller_noise_ablation', parent=str(parent),
+    write(root / 'plan.json', dict(experiment=experiment, parent=str(parent),
           cases=cases, inputs=sources, checkpoint=expected, parent_plan_sha256=digest(parent/'plan.json'),
-          source_sha256=digest(__file__), card_sha256=digest(CARD),
+          source_sha256=digest(__file__), card_sha256=digest(card),
           observation_sigma=FROZEN_NOISE, controller_sigmas=CONTROLLER_NOISES,
+          schedule=schedule, within_session_repeat_gate=same_session,
           code_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=PROJECTS, text=True).strip(),
           torch_version=str(torch.__version__), gpu=torch.cuda.get_device_name(0),
-          actual_new_nfe_cap=2340, method_nfe=300))
-    (root / 'experiment_card.md').write_bytes(CARD.read_bytes())
-    report = dict(status='running', completed_cases=0, planned_cases=6, cases=[])
+          actual_new_nfe_cap=actual_nfe_cap, method_nfe=300))
+    (root / 'experiment_card.md').write_bytes(card.read_bytes())
+    report = dict(experiment=experiment, status='running', completed_cases=0, planned_cases=6, cases=[])
     write(root / 'summary.json', report)
     try:
         model = load_diffusion_model('ffhq', 'cuda:0')
@@ -198,6 +221,8 @@ def sigma_ablation(parent, root):
         with frozen_network(model.model), precision.precision('LEGACY_IEEE'):
             for case in cases:
                 folder, old, y_path = source_case(parent, case)
+                require(digest(folder / 'run.json') == sources[case['key']]['run_sha256'] and
+                        digest(y_path) == sources[case['key']]['observation_sha256'], 'Frozen A103 inputs changed')
                 save = root / 'cases' / case['key']
                 row = dict(case=case, counts={}, arms={})
                 report['cases'].append(row)
@@ -219,41 +244,55 @@ def sigma_ablation(parent, root):
                 require(prefix_count['calls'] == grid * 9, 'Unexpected prefix grid')
                 final_rng = None
                 outputs = {}
-                for sigma in CONTROLLER_NOISES:
-                    for arm in ARMS:
-                        key = f'{arm}_sigma{sigma:.2f}'
-                        with clock.counters(model.model) as count:
-                            row['counts'][key] = count
-                            operator = make_operator(case, model.device, count=count)
-                            if mask is not None:
-                                require(torch.equal(operator._mask_cache.cpu(), mask), 'A103 mask differs')
-                            controlled = dict(case, sigma=sigma)
-                            (output, detail), seconds = clock.clocks(torch.cuda.synchronize,
-                                lambda: run_suffix(model, operator, y, controlled, arm, prefix))
-                        base.validate(count, 30, 1)
-                        require(count['calls'] == grid, 'Unexpected suffix grid')
-                        if final_rng is None:
-                            final_rng = detail['final_rng']
-                        else:
-                            require(base.rng_equal(final_rng, detail['final_rng']), 'Unpaired suffix RNG')
-                        if sigma == FROZEN_NOISE:
-                            path = artifact(folder, old, arm, arm + '.pt')
-                            cached = torch.load(path, map_location='cpu', weights_only=True).double()
-                            error = float((output.double()-cached).norm()/cached.norm().clamp_min(1e-30))
-                            row.setdefault('replay_relative_L2', {})[arm] = error
+                for key, arm, sigma in schedule:
+                    with clock.counters(model.model) as count:
+                        row['counts'][key] = count
+                        operator = make_operator(case, model.device, count=count)
+                        if mask is not None:
+                            require(torch.equal(operator._mask_cache.cpu(), mask), 'A103 mask differs')
+                        controlled = dict(case, sigma=sigma)
+                        (output, detail), seconds = clock.clocks(torch.cuda.synchronize,
+                            lambda: run_suffix(model, operator, y, controlled, arm, prefix))
+                    base.validate(count, 30, 1)
+                    require(count['calls'] == grid, 'Unexpected suffix grid')
+                    if final_rng is None:
+                        final_rng = detail['final_rng']
+                    else:
+                        require(base.rng_equal(final_rng, detail['final_rng']), 'Unpaired suffix RNG')
+                    write(save / (key+'_trace.json'), detail['trace'])
+                    if key.endswith('_repeat'):
+                        error = relative_output_error(output, outputs[key.removesuffix('_repeat')])
+                        row.setdefault('within_session_relative_L2', {})[arm] = error
+                        require(error <= 1e-6, f'A105R1 within-session repeat differs for {case["key"]}/{arm}: {error:.3g}')
+                        continue
+                    if sigma == FROZEN_NOISE:
+                        path = artifact(folder, old, arm, arm + '.pt')
+                        cached = torch.load(path, map_location='cpu', weights_only=True)
+                        error = relative_output_error(output, cached)
+                        row.setdefault('replay_relative_L2', {})[arm] = error
+                        if not same_session:
                             require(error <= 1e-6, f'A103 replay differs for {case["key"]}/{arm}: {error:.3g}')
-                        outputs[key] = output
-                        row['arms'][key] = dict(sigma_controller=sigma, suffix_seconds=seconds,
-                            method_seconds=prefix_seconds+seconds,
-                            omega_zero=sum(r['scalar']['weight'] == 0 for r in detail['trace']))
-                        write(save / (key+'_trace.json'), detail['trace'])
+                    outputs[key] = output
+                    row['arms'][key] = dict(sigma_controller=None if arm == BASE else sigma,
+                        suffix_seconds=seconds, method_seconds=prefix_seconds+seconds,
+                        omega_zero=sum(r['scalar']['weight'] == 0 for r in detail['trace']) if arm != BASE else None)
                 gt = load_image_as_tensor(case['image']).cpu()
+                if same_session and mask is None:
+                    operator = make_operator(case, model.device)
+                    clean_y = operator.H(gt.to(model.device)).double()
                 for key, output in outputs.items():
                     row['arms'][key]['metrics'] = metrics(output, gt)
                     if mask is not None:
                         row['arms'][key]['regional_errors'] = region_errors(output, gt, mask)
+                    elif same_session:
+                        prediction = operator.H(output.to(model.device)).double()
+                        row['arms'][key]['observation_errors'] = dict(
+                            clean_H_mse=float((prediction-clean_y).square().mean()),
+                            noisy_y_mse=float((prediction-y.double()).square().mean()))
                     torch.save(output, save / (key + '.pt'))
-                row['zaps300_metrics'] = old['arms'][BASE]['metrics']
+                row['zaps300_metrics'] = row['arms'][BASE]['metrics'] if same_session else old['arms'][BASE]['metrics']
+                if same_session:
+                    row['archived_zaps300_metrics'] = old['arms'][BASE]['metrics']
                 write(save / 'run.json', dict(row, status='complete'))
                 report['completed_cases'] += 1
                 write(root / 'summary.json', report)
@@ -273,6 +312,20 @@ def sigma_ablation(parent, root):
                              delta['ssim'] <= 0 and delta['lpips'] >= 0 else 'MIXED_OR_SMALL')
                 report['comparisons'].append(dict(task=task, arm=arm, fixed_minus_true=delta,
                                                    psnr_wins=wins, images=len(paired), decision=direction))
+                if same_session:
+                    result = report['comparisons'][-1]
+                    true_key, fixed_key = arm+'_sigma0.10', arm+'_sigma0.05'
+                    error_field = 'regional_errors' if task == 'inpainting' else 'observation_errors'
+                    for field in rows[0]['arms'][true_key][error_field]:
+                        if field.endswith('_mse') or field.startswith('mse_'):
+                            result.setdefault('fixed_minus_true_errors', {})[field] = mean(
+                                row['arms'][fixed_key][error_field][field] -
+                                row['arms'][true_key][error_field][field] for row in rows)
+                    result['fixed_minus_true_omega_zero'] = mean(
+                        row['arms'][fixed_key]['omega_zero'] - row['arms'][true_key]['omega_zero'] for row in rows)
+                    result['fixed_minus_zaps300'] = {key: mean(row['arms'][fixed_key]['metrics'][key] -
+                                                               row['zaps300_metrics'][key] for row in rows)
+                                                      for key in METRICS}
         report['status'] = 'complete'
     except BaseException as exc:
         report.update(status='failed', error=repr(exc), traceback=traceback.format_exc())
@@ -286,8 +339,8 @@ def sigma_ablation(parent, root):
             count.get('forward_attempts', 0) for row in report['cases'] for count in row['counts'].values())
         report['cost_is_lower_bound'] = report['status'] != 'complete'
         write(root / 'summary.json', report)
-    print('A105 FIXED MINUS TRUE:', json.dumps(report['comparisons'], ensure_ascii=False), flush=True)
-    print('A105 summary:', root / 'summary.json', flush=True)
+    print(experiment, 'FIXED MINUS TRUE:', json.dumps(report['comparisons'], ensure_ascii=False), flush=True)
+    print(experiment, 'summary:', root / 'summary.json', flush=True)
 
 
 def main():
@@ -300,13 +353,16 @@ def main():
     ablation = commands.add_parser('sigma-ablation')
     ablation.add_argument('--parent', type=Path, default=A103)
     ablation.add_argument('--root', type=Path, default=A105)
+    ablation_r1 = commands.add_parser('sigma-ablation-r1')
+    ablation_r1.add_argument('--parent', type=Path, default=A103)
+    ablation_r1.add_argument('--root', type=Path, default=A105R1)
     args = parser.parse_args()
     if args.command == 'a104-status':
         a104_status(args.root)
     elif args.command == 'cached-audit':
         cached_audit(args.parent, args.report)
     else:
-        sigma_ablation(args.parent, args.root)
+        sigma_ablation(args.parent, args.root, same_session=args.command == 'sigma-ablation-r1')
 
 
 if __name__ == '__main__':
