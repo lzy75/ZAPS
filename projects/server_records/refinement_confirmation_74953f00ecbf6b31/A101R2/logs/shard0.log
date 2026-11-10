@@ -1,0 +1,48 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 30 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 60 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 90 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 120 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 150 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 180 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 210 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 240 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 270 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 F= 300 /300
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+A101 COMPLETE: super_resolution_00000_n025_s1000 ZAPS_LOCAL_300 {'psnr': 30.81737466124658, 'ssim': 0.9051802754402161, 'lpips': 0.08373133838176727} seconds= 14.4
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 30 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 60 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 90 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 120 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 150 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 180 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 210 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 240 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 270 /300
+A101 PROGRESS: super_resolution_00000_n025_s1000 CLOSED_SCALAR_300 F= 300 /300
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r2.py", line 116, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r2.py", line 110, in main
+    elif args.worker: worker(args)
+                      ^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r2.py", line 72, in worker
+    r1.original.worker(args)
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback.py", line 266, in worker
+    for arm in order: measure(root, plan, case, arm, model, args.device_uuid)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r2.py", line 67, in measure
+    return _BASE_MEASURE(root, plan, case, arm, model, uuid)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback.py", line 213, in measure
+    files.require(prefix['passed'], 'Learned prefix/RNG differs from ZAPS baseline')
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py", line 44, in require
+    raise ValueError(message)
+ValueError: Learned prefix/RNG differs from ZAPS baseline

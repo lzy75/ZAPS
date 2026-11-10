@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3",
+  "load_seconds": 2.600041984580457,
+  "warmup_forward_attempts": 1,
+  "error": "ValueError('Learned prefix/RNG differs from ZAPS baseline')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback.py\", line 266, in worker\n    for arm in order: measure(root, plan, case, arm, model, args.device_uuid)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback_r2.py\", line 67, in measure\n    return _BASE_MEASURE(root, plan, case, arm, model, uuid)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_equal_nfe_feedback.py\", line 213, in measure\n    files.require(prefix['passed'], 'Learned prefix/RNG differs from ZAPS baseline')\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py\", line 44, in require\n    raise ValueError(message)\nValueError: Learned prefix/RNG differs from ZAPS baseline\n"
+}
