@@ -1,0 +1,29 @@
+{
+  "experiment": "A104_actual_response_budget_control",
+  "classification": "FULL_CLOCK_300_450_445_NFE_CONTROL",
+  "completed_cases": 0,
+  "planned_cases": 12,
+  "groups": [],
+  "comparisons": [],
+  "actual_joint_cost": {
+    "forwards": 0,
+    "optimizer_backward": 0,
+    "input_vjp": 0,
+    "input_jvp": 0
+  },
+  "summed_method_equivalent_cost": {
+    "forwards": 0,
+    "optimizer_backward": 0,
+    "input_vjp": 0,
+    "input_jvp": 0
+  },
+  "cost_is_lower_bound": true,
+  "protocol": {
+    "scope": "Frozen A100 three FFHQ images x four tasks x sigma_model.05; same observations/operators/seeds/grid.",
+    "accounting": "NFE counts denoiser forwards only. ZAPS300=300F/10 optimizer backwards; ZAPS450=450F/15B; response methods=445F/9B/29VJP/29JVP. Operator and wavelet calls separate.",
+    "comparison": "Primary same-derivative comparison diagonal445 vs ray445. ZAPS450 is a near-NFE control for extra forwards, not derivative-equivalent. Full method-equivalent clocks are reported.",
+    "pairing": "Response arms share exactly one independently reproduced 270F/9B learned prefix, then independently replay the same RNG. ZAPS arms are independent from-seed executions.",
+    "gates": "ZAPS300 must reproduce frozen BASE; response arms must reproduce frozen A100 outputs; learned prefix snapshot must reproduce frozen entry. No failed-case retry or quality fallback.",
+    "limits": "Small reused development panel. No author benchmark, universal improvement, acceleration or posterior guarantee."
+  }
+}

@@ -1,0 +1,14 @@
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py", line 180, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py", line 177, in main
+    elif a.worker:worker(a)
+                  ^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_actual_response_budget_control.py", line 141, in worker
+    probe={};rt.checkpoint_probe(model,p['grid'][16],probe);write(folder/'checkpoint_probe.json',probe)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/response_target_runtime.py", line 186, in checkpoint_probe
+    raise RuntimeError('Actual checkpoint forward-AD primal/adjoint gate failed: '+str((bypassed,primal_error,lhs,rhs)))
+RuntimeError: Actual checkpoint forward-AD primal/adjoint gate failed: (2, 0.0, 0.34945821250024234, 0.34904519560397806)
