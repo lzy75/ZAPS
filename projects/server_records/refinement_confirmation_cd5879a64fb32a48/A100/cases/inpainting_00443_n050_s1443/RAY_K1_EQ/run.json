@@ -1,0 +1,101 @@
+{
+  "status": "complete",
+  "case": {
+    "image_id": "00443",
+    "image": "/home/lzy/FFHQ/00000/00000/00443.png",
+    "task": "inpainting",
+    "sigma": 0.05,
+    "seed": 1443,
+    "measurement_seed": 1443,
+    "mask_seed": 2001443,
+    "shard": 1,
+    "key": "inpainting_00443_n050_s1443",
+    "image_sha256": "919465cd672d023f34129b38b375df0d98b0113a07d4d4fd280fb624cd293dc1",
+    "entry": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/BASE/entry.pt",
+    "reference": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/BASE/paired.pt",
+    "observation": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/observations/inpainting_00443_n050_s1443/y.pt",
+    "bundle": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00443_n050_s1443/state.pt",
+    "references": {
+      "NATIVE_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00443_n050_s1443/NATIVE_100/run.json",
+      "PHYS_DIRECT_100": "/data0/lzy/ZAPS-results/diag_overall_direction/A92_20261105/cases/inpainting_00443_n050_s1443/PHYS_DIRECT_100/run.json"
+    },
+    "a95": {
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/inpainting_00443_n050_s1443/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_response_target/A95R2_20261106/cases/inpainting_00443_n050_s1443/REAL_DIAG/run.json"
+    },
+    "full_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/BASE/paired.pt",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_shrink_multitask/A71_20261029/cases/inpainting_00443_n050_s1443/SHRINK/paired.pt"
+    },
+    "a97_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/BASE/run.json",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/LEGACY_SCALAR/run.json",
+      "REAL_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/REAL_SCALAR/run.json",
+      "REAL_DIAG": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/REAL_DIAG/run.json"
+    },
+    "comparison_references": {
+      "BASE": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/BASE/run.json",
+      "LEGACY_SCALAR": "/data0/lzy/ZAPS-results/diag_full_unroll_response/A97_20261106/cases/inpainting_00443_n050_s1443/LEGACY_SCALAR/run.json",
+      "SCALAR_K0": "/data0/lzy/ZAPS-results/diag_fast_response/A98_20261107/cases/inpainting_00443_n050_s1443/SCALAR_K0/run.json",
+      "DIAG_K1": "/data0/lzy/ZAPS-results/diag_fast_response/A98_20261107/cases/inpainting_00443_n050_s1443/DIAG_K1/run.json"
+    }
+  },
+  "arm": "RAY_K1_EQ",
+  "device_uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3",
+  "completed_steps": 30,
+  "counts": {
+    "forward_attempts": 175,
+    "forwards": 175,
+    "input_vjp_attempts": 29,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 269,
+    "base_adjoint_actions": 30,
+    "response_base_forward_attempts": 29,
+    "module_dwt_analysis": 30,
+    "solver_vjp_forward_attempts": 29,
+    "input_vjp_completed": 29,
+    "input_jvp_attempts": 29,
+    "solver_jvp_forward_attempts": 29,
+    "input_jvp_completed": 29,
+    "solver_value_attempts": 58,
+    "terminal_operator_vjp_attempts": 1,
+    "terminal_operator_vjp_completed": 1,
+    "terminal_operator_jvp_attempts": 1,
+    "terminal_operator_jvp_completed": 1,
+    "terminal_value_attempts": 2
+  },
+  "suffix_seconds": 12.772850560955703,
+  "replay_gate": null,
+  "metrics": {
+    "psnr": 26.05242982425613,
+    "ssim": 0.8529912829399109,
+    "lpips": 0.07964980602264404,
+    "mse_full": 0.009904313692282453,
+    "mse_observed": 0.0014926220770214535,
+    "mse_missing": 0.01352432624782212,
+    "observed_fraction": 0.300872802734375,
+    "float_psnr_full": 26.062356043338838,
+    "float_psnr_observed": 34.281101304487265,
+    "float_psnr_missing": 24.70944352606022
+  },
+  "equivalent_full_method_forward": 445,
+  "solver_stops": {
+    "scalar": {
+      "GRADIENT_TOLERANCE": 0,
+      "OUTER_BUDGET": 0,
+      "TRIAL_BUDGET": 0
+    },
+    "diagonal": {
+      "GRADIENT_TOLERANCE": 0,
+      "OUTER_BUDGET": 0,
+      "TRIAL_BUDGET": 0
+    }
+  },
+  "artifacts": {
+    "output.pt": "c7d6a752a7c49c13ddc7eb0f7b1cbcfdd20a064c81696138be24c09738e754f1",
+    "final_rng.pt": "8f89fabb50e85eed3b9551e74b8afac3587e0fa6904ef09ee6c9aa6460464896",
+    "trajectory.json": "465501a6a86a979e42c577dcc2b7191f5175ff3cbdaf84acf3a51572af4e9dd7",
+    "output.png": "55f2733b9d5829320443240117bd0e650993110ad8e3064707c1bceaa68b03d0"
+  }
+}

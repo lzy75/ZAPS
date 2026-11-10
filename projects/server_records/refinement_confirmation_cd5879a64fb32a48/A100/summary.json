@@ -1,0 +1,494 @@
+{
+  "experiment": "A100_equal_budget_ray_diagonal",
+  "classification": "PAIRED_EQUAL_NEURAL_CALL_RAY_VS_DIAGONAL",
+  "completed_runs": 24,
+  "planned_runs": 24,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 26.877509514299227,
+        "ssim": 0.8220034042994181,
+        "lpips": 0.16127590338389078
+      },
+      "mean_suffix_seconds": 1.4051102017983794,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "super_resolution",
+      "arm": "LEGACY_SCALAR",
+      "images": 3,
+      "quality": {
+        "psnr": 27.043548516982636,
+        "ssim": 0.8279731869697571,
+        "lpips": 0.16844436526298523
+      },
+      "mean_suffix_seconds": 1.3178054684152205,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SCALAR_K0",
+      "images": 3,
+      "quality": {
+        "psnr": 27.001076357720365,
+        "ssim": 0.8260678251584371,
+        "lpips": 0.16611763338247934
+      },
+      "mean_suffix_seconds": 2.322136980791887,
+      "mean_counts": {
+        "forward_attempts": 59,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "super_resolution",
+      "arm": "DIAG_K1",
+      "images": 3,
+      "quality": {
+        "psnr": 27.20633722598837,
+        "ssim": 0.8326743245124817,
+        "lpips": 0.16304180026054382
+      },
+      "mean_suffix_seconds": 11.593187525247535,
+      "mean_counts": {
+        "forward_attempts": 146,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": true
+    },
+    {
+      "task": "super_resolution",
+      "arm": "RAY_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 26.974450717233537,
+        "ssim": 0.824978252251943,
+        "lpips": 0.1654070516427358
+      },
+      "mean_suffix_seconds": 12.878027328600487,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    },
+    {
+      "task": "super_resolution",
+      "arm": "DIAG_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 27.20633722598837,
+        "ssim": 0.8326743245124817,
+        "lpips": 0.16304180026054382
+      },
+      "mean_suffix_seconds": 13.713137395990392,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 24.610499629906084,
+        "ssim": 0.7364523808161417,
+        "lpips": 0.2042852739493052
+      },
+      "mean_suffix_seconds": 1.797479300449292,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "LEGACY_SCALAR",
+      "images": 3,
+      "quality": {
+        "psnr": 25.385318450265718,
+        "ssim": 0.7656280994415283,
+        "lpips": 0.23174215853214264
+      },
+      "mean_suffix_seconds": 1.7790137858440478,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "SCALAR_K0",
+      "images": 3,
+      "quality": {
+        "psnr": 25.414285786465058,
+        "ssim": 0.7673407793045044,
+        "lpips": 0.22540044287840524
+      },
+      "mean_suffix_seconds": 2.520684413301448,
+      "mean_counts": {
+        "forward_attempts": 59,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "DIAG_K1",
+      "images": 3,
+      "quality": {
+        "psnr": 25.90643017487369,
+        "ssim": 0.786037266254425,
+        "lpips": 0.22129827737808228
+      },
+      "mean_suffix_seconds": 12.369044437694052,
+      "mean_counts": {
+        "forward_attempts": 146,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "RAY_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 25.460529911849786,
+        "ssim": 0.7692485054334005,
+        "lpips": 0.22220644354820251
+      },
+      "mean_suffix_seconds": 13.226887399641177,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "DIAG_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 25.90643017487369,
+        "ssim": 0.786037266254425,
+        "lpips": 0.22129827737808228
+      },
+      "mean_suffix_seconds": 14.74725451351454,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    },
+    {
+      "task": "inpainting",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 26.551941574756007,
+        "ssim": 0.8319612940152487,
+        "lpips": 0.12367527435223262
+      },
+      "mean_suffix_seconds": 1.3317872645954292,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "LEGACY_SCALAR",
+      "images": 3,
+      "quality": {
+        "psnr": 26.890278770296895,
+        "ssim": 0.8551665743192037,
+        "lpips": 0.10411236931880315
+      },
+      "mean_suffix_seconds": 1.3410217339793842,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "SCALAR_K0",
+      "images": 3,
+      "quality": {
+        "psnr": 27.11797885143958,
+        "ssim": 0.8609164754549662,
+        "lpips": 0.09778343637784322
+      },
+      "mean_suffix_seconds": 2.3238088535144925,
+      "mean_counts": {
+        "forward_attempts": 59,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "DIAG_K1",
+      "images": 3,
+      "quality": {
+        "psnr": 29.57916098494064,
+        "ssim": 0.9007298747698466,
+        "lpips": 0.05736791963378588
+      },
+      "mean_suffix_seconds": 12.223476792375246,
+      "mean_counts": {
+        "forward_attempts": 146,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "RAY_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 27.917790202628854,
+        "ssim": 0.8754303256670634,
+        "lpips": 0.07300183922052383
+      },
+      "mean_suffix_seconds": 12.7014568115895,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    },
+    {
+      "task": "inpainting",
+      "arm": "DIAG_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 29.57916098494064,
+        "ssim": 0.9007298747698466,
+        "lpips": 0.05736791963378588
+      },
+      "mean_suffix_seconds": 13.302677984038988,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 19.75194311385996,
+        "ssim": 0.48941083749135333,
+        "lpips": 0.4175720512866974
+      },
+      "mean_suffix_seconds": 1.5751676733295124,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "LEGACY_SCALAR",
+      "images": 3,
+      "quality": {
+        "psnr": 21.65991106672833,
+        "ssim": 0.6203533013661703,
+        "lpips": 0.3061775863170624
+      },
+      "mean_suffix_seconds": 1.5041775486121576,
+      "mean_counts": {
+        "forward_attempts": 30,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SCALAR_K0",
+      "images": 3,
+      "quality": {
+        "psnr": 21.759870488916047,
+        "ssim": 0.6255608797073364,
+        "lpips": 0.29977837204933167
+      },
+      "mean_suffix_seconds": 2.5659480349471173,
+      "mean_counts": {
+        "forward_attempts": 59,
+        "input_vjp_attempts": 0,
+        "input_jvp_attempts": 0
+      },
+      "reused": true
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DIAG_K1",
+      "images": 3,
+      "quality": {
+        "psnr": 22.57079001129187,
+        "ssim": 0.6569076577822367,
+        "lpips": 0.2832951347033183
+      },
+      "mean_suffix_seconds": 12.830265834617117,
+      "mean_counts": {
+        "forward_attempts": 146,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": true
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "RAY_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 21.900545434935253,
+        "ssim": 0.6312050620714823,
+        "lpips": 0.29368526736895245
+      },
+      "mean_suffix_seconds": 13.92985554629316,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DIAG_K1_EQ",
+      "images": 3,
+      "quality": {
+        "psnr": 22.57079001129187,
+        "ssim": 0.6569076577822367,
+        "lpips": 0.2832951347033183
+      },
+      "mean_suffix_seconds": 14.578148365020752,
+      "mean_counts": {
+        "forward_attempts": 175,
+        "input_vjp_attempts": 29,
+        "input_jvp_attempts": 29
+      },
+      "reused": false
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "candidate": "DIAG_K1_EQ",
+      "reference": "RAY_K1_EQ",
+      "images": 3,
+      "delta": {
+        "psnr": 0.231886508754832,
+        "ssim": 0.007696072260538737,
+        "lpips": -0.002365251382191976
+      },
+      "psnr_wins": 3,
+      "counts_equal": true,
+      "positive": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "DIAG_K1_EQ",
+      "reference": "RAY_K1_EQ",
+      "images": 3,
+      "delta": {
+        "psnr": 0.44590026302390484,
+        "ssim": 0.016788760821024578,
+        "lpips": -0.0009081661701202393
+      },
+      "psnr_wins": 3,
+      "counts_equal": true,
+      "positive": true
+    },
+    {
+      "task": "inpainting",
+      "candidate": "DIAG_K1_EQ",
+      "reference": "RAY_K1_EQ",
+      "images": 3,
+      "delta": {
+        "psnr": 1.6613707823117825,
+        "ssim": 0.025299549102783203,
+        "lpips": -0.01563391958673795
+      },
+      "psnr_wins": 3,
+      "counts_equal": true,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "DIAG_K1_EQ",
+      "reference": "RAY_K1_EQ",
+      "images": 3,
+      "delta": {
+        "psnr": 0.6702445763566137,
+        "ssim": 0.025702595710754395,
+        "lpips": -0.010390132665634155
+      },
+      "psnr_wins": 3,
+      "counts_equal": true,
+      "positive": true
+    }
+  ],
+  "actual_new_cost": {
+    "forward_attempts": 4200,
+    "input_vjp_attempts": 696,
+    "input_jvp_attempts": 696,
+    "optimizer_backward_attempts": 0,
+    "terminal_operator_vjp_attempts": 24,
+    "terminal_operator_jvp_attempts": 24
+  },
+  "cost_is_lower_bound": false,
+  "protocol": {
+    "scope": "Original3 FFHQ x4tasks sigma_model.05. Same A98 cached nine-unroll learned entry, observations, seeds, original30 positions, zeta/D and DDPM innovations. Two new final-unroll policies,24 runs; no new image/noise/grid/model.",
+    "target": "Same A98 next-reference objective F_s=PH(clamped clean_s), r=Py-F_s(b), omega=(1-Msigma^2/||r||^2)+, target=F_s(b)+omega*r. Same frozen-epsilon closed scalar initializer in both arms; known-noise heuristic, not calibrated final-image risk.",
+    "factor": "RAY_K1_EQ uses a nonnegative one-dimensional native-q parameter. DIAG_K1_EQ uses all original nonzero wavelet coefficients. Both perform one actual-response gradient/JVP update. This isolates parameter space, not response target or initialization.",
+    "exact_cost": "At every s>=0 position BOTH arms execute exactly one VJP, one JVP and two candidate value forwards, even when first candidate is accepted. Per suffix exactly175 model forwards,29 inputVJP,29 inputJVP; terminal operator derivatives separate. Full equivalent method F=270+175=445. No CG/optimizer/extra regularizer/task switch.",
+    "pairing": "Independent own trajectory from same entry/RNG. Controller consumes no sampling RNG; original29 innovations/final RNG/grid required equal. All calls/rejected checks retained. GT read only after30 actions. No output or quality fallback.",
+    "references": "A98 BASE/LEGACY_SCALAR/SCALAR_K0/DIAG_K1 are immutable descriptive references with their own recorded costs. Primary causal comparison is new DIAG_K1_EQ versus new RAY_K1_EQ; do not call native references equal-NFE.",
+    "decision": "Per task DIAG-RAY requires meanPSNR>=+.1dB, >=2/3 PSNR wins, SSIM nondecrease and LPIPS nonincrease. SR failure triggers a separate preregistered observable-anchor experiment later, not an automatic task-specific switch here.",
+    "limits": "Small reused development panel, one seed, sigma.05. Tests equal-call anisotropic freedom after a fixed scalar initializer; no independent transfer, universal superiority, NFE saving, curvature or posterior guarantee.",
+    "resources": "Up to2 explicit GPUs>=8GiB; real checkpoint primal/adjoint and fixed-call runtime tests mandatory. Step-boundary resume only. No process termination/download/precision change/old-source edit/results merge."
+  }
+}
