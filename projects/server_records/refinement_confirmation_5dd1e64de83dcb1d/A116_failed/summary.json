@@ -1,0 +1,16 @@
+{
+  "experiment": "A116",
+  "status": "failed",
+  "completed_cases": 0,
+  "planned_cases": 3,
+  "error": "ValueError('Scalar anchor differs from the proxy solve')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_sr_current_pullback.py\", line 217, in execute\n    x, point, outputs, virtual = probe_position(\n                                 ^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_sr_current_pullback.py\", line 74, in probe_position\n    require(detail['scalar'] == scalar, 'Scalar anchor differs from the proxy solve')\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py\", line 44, in require\n    raise ValueError(message)\nValueError: Scalar anchor differs from the proxy solve\n",
+  "actual_cost": {
+    "forward_attempts": 280,
+    "forwards": 280,
+    "current_input_vjp": 0,
+    "next_input_vjp": 0,
+    "optimizer_backward_attempts": 9
+  },
+  "cost_is_lower_bound": true
+}

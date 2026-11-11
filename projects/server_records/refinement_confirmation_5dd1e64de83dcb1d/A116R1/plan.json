@@ -1,0 +1,98 @@
+{
+  "experiment": "A116",
+  "revision": "R1",
+  "cases": [
+    {
+      "image_id": "00001",
+      "image": "/home/lzy/FFHQ/00000/00000/00001.png",
+      "task": "super_resolution",
+      "sigma": 0.1,
+      "seed": 1001,
+      "measurement_seed": 1001,
+      "mask_seed": 2001001,
+      "shard": 0,
+      "key": "super_resolution_00001_n100_s1001",
+      "image_sha256": "775f913a6f2969f89caa4be6467d832d1e3d3034b0d09009b696ba717225e17e"
+    },
+    {
+      "image_id": "00004",
+      "image": "/home/lzy/FFHQ/00000/00000/00004.png",
+      "task": "super_resolution",
+      "sigma": 0.1,
+      "seed": 1004,
+      "measurement_seed": 1004,
+      "mask_seed": 2001004,
+      "shard": 1,
+      "key": "super_resolution_00004_n100_s1004",
+      "image_sha256": "964553990a2794d9bdb6c1dd3ef1c5319a3f759385f4c30e7e59ac1f8c978406"
+    },
+    {
+      "image_id": "00008",
+      "image": "/home/lzy/FFHQ/00000/00000/00008.png",
+      "task": "super_resolution",
+      "sigma": 0.1,
+      "seed": 1008,
+      "measurement_seed": 1008,
+      "mask_seed": 2001008,
+      "shard": 1,
+      "key": "super_resolution_00008_n100_s1008",
+      "image_sha256": "1693621960ea252603b04c1daa4748e4153d1f61694392e1f88e2d3180ba8cd1"
+    }
+  ],
+  "arms": [
+    "SCALAR_ANCHOR",
+    "PROXY_DIRECTION",
+    "CURRENT_PULLBACK",
+    "NEXT_RESPONSE_DIRECTION"
+  ],
+  "checkpoint": {
+    "path": "/home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt",
+    "sha256": "81d535743156ec6be34d8668e6920da94f0614074d7793a16c8fa9e306237faa"
+  },
+  "a103_plan_sha256": "4f8a809d62d7ca672ce84c2cb4d20ba84f40302d13550858bd8178166991b964",
+  "a107_plan_sha256": "de477fd3e462c14f647466941ed6e33ee3d78f3f78ab68aaa6b0b8dbc8103bfb",
+  "positions_zero_based": [
+    9,
+    19,
+    28
+  ],
+  "grid": [
+    0,
+    24,
+    48,
+    71,
+    95,
+    119,
+    143,
+    166,
+    190,
+    214,
+    238,
+    262,
+    285,
+    309,
+    333,
+    334,
+    371,
+    408,
+    445,
+    482,
+    518,
+    555,
+    592,
+    629,
+    666,
+    667,
+    750,
+    833,
+    916,
+    999
+  ],
+  "common_relative_length": 0.1,
+  "forward_cap": 936,
+  "current_input_vjp_cap": 9,
+  "next_input_vjp_cap": 9,
+  "source_sha256": "8fa00724a5f2164bd93c11eb84b4b2d86094f5bc120a5c32578ca60eb1a54801",
+  "card_sha256": "0edb04f5244ffbd5eb65ee8772d78afa7749aaa4c3a236d5eb5963d0424d2270",
+  "code_commit": "ee1124501ddf5b6fc53795d869ba59771a168fcc"
+}
