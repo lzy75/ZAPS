@@ -1,0 +1,232 @@
+{
+  "experiment": "A115",
+  "status": "complete",
+  "completed_cases": 20,
+  "planned_cases": 20,
+  "groups": [
+    {
+      "sigma": 0.025,
+      "images": 10,
+      "arms": {
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 29.368076598361817,
+            "ssim": 0.8802801191806793,
+            "lpips": 0.1054257482290268
+          },
+          "clean_H_mse": 0.0004128259002642394,
+          "mean_seconds": 15.49997803978622,
+          "nfe": 300
+        },
+        "BAND_RAY_SUFFIX": {
+          "quality": {
+            "psnr": 29.368045198508916,
+            "ssim": 0.880279803276062,
+            "lpips": 0.10542429462075234
+          },
+          "clean_H_mse": 0.000412825790741898,
+          "mean_seconds": 15.70492476625368,
+          "nfe": 300
+        },
+        "BAND_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 29.366769831062662,
+            "ssim": 0.8802622318267822,
+            "lpips": 0.10535141304135323
+          },
+          "clean_H_mse": 0.00041283284607707886,
+          "mean_seconds": 15.763810938037931,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "BAND_RAY_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": -3.139985290125935e-05,
+            "ssim": -3.159046173095703e-07,
+            "lpips": -1.4536082744598388e-06
+          },
+          "error_delta": {
+            "raw_mse": 9.060043772279174e-08,
+            "row_mse": -1.37416202603078e-10,
+            "null_mse": 9.073785392586103e-08,
+            "clamped_mse": 9.059440344572068e-08,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": -2.8412819081009845e-12,
+            "clean_H_mse": -1.0952234146184049e-10
+          },
+          "psnr_wins": 2,
+          "positive": false
+        },
+        {
+          "candidate": "BAND_DIAG_SUFFIX",
+          "reference": "BAND_RAY_SUFFIX",
+          "delta": {
+            "psnr": -0.0012753674462558707,
+            "ssim": -1.7571449279785157e-05,
+            "lpips": -7.288157939910889e-05
+          },
+          "error_delta": {
+            "raw_mse": 4.022093783201831e-06,
+            "row_mse": 1.1457744017841568e-08,
+            "null_mse": 4.010636039183685e-06,
+            "clamped_mse": 4.022079519927502e-06,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 3.550766982740941e-10,
+            "clean_H_mse": 7.05533518087823e-09
+          },
+          "psnr_wins": 4,
+          "positive": false
+        },
+        {
+          "candidate": "BAND_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": -0.00130676729915713,
+            "ssim": -1.7887353897094728e-05,
+            "lpips": -7.433518767356873e-05
+          },
+          "error_delta": {
+            "raw_mse": 4.112694220924622e-06,
+            "row_mse": 1.132032781523849e-08,
+            "null_mse": 4.101373893109546e-06,
+            "clamped_mse": 4.112673923373222e-06,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 3.522354163659931e-10,
+            "clean_H_mse": 6.94581283941639e-09
+          },
+          "psnr_wins": 4,
+          "positive": false
+        }
+      ],
+      "activity": {
+        "BAND_RAY_SUFFIX": {
+          "steps_with_signal": 51,
+          "strict_diagonal_descents": 0
+        },
+        "BAND_DIAG_SUFFIX": {
+          "steps_with_signal": 51,
+          "strict_diagonal_descents": 51
+        }
+      }
+    },
+    {
+      "sigma": 0.1,
+      "images": 10,
+      "arms": {
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 26.71451926132476,
+            "ssim": 0.790156215429306,
+            "lpips": 0.1543944112956524
+          },
+          "clean_H_mse": 0.003009950681860941,
+          "mean_seconds": 15.368876547086984,
+          "nfe": 300
+        },
+        "BAND_RAY_SUFFIX": {
+          "quality": {
+            "psnr": 26.71451926132476,
+            "ssim": 0.790156215429306,
+            "lpips": 0.1543944112956524
+          },
+          "clean_H_mse": 0.003009950681860941,
+          "mean_seconds": 15.634220635145903,
+          "nfe": 300
+        },
+        "BAND_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 26.71451926132476,
+            "ssim": 0.790156215429306,
+            "lpips": 0.1543944112956524
+          },
+          "clean_H_mse": 0.003009950681860941,
+          "mean_seconds": 15.606483697891235,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "BAND_RAY_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "error_delta": {
+            "raw_mse": 0.0,
+            "row_mse": 0.0,
+            "null_mse": 0.0,
+            "clamped_mse": 0.0,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 0.0,
+            "clean_H_mse": 0.0
+          },
+          "psnr_wins": 0,
+          "positive": false
+        },
+        {
+          "candidate": "BAND_DIAG_SUFFIX",
+          "reference": "BAND_RAY_SUFFIX",
+          "delta": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "error_delta": {
+            "raw_mse": 0.0,
+            "row_mse": 0.0,
+            "null_mse": 0.0,
+            "clamped_mse": 0.0,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 0.0,
+            "clean_H_mse": 0.0
+          },
+          "psnr_wins": 0,
+          "positive": false
+        },
+        {
+          "candidate": "BAND_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "error_delta": {
+            "raw_mse": 0.0,
+            "row_mse": 0.0,
+            "null_mse": 0.0,
+            "clamped_mse": 0.0,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 0.0,
+            "clean_H_mse": 0.0
+          },
+          "psnr_wins": 0,
+          "positive": false
+        }
+      ],
+      "activity": {
+        "BAND_RAY_SUFFIX": {
+          "steps_with_signal": 0,
+          "strict_diagonal_descents": 0
+        },
+        "BAND_DIAG_SUFFIX": {
+          "steps_with_signal": 0,
+          "strict_diagonal_descents": 0
+        }
+      }
+    }
+  ],
+  "recorded_completed_case_cost": {
+    "forward_attempts": 7200,
+    "forwards": 7200,
+    "optimizer_backward_attempts": 240,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0
+  },
+  "cost_is_lower_bound": false
+}
