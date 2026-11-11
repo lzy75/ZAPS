@@ -1,0 +1,258 @@
+{
+  "experiment": "A111",
+  "status": "complete",
+  "planned_cases": 20,
+  "completed_cases": 20,
+  "original_observation_comparisons": [
+    {
+      "task": "gaussian_deblur",
+      "candidate": "CLOSED_SCALAR_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.7002471418641505,
+        "ssim": 0.030782121419906616,
+        "lpips": 0.0021920099854469298
+      },
+      "psnr_wins": 9,
+      "positive": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 1.251246252916475,
+        "ssim": 0.04877450466156006,
+        "lpips": -0.013557422906160355
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 0.5509991110523245,
+        "ssim": 0.01799238324165344,
+        "lpips": -0.015749432891607285
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "CLOSED_SCALAR_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 1.7770411137150268,
+        "ssim": 0.12744083106517792,
+        "lpips": -0.12537424117326737
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "ZAPS_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 2.842438554476217,
+        "ssim": 0.168678942322731,
+        "lpips": -0.14985257834196092
+      },
+      "psnr_wins": 10,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "CLOSED_DIAG_SUFFIX",
+      "reference": "CLOSED_SCALAR_SUFFIX",
+      "images": 10,
+      "delta": {
+        "psnr": 1.0653974407611901,
+        "ssim": 0.0412381112575531,
+        "lpips": -0.02447833716869354
+      },
+      "psnr_wins": 10,
+      "positive": true
+    }
+  ],
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "sigma": 0.05,
+      "images": 10,
+      "arms": {
+        "ZAPS_SUFFIX": {
+          "quality": {
+            "psnr": 25.595915136587266,
+            "ssim": 0.7745693683624267,
+            "lpips": 0.17351498752832412
+          },
+          "mean_seconds": 14.301466963998973,
+          "nfe": 300
+        },
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 26.47643105342913,
+            "ssim": 0.8017295062541961,
+            "lpips": 0.17648847848176957
+          },
+          "mean_seconds": 14.367516193445772,
+          "nfe": 300
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 27.028994319621347,
+            "ssim": 0.8198470771312714,
+            "lpips": 0.16090550050139427
+          },
+          "mean_seconds": 15.055009884294122,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 0.8805159168418634,
+            "ssim": 0.02716013789176941,
+            "lpips": 0.0029734909534454347
+          },
+          "error_delta": {
+            "noisy_y_mse": 3.810691280994416e-05,
+            "clean_H_mse": 2.2783337106543813e-05
+          },
+          "psnr_wins": 10,
+          "positive": false
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 1.4330791830340808,
+            "ssim": 0.045277708768844606,
+            "lpips": -0.012609487026929855
+          },
+          "error_delta": {
+            "noisy_y_mse": 8.186040548010219e-06,
+            "clean_H_mse": -2.7583128648742075e-06
+          },
+          "psnr_wins": 10,
+          "positive": true
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": 0.5525632661922174,
+            "ssim": 0.018117570877075197,
+            "lpips": -0.01558297798037529
+          },
+          "error_delta": {
+            "noisy_y_mse": -2.9920872261933938e-05,
+            "clean_H_mse": -2.554164997141802e-05
+          },
+          "psnr_wins": 10,
+          "positive": true
+        }
+      ]
+    },
+    {
+      "task": "motion_deblur",
+      "sigma": 0.05,
+      "images": 10,
+      "arms": {
+        "ZAPS_SUFFIX": {
+          "quality": {
+            "psnr": 20.673029839961863,
+            "ssim": 0.5322961300611496,
+            "lpips": 0.3720813289284706
+          },
+          "mean_seconds": 13.745462167356163,
+          "nfe": 300
+        },
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 22.595670116086968,
+            "ssim": 0.667993813753128,
+            "lpips": 0.23740921169519424
+          },
+          "mean_seconds": 13.8326929140836,
+          "nfe": 300
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 23.66383183791405,
+            "ssim": 0.7096543133258819,
+            "lpips": 0.21210498362779617
+          },
+          "mean_seconds": 14.411621028091758,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 1.922640276125105,
+            "ssim": 0.13569768369197846,
+            "lpips": -0.13467211723327638
+          },
+          "error_delta": {
+            "noisy_y_mse": -0.00024593936911096145,
+            "clean_H_mse": -0.00026384870326278894
+          },
+          "psnr_wins": 10,
+          "positive": true
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 2.990801997952186,
+            "ssim": 0.17735818326473235,
+            "lpips": -0.15997634530067445
+          },
+          "error_delta": {
+            "noisy_y_mse": -0.00027954778867658704,
+            "clean_H_mse": -0.00031552505901062965
+          },
+          "psnr_wins": 10,
+          "positive": true
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": 1.0681617218270811,
+            "ssim": 0.041660499572753903,
+            "lpips": -0.02530422806739807
+          },
+          "error_delta": {
+            "noisy_y_mse": -3.360841956562559e-05,
+            "clean_H_mse": -5.167635574784069e-05
+          },
+          "psnr_wins": 10,
+          "positive": true
+        }
+      ]
+    }
+  ],
+  "actual_cost": {
+    "forward_attempts": 7200,
+    "forwards": 7200,
+    "optimizer_backward_attempts": 240,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0
+  },
+  "cost_is_lower_bound": false
+}

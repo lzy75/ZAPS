@@ -1,0 +1,223 @@
+{
+  "status": "complete",
+  "planned_cases": 6,
+  "completed_cases": 6,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "images": 3,
+      "arms": {
+        "SCALAR300": {
+          "quality": {
+            "psnr": 25.57678081198101,
+            "ssim": 0.759239395459493,
+            "lpips": 0.15542318423589072
+          },
+          "nfe": 300,
+          "input_vjp": 0,
+          "mean_method_seconds": 13.888792735214034
+        },
+        "GUARDED_RAY306": {
+          "quality": {
+            "psnr": 25.576221208937497,
+            "ssim": 0.7591930627822876,
+            "lpips": 0.15531143049399057
+          },
+          "nfe": 306,
+          "input_vjp": 3,
+          "mean_method_seconds": 14.256790447980165,
+          "trials": 9,
+          "outcomes": {
+            "accepted": 9
+          },
+          "images_with_accepted_step": 3,
+          "selected_loss_increases": 0,
+          "mean_selected_relative_drop": 0.005072471593322438
+        },
+        "GUARDED_DIAG306": {
+          "quality": {
+            "psnr": 25.596714051755434,
+            "ssim": 0.7599507172902426,
+            "lpips": 0.15547220160563788
+          },
+          "nfe": 306,
+          "input_vjp": 3,
+          "mean_method_seconds": 14.261987412658831,
+          "trials": 9,
+          "outcomes": {
+            "accepted": 9
+          },
+          "images_with_accepted_step": 3,
+          "selected_loss_increases": 0,
+          "mean_selected_relative_drop": 0.1156052240992017
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "GUARDED_DIAG306",
+          "reference": "GUARDED_RAY306",
+          "delta": {
+            "psnr": 0.02049284281793599,
+            "ssim": 0.0007576545079549154,
+            "lpips": 0.000160771111647288
+          },
+          "errors": {
+            "clean_H_mse": -1.4999265673323244e-05,
+            "full_mse": -5.930514305561331e-05,
+            "noisy_y_mse": 3.41009740516361e-05
+          },
+          "psnr_wins": 3,
+          "same_nfe_and_vjp": true,
+          "positive": false
+        },
+        {
+          "candidate": "GUARDED_DIAG306",
+          "reference": "SCALAR300",
+          "delta": {
+            "psnr": 0.019933239774425477,
+            "ssim": 0.0007113218307495117,
+            "lpips": 4.9017369747161865e-05
+          },
+          "errors": {
+            "clean_H_mse": -1.8657725652013353e-05,
+            "full_mse": -5.551236769552511e-05,
+            "noisy_y_mse": 2.736622915696744e-07
+          },
+          "psnr_wins": 3,
+          "same_nfe_and_vjp": false,
+          "positive": false
+        },
+        {
+          "candidate": "GUARDED_RAY306",
+          "reference": "SCALAR300",
+          "delta": {
+            "psnr": -0.0005596030435105112,
+            "ssim": -4.633267720540365e-05,
+            "lpips": -0.00011175374190012614
+          },
+          "errors": {
+            "clean_H_mse": -3.6584599786901087e-06,
+            "full_mse": 3.7927753600882027e-06,
+            "noisy_y_mse": -3.382731176006642e-05
+          },
+          "psnr_wins": 2,
+          "same_nfe_and_vjp": false,
+          "positive": false
+        }
+      ]
+    },
+    {
+      "task": "inpainting",
+      "images": 3,
+      "arms": {
+        "SCALAR300": {
+          "quality": {
+            "psnr": 26.04702097934479,
+            "ssim": 0.8026097019513448,
+            "lpips": 0.12178177883227666
+          },
+          "nfe": 300,
+          "input_vjp": 0,
+          "mean_method_seconds": 14.0463629818211
+        },
+        "GUARDED_RAY306": {
+          "quality": {
+            "psnr": 26.0758391304753,
+            "ssim": 0.802894671758016,
+            "lpips": 0.1206083173553149
+          },
+          "nfe": 306,
+          "input_vjp": 3,
+          "mean_method_seconds": 14.354243442726633,
+          "trials": 9,
+          "outcomes": {
+            "accepted": 9
+          },
+          "images_with_accepted_step": 3,
+          "selected_loss_increases": 0,
+          "mean_selected_relative_drop": 0.07409705132406588
+        },
+        "GUARDED_DIAG306": {
+          "quality": {
+            "psnr": 26.13969517053332,
+            "ssim": 0.8032514850298563,
+            "lpips": 0.11909465243419011
+          },
+          "nfe": 306,
+          "input_vjp": 3,
+          "mean_method_seconds": 14.415734888364872,
+          "trials": 9,
+          "outcomes": {
+            "accepted": 9
+          },
+          "images_with_accepted_step": 3,
+          "selected_loss_increases": 0,
+          "mean_selected_relative_drop": 0.11934927030065333
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "GUARDED_DIAG306",
+          "reference": "GUARDED_RAY306",
+          "delta": {
+            "psnr": 0.06385604005802037,
+            "ssim": 0.0003568132718404134,
+            "lpips": -0.0015136649211247761
+          },
+          "errors": {
+            "clean_H_mse": 9.955166580686329e-05,
+            "full_mse": -0.00021980226316505153,
+            "missing_mse": -0.00035615359758963083,
+            "noisy_y_mse": 0.00022155179358942603,
+            "observed_mse": 9.955166580686329e-05
+          },
+          "psnr_wins": 3,
+          "same_nfe_and_vjp": true,
+          "positive": false
+        },
+        {
+          "candidate": "GUARDED_DIAG306",
+          "reference": "SCALAR300",
+          "delta": {
+            "psnr": 0.09267419118853108,
+            "ssim": 0.000641783078511556,
+            "lpips": -0.002687126398086548
+          },
+          "errors": {
+            "clean_H_mse": 2.5300155029697794e-05,
+            "full_mse": -0.00030635223991388235,
+            "missing_mse": -0.0004479353280384798,
+            "noisy_y_mse": -0.0001575864062054773,
+            "observed_mse": 2.5300155029697794e-05
+          },
+          "psnr_wins": 3,
+          "same_nfe_and_vjp": false,
+          "positive": false
+        },
+        {
+          "candidate": "GUARDED_RAY306",
+          "reference": "SCALAR300",
+          "delta": {
+            "psnr": 0.02881815113051071,
+            "ssim": 0.0002849698066711426,
+            "lpips": -0.0011734614769617717
+          },
+          "errors": {
+            "clean_H_mse": -7.425151077716551e-05,
+            "full_mse": -8.654997674883084e-05,
+            "missing_mse": -9.178173044884896e-05,
+            "noisy_y_mse": -0.00037913819979490333,
+            "observed_mse": -7.425151077716551e-05
+          },
+          "psnr_wins": 3,
+          "same_nfe_and_vjp": false,
+          "positive": false
+        }
+      ]
+    }
+  ],
+  "recorded_new_nfe": 2232,
+  "input_vjp_attempts": 36,
+  "optimizer_backward_attempts": 54,
+  "cost_is_lower_bound": false
+}
