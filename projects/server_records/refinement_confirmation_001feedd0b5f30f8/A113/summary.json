@@ -1,0 +1,244 @@
+{
+  "experiment": "A113",
+  "status": "complete",
+  "planned_cases": 20,
+  "completed_cases": 20,
+  "groups": [
+    {
+      "sigma": 0.025,
+      "images": 10,
+      "arms": {
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 29.368065861409658,
+            "ssim": 0.8802796125411987,
+            "lpips": 0.10542548671364785
+          },
+          "mean_seconds": 14.596464077942073,
+          "nfe": 300
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 29.337222341213234,
+            "ssim": 0.8784487783908844,
+            "lpips": 0.097846882045269
+          },
+          "mean_seconds": 15.301491154823452,
+          "nfe": 300
+        },
+        "REMAINING_SIGNAL_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 29.367317222793286,
+            "ssim": 0.8802692413330078,
+            "lpips": 0.10538816228508949
+          },
+          "mean_seconds": 15.304038212634623,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": -0.030843520196425445,
+            "ssim": -0.001830834150314331,
+            "lpips": -0.00757860466837883
+          },
+          "error_delta": {
+            "raw_mse": 5.6933638316227205e-05,
+            "row_mse": 6.62419446343269e-06,
+            "null_mse": 5.030944385279309e-05,
+            "clamped_mse": 5.693344864994287e-05,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": -6.8133267690278425e-06,
+            "clean_H_mse": 2.950814920851279e-05
+          },
+          "psnr_wins": 4,
+          "positive": false
+        },
+        {
+          "candidate": "REMAINING_SIGNAL_DIAG_SUFFIX",
+          "reference": "CLOSED_DIAG_SUFFIX",
+          "delta": {
+            "psnr": 0.03009488158005169,
+            "ssim": 0.001820462942123413,
+            "lpips": 0.00754128023982048
+          },
+          "error_delta": {
+            "raw_mse": -5.4567227927839046e-05,
+            "row_mse": -6.616921170934611e-06,
+            "null_mse": -4.795030675690433e-05,
+            "clamped_mse": -5.4567097686231135e-05,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 6.813519513036812e-06,
+            "clean_H_mse": -2.9503647516278394e-05
+          },
+          "psnr_wins": 6,
+          "positive": false
+        },
+        {
+          "candidate": "REMAINING_SIGNAL_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": -0.0007486386163737535,
+            "ssim": -1.0371208190917969e-05,
+            "lpips": -3.732442855834961e-05
+          },
+          "error_delta": {
+            "raw_mse": 2.3664103883881595e-06,
+            "row_mse": 7.273292498079275e-09,
+            "null_mse": 2.359137095888763e-06,
+            "clamped_mse": 2.3663509637117385e-06,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 1.9274400896943793e-10,
+            "clean_H_mse": 4.501692234395527e-09
+          },
+          "psnr_wins": 1,
+          "positive": false
+        }
+      ],
+      "correction": {
+        "steps": 300,
+        "beta_zero": 273,
+        "beta_one": 0,
+        "by_stage": {
+          "first10": {
+            "mean_beta": 0.09312317363030695,
+            "steps_with_increment": 27
+          },
+          "middle10": {
+            "mean_beta": 0.0,
+            "steps_with_increment": 0
+          },
+          "last10": {
+            "mean_beta": 0.0,
+            "steps_with_increment": 0
+          }
+        }
+      }
+    },
+    {
+      "sigma": 0.1,
+      "images": 10,
+      "arms": {
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 26.714476295177,
+            "ssim": 0.7901551127433777,
+            "lpips": 0.1543949492275715
+          },
+          "mean_seconds": 14.377712438069285,
+          "nfe": 300
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 26.531825901369118,
+            "ssim": 0.7811164438724518,
+            "lpips": 0.15197147876024247
+          },
+          "mean_seconds": 15.059431868698448,
+          "nfe": 300
+        },
+        "REMAINING_SIGNAL_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 26.714476295177,
+            "ssim": 0.7901551127433777,
+            "lpips": 0.1543949492275715
+          },
+          "mean_seconds": 15.11857541585341,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": -0.18265039380788223,
+            "ssim": -0.009038668870925904,
+            "lpips": -0.0024234704673290254
+          },
+          "error_delta": {
+            "raw_mse": 0.00039712477273694057,
+            "row_mse": 0.00025008520500893543,
+            "null_mse": 0.00014703956772800587,
+            "clamped_mse": 0.00039712502621114254,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": -3.95248552036211e-05,
+            "clean_H_mse": 0.00026631639157165363
+          },
+          "psnr_wins": 0,
+          "positive": false
+        },
+        {
+          "candidate": "REMAINING_SIGNAL_DIAG_SUFFIX",
+          "reference": "CLOSED_DIAG_SUFFIX",
+          "delta": {
+            "psnr": 0.18265039380788223,
+            "ssim": 0.009038668870925904,
+            "lpips": 0.0024234704673290254
+          },
+          "error_delta": {
+            "raw_mse": -0.00039712477273694057,
+            "row_mse": -0.00025008520500893543,
+            "null_mse": -0.00014703956772800587,
+            "clamped_mse": -0.00039712502621114254,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 3.95248552036211e-05,
+            "clean_H_mse": -0.00026631639157165363
+          },
+          "psnr_wins": 10,
+          "positive": false
+        },
+        {
+          "candidate": "REMAINING_SIGNAL_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": 0.0,
+            "ssim": 0.0,
+            "lpips": 0.0
+          },
+          "error_delta": {
+            "raw_mse": 0.0,
+            "row_mse": 0.0,
+            "null_mse": 0.0,
+            "clamped_mse": 0.0,
+            "clamp_fraction": 0.0,
+            "noisy_y_mse": 0.0,
+            "clean_H_mse": 0.0
+          },
+          "psnr_wins": 0,
+          "positive": false
+        }
+      ],
+      "correction": {
+        "steps": 300,
+        "beta_zero": 300,
+        "beta_one": 0,
+        "by_stage": {
+          "first10": {
+            "mean_beta": 0.0,
+            "steps_with_increment": 0
+          },
+          "middle10": {
+            "mean_beta": 0.0,
+            "steps_with_increment": 0
+          },
+          "last10": {
+            "mean_beta": 0.0,
+            "steps_with_increment": 0
+          }
+        }
+      }
+    }
+  ],
+  "actual_cost": {
+    "forward_attempts": 7200,
+    "forwards": 7200,
+    "optimizer_backward_attempts": 240,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0
+  },
+  "cost_is_lower_bound": false
+}
