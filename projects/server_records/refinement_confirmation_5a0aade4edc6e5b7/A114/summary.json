@@ -1,0 +1,153 @@
+{
+  "experiment": "A114",
+  "status": "complete",
+  "completed_cases": 20,
+  "planned_cases": 20,
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "images": 10,
+      "arms": {
+        "ZAPS_SUFFIX": {
+          "quality": {
+            "psnr": 18.6155359307572,
+            "ssim": 0.45256201922893524,
+            "lpips": 0.506072910130024
+          },
+          "mean_seconds": 41.137042499240486,
+          "nfe": 300
+        },
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 22.492079955905506,
+            "ssim": 0.6325645878911018,
+            "lpips": 0.5243380010128021
+          },
+          "mean_seconds": 41.22047424428165,
+          "nfe": 300
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 22.781395432937188,
+            "ssim": 0.6514224857091904,
+            "lpips": 0.47734011709690094
+          },
+          "mean_seconds": 41.77929086750373,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 3.8765440251483074,
+            "ssim": 0.1800025686621666,
+            "lpips": 0.018265090882778168
+          },
+          "psnr_wins": 10,
+          "positive": false
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 4.165859502179987,
+            "ssim": 0.19886046648025513,
+            "lpips": -0.028732793033123018
+          },
+          "psnr_wins": 10,
+          "positive": true
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": 0.2893154770316789,
+            "ssim": 0.018857897818088533,
+            "lpips": -0.046997883915901185
+          },
+          "psnr_wins": 10,
+          "positive": true
+        }
+      ]
+    },
+    {
+      "task": "motion_deblur",
+      "images": 10,
+      "arms": {
+        "ZAPS_SUFFIX": {
+          "quality": {
+            "psnr": 18.404385951071284,
+            "ssim": 0.42490366846323013,
+            "lpips": 0.5019062846899033
+          },
+          "mean_seconds": 43.05875040506944,
+          "nfe": 300
+        },
+        "CLOSED_SCALAR_SUFFIX": {
+          "quality": {
+            "psnr": 20.35223098482966,
+            "ssim": 0.522513923048973,
+            "lpips": 0.5298371642827988
+          },
+          "mean_seconds": 43.10576913617551,
+          "nfe": 300
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "quality": {
+            "psnr": 20.992200491380874,
+            "ssim": 0.5560296088457107,
+            "lpips": 0.48302064538002015
+          },
+          "mean_seconds": 43.5782560903579,
+          "nfe": 300
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 1.9478450337583766,
+            "ssim": 0.09761025458574295,
+            "lpips": 0.02793087959289551
+          },
+          "psnr_wins": 9,
+          "positive": false
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "ZAPS_SUFFIX",
+          "delta": {
+            "psnr": 2.587814540309591,
+            "ssim": 0.13112594038248063,
+            "lpips": -0.01888563930988312
+          },
+          "psnr_wins": 10,
+          "positive": true
+        },
+        {
+          "candidate": "CLOSED_DIAG_SUFFIX",
+          "reference": "CLOSED_SCALAR_SUFFIX",
+          "delta": {
+            "psnr": 0.6399695065512144,
+            "ssim": 0.03351568579673767,
+            "lpips": -0.046816518902778624
+          },
+          "psnr_wins": 10,
+          "positive": true
+        }
+      ]
+    }
+  ],
+  "recorded_completed_case_cost": {
+    "forward_attempts": 7200,
+    "forwards": 7200,
+    "optimizer_backward_attempts": 240,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0
+  },
+  "cost_is_lower_bound": false,
+  "device_uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3"
+}
