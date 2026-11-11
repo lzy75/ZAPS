@@ -15,7 +15,8 @@ from utils.diag_online_three_position_response import apply_length
 from utils.diag_sr_inpainting_followup import A103, IMAGES, source_case
 from utils.paper_clock_alignment import digest, read, require, write
 
-ROOT = A103.with_name('A116_20261111')
+ORIGINAL_ROOT = A103.with_name('A116_20261111')
+ROOT = A103.with_name('A116R1_20261111')
 CARD = PROJECTS/'experiment_cards/A116_sr_current_pullback.md'
 BRANCH = 'results/zaps-sr-current-pullback-20261111'
 ANCHOR, PROXY, CURRENT, NEXT = 'SCALAR_ANCHOR', 'PROXY_DIRECTION', 'CURRENT_PULLBACK', 'NEXT_RESPONSE_DIRECTION'
@@ -65,13 +66,13 @@ def probe_position(model, zaps, operator, x, y, i, sigma, count, module):
                     'Current forward value differs from native Tweedie estimate')
             uncond = ddpm_posterior_step(x, clean, t, s, model.alphas_cumprod,
                                         eta=1., learned_log_var=None, mode='ddpm')
-            residual = y-operator.H(clean)
+            measured = operator.H(clean)
+            residual = y-measured
             v = operator.transpose(residual)
             hv = zaps.dwt.synthesis(zaps.D[i]*zaps.dwt.analysis(v))
             q = zaps.zeta[i]*((v+(1-alpha)*hv)/a)
-            scalar, measured, residual = scalar_rule(operator, clean, q, y, a, sigma)
             full, detail, _ = exact_adjoint_diagonal(zaps, operator, clean, q, residual, alpha, sigma, module)
-            require(detail['scalar'] == scalar, 'Scalar anchor differs from the proxy solve')
+            scalar = detail['scalar']
             correction = scalar['gamma']*q
             anchor = uncond+correction
             target = measured+scalar['weight']*residual
@@ -172,14 +173,14 @@ def execute(parent, reference, root):
     require(torch.cuda.mem_get_info(0)[0] >= 8*1024**3, 'Need 8 GiB free for input VJP')
     require(digest(PROJECTS/'modules/models/ffhq_10m.pt') == plan['checkpoint']['sha256'], 'Checkpoint differs')
     root.mkdir(parents=True, exist_ok=True)
-    write(root/'plan.json', dict(experiment='A116', cases=cases, arms=ARMS, checkpoint=plan['checkpoint'],
+    write(root/'plan.json', dict(experiment='A116', revision='R1', cases=cases, arms=ARMS, checkpoint=plan['checkpoint'],
           a103_plan_sha256=digest(parent/'plan.json'), a107_plan_sha256=digest(reference/'plan.json'),
           positions_zero_based=POSITIONS, grid=plan['grid'], common_relative_length=RELATIVE_LENGTH,
           forward_cap=936, current_input_vjp_cap=9, next_input_vjp_cap=9, source_sha256=digest(__file__),
           card_sha256=digest(CARD), code_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'],
                                                                     cwd=PROJECTS, text=True).strip()))
     (root/'experiment_card.md').write_bytes(CARD.read_bytes())
-    report = dict(experiment='A116', status='running', completed_cases=0, planned_cases=3)
+    report = dict(experiment='A116', revision='R1', status='running', completed_cases=0, planned_cases=3)
     write(summary_path, report)
     rows, active = [], None
     try:
@@ -279,7 +280,11 @@ def main():
         result = read(root/'summary.json')
         require(result['experiment'] == 'A116' and result['status'] == 'complete', 'A116 must be complete')
         exporter.BRANCH = BRANCH
-        bundle, commit = exporter.export_and_commit({'A116': root}, projects=PROJECTS)
+        sources = {'A116R1': root}
+        old_summary = ORIGINAL_ROOT/'summary.json'
+        if old_summary.is_file() and read(old_summary).get('status') == 'failed':
+            sources['A116_failed'] = ORIGINAL_ROOT
+        bundle, commit = exporter.export_and_commit(sources, projects=PROJECTS)
         print(f'Archive: {bundle} Results commit: {commit} Branch: {BRANCH}', flush=True)
         subprocess.run(['git', 'push', 'origin', BRANCH], cwd=PROJECTS.parent, check=True)
         return

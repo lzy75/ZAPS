@@ -14,4 +14,6 @@
 
 两项主比较是当步拉回对标量锚点和对原代理方向。三个位置须每图全活跃，至少 2/3 图在图内平均的干净观测和全图 MSE 都降低，两项 MSE 的跨图均值都下降。对真实下一步方向的余弦和目标降幅仅作诊断。只有两道主比较通过，才准备原 300F、额外 3 次输入 VJP 的终局配对射线/对角试验；保留反向及其 checkpoint 重算时间。
 
-在服务器 projects 目录运行 `/home/lzy/anaconda3/bin/python -u utils/diag_sr_current_pullback.py`，单卡至少 8 GiB 空闲。输出 `/data0/lzy/ZAPS-results/diag_shared_prefix_feedback/A116_20261111`。完成后 `--archive` 推送 `results/zaps-sr-current-pullback-20261111`。
+R1 修复两次独立标量计算的字典精确相等门控。探针直接用原代理求解器返回的倍率构造同一个标量锚点，比较协议及预算一致。原 A116 目录和失败记录保留。
+
+在服务器 projects 目录运行 `/home/lzy/anaconda3/bin/python -u utils/diag_sr_current_pullback.py`，单卡至少 8 GiB 空闲。输出 `/data0/lzy/ZAPS-results/diag_shared_prefix_feedback/A116R1_20261111`。完成后 `--archive` 推送 `results/zaps-sr-current-pullback-20261111`。
