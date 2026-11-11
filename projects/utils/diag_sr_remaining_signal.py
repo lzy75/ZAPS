@@ -2,12 +2,14 @@
 import argparse
 import json
 import math
+import os
 from pathlib import Path
 from statistics import mean
 import subprocess
 import sys
+import time
 import traceback
-from contextlib import nullcontext
+from contextlib import ExitStack, nullcontext
 from unittest.mock import patch
 
 PROJECTS = Path(__file__).resolve().parents[1]
@@ -24,6 +26,137 @@ BRANCH = 'results/zaps-sr-remaining-signal-20261111'
 SCALAR, DIAG = ORIGINAL[1:]
 CORRECTED = 'REMAINING_SIGNAL_DIAG_SUFFIX'
 ARMS = (SCALAR, DIAG, CORRECTED)
+COST_KEYS = ('forward_attempts', 'forwards', 'optimizer_backward_attempts',
+             'input_vjp_attempts', 'input_jvp_attempts')
+
+
+def legacy_workers(root):
+    """Detect the original unlocked Python entry on the Linux GPU host."""
+    workers = []
+    proc = Path('/proc')
+    if not proc.is_dir():
+        return workers
+    for process in proc.iterdir():
+        if not process.name.isdecimal() or int(process.name) == os.getpid():
+            continue
+        try:
+            command = os.fsdecode((process/'cmdline').read_bytes()).rstrip('\0').split('\0')
+            if not Path(command[0]).name.startswith('python'):
+                continue
+            is_script = len(command) > 1 and any(Path(a).name == Path(__file__).name for a in command[1:])
+            is_module = '-m' in command and 'utils.diag_sr_remaining_signal' in command
+            if not (is_script or is_module) or {'--status', '--archive'}.intersection(command):
+                continue
+            target = ROOT
+            for i, argument in enumerate(command):
+                if argument == '--root' and i+1 < len(command):
+                    target = Path(command[i+1])
+                elif argument.startswith('--root='):
+                    target = Path(argument.partition('=')[2])
+            if not target.is_absolute():
+                target = (process/'cwd').resolve(strict=True)/target
+            if target.resolve() == root.resolve():
+                workers.append(int(process.name))
+        except (OSError, RuntimeError):
+            continue
+    return workers
+
+
+def interrupted_record(record):
+    return record.get('status') == 'running' or record.get('error') == 'KeyboardInterrupt()'
+
+
+def read_completed_cases(root, entries, descending):
+    from utils.diag_shared_prefix_feedback import validate
+
+    completed, interrupted = [], []
+    for entry in entries:
+        case = entry['case']
+        directory = root/'cases'/case['key']
+        if not directory.exists():
+            continue
+        record_path = directory/'run.json'
+        if not record_path.is_file() and {p.name for p in directory.iterdir()} <= {'run.json.tmp'}:
+            interrupted.append(directory)
+            continue
+        record = read(record_path)
+        require(record['case'] == case, f'Case identity differs at {directory}')
+        if interrupted_record(record):
+            interrupted.append(directory)
+            continue
+        require(record['status'] == 'complete', f'Prior case failed at {directory}: {record.get("error")}')
+        validate(record['counts']['prefix'], 270, 9)
+        require(record['counts']['prefix']['calls'] == descending*9, 'Saved prefix grid differs')
+        for arm in ARMS:
+            count = record['counts'][arm]
+            validate(count, 30, 1)
+            require(count['calls'] == descending and (directory/(arm+'.pt')).is_file()
+                    and arm in record['arms'], f'Incomplete saved output at {directory}/{arm}')
+        require(len(record['updates']) == 30, 'Saved correction trace incomplete')
+        completed.append(record)
+    return completed, interrupted
+
+
+def preserve_interrupted(root, paths):
+    summary = root/'summary.json'
+    if not paths and not (summary.is_file() and interrupted_record(read(summary))):
+        return
+    attempt = root/'interrupted'/str(time.time_ns())
+    attempt.mkdir(parents=True)
+    if summary.is_file():
+        (attempt/'previous_summary.json').write_bytes(summary.read_bytes())
+    for path in paths:
+        path.rename(attempt/path.name)
+    print(f'A113 retained interrupted case records at {attempt}', flush=True)
+
+
+def print_summary(report):
+    print('A113 SUMMARY:', json.dumps(report, ensure_ascii=False), flush=True)
+
+
+def recorded_cost(rows):
+    counts = [count for row in rows for count in row['counts'].values()]
+    return {key:sum(count.get(key, 0) for count in counts) for key in COST_KEYS}
+
+
+def run_or_reuse(parent, audit, root):
+    from utils.a54_session import exclusive
+
+    root = root.resolve()
+    require(all(not root.is_relative_to(p.resolve()) for p in (parent, audit)),
+            'Use an independent A113 result directory')
+    root.parent.mkdir(parents=True, exist_ok=True)
+    lock = root.with_name(root.name+'.lock')
+    # Prior revisions did not hold a lock. The updated entry uses an exclusive lock.
+    with ExitStack() as scope:
+        try:
+            scope.enter_context(exclusive(lock))
+        except BlockingIOError as exc:
+            raise SystemExit(f'A113 is already running under {lock}; use --status to read progress') from exc
+        while root.exists():
+            summary_path = root/'summary.json'
+            summary = read(summary_path) if summary_path.is_file() else {}
+            if summary.get('status') == 'complete':
+                require(summary.get('experiment') == 'A113'
+                        and summary['completed_cases'] == summary['planned_cases'] == 20,
+                        'Existing summary differs from a completed A113 run')
+                plan = read(root/'plan.json')
+                require(plan.get('experiment') == 'A113'
+                        and Path(plan['parent']).resolve() == parent.resolve()
+                        and Path(plan['audit']).resolve() == audit.resolve(),
+                        'Completed A113 uses different input directories')
+                print_summary(summary)
+                return
+            if summary.get('status') == 'failed' and not interrupted_record(summary):
+                print_summary(summary)
+                raise ValueError(f'Existing A113 recorded a failure: {summary.get("error")}')
+            workers = legacy_workers(root)
+            if not workers:
+                break
+            print(f'A113 waiting for existing worker {workers}; '
+                  f'{summary.get("completed_cases", 0)}/20 complete', flush=True)
+            time.sleep(15)
+        execute(parent, audit, root)
 
 
 def remaining_signal(scalar, size, sigma):
@@ -108,31 +241,56 @@ def execute(parent, audit, root):
             and prior['completed_cases'] == len(cases)
             and prior_plan['a103_plan_sha256'] == digest(parent/'plan.json')
             and [e['case'] for e in prior_plan['cases']] == cases, 'Completed matching A112 required')
-    require(torch.cuda.is_available() and torch.cuda.device_count() == 1, 'Expose one allocated GPU')
-    require(torch.cuda.mem_get_info(0)[0] >= 6 * 1024**3, 'Need 6 GiB free')
-    require(plan['grid'] == grid() and digest(PROJECTS/'modules/models/ffhq_10m.pt') ==
-            plan['checkpoint']['sha256'], 'Grid or checkpoint differs')
-    require(all(not root.resolve().is_relative_to(p.resolve()) for p in (parent, audit)),
-            'Use an independent A113 result directory')
-    root.mkdir(parents=True)
-    write(root/'plan.json', dict(experiment='A113', parent=str(parent), audit=str(audit),
-          cases=prior_plan['cases'], grid=plan['grid'], checkpoint=plan['checkpoint'], arms=ARMS,
+    require(plan['grid'] == grid(), 'Grid differs')
+    identity = dict(experiment='A113', cases=prior_plan['cases'], grid=plan['grid'],
+          checkpoint=plan['checkpoint'], arms=list(ARMS),
           a103_plan_sha256=digest(parent/'plan.json'), a112_plan_sha256=digest(audit/'plan.json'),
-          a112_summary_sha256=digest(audit/'summary.json'), joint_forward_cap=7200,
-          code_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=PROJECTS, text=True).strip(),
-          source_sha256=digest(__file__), card_sha256=digest(CARD)))
-    (root/'experiment_card.md').write_bytes(CARD.read_bytes())
-    report = dict(experiment='A113', status='running', planned_cases=len(cases), completed_cases=0)
+          a112_summary_sha256=digest(audit/'summary.json'), joint_forward_cap=7200)
+    plan_path = root/'plan.json'
+    if plan_path.is_file():
+        saved = read(plan_path)
+        require(all(saved.get(k) == v for k, v in identity.items()), 'Existing A113 plan differs')
+    else:
+        require(not root.exists() or root.is_dir() and not any(root.iterdir()),
+                'Existing result directory lacks an A113 plan and contains files')
+    descending = plan['grid'][::-1]
+    rows, interrupted = read_completed_cases(root, prior_plan['cases'], descending)
+    finished_keys = {row['case']['key'] for row in rows}
+    pending = [e for e in prior_plan['cases'] if e['case']['key'] not in finished_keys]
+    if pending:
+        require(torch.cuda.is_available() and torch.cuda.device_count() == 1, 'Expose one allocated GPU')
+        require(torch.cuda.mem_get_info(0)[0] >= 6 * 1024**3, 'Need 6 GiB free')
+        require(digest(PROJECTS/'modules/models/ffhq_10m.pt') == plan['checkpoint']['sha256'],
+                'Checkpoint differs')
+    root.mkdir(parents=True, exist_ok=True)
+    if not plan_path.is_file():
+        write(plan_path, dict(identity, parent=str(parent), audit=str(audit),
+              code_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=PROJECTS, text=True).strip(),
+              source_sha256=digest(__file__), card_sha256=digest(CARD)))
+    if not (root/'experiment_card.md').exists():
+        require(digest(CARD) == read(plan_path)['card_sha256'], 'Saved experiment card hash differs')
+        (root/'experiment_card.md').write_bytes(CARD.read_bytes())
+    preserve_interrupted(root, interrupted)
+    attempts = [path for path in (root/'interrupted').glob('*/*') if path.is_dir()]
+    prior_cost = recorded_cost([read(path/'run.json') for path in attempts if (path/'run.json').is_file()])
+    report = dict(experiment='A113', status='running', planned_cases=len(cases), completed_cases=len(rows),
+                  groups=summarize(rows), retained_interrupted_cases=len(attempts), interrupted_recorded_cost=prior_cost)
     write(root/'summary.json', report)
-    rows, active = [], None
+    if not pending:
+        report.update(status='complete', actual_cost=recorded_cost(rows), cost_is_lower_bound=bool(attempts))
+        write(root/'summary.json', report)
+        print_summary(report)
+        return
+    if rows:
+        print(f'A113 reusing {len(rows)}/20 completed cases; running {len(pending)} pending', flush=True)
+    active = None
     controller = corrected_update(bridge.exact_diagonal_with_native_straight_through)
     try:
         model = load_diffusion_model('ffhq', 'cuda:0')
         model.model.eval()
-        descending = plan['grid'][::-1]
         with frozen_network(model.model), precision.precision('LEGACY_IEEE'):
             projection = ObservableProjection(make_operator(cases[0], model.device), model.device)
-            for entry in prior_plan['cases']:
+            for entry in pending:
                 case = entry['case']
                 dest = root/'cases'/case['key']
                 active = dict(status='running', case=case, counts={}, arms={})
@@ -190,18 +348,18 @@ def execute(parent, audit, root):
         raise
     finally:
         attempted = rows + ([active] if active is not None else [])
-        counts = [count for row in attempted for count in row['counts'].values()]
-        report['actual_cost'] = {k:sum(c.get(k, 0) for c in counts) for k in
-            ('forward_attempts', 'forwards', 'optimizer_backward_attempts', 'input_vjp_attempts', 'input_jvp_attempts')}
-        report['cost_is_lower_bound'] = report['status'] != 'complete'
+        report['actual_cost'] = recorded_cost(attempted)
+        report['cost_is_lower_bound'] = report['status'] != 'complete' or bool(attempts)
         write(root/'summary.json', report)
-    print('A113 SUMMARY:', json.dumps(report, ensure_ascii=False), flush=True)
+    print_summary(report)
 
 
 def archive(root):
     from utils import archive_refinement_confirmation as exporter
 
-    require(read(root/'summary.json')['status'] == 'complete', 'A113 must be complete for archive')
+    report = read(root/'summary.json')
+    require(report.get('experiment') == 'A113' and report['status'] == 'complete',
+            'A113 must be complete for archive')
     exporter.BRANCH = BRANCH
     bundle, commit = exporter.export_and_commit({'A113': root}, projects=PROJECTS)
     print(f'Archive: {bundle} Results commit: {commit} Branch: {BRANCH}', flush=True)
@@ -222,7 +380,7 @@ def main():
     elif args.archive:
         archive(args.root)
     else:
-        execute(args.parent, args.audit, args.root)
+        run_or_reuse(args.parent, args.audit, args.root)
 
 
 if __name__ == '__main__':
