@@ -1,0 +1,311 @@
+{
+  "host": "dps",
+  "dataset": "ffhq",
+  "completed_runs": 36,
+  "planned_runs": 36,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 22.997963433827795,
+        "ssim": 0.6344222823778788,
+        "lpips": 0.2578464597463608
+      },
+      "seconds": 126.89847967835765,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": true
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 26.03044910571698,
+        "ssim": 0.7977186838785807,
+        "lpips": 0.10590410729249318
+      },
+      "seconds": 73.08938677795231,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    },
+    {
+      "task": "super_resolution",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 25.50272308619365,
+        "ssim": 0.7524650494257609,
+        "lpips": 0.15662269790967306
+      },
+      "seconds": 94.80947132532795,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 24.442699097004297,
+        "ssim": 0.7107458511988322,
+        "lpips": 0.19296430548032126
+      },
+      "seconds": 109.99681581184268,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 26.272862454515913,
+        "ssim": 0.7993972897529602,
+        "lpips": 0.12784543881813684
+      },
+      "seconds": 76.27411311740677,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 26.224450369532665,
+        "ssim": 0.797620952129364,
+        "lpips": 0.12925065557161966
+      },
+      "seconds": 99.4683421049267,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 21.29027026495315,
+        "ssim": 0.571251779794693,
+        "lpips": 0.25665949781735736
+      },
+      "seconds": 129.1085279136896,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": true
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 25.395622312286083,
+        "ssim": 0.7694363792737325,
+        "lpips": 0.1531460483868917
+      },
+      "seconds": 75.71482373339434,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 25.055076116819222,
+        "ssim": 0.7493806083997091,
+        "lpips": 0.1391075849533081
+      },
+      "seconds": 97.65904704543452,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    },
+    {
+      "task": "inpainting",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 27.197161177509503,
+        "ssim": 0.8174787561098734,
+        "lpips": 0.155183345079422
+      },
+      "seconds": 103.3038774812594,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 29.80177060448265,
+        "ssim": 0.9080325563748678,
+        "lpips": 0.038205175350109734
+      },
+      "seconds": 72.38964505245288,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    },
+    {
+      "task": "inpainting",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 29.328157950722822,
+        "ssim": 0.8904534975687662,
+        "lpips": 0.04291954015692075
+      },
+      "seconds": 91.02028718528648,
+      "nfe": 1000,
+      "input_vjp": 1000,
+      "reused": false
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 3.0324856718891824,
+        "ssim": 0.1632964015007019,
+        "lpips": -0.15194235245386759
+      },
+      "psnr_wins": 3,
+      "positive": true
+    },
+    {
+      "task": "super_resolution",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -0.5277260195233259,
+        "ssim": -0.045253634452819824,
+        "lpips": 0.05071859061717987
+      },
+      "psnr_wins": 0,
+      "positive": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 1.8301633575116167,
+        "ssim": 0.088651438554128,
+        "lpips": -0.0651188666621844
+      },
+      "psnr_wins": 3,
+      "positive": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -0.04841208498324908,
+        "ssim": -0.0017763376235961914,
+        "lpips": 0.0014052167534828186
+      },
+      "psnr_wins": 0,
+      "positive": false
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 4.105352047332935,
+        "ssim": 0.19818459947903952,
+        "lpips": -0.1035134494304657
+      },
+      "psnr_wins": 3,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -0.34054619546686027,
+        "ssim": -0.020055770874023438,
+        "lpips": -0.014038463433583578
+      },
+      "psnr_wins": 0,
+      "positive": false
+    },
+    {
+      "task": "inpainting",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 2.604609426973146,
+        "ssim": 0.09055380026499431,
+        "lpips": -0.11697816972931226
+      },
+      "psnr_wins": 3,
+      "positive": true
+    },
+    {
+      "task": "inpainting",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -0.4736126537598248,
+        "ssim": -0.017579058806101482,
+        "lpips": 0.004714364806811015
+      },
+      "psnr_wins": 0,
+      "positive": false
+    }
+  ],
+  "actual_new_cost": {
+    "forward_attempts": 24000,
+    "forwards": 24000,
+    "input_vjp_attempts": 24000,
+    "optimizer_backward_attempts": 0,
+    "refinement_H": 59992,
+    "refinement_Ht": 12000,
+    "module_dwt_analysis": 24000,
+    "module_dwt_synthesis": 35992
+  },
+  "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.",
+  "separate_model_gate": {
+    "model_load_seconds": 2.3636700697243214,
+    "probe_counts": {
+      "forward_attempts": 1,
+      "forwards": 1,
+      "input_vjp_attempts": 1,
+      "optimizer_backward_attempts": 0,
+      "optimizer_backward_completed": 0,
+      "base_H_actions": 0,
+      "base_adjoint_actions": 0,
+      "calls": [
+        999
+      ]
+    },
+    "probe_seconds": 0.6368430815637112,
+    "peak_reserved_bytes": 2831155200
+  },
+  "failures": []
+}
