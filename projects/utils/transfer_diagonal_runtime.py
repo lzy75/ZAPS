@@ -2,8 +2,19 @@
 import ast
 import inspect
 import math
+from contextlib import contextmanager
+from unittest.mock import patch
 from utils import paper_clock_alignment as files
 from utils.equal_nfe_feedback_runtime import diagonal_update
+
+
+@contextmanager
+def dps_reference_scope():
+    """Use one cached reference for both unchanged historical DPS adapters."""
+    from utils import dps_multiplier_transfer_runtime as original
+    from utils import dps_missing_tasks_runtime as missing
+    with patch.object(missing, 'reference', original.reference):
+        yield
 
 
 class LinearView:

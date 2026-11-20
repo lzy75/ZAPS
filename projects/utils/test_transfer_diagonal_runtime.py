@@ -78,6 +78,10 @@ class Gates(unittest.TestCase):
         config=dict(sampler='ddpm',steps=1000,noise_schedule='linear',model_mean_type='epsilon',
                     model_var_type='learned_range',dynamic_threshold=False,clip_denoised=True,
                     rescale_timesteps=False,timestep_respacing='8')
+        with control.dps_reference_scope():
+            self.check_dps_entries(original, missing, model, config)
+
+    def check_dps_entries(self, original, missing, model, config):
         for rt,task in ((original,'super_resolution'),(missing,'inpainting')):
             op=physical.make_operator(dict(task=task,mask_seed=123),'cuda:0',size=8)
             x=torch.full((1,3,8,8),.1,device='cuda:0');y=op.H(x)

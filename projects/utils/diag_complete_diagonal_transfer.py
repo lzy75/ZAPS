@@ -1,5 +1,6 @@
 """Complete DPS/PiGDM four-task scalar and diagonal transfer tables."""
 import argparse
+from contextlib import nullcontext
 import gc
 import inspect
 import json
@@ -156,7 +157,8 @@ def measure(root, entry, obs, host, model, wavelet, arm):
         torch.cuda.empty_cache()
         torch.cuda.reset_peak_memory_stats()
         versions = [p._version for p in model.model.parameters()]
-        with precision.precision('LEGACY_IEEE'), clock.counters(model.model) as count:
+        scope = control.dps_reference_scope() if host == 'dps' else nullcontext()
+        with scope, precision.precision('LEGACY_IEEE'), clock.counters(model.model) as count:
             count.update(module_dwt_analysis=0, module_dwt_synthesis=0,
                          module_adjoint_actions=0, refinement_H=0, refinement_Ht=0)
             def tick(step, measured):
@@ -264,6 +266,10 @@ def execute(args, root):
                               observation_sha256=files.digest(entry['observation']['path'])))
     plan = dict(host=args.host, dataset=args.dataset, nfe=1000 if args.host=='dps' else 100, sources=manifests,
                 files={str(p):files.digest(p) for p in (Path(__file__),Path(control.__file__))})
+    recovery = root/'reference_recovery.json'
+    if recovery.exists():
+        files.require(files.read(recovery)['original_protocol'] == {k:v for k,v in plan.items() if k!='files'},
+                      'Recovered source cases, observations or evaluation budget differ')
     if (root/'plan.json').exists():
         files.require(files.read(root/'plan.json') == plan, 'Frozen plan differs')
     else:
@@ -277,7 +283,8 @@ def execute(args, root):
         files.require(entry['plan']['checkpoint']==checkpoint, 'Source models differ')
         files.require(files.digest(entry['case']['image'])==entry['plan']['inputs'][entry['case']['image']], 'Input image changed')
     files.require(files.digest(checkpoint['path'])==checkpoint['sha256'], 'Checkpoint differs')
-    subprocess.run([sys.executable,'-m','unittest','-v','utils.test_transfer_diagonal_runtime'], cwd=PROJECTS, check=True)
+    subprocess.run([sys.executable,'-m','unittest','-v','utils.test_transfer_reference_recovery',
+                    'utils.test_transfer_diagonal_runtime'], cwd=PROJECTS, check=True)
     load_start = time.perf_counter()
     model = load_diffusion_model(args.dataset, 'cuda:0')
     model.model.load_state_dict(torch.load(checkpoint['path'],map_location='cpu',weights_only=True),strict=True)
@@ -320,6 +327,7 @@ def main():
     p.add_argument('dataset', choices=('ffhq','imagenet'))
     p.add_argument('--status', action='store_true')
     p.add_argument('--archive', action='store_true')
+    p.add_argument('--resume-reference-failure', action='store_true')
     args = p.parse_args()
     root = directory(args.host, args.dataset)
     if args.status:
@@ -329,6 +337,10 @@ def main():
     root.mkdir(parents=True,exist_ok=True)
     with exclusive(root/'worker.lock'):
         previous = files.read(root/'session.json') if (root/'session.json').exists() else {}
+        if args.resume_reference_failure and previous.get('status') == 'failed':
+            from utils.transfer_reference_recovery import preserve_failure
+            preserve_failure(root)
+            previous = {}
         files.require(previous.get('status') not in ('failed','running'), 'Prior failed/unfinished session retained')
         state = dict(status='running',pid=os.getpid())
         files.write(root/'session.json',state)
