@@ -1,0 +1,54 @@
+{
+  "host": "pigdm",
+  "dataset": "ffhq",
+  "completed_runs": 1,
+  "planned_runs": 36,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "images": 1,
+      "quality": {
+        "psnr": 27.337504381438272,
+        "ssim": 0.8578968048095703,
+        "lpips": 0.10299768298864365
+      },
+      "seconds": 10.879394671879709,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": true
+    }
+  ],
+  "comparisons": [],
+  "actual_new_cost": {
+    "forward_attempts": 1,
+    "forwards": 1,
+    "input_vjp_attempts": 1,
+    "optimizer_backward_attempts": 0,
+    "refinement_H": 0,
+    "refinement_Ht": 0,
+    "module_dwt_analysis": 0,
+    "module_dwt_synthesis": 0
+  },
+  "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.",
+  "separate_model_gate": {
+    "model_load_seconds": 2.0064679719507694,
+    "probe_counts": {
+      "forward_attempts": 1,
+      "forwards": 1,
+      "input_vjp_attempts": 1,
+      "optimizer_backward_attempts": 0,
+      "optimizer_backward_completed": 0,
+      "base_H_actions": 0,
+      "base_adjoint_actions": 0,
+      "calls": [
+        999
+      ]
+    },
+    "probe_seconds": 0.48707539215683937,
+    "peak_reserved_bytes": 2831155200
+  },
+  "failures": [
+    "KeyError('corrections')"
+  ]
+}

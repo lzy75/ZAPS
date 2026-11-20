@@ -1,0 +1,336 @@
+test_dps_instrumentation_preserves_both_scalar_entrypoints (utils.test_transfer_diagonal_runtime.Gates.test_dps_instrumentation_preserves_both_scalar_entrypoints) ...   0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [00:00<00:02,  2.94it/s, distance=0.825]100%|██████████| 8/8 [00:00<00:00, 21.42it/s, distance=0.149]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 204.15it/s, distance=0.149]
+ERROR
+test_physical_adjoint_and_fixed_objective_descent (utils.test_transfer_diagonal_runtime.Gates.test_physical_adjoint_and_fixed_objective_descent) ... ok
+test_pigdm_instrumentation_preserves_scalar_rng_and_calls (utils.test_transfer_diagonal_runtime.Gates.test_pigdm_instrumentation_preserves_scalar_rng_and_calls) ... ok
+
+======================================================================
+ERROR: test_dps_instrumentation_preserves_both_scalar_entrypoints (utils.test_transfer_diagonal_runtime.Gates.test_dps_instrumentation_preserves_both_scalar_entrypoints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/test_transfer_diagonal_runtime.py", line 88, in test_dps_instrumentation_preserves_both_scalar_entrypoints
+    out,detail=run(model,op,y,case,'SHRINK',config,Path(__file__).resolve().parents[2]/'DPS',count,size=8)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/dps_missing_tasks_runtime.py", line 31, in run
+    dps,conditions,_=reference(str(Path(dps_root).resolve()))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/dps_missing_tasks_runtime.py", line 15, in reference
+    sampler,meta=load_dps_reference(Path(root))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_zaps_sampler_parity.py", line 44, in load_dps_reference
+    raise RuntimeError("Reference package already loaded")
+RuntimeError: Reference package already loaded
+
+----------------------------------------------------------------------
+Ran 3 tests in 3.012s
+
+FAILED (errors=1)
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 0, "planned_runs": 36, "groups": [], "comparisons": [], "actual_new_cost": {"forward_attempts": 0, "forwards": 0, "input_vjp_attempts": 0, "optimizer_backward_attempts": 0, "refinement_H": 0, "refinement_Ht": 0, "module_dwt_analysis": 0, "module_dwt_synthesis": 0}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {}, "failures": []}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 357, in <module>
+    main()
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 336, in main
+    if previous.get('status')!='complete': execute(args,root)
+                                           ^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 280, in execute
+    subprocess.run([sys.executable,'-m','unittest','-v','utils.test_transfer_diagonal_runtime'], cwd=PROJECTS, check=True)
+  File "/home/lzy/anaconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/lzy/anaconda3/bin/python', '-m', 'unittest', '-v', 'utils.test_transfer_diagonal_runtime']' returned non-zero exit status 1.
+REFERENCE FAILURE PRESERVED: /data0/lzy/ZAPS-results/diag_complete_diagonal_transfer/pigdm_ffhq_20261120/failures/reference_import_001
+test_both_adapters_use_one_loader_and_restore_after_scope (utils.test_transfer_reference_recovery.Tests.test_both_adapters_use_one_loader_and_restore_after_scope) ... ok
+test_failed_log_and_plan_are_preserved (utils.test_transfer_reference_recovery.Tests.test_failed_log_and_plan_are_preserved) ... REFERENCE FAILURE PRESERVED: /data0/lzy/tmp/tmp8fke9296/failures/reference_import_001
+ok
+test_model_attempts_block_this_recovery (utils.test_transfer_reference_recovery.Tests.test_model_attempts_block_this_recovery) ... ok
+test_other_failure_cannot_be_reopened (utils.test_transfer_reference_recovery.Tests.test_other_failure_cannot_be_reopened) ... ok
+test_dps_instrumentation_preserves_both_scalar_entrypoints (utils.test_transfer_diagonal_runtime.Gates.test_dps_instrumentation_preserves_both_scalar_entrypoints) ...   0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [00:00<00:01,  4.41it/s, distance=0.825]100%|██████████| 8/8 [00:00<00:00, 32.22it/s, distance=0.149]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 251.36it/s, distance=0.149]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 289.87it/s, distance=4.65]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 283.50it/s, distance=4.65]
+ok
+test_physical_adjoint_and_fixed_objective_descent (utils.test_transfer_diagonal_runtime.Gates.test_physical_adjoint_and_fixed_objective_descent) ... ok
+test_pigdm_instrumentation_preserves_scalar_rng_and_calls (utils.test_transfer_diagonal_runtime.Gates.test_pigdm_instrumentation_preserves_scalar_rng_and_calls) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 3.253s
+
+OK
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 1, "planned_runs": 36, "groups": [{"task": "super_resolution", "arm": "BASE", "images": 1, "quality": {"psnr": 27.337504381438272, "ssim": 0.8578968048095703, "lpips": 0.10299768298864365}, "seconds": 10.879394671879709, "nfe": 100, "input_vjp": 100, "reused": true}], "comparisons": [], "actual_new_cost": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "refinement_H": 0, "refinement_Ht": 0, "module_dwt_analysis": 0, "module_dwt_synthesis": 0}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {"model_load_seconds": 2.0064679719507694, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.48707539215683937, "peak_reserved_bytes": 2831155200}, "failures": ["KeyError('corrections')"]}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 369, in <module>
+    main()
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 348, in main
+    if previous.get('status')!='complete': execute(args,root)
+                                           ^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 321, in execute
+    measure(root, entry, entry['observation'], args.host, model, wavelet, arm)
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 180, in measure
+    (out, detail), seconds = clock.clocks(torch.cuda.synchronize, operation)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py", line 46, in clocks
+    result = operation()
+             ^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 176, in operation
+    return sampler('A121', model, op, y, case, 'BASE' if arm == 'DIAGONAL' else 'SHRINK',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/pigdm_noisy_r1_runtime.py", line 55, in run
+    count['corrections']+=1
+    ~~~~~^^^^^^^^^^^^^^^
+KeyError: 'corrections'
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 369, in <module>
+    main()
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 342, in main
+    preserve_failure(root)
+  File "/home/lzy/ZAPS/projects/utils/transfer_reference_recovery.py", line 10, in preserve_failure
+    files.require(state.get('status') == 'failed' and
+  File "/home/lzy/ZAPS/projects/utils/paper_clock_alignment.py", line 44, in require
+    raise ValueError(message)
+ValueError: Recovery only applies to the reported reference-import unit-test failure
+PIGDM COUNTER FAILURE PRESERVED: /data0/lzy/ZAPS-results/diag_complete_diagonal_transfer/pigdm_ffhq_20261120/failures/corrections_001 prior method F/VJP=1/1
+test_both_adapters_use_one_loader_and_restore_after_scope (utils.test_transfer_reference_recovery.Tests.test_both_adapters_use_one_loader_and_restore_after_scope) ... ok
+test_failed_log_and_plan_are_preserved (utils.test_transfer_reference_recovery.Tests.test_failed_log_and_plan_are_preserved) ... REFERENCE FAILURE PRESERVED: /data0/lzy/tmp/tmpvmbrtbtn/failures/reference_import_001
+ok
+test_model_attempts_block_this_recovery (utils.test_transfer_reference_recovery.Tests.test_model_attempts_block_this_recovery) ... ok
+test_other_failure_cannot_be_reopened (utils.test_transfer_reference_recovery.Tests.test_other_failure_cannot_be_reopened) ... ok
+test_counter_contract_preserves_existing_forward_accounting (utils.test_transfer_counter_recovery.Tests.test_counter_contract_preserves_existing_forward_accounting) ... ok
+test_failed_attempt_preserved_completed_baseline_retained_and_cost_counted (utils.test_transfer_counter_recovery.Tests.test_failed_attempt_preserved_completed_baseline_retained_and_cost_counted) ... PIGDM COUNTER FAILURE PRESERVED: /data0/lzy/tmp/tmpgkz52bby/failures/corrections_001 prior method F/VJP=1/1
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 1, "planned_runs": 36, "groups": [{"task": "super_resolution", "arm": "BASE", "images": 1, "quality": {"psnr": 20, "ssim": 0.5, "lpips": 0.2}, "seconds": 1, "nfe": 100, "input_vjp": 100, "reused": true}], "comparisons": [], "actual_new_cost": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "refinement_H": 0, "refinement_Ht": 0, "module_dwt_analysis": 0, "module_dwt_synthesis": 0}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {"probe_counts": {"forwards": 1, "input_vjp_attempts": 1}}, "preserved_failed_method_cost": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0}, "preserved_model_gate": {"probe_counts": {"forwards": 1, "input_vjp_attempts": 1}}, "failures": []}
+ok
+test_later_failure_is_retained_without_reopening (utils.test_transfer_counter_recovery.Tests.test_later_failure_is_retained_without_reopening) ... ok
+test_other_error_is_retained_without_reopening (utils.test_transfer_counter_recovery.Tests.test_other_error_is_retained_without_reopening) ... ok
+test_dps_instrumentation_preserves_both_scalar_entrypoints (utils.test_transfer_diagonal_runtime.Gates.test_dps_instrumentation_preserves_both_scalar_entrypoints) ...   0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [00:00<00:01,  3.82it/s, distance=0.825]100%|██████████| 8/8 [00:00<00:00, 27.96it/s, distance=0.149]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 304.02it/s, distance=0.149]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 260.75it/s, distance=4.65]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 225.02it/s, distance=4.65]
+ok
+test_physical_adjoint_and_fixed_objective_descent (utils.test_transfer_diagonal_runtime.Gates.test_physical_adjoint_and_fixed_objective_descent) ... ok
+test_pigdm_instrumentation_preserves_scalar_rng_and_calls (utils.test_transfer_diagonal_runtime.Gates.test_pigdm_instrumentation_preserves_scalar_rng_and_calls) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 2.746s
+
+OK
+[FFHQ] 模型加载成功: /home/lzy/ZAPS/projects/modules/models/ffhq_10m.pt  device=cuda:0
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 SHRINK 100
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/lzy/anaconda3/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Loading model from: /home/lzy/anaconda3/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth
+TRANSFER COMPLETE: ffhq_super_resolution_00226 SHRINK {'psnr': 27.586556745737653, 'ssim': 0.8636003136634827, 'lpips': 0.11674287915229797} 7.65
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00226 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_super_resolution_00226 DIAGONAL {'psnr': 26.666634007443747, 'ssim': 0.82979416847229, 'lpips': 0.12832027673721313} 9.93
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_super_resolution_00443 DIAGONAL {'psnr': 24.495233975824533, 'ssim': 0.7684761881828308, 'lpips': 0.13750672340393066} 9.79
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00443 SHRINK 100
+TRANSFER COMPLETE: ffhq_super_resolution_00443 SHRINK {'psnr': 25.356918400159167, 'ssim': 0.8030009269714355, 'lpips': 0.1332995891571045} 8.07
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 SHRINK 100
+TRANSFER COMPLETE: ffhq_super_resolution_00963 SHRINK {'psnr': 28.578352485243585, 'ssim': 0.8520664572715759, 'lpips': 0.12083896994590759} 9.02
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_super_resolution_00963 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_super_resolution_00963 DIAGONAL {'psnr': 27.824217267352648, 'ssim': 0.8083576560020447, 'lpips': 0.11418583989143372} 10.48
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_gaussian_deblur_00226 DIAGONAL {'psnr': 27.329631332167313, 'ssim': 0.8499483466148376, 'lpips': 0.13776162266731262} 10.25
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00226 SHRINK 100
+TRANSFER COMPLETE: ffhq_gaussian_deblur_00226 SHRINK {'psnr': 27.25053107087944, 'ssim': 0.8477720618247986, 'lpips': 0.14105819165706635} 9.19
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 SHRINK 100
+TRANSFER COMPLETE: ffhq_gaussian_deblur_00443 SHRINK {'psnr': 25.33107580932689, 'ssim': 0.7818269729614258, 'lpips': 0.15946784615516663} 8.54
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00443 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_gaussian_deblur_00443 DIAGONAL {'psnr': 25.21923854724063, 'ssim': 0.7826383113861084, 'lpips': 0.1597532033920288} 10.36
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_gaussian_deblur_00963 DIAGONAL {'psnr': 28.434677256067545, 'ssim': 0.8435502052307129, 'lpips': 0.13523246347904205} 11.03
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_gaussian_deblur_00963 SHRINK 100
+TRANSFER COMPLETE: ffhq_gaussian_deblur_00963 SHRINK {'psnr': 28.49621827022947, 'ssim': 0.8435665965080261, 'lpips': 0.14732725918293} 9.08
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 SHRINK 100
+TRANSFER COMPLETE: ffhq_inpainting_00226 SHRINK {'psnr': 31.51206730475082, 'ssim': 0.9385425448417664, 'lpips': 0.06975911557674408} 8.67
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00226 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_inpainting_00226 DIAGONAL {'psnr': 30.443820592696834, 'ssim': 0.9209387898445129, 'lpips': 0.04765970632433891} 10.91
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_inpainting_00443 DIAGONAL {'psnr': 27.76860806598166, 'ssim': 0.8873398900032043, 'lpips': 0.04422791302204132} 10.79
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00443 SHRINK 100
+TRANSFER COMPLETE: ffhq_inpainting_00443 SHRINK {'psnr': 29.10953937946886, 'ssim': 0.9162266254425049, 'lpips': 0.04539468139410019} 8.56
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 10
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 20
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 30
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 40
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 50
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 60
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 70
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 80
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 90
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 SHRINK 100
+TRANSFER COMPLETE: ffhq_inpainting_00963 SHRINK {'psnr': 32.85770289836416, 'ssim': 0.9328859448432922, 'lpips': 0.07650680840015411} 8.88
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 10
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 20
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 30
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 40
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 50
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 60
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 70
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 80
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 90
+TRANSFER PROGRESS: pigdm ffhq_inpainting_00963 DIAGONAL 100
+TRANSFER COMPLETE: ffhq_inpainting_00963 DIAGONAL {'psnr': 31.776990554789613, 'ssim': 0.9140172004699707, 'lpips': 0.03524814918637276} 10.95
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 36, "planned_runs": 36, "groups": [{"task": "super_resolution", "arm": "BASE", "images": 3, "quality": {"psnr": 27.013420207399374, "ssim": 0.8354766170183817, "lpips": 0.10373188555240631}, "seconds": 10.970413104010126, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "super_resolution", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.17394254371347, "ssim": 0.8395558993021647, "lpips": 0.12362714608510335}, "seconds": 8.248246205349764, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "super_resolution", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.32869508354031, "ssim": 0.8022093375523885, "lpips": 0.12667094667752585}, "seconds": 10.065211249515414, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 25.838596747841017, "ssim": 0.7947418888409933, "lpips": 0.1240451509753863}, "seconds": 11.977640234554807, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "gaussian_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.025941716811932, "ssim": 0.8243885437647501, "lpips": 0.14928443233172098}, "seconds": 8.938499828800559, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.994515711825162, "ssim": 0.825378954410553, "lpips": 0.1442490965127945}, "seconds": 10.545638249566158, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "motion_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 23.735142420181198, "ssim": 0.7351831992467245, "lpips": 0.1969045251607895}, "seconds": 13.539682555322846, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.34777651234087, "ssim": 0.8219536940256754, "lpips": 0.15636315445105234}, "seconds": 7.031411720439792, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 27.24656018448211, "ssim": 0.8220536112785339, "lpips": 0.14600485563278198}, "seconds": 8.56520721067985, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "BASE", "images": 3, "quality": {"psnr": 30.89970616047687, "ssim": 0.9219202597935995, "lpips": 0.07929819573958714}, "seconds": 10.276642425296208, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "SHRINK", "images": 3, "quality": {"psnr": 31.159769860861278, "ssim": 0.9292183717091879, "lpips": 0.06388686845699947}, "seconds": 8.703205343335867, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "inpainting", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 29.996473071156036, "ssim": 0.907431960105896, "lpips": 0.042378589510917664}, "seconds": 10.881130712106824, "nfe": 100, "input_vjp": 100, "reused": false}], "comparisons": [{"task": "super_resolution", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.16052233631409507, "ssim": 0.004079282283782959, "lpips": 0.01989526053269704}, "psnr_wins": 3, "positive": false}, {"task": "super_resolution", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.8452474601731588, "ssim": -0.03734656174977621, "lpips": 0.0030438005924224854}, "psnr_wins": 0, "positive": false}, {"task": "gaussian_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 1.1873449689709166, "ssim": 0.029646654923756916, "lpips": 0.025239281356334686}, "psnr_wins": 3, "positive": false}, {"task": "gaussian_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.031426004986771026, "ssim": 0.0009904106458028157, "lpips": -0.005035335818926494}, "psnr_wins": 1, "positive": false}, {"task": "motion_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 3.612634092159675, "ssim": 0.086770494778951, "lpips": -0.040541370709737144}, "psnr_wins": 3, "positive": true}, {"task": "motion_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.10121632785876145, "ssim": 9.991725285847981e-05, "lpips": -0.010358298818270365}, "psnr_wins": 0, "positive": false}, {"task": "inpainting", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.26006370038440946, "ssim": 0.007298111915588379, "lpips": -0.015411327282587687}, "psnr_wins": 3, "positive": true}, {"task": "inpainting", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -1.1632967897052435, "ssim": -0.02178641160329183, "lpips": -0.0215082789460818}, "psnr_wins": 0, "positive": false}], "actual_new_cost": {"forward_attempts": 1801, "forwards": 1801, "input_vjp_attempts": 1801, "optimizer_backward_attempts": 0, "refinement_H": 4492, "refinement_Ht": 900, "module_dwt_analysis": 1800, "module_dwt_synthesis": 2692}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {"model_load_seconds": 1.8749486468732357, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.5057238768786192, "peak_reserved_bytes": 2831155200}, "preserved_failed_method_cost": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 1, "base_adjoint_actions": 1, "calls": [990], "module_dwt_analysis": 0, "module_dwt_synthesis": 0, "module_adjoint_actions": 0, "refinement_H": 0, "refinement_Ht": 0, "base_regularized_solves": 1, "module_H_actions": 1}, "preserved_model_gate": {"model_load_seconds": 2.0064679719507694, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.48707539215683937, "peak_reserved_bytes": 2831155200}, "failures": []}
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 36, "planned_runs": 36, "groups": [{"task": "super_resolution", "arm": "BASE", "images": 3, "quality": {"psnr": 27.013420207399374, "ssim": 0.8354766170183817, "lpips": 0.10373188555240631}, "seconds": 10.970413104010126, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "super_resolution", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.17394254371347, "ssim": 0.8395558993021647, "lpips": 0.12362714608510335}, "seconds": 8.248246205349764, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "super_resolution", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.32869508354031, "ssim": 0.8022093375523885, "lpips": 0.12667094667752585}, "seconds": 10.065211249515414, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 25.838596747841017, "ssim": 0.7947418888409933, "lpips": 0.1240451509753863}, "seconds": 11.977640234554807, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "gaussian_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.025941716811932, "ssim": 0.8243885437647501, "lpips": 0.14928443233172098}, "seconds": 8.938499828800559, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.994515711825162, "ssim": 0.825378954410553, "lpips": 0.1442490965127945}, "seconds": 10.545638249566158, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "motion_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 23.735142420181198, "ssim": 0.7351831992467245, "lpips": 0.1969045251607895}, "seconds": 13.539682555322846, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.34777651234087, "ssim": 0.8219536940256754, "lpips": 0.15636315445105234}, "seconds": 7.031411720439792, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 27.24656018448211, "ssim": 0.8220536112785339, "lpips": 0.14600485563278198}, "seconds": 8.56520721067985, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "BASE", "images": 3, "quality": {"psnr": 30.89970616047687, "ssim": 0.9219202597935995, "lpips": 0.07929819573958714}, "seconds": 10.276642425296208, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "SHRINK", "images": 3, "quality": {"psnr": 31.159769860861278, "ssim": 0.9292183717091879, "lpips": 0.06388686845699947}, "seconds": 8.703205343335867, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "inpainting", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 29.996473071156036, "ssim": 0.907431960105896, "lpips": 0.042378589510917664}, "seconds": 10.881130712106824, "nfe": 100, "input_vjp": 100, "reused": false}], "comparisons": [{"task": "super_resolution", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.16052233631409507, "ssim": 0.004079282283782959, "lpips": 0.01989526053269704}, "psnr_wins": 3, "positive": false}, {"task": "super_resolution", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.8452474601731588, "ssim": -0.03734656174977621, "lpips": 0.0030438005924224854}, "psnr_wins": 0, "positive": false}, {"task": "gaussian_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 1.1873449689709166, "ssim": 0.029646654923756916, "lpips": 0.025239281356334686}, "psnr_wins": 3, "positive": false}, {"task": "gaussian_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.031426004986771026, "ssim": 0.0009904106458028157, "lpips": -0.005035335818926494}, "psnr_wins": 1, "positive": false}, {"task": "motion_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 3.612634092159675, "ssim": 0.086770494778951, "lpips": -0.040541370709737144}, "psnr_wins": 3, "positive": true}, {"task": "motion_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.10121632785876145, "ssim": 9.991725285847981e-05, "lpips": -0.010358298818270365}, "psnr_wins": 0, "positive": false}, {"task": "inpainting", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.26006370038440946, "ssim": 0.007298111915588379, "lpips": -0.015411327282587687}, "psnr_wins": 3, "positive": true}, {"task": "inpainting", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -1.1632967897052435, "ssim": -0.02178641160329183, "lpips": -0.0215082789460818}, "psnr_wins": 0, "positive": false}], "actual_new_cost": {"forward_attempts": 1801, "forwards": 1801, "input_vjp_attempts": 1801, "optimizer_backward_attempts": 0, "refinement_H": 4492, "refinement_Ht": 900, "module_dwt_analysis": 1800, "module_dwt_synthesis": 2692}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {"model_load_seconds": 1.8749486468732357, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.5057238768786192, "peak_reserved_bytes": 2831155200}, "preserved_failed_method_cost": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 1, "base_adjoint_actions": 1, "calls": [990], "module_dwt_analysis": 0, "module_dwt_synthesis": 0, "module_adjoint_actions": 0, "refinement_H": 0, "refinement_Ht": 0, "base_regularized_solves": 1, "module_H_actions": 1}, "preserved_model_gate": {"model_load_seconds": 2.0064679719507694, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.48707539215683937, "peak_reserved_bytes": 2831155200}, "failures": []}
+remote: 
+remote: Create a pull request for 'results/pigdm-diagonal-four-tasks-ffhq-20261120' on GitHub by visiting:        
+remote:      https://github.com/lzy75/ZAPS/pull/new/results/pigdm-diagonal-four-tasks-ffhq-20261120        
+remote: 
+To ssh://ssh.github.com:443/lzy75/ZAPS.git
+ * [new branch]        results/pigdm-diagonal-four-tasks-ffhq-20261120 -> results/pigdm-diagonal-four-tasks-ffhq-20261120
+RESULTS_PUSH_PASS: d70b1450dfec6aaf19e7dc4513646d826f275c76 results/pigdm-diagonal-four-tasks-ffhq-20261120
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 36, "planned_runs": 36, "groups": [{"task": "super_resolution", "arm": "BASE", "images": 3, "quality": {"psnr": 27.013420207399374, "ssim": 0.8354766170183817, "lpips": 0.10373188555240631}, "seconds": 10.970413104010126, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "super_resolution", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.17394254371347, "ssim": 0.8395558993021647, "lpips": 0.12362714608510335}, "seconds": 8.248246205349764, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "super_resolution", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.32869508354031, "ssim": 0.8022093375523885, "lpips": 0.12667094667752585}, "seconds": 10.065211249515414, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 25.838596747841017, "ssim": 0.7947418888409933, "lpips": 0.1240451509753863}, "seconds": 11.977640234554807, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "gaussian_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.025941716811932, "ssim": 0.8243885437647501, "lpips": 0.14928443233172098}, "seconds": 8.938499828800559, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.994515711825162, "ssim": 0.825378954410553, "lpips": 0.1442490965127945}, "seconds": 10.545638249566158, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "motion_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 23.735142420181198, "ssim": 0.7351831992467245, "lpips": 0.1969045251607895}, "seconds": 13.539682555322846, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.34777651234087, "ssim": 0.8219536940256754, "lpips": 0.15636315445105234}, "seconds": 7.031411720439792, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 27.24656018448211, "ssim": 0.8220536112785339, "lpips": 0.14600485563278198}, "seconds": 8.56520721067985, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "BASE", "images": 3, "quality": {"psnr": 30.89970616047687, "ssim": 0.9219202597935995, "lpips": 0.07929819573958714}, "seconds": 10.276642425296208, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "SHRINK", "images": 3, "quality": {"psnr": 31.159769860861278, "ssim": 0.9292183717091879, "lpips": 0.06388686845699947}, "seconds": 8.703205343335867, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "inpainting", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 29.996473071156036, "ssim": 0.907431960105896, "lpips": 0.042378589510917664}, "seconds": 10.881130712106824, "nfe": 100, "input_vjp": 100, "reused": false}], "comparisons": [{"task": "super_resolution", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.16052233631409507, "ssim": 0.004079282283782959, "lpips": 0.01989526053269704}, "psnr_wins": 3, "positive": false}, {"task": "super_resolution", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.8452474601731588, "ssim": -0.03734656174977621, "lpips": 0.0030438005924224854}, "psnr_wins": 0, "positive": false}, {"task": "gaussian_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 1.1873449689709166, "ssim": 0.029646654923756916, "lpips": 0.025239281356334686}, "psnr_wins": 3, "positive": false}, {"task": "gaussian_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.031426004986771026, "ssim": 0.0009904106458028157, "lpips": -0.005035335818926494}, "psnr_wins": 1, "positive": false}, {"task": "motion_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 3.612634092159675, "ssim": 0.086770494778951, "lpips": -0.040541370709737144}, "psnr_wins": 3, "positive": true}, {"task": "motion_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.10121632785876145, "ssim": 9.991725285847981e-05, "lpips": -0.010358298818270365}, "psnr_wins": 0, "positive": false}, {"task": "inpainting", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.26006370038440946, "ssim": 0.007298111915588379, "lpips": -0.015411327282587687}, "psnr_wins": 3, "positive": true}, {"task": "inpainting", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -1.1632967897052435, "ssim": -0.02178641160329183, "lpips": -0.0215082789460818}, "psnr_wins": 0, "positive": false}], "actual_new_cost": {"forward_attempts": 1801, "forwards": 1801, "input_vjp_attempts": 1801, "optimizer_backward_attempts": 0, "refinement_H": 4492, "refinement_Ht": 900, "module_dwt_analysis": 1800, "module_dwt_synthesis": 2692}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {"model_load_seconds": 1.8749486468732357, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.5057238768786192, "peak_reserved_bytes": 2831155200}, "preserved_failed_method_cost": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 1, "base_adjoint_actions": 1, "calls": [990], "module_dwt_analysis": 0, "module_dwt_synthesis": 0, "module_adjoint_actions": 0, "refinement_H": 0, "refinement_Ht": 0, "base_regularized_solves": 1, "module_H_actions": 1}, "preserved_model_gate": {"model_load_seconds": 2.0064679719507694, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.48707539215683937, "peak_reserved_bytes": 2831155200}, "failures": []}
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 36, "planned_runs": 36, "groups": [{"task": "super_resolution", "arm": "BASE", "images": 3, "quality": {"psnr": 27.013420207399374, "ssim": 0.8354766170183817, "lpips": 0.10373188555240631}, "seconds": 10.970413104010126, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "super_resolution", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.17394254371347, "ssim": 0.8395558993021647, "lpips": 0.12362714608510335}, "seconds": 8.248246205349764, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "super_resolution", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.32869508354031, "ssim": 0.8022093375523885, "lpips": 0.12667094667752585}, "seconds": 10.065211249515414, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 25.838596747841017, "ssim": 0.7947418888409933, "lpips": 0.1240451509753863}, "seconds": 11.977640234554807, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "gaussian_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.025941716811932, "ssim": 0.8243885437647501, "lpips": 0.14928443233172098}, "seconds": 8.938499828800559, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "gaussian_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 26.994515711825162, "ssim": 0.825378954410553, "lpips": 0.1442490965127945}, "seconds": 10.545638249566158, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "motion_deblur", "arm": "BASE", "images": 3, "quality": {"psnr": 23.735142420181198, "ssim": 0.7351831992467245, "lpips": 0.1969045251607895}, "seconds": 13.539682555322846, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "SHRINK", "images": 3, "quality": {"psnr": 27.34777651234087, "ssim": 0.8219536940256754, "lpips": 0.15636315445105234}, "seconds": 7.031411720439792, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "motion_deblur", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 27.24656018448211, "ssim": 0.8220536112785339, "lpips": 0.14600485563278198}, "seconds": 8.56520721067985, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "BASE", "images": 3, "quality": {"psnr": 30.89970616047687, "ssim": 0.9219202597935995, "lpips": 0.07929819573958714}, "seconds": 10.276642425296208, "nfe": 100, "input_vjp": 100, "reused": true}, {"task": "inpainting", "arm": "SHRINK", "images": 3, "quality": {"psnr": 31.159769860861278, "ssim": 0.9292183717091879, "lpips": 0.06388686845699947}, "seconds": 8.703205343335867, "nfe": 100, "input_vjp": 100, "reused": false}, {"task": "inpainting", "arm": "DIAGONAL", "images": 3, "quality": {"psnr": 29.996473071156036, "ssim": 0.907431960105896, "lpips": 0.042378589510917664}, "seconds": 10.881130712106824, "nfe": 100, "input_vjp": 100, "reused": false}], "comparisons": [{"task": "super_resolution", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.16052233631409507, "ssim": 0.004079282283782959, "lpips": 0.01989526053269704}, "psnr_wins": 3, "positive": false}, {"task": "super_resolution", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.8452474601731588, "ssim": -0.03734656174977621, "lpips": 0.0030438005924224854}, "psnr_wins": 0, "positive": false}, {"task": "gaussian_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 1.1873449689709166, "ssim": 0.029646654923756916, "lpips": 0.025239281356334686}, "psnr_wins": 3, "positive": false}, {"task": "gaussian_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.031426004986771026, "ssim": 0.0009904106458028157, "lpips": -0.005035335818926494}, "psnr_wins": 1, "positive": false}, {"task": "motion_deblur", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 3.612634092159675, "ssim": 0.086770494778951, "lpips": -0.040541370709737144}, "psnr_wins": 3, "positive": true}, {"task": "motion_deblur", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -0.10121632785876145, "ssim": 9.991725285847981e-05, "lpips": -0.010358298818270365}, "psnr_wins": 0, "positive": false}, {"task": "inpainting", "candidate": "SHRINK", "reference": "BASE", "images": 3, "delta": {"psnr": 0.26006370038440946, "ssim": 0.007298111915588379, "lpips": -0.015411327282587687}, "psnr_wins": 3, "positive": true}, {"task": "inpainting", "candidate": "DIAGONAL", "reference": "SHRINK", "images": 3, "delta": {"psnr": -1.1632967897052435, "ssim": -0.02178641160329183, "lpips": -0.0215082789460818}, "psnr_wins": 0, "positive": false}], "actual_new_cost": {"forward_attempts": 1801, "forwards": 1801, "input_vjp_attempts": 1801, "optimizer_backward_attempts": 0, "refinement_H": 4492, "refinement_Ht": 900, "module_dwt_analysis": 1800, "module_dwt_synthesis": 2692}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {"model_load_seconds": 1.8749486468732357, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.5057238768786192, "peak_reserved_bytes": 2831155200}, "preserved_failed_method_cost": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 1, "base_adjoint_actions": 1, "calls": [990], "module_dwt_analysis": 0, "module_dwt_synthesis": 0, "module_adjoint_actions": 0, "refinement_H": 0, "refinement_Ht": 0, "base_regularized_solves": 1, "module_H_actions": 1}, "preserved_model_gate": {"model_load_seconds": 2.0064679719507694, "probe_counts": {"forward_attempts": 1, "forwards": 1, "input_vjp_attempts": 1, "optimizer_backward_attempts": 0, "optimizer_backward_completed": 0, "base_H_actions": 0, "base_adjoint_actions": 0, "calls": [999]}, "probe_seconds": 0.48707539215683937, "peak_reserved_bytes": 2831155200}, "failures": []}
