@@ -1,0 +1,280 @@
+{
+  "experiment": "A117",
+  "status": "complete",
+  "completed_cases": 6,
+  "planned_cases": 6,
+  "method_nfe": 300,
+  "joint_forward_cap": 2520,
+  "actual_completed_cost": {
+    "forwards": 2520,
+    "optimizer_backward_attempts": 84,
+    "input_vjp_attempts": 0,
+    "input_jvp_attempts": 0
+  },
+  "cost_is_lower_bound": false,
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "images": 3,
+      "arms": {
+        "CLOSED_SCALAR_SUFFIX": {
+          "psnr": 25.263878099975745,
+          "ssim": 0.76226278146108,
+          "lpips": 0.18698187172412872,
+          "seconds": 15.613474318136772
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "psnr": 25.777820244906167,
+          "ssim": 0.7803634603818258,
+          "lpips": 0.1658106322089831,
+          "seconds": 16.61416044086218
+        },
+        "PIXEL_STEP_SUFFIX": {
+          "psnr": 25.777820555453026,
+          "ssim": 0.7803635199864706,
+          "lpips": 0.16581064214309058,
+          "seconds": 17.413649418080848
+        },
+        "FIXED_TIME_SUFFIX": {
+          "psnr": 25.14003146082038,
+          "ssim": 0.7564584016799927,
+          "lpips": 0.19189128776391348,
+          "seconds": 16.02620264266928
+        },
+        "NO_SHRINK_SUFFIX": {
+          "psnr": 26.53460695445899,
+          "ssim": 0.8056671222050985,
+          "lpips": 0.17109649628400803,
+          "seconds": 15.971549478669962
+        }
+      },
+      "paired": [
+        {
+          "candidate": "PIXEL_STEP_SUFFIX",
+          "reference": "CLOSED_DIAG_SUFFIX",
+          "delta": {
+            "psnr": 3.1054686052319386e-07,
+            "ssim": 5.960464477539063e-08,
+            "lpips": 9.934107462565104e-09
+          },
+          "psnr_wins": 1,
+          "per_image": {
+            "00001": {
+              "psnr": 0.0,
+              "ssim": 0.0,
+              "lpips": 0.0
+            },
+            "00004": {
+              "psnr": 9.316405815695816e-07,
+              "ssim": 1.1920928955078125e-07,
+              "lpips": 0.0
+            },
+            "00008": {
+              "psnr": 0.0,
+              "ssim": 5.960464477539063e-08,
+              "lpips": 2.9802322387695312e-08
+            }
+          },
+          "paired_bootstrap_95": null,
+          "meets_confirm_criterion": null
+        },
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "FIXED_TIME_SUFFIX",
+          "delta": {
+            "psnr": 0.12384663915536602,
+            "ssim": 0.005804379781087239,
+            "lpips": -0.004909416039784749
+          },
+          "psnr_wins": 2,
+          "per_image": {
+            "00001": {
+              "psnr": 0.041242097289355684,
+              "ssim": 0.002007782459259033,
+              "lpips": -0.0008818209171295166
+            },
+            "00004": {
+              "psnr": 0.3501562928496149,
+              "ssim": 0.01603323221206665,
+              "lpips": -0.014132529497146606
+            },
+            "00008": {
+              "psnr": -0.01985847267287255,
+              "ssim": -0.0006278753280639648,
+              "lpips": 0.000286102294921875
+            }
+          },
+          "paired_bootstrap_95": null,
+          "meets_confirm_criterion": null
+        },
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "NO_SHRINK_SUFFIX",
+          "delta": {
+            "psnr": -1.2707288544832451,
+            "ssim": -0.043404340744018555,
+            "lpips": 0.015885375440120697
+          },
+          "psnr_wins": 0,
+          "per_image": {
+            "00001": {
+              "psnr": -1.3632067444446179,
+              "ssim": -0.05169171094894409,
+              "lpips": 0.012838952243328094
+            },
+            "00004": {
+              "psnr": -0.9831149904761887,
+              "ssim": -0.040240466594696045,
+              "lpips": 0.015186190605163574
+            },
+            "00008": {
+              "psnr": -1.4658648285289289,
+              "ssim": -0.03828084468841553,
+              "lpips": 0.019630983471870422
+            }
+          },
+          "paired_bootstrap_95": null,
+          "meets_confirm_criterion": null
+        }
+      ],
+      "pixel_audit": {
+        "positions": 90,
+        "full_support_positions": 90,
+        "max_update_relative_error": 0.00016586501714379966,
+        "max_increment_angle_degrees": 0.06539911270789864
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "images": 3,
+      "arms": {
+        "CLOSED_SCALAR_SUFFIX": {
+          "psnr": 21.95770394536085,
+          "ssim": 0.6371907393137614,
+          "lpips": 0.2544241398572922,
+          "seconds": 21.664139735201996
+        },
+        "CLOSED_DIAG_SUFFIX": {
+          "psnr": 22.908063868152123,
+          "ssim": 0.6764448682467142,
+          "lpips": 0.2266167402267456,
+          "seconds": 22.390951621656615
+        },
+        "PIXEL_STEP_SUFFIX": {
+          "psnr": 22.908065017734767,
+          "ssim": 0.6764448285102844,
+          "lpips": 0.22661679486433664,
+          "seconds": 23.162269646301866
+        },
+        "FIXED_TIME_SUFFIX": {
+          "psnr": 21.61772025745508,
+          "ssim": 0.6200072964032491,
+          "lpips": 0.2649534394343694,
+          "seconds": 21.658953118448455
+        },
+        "NO_SHRINK_SUFFIX": {
+          "psnr": 23.928446220464224,
+          "ssim": 0.711966892083486,
+          "lpips": 0.20676279564698538,
+          "seconds": 21.616286526744563
+        }
+      },
+      "paired": [
+        {
+          "candidate": "PIXEL_STEP_SUFFIX",
+          "reference": "CLOSED_DIAG_SUFFIX",
+          "delta": {
+            "psnr": 1.1495826418202644e-06,
+            "ssim": -3.9736429850260414e-08,
+            "lpips": 5.463759104410807e-08
+          },
+          "psnr_wins": 1,
+          "per_image": {
+            "00001": {
+              "psnr": -2.0863492338207834e-06,
+              "ssim": -4.172325134277344e-07,
+              "lpips": 5.960464477539063e-08
+            },
+            "00004": {
+              "psnr": 5.535097159281577e-06,
+              "ssim": 0.0,
+              "lpips": 2.9802322387695312e-08
+            },
+            "00008": {
+              "psnr": 0.0,
+              "ssim": 2.980232238769531e-07,
+              "lpips": 7.450580596923828e-08
+            }
+          },
+          "paired_bootstrap_95": null,
+          "meets_confirm_criterion": null
+        },
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "FIXED_TIME_SUFFIX",
+          "delta": {
+            "psnr": 0.33998368790577277,
+            "ssim": 0.017183442910512287,
+            "lpips": -0.01052929957707723
+          },
+          "psnr_wins": 3,
+          "per_image": {
+            "00001": {
+              "psnr": 0.0057402949080440635,
+              "ssim": 0.0008209347724914551,
+              "lpips": 0.0005066543817520142
+            },
+            "00004": {
+              "psnr": 0.9981539308603544,
+              "ssim": 0.0500715970993042,
+              "lpips": -0.030331939458847046
+            },
+            "00008": {
+              "psnr": 0.016056837948919878,
+              "ssim": 0.0006577968597412109,
+              "lpips": -0.0017626136541366577
+            }
+          },
+          "paired_bootstrap_95": null,
+          "meets_confirm_criterion": null
+        },
+        {
+          "candidate": "CLOSED_SCALAR_SUFFIX",
+          "reference": "NO_SHRINK_SUFFIX",
+          "delta": {
+            "psnr": -1.9707422751033725,
+            "ssim": -0.07477615276972453,
+            "lpips": 0.0476613442103068
+          },
+          "psnr_wins": 0,
+          "per_image": {
+            "00001": {
+              "psnr": -2.396091882171433,
+              "ssim": -0.10624486207962036,
+              "lpips": 0.06093348562717438
+            },
+            "00004": {
+              "psnr": -1.2747523889073236,
+              "ssim": -0.05390268564224243,
+              "lpips": 0.033265620470047
+            },
+            "00008": {
+              "psnr": -2.241382554231361,
+              "ssim": -0.06418091058731079,
+              "lpips": 0.048784926533699036
+            }
+          },
+          "paired_bootstrap_95": null,
+          "meets_confirm_criterion": null
+        }
+      ],
+      "pixel_audit": {
+        "positions": 90,
+        "full_support_positions": 90,
+        "max_update_relative_error": 0.00015880004432151503,
+        "max_increment_angle_degrees": 0.04573064602503883
+      }
+    }
+  ],
+  "device_uuid": "GPU-bd56f298-07c1-0e0d-815e-53f2f40e01b3"
+}
