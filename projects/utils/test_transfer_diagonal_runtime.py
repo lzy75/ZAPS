@@ -38,6 +38,10 @@ class Gates(unittest.TestCase):
             for compact in (False,True):
                 case=dict(task=task,mask_seed=123)
                 kernel=[[1.,2.,1.],[2.,4.,2.],[1.,2.,1.]]
+                if not compact and task=='motion_deblur':
+                    full=torch.zeros(61,61)
+                    full[29:32,29:32]=torch.tensor(kernel)/16
+                    kernel=full
                 op=(pigdm.Operator(task,'cuda:0',size=32,seed=123,kernel=kernel)
                     if compact else physical.make_operator(case,'cuda:0',size=32,kernel=kernel))
                 count=dict(refinement_H=0,refinement_Ht=0,module_dwt_analysis=0,
