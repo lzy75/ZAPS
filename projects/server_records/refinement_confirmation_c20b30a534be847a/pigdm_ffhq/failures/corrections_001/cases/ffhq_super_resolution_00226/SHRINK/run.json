@@ -1,0 +1,37 @@
+{
+  "case": {
+    "key": "ffhq_super_resolution_00226",
+    "dataset": "ffhq",
+    "image_id": "00226",
+    "image": "/home/lzy/FFHQ/00000/00000/00226.png",
+    "task": "super_resolution",
+    "sigma": 0.05,
+    "seed": 1226,
+    "measurement_seed": 2226,
+    "kernel_seed": 3226,
+    "shard": 0
+  },
+  "arm": "SHRINK",
+  "status": "failed",
+  "counts": {
+    "forward_attempts": 1,
+    "forwards": 1,
+    "input_vjp_attempts": 1,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 1,
+    "base_adjoint_actions": 1,
+    "calls": [
+      990
+    ],
+    "module_dwt_analysis": 0,
+    "module_dwt_synthesis": 0,
+    "module_adjoint_actions": 0,
+    "refinement_H": 0,
+    "refinement_Ht": 0,
+    "base_regularized_solves": 1,
+    "module_H_actions": 1
+  },
+  "error": "KeyError('corrections')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py\", line 180, in measure\n    (out, detail), seconds = clock.clocks(torch.cuda.synchronize, operation)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py\", line 46, in clocks\n    result = operation()\n             ^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py\", line 176, in operation\n    return sampler('A121', model, op, y, case, 'BASE' if arm == 'DIAGONAL' else 'SHRINK',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/pigdm_noisy_r1_runtime.py\", line 55, in run\n    count['corrections']+=1\n    ~~~~~^^^^^^^^^^^^^^^\nKeyError: 'corrections'\n"
+}

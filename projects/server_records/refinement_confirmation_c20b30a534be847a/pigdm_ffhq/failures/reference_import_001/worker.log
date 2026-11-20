@@ -1,0 +1,41 @@
+test_dps_instrumentation_preserves_both_scalar_entrypoints (utils.test_transfer_diagonal_runtime.Gates.test_dps_instrumentation_preserves_both_scalar_entrypoints) ...   0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [00:00<00:02,  2.94it/s, distance=0.825]100%|██████████| 8/8 [00:00<00:00, 21.42it/s, distance=0.149]
+  0%|          | 0/8 [00:00<?, ?it/s]100%|██████████| 8/8 [00:00<00:00, 204.15it/s, distance=0.149]
+ERROR
+test_physical_adjoint_and_fixed_objective_descent (utils.test_transfer_diagonal_runtime.Gates.test_physical_adjoint_and_fixed_objective_descent) ... ok
+test_pigdm_instrumentation_preserves_scalar_rng_and_calls (utils.test_transfer_diagonal_runtime.Gates.test_pigdm_instrumentation_preserves_scalar_rng_and_calls) ... ok
+
+======================================================================
+ERROR: test_dps_instrumentation_preserves_both_scalar_entrypoints (utils.test_transfer_diagonal_runtime.Gates.test_dps_instrumentation_preserves_both_scalar_entrypoints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/lzy/ZAPS/projects/utils/test_transfer_diagonal_runtime.py", line 88, in test_dps_instrumentation_preserves_both_scalar_entrypoints
+    out,detail=run(model,op,y,case,'SHRINK',config,Path(__file__).resolve().parents[2]/'DPS',count,size=8)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/dps_missing_tasks_runtime.py", line 31, in run
+    dps,conditions,_=reference(str(Path(dps_root).resolve()))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/dps_missing_tasks_runtime.py", line 15, in reference
+    sampler,meta=load_dps_reference(Path(root))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_zaps_sampler_parity.py", line 44, in load_dps_reference
+    raise RuntimeError("Reference package already loaded")
+RuntimeError: Reference package already loaded
+
+----------------------------------------------------------------------
+Ran 3 tests in 3.012s
+
+FAILED (errors=1)
+TRANSFER SUMMARY: {"host": "pigdm", "dataset": "ffhq", "completed_runs": 0, "planned_runs": 36, "groups": [], "comparisons": [], "actual_new_cost": {"forward_attempts": 0, "forwards": 0, "input_vjp_attempts": 0, "optimizer_backward_attempts": 0, "refinement_H": 0, "refinement_Ht": 0, "module_dwt_analysis": 0, "module_dwt_synthesis": 0}, "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.", "separate_model_gate": {}, "failures": []}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 357, in <module>
+    main()
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 336, in main
+    if previous.get('status')!='complete': execute(args,root)
+                                           ^^^^^^^^^^^^^^^^^^
+  File "/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py", line 280, in execute
+    subprocess.run([sys.executable,'-m','unittest','-v','utils.test_transfer_diagonal_runtime'], cwd=PROJECTS, check=True)
+  File "/home/lzy/anaconda3/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/lzy/anaconda3/bin/python', '-m', 'unittest', '-v', 'utils.test_transfer_diagonal_runtime']' returned non-zero exit status 1.

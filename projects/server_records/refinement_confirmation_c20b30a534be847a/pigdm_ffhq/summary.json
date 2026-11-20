@@ -1,0 +1,347 @@
+{
+  "host": "pigdm",
+  "dataset": "ffhq",
+  "completed_runs": 36,
+  "planned_runs": 36,
+  "groups": [
+    {
+      "task": "super_resolution",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 27.013420207399374,
+        "ssim": 0.8354766170183817,
+        "lpips": 0.10373188555240631
+      },
+      "seconds": 10.970413104010126,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": true
+    },
+    {
+      "task": "super_resolution",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 27.17394254371347,
+        "ssim": 0.8395558993021647,
+        "lpips": 0.12362714608510335
+      },
+      "seconds": 8.248246205349764,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": false
+    },
+    {
+      "task": "super_resolution",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 26.32869508354031,
+        "ssim": 0.8022093375523885,
+        "lpips": 0.12667094667752585
+      },
+      "seconds": 10.065211249515414,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 25.838596747841017,
+        "ssim": 0.7947418888409933,
+        "lpips": 0.1240451509753863
+      },
+      "seconds": 11.977640234554807,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 27.025941716811932,
+        "ssim": 0.8243885437647501,
+        "lpips": 0.14928443233172098
+      },
+      "seconds": 8.938499828800559,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 26.994515711825162,
+        "ssim": 0.825378954410553,
+        "lpips": 0.1442490965127945
+      },
+      "seconds": 10.545638249566158,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": false
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 23.735142420181198,
+        "ssim": 0.7351831992467245,
+        "lpips": 0.1969045251607895
+      },
+      "seconds": 13.539682555322846,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": true
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 27.34777651234087,
+        "ssim": 0.8219536940256754,
+        "lpips": 0.15636315445105234
+      },
+      "seconds": 7.031411720439792,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": true
+    },
+    {
+      "task": "motion_deblur",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 27.24656018448211,
+        "ssim": 0.8220536112785339,
+        "lpips": 0.14600485563278198
+      },
+      "seconds": 8.56520721067985,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "BASE",
+      "images": 3,
+      "quality": {
+        "psnr": 30.89970616047687,
+        "ssim": 0.9219202597935995,
+        "lpips": 0.07929819573958714
+      },
+      "seconds": 10.276642425296208,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": true
+    },
+    {
+      "task": "inpainting",
+      "arm": "SHRINK",
+      "images": 3,
+      "quality": {
+        "psnr": 31.159769860861278,
+        "ssim": 0.9292183717091879,
+        "lpips": 0.06388686845699947
+      },
+      "seconds": 8.703205343335867,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": false
+    },
+    {
+      "task": "inpainting",
+      "arm": "DIAGONAL",
+      "images": 3,
+      "quality": {
+        "psnr": 29.996473071156036,
+        "ssim": 0.907431960105896,
+        "lpips": 0.042378589510917664
+      },
+      "seconds": 10.881130712106824,
+      "nfe": 100,
+      "input_vjp": 100,
+      "reused": false
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "super_resolution",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 0.16052233631409507,
+        "ssim": 0.004079282283782959,
+        "lpips": 0.01989526053269704
+      },
+      "psnr_wins": 3,
+      "positive": false
+    },
+    {
+      "task": "super_resolution",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -0.8452474601731588,
+        "ssim": -0.03734656174977621,
+        "lpips": 0.0030438005924224854
+      },
+      "psnr_wins": 0,
+      "positive": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 1.1873449689709166,
+        "ssim": 0.029646654923756916,
+        "lpips": 0.025239281356334686
+      },
+      "psnr_wins": 3,
+      "positive": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -0.031426004986771026,
+        "ssim": 0.0009904106458028157,
+        "lpips": -0.005035335818926494
+      },
+      "psnr_wins": 1,
+      "positive": false
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 3.612634092159675,
+        "ssim": 0.086770494778951,
+        "lpips": -0.040541370709737144
+      },
+      "psnr_wins": 3,
+      "positive": true
+    },
+    {
+      "task": "motion_deblur",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -0.10121632785876145,
+        "ssim": 9.991725285847981e-05,
+        "lpips": -0.010358298818270365
+      },
+      "psnr_wins": 0,
+      "positive": false
+    },
+    {
+      "task": "inpainting",
+      "candidate": "SHRINK",
+      "reference": "BASE",
+      "images": 3,
+      "delta": {
+        "psnr": 0.26006370038440946,
+        "ssim": 0.007298111915588379,
+        "lpips": -0.015411327282587687
+      },
+      "psnr_wins": 3,
+      "positive": true
+    },
+    {
+      "task": "inpainting",
+      "candidate": "DIAGONAL",
+      "reference": "SHRINK",
+      "images": 3,
+      "delta": {
+        "psnr": -1.1632967897052435,
+        "ssim": -0.02178641160329183,
+        "lpips": -0.0215082789460818
+      },
+      "psnr_wins": 0,
+      "positive": false
+    }
+  ],
+  "actual_new_cost": {
+    "forward_attempts": 1801,
+    "forwards": 1801,
+    "input_vjp_attempts": 1801,
+    "optimizer_backward_attempts": 0,
+    "refinement_H": 4492,
+    "refinement_Ht": 900,
+    "module_dwt_analysis": 1800,
+    "module_dwt_synthesis": 2692
+  },
+  "timing": "Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.",
+  "separate_model_gate": {
+    "model_load_seconds": 1.8749486468732357,
+    "probe_counts": {
+      "forward_attempts": 1,
+      "forwards": 1,
+      "input_vjp_attempts": 1,
+      "optimizer_backward_attempts": 0,
+      "optimizer_backward_completed": 0,
+      "base_H_actions": 0,
+      "base_adjoint_actions": 0,
+      "calls": [
+        999
+      ]
+    },
+    "probe_seconds": 0.5057238768786192,
+    "peak_reserved_bytes": 2831155200
+  },
+  "preserved_failed_method_cost": {
+    "forward_attempts": 1,
+    "forwards": 1,
+    "input_vjp_attempts": 1,
+    "optimizer_backward_attempts": 0,
+    "optimizer_backward_completed": 0,
+    "base_H_actions": 1,
+    "base_adjoint_actions": 1,
+    "calls": [
+      990
+    ],
+    "module_dwt_analysis": 0,
+    "module_dwt_synthesis": 0,
+    "module_adjoint_actions": 0,
+    "refinement_H": 0,
+    "refinement_Ht": 0,
+    "base_regularized_solves": 1,
+    "module_H_actions": 1
+  },
+  "preserved_model_gate": {
+    "model_load_seconds": 2.0064679719507694,
+    "probe_counts": {
+      "forward_attempts": 1,
+      "forwards": 1,
+      "input_vjp_attempts": 1,
+      "optimizer_backward_attempts": 0,
+      "optimizer_backward_completed": 0,
+      "base_H_actions": 0,
+      "base_adjoint_actions": 0,
+      "calls": [
+        999
+      ]
+    },
+    "probe_seconds": 0.48707539215683937,
+    "peak_reserved_bytes": 2831155200
+  },
+  "failures": []
+}

@@ -1,0 +1,6 @@
+{
+  "status": "failed",
+  "pid": 2256339,
+  "error": "KeyError('corrections')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py\", line 348, in main\n    if previous.get('status')!='complete': execute(args,root)\n                                           ^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py\", line 321, in execute\n    measure(root, entry, entry['observation'], args.host, model, wavelet, arm)\n  File \"/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py\", line 180, in measure\n    (out, detail), seconds = clock.clocks(torch.cuda.synchronize, operation)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/paper_clock_runtime.py\", line 46, in clocks\n    result = operation()\n             ^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/diag_complete_diagonal_transfer.py\", line 176, in operation\n    return sampler('A121', model, op, y, case, 'BASE' if arm == 'DIAGONAL' else 'SHRINK',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lzy/ZAPS/projects/utils/pigdm_noisy_r1_runtime.py\", line 55, in run\n    count['corrections']+=1\n    ~~~~~^^^^^^^^^^^^^^^\nKeyError: 'corrections'\n"
+}
