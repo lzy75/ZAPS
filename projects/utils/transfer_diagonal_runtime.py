@@ -8,6 +8,11 @@ from utils import paper_clock_alignment as files
 from utils.equal_nfe_feedback_runtime import diagonal_update
 
 
+def initialize_counts(count):
+    count.update(corrections=0, module_dwt_analysis=0, module_dwt_synthesis=0,
+                 module_adjoint_actions=0, refinement_H=0, refinement_Ht=0)
+
+
 @contextmanager
 def dps_reference_scope():
     """Use one cached reference for both unchanged historical DPS adapters."""

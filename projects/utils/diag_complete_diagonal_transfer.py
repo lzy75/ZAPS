@@ -159,8 +159,7 @@ def measure(root, entry, obs, host, model, wavelet, arm):
         versions = [p._version for p in model.model.parameters()]
         scope = control.dps_reference_scope() if host == 'dps' else nullcontext()
         with scope, precision.precision('LEGACY_IEEE'), clock.counters(model.model) as count:
-            count.update(module_dwt_analysis=0, module_dwt_synthesis=0,
-                         module_adjoint_actions=0, refinement_H=0, refinement_Ht=0)
+            control.initialize_counts(count)
             def tick(step, measured):
                 record['counts'] = dict(measured)
                 files.write(record_file, record)
@@ -183,6 +182,8 @@ def measure(root, entry, obs, host, model, wavelet, arm):
         files.require(count['forwards'] == count['forward_attempts'] == count['input_vjp_attempts'] == nfe,
                       'Network evaluation budget differs')
         files.require(count['optimizer_backward_attempts'] == 0, 'Unexpected optimizer backward')
+        if host == 'pigdm':
+            files.require(count['corrections'] == nfe, 'PiGDM correction count differs')
         files.require(all(p.grad is None and p._version == version for p, version in
                           zip(model.model.parameters(), versions)), 'Network parameters changed')
         pairing = fingerprint(detail, final, count, host)
@@ -236,13 +237,18 @@ def summarize(root):
                 comparisons.append(dict(task=task, candidate=candidate, reference=reference, images=len(keys),
                     delta=delta, psnr_wins=wins, positive=len(keys)==3 and wins>=2 and delta['psnr']>=.1 and
                     delta['ssim']>=0 and delta['lpips']<=0))
+    recovery_file = root/'counter_recovery.json'
+    recovery = files.read(recovery_file) if recovery_file.exists() else {}
     result = dict(host=plan['host'], dataset=plan['dataset'], completed_runs=sum(r['status']=='complete' for r in rows),
         planned_runs=36, groups=groups, comparisons=comparisons,
         actual_new_cost={key: sum((r.get('counts') or {}).get(key,0) for r in rows if not r.get('reused'))
+                              + recovery.get('prior_failed_method_cost',{}).get(key,0)
                          for key in ('forward_attempts','forwards','input_vjp_attempts','optimizer_backward_attempts',
                                      'refinement_H','refinement_Ht','module_dwt_analysis','module_dwt_synthesis')},
         timing='Same-session scalar/diagonal full loops. BASE clocks and A119 clocks are inherited, not newly timed.',
         separate_model_gate=files.read(root/'load.json') if (root/'load.json').exists() else {},
+        preserved_failed_method_cost=recovery.get('prior_failed_method_cost',{}),
+        preserved_model_gate=recovery.get('prior_model_gate',{}),
         failures=[r.get('error') for r in rows if r['status']=='failed'])
     files.write(root / 'summary.json', result)
     print('TRANSFER SUMMARY:', json.dumps(result, ensure_ascii=False), flush=True)
@@ -270,6 +276,10 @@ def execute(args, root):
     if recovery.exists():
         files.require(files.read(recovery)['original_protocol'] == {k:v for k,v in plan.items() if k!='files'},
                       'Recovered source cases, observations or evaluation budget differ')
+    recovery = root/'counter_recovery.json'
+    if recovery.exists():
+        files.require(files.read(recovery)['original_protocol'] == {k:v for k,v in plan.items() if k!='files'},
+                      'Counter repair changed cases, observations or evaluation budget')
     if (root/'plan.json').exists():
         files.require(files.read(root/'plan.json') == plan, 'Frozen plan differs')
     else:
@@ -284,7 +294,8 @@ def execute(args, root):
         files.require(files.digest(entry['case']['image'])==entry['plan']['inputs'][entry['case']['image']], 'Input image changed')
     files.require(files.digest(checkpoint['path'])==checkpoint['sha256'], 'Checkpoint differs')
     subprocess.run([sys.executable,'-m','unittest','-v','utils.test_transfer_reference_recovery',
-                    'utils.test_transfer_diagonal_runtime'], cwd=PROJECTS, check=True)
+                    'utils.test_transfer_counter_recovery','utils.test_transfer_diagonal_runtime'],
+                   cwd=PROJECTS, check=True)
     load_start = time.perf_counter()
     model = load_diffusion_model(args.dataset, 'cuda:0')
     model.model.load_state_dict(torch.load(checkpoint['path'],map_location='cpu',weights_only=True),strict=True)
@@ -328,6 +339,7 @@ def main():
     p.add_argument('--status', action='store_true')
     p.add_argument('--archive', action='store_true')
     p.add_argument('--resume-reference-failure', action='store_true')
+    p.add_argument('--resume-corrections-failure', action='store_true')
     args = p.parse_args()
     root = directory(args.host, args.dataset)
     if args.status:
@@ -337,6 +349,10 @@ def main():
     root.mkdir(parents=True,exist_ok=True)
     with exclusive(root/'worker.lock'):
         previous = files.read(root/'session.json') if (root/'session.json').exists() else {}
+        if args.resume_corrections_failure and previous.get('status') == 'failed':
+            from utils.transfer_counter_recovery import preserve_failure
+            preserve_failure(root)
+            previous = {}
         if args.resume_reference_failure and previous.get('status') == 'failed':
             from utils.transfer_reference_recovery import preserve_failure
             preserve_failure(root)

@@ -26,6 +26,7 @@ def main():
     parser.add_argument('--gpu',default='0')
     parser.add_argument('--status',action='store_true')
     parser.add_argument('--resume-reference-failure',action='store_true')
+    parser.add_argument('--resume-corrections-failure',action='store_true')
     args=parser.parse_args()
     datasets=('ffhq','imagenet') if args.dataset=='all' else (args.dataset,)
     for dataset in datasets:
@@ -33,6 +34,8 @@ def main():
         command=[sys.executable,'-u','-m','utils.diag_complete_diagonal_transfer',args.host,dataset]
         if args.resume_reference_failure:
             command.append('--resume-reference-failure')
+        if args.resume_corrections_failure:
+            command.append('--resume-corrections-failure')
         if args.status:
             subprocess.run(command+['--status'],cwd=driver.PROJECTS,check=True)
             continue
@@ -46,7 +49,8 @@ def main():
             if not alive:
                 state=driver.files.read(root/'session.json') if (root/'session.json').exists() else {}
                 driver.files.require(state.get('status')!='running' and
-                                     (state.get('status')!='failed' or args.resume_reference_failure),
+                                     (state.get('status')!='failed' or args.resume_reference_failure or
+                                      args.resume_corrections_failure),
                                      'Previous failed/unfinished launch retained; inspect --status')
                 env=dict(os.environ,CUDA_VISIBLE_DEVICES=args.gpu)
                 position=(root/'worker.log').stat().st_size if (root/'worker.log').exists() else 0

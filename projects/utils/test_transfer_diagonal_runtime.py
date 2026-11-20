@@ -64,9 +64,11 @@ class Gates(unittest.TestCase):
         op=rt.Operator('super_resolution','cuda:0',size=8)
         y=torch.zeros(1,3,2,2,device='cuda:0');results=[]
         for run,arm in ((rt.run,'SHRINK'),(control.instrument(rt,unchanged,'pigdm'),'BASE')):
-            with shared.counters(model.model) as count:
+            with clock.counters(model.model) as count:
+                control.initialize_counts(count)
                 out,detail=run('test',model,op,y,case,arm,count,size=8,test_steps=4)
             results.append((out,shared.rng(),count))
+            self.assertEqual(count['corrections'],4)
         torch.testing.assert_close(results[0][0],results[1][0],rtol=1e-5,atol=1e-5)
         self.assertTrue(torch.equal(results[0][1]['cuda'][0],results[1][1]['cuda'][0]))
         self.assertEqual(results[0][2]['calls'],results[1][2]['calls'])
