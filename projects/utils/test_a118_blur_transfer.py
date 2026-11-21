@@ -7,6 +7,44 @@ from utils import a118_blur_transfer_runtime as runtime
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_preserves_completed_outputs_and_failed_attempt_cost(self):
+        import tempfile
+        from utils import diag_a118_blur_transfer as driver
+        files = driver.files
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root/'source.py'
+            source.write_text('fixed interface\n')
+            files.write(root/'plan.json',dict(sources={str(source):'old hash'},host='pigdm'))
+            files.write(root/'session.json',dict(status='failed'))
+            complete = root/'cases/case/BASE/run.json'
+            files.write(complete,dict(status='complete',arm='BASE',case={'key':'case'}))
+            original = complete.read_bytes()
+            failed = root/'cases/case/A118_DIAGONAL/run.json'
+            files.write(failed,dict(status='failed',arm='A118_DIAGONAL',case={'key':'case'},
+                error='''AttributeError("'OrthogonalDWT2D' object has no attribute 'dwt'")''',
+                traceback='a118_blur_transfer_runtime.py',counts={'forwards':71,'input_vjp_attempts':71}))
+            driver.repair_wavelet_failure(root)
+            self.assertEqual(complete.read_bytes(),original)
+            self.assertFalse(failed.exists())
+            saved = root/'failures/wavelet_001/cases/case/A118_DIAGONAL/run.json'
+            self.assertEqual(files.read(saved)['counts']['forwards'],71)
+            self.assertEqual(files.read(root/'wavelet_recovery.json')['completed_runs_retained'],1)
+            self.assertEqual(files.read(root/'session.json')['status'],'repaired')
+
+    def test_unrelated_failure_is_retained(self):
+        import tempfile
+        from utils import diag_a118_blur_transfer as driver
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            driver.files.write(root/'session.json',dict(status='failed'))
+            record = root/'cases/case/A118_DIAGONAL/run.json'
+            driver.files.write(record,dict(status='failed',arm='A118_DIAGONAL',error='another error'))
+            with self.assertRaises(ValueError):
+                driver.repair_wavelet_failure(root)
+            self.assertTrue(record.exists())
+            self.assertFalse((root/'failures').exists())
+
     def test_bounded_line_fraction(self):
         self.assertEqual(runtime.step_fraction(4.,0.),1.)
         self.assertEqual(runtime.step_fraction(0.,1.),0.)
@@ -64,7 +102,8 @@ class NativeCudaTests(unittest.TestCase):
 
         self.assertTrue(torch.cuda.is_available(), 'Allocated CUDA required')
         model = SimpleNamespace(model=Toy().cuda(),device='cuda:0')
-        wavelet = SimpleNamespace(dwt=IdentityWavelet())
+        from modules.wavelet import OrthogonalDWT2D
+        wavelet = OrthogonalDWT2D(wave='db4',level=3).cuda()
         config = dict(sampler='ddpm',steps=1000,noise_schedule='linear',model_mean_type='epsilon',
                       model_var_type='learned_range',dynamic_threshold=False,clip_denoised=True,
                       rescale_timesteps=False,timestep_respacing='8')

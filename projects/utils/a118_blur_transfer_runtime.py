@@ -18,6 +18,9 @@ def step_fraction(anchor_norm, extra_norm):
 def refinement(wavelet, arm, count, trace):
     """A118 line search on the host scalar anchor and the linear H response."""
     from utils.equal_nfe_feedback_runtime import _dot
+    dwt = getattr(wavelet, 'dwt', wavelet)
+    files.require(callable(getattr(dwt, 'analysis', None)) and callable(getattr(dwt, 'synthesis', None)),
+                  'Expected a wavelet transform with analysis/synthesis')
 
     def apply(operator, q, residual, alpha, scalar, t):
         view = transfer.LinearView(operator, count)
@@ -30,9 +33,9 @@ def refinement(wavelet, arm, count, trace):
         error = anchor_response.double() - target
         initial = .5 * _dot(error, error)
 
-        support = wavelet.dwt.analysis(q) != 0
+        support = dwt.analysis(q) != 0
         adjoint = view.transpose(error.to(anchor_response.dtype)) / scale
-        gradient = wavelet.dwt.analysis(adjoint) * support
+        gradient = dwt.analysis(adjoint) * support
         count['module_adjoint_actions'] += 1
         count['module_dwt_analysis'] += 2
         energy = _dot(gradient, gradient)
@@ -40,7 +43,7 @@ def refinement(wavelet, arm, count, trace):
         extra = anchor.new_zeros(anchor.shape)
         extra_response = error.new_zeros(error.shape)
         if energy > 0:
-            direction = wavelet.dwt.synthesis(gradient)
+            direction = dwt.synthesis(gradient)
             count['module_dwt_synthesis'] += 1
             direction_response = view.H(direction / scale).double()
             curvature = _dot(direction_response, direction_response)

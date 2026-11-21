@@ -12,4 +12,6 @@ DPS 直接使用 A118 的零边界算子与原 y。ΠGDM 保留自身循环卷�
 
 A124R1 修复 CUDA 门控中分开计算标量造成的浮点差异。对角直接使用各方法标量组计算的倍率与噪声权重，线性响应直接作用于修正。沿用原二次目标、系数支撑、线搜索及限幅。A124 前置失败记录保留，已开始正式重建的旧会话不会自动重跑。
 
+接口修复补充：小波参数同时接受正式入口的 OrthogonalDWT2D 与原单测的 dwt 包装对象。CUDA 采样检查使用真实 db4/level3 对象。通过 --repair-wavelet-failure 恢复报告的 AttributeError，保留已有完整输出，仅将失败尝试移入 failures/wavelet_001，原尝试计数加入累计成本。科学设置与观测必须保持同一协议，恢复之后沿用 A124R1 目录。
+
 服务器命令 `bash projects/run_a118_blur_transfer.sh dps --gpu 0` 与 `bash projects/run_a118_blur_transfer.sh pigdm --gpu 1`。修复结果独立写入 `/data0/lzy/ZAPS-results/diag_a118_blur_transfer/A124R1_{dps,pigdm}_ffhq`，以 `--status` 查询，使用 `--archive` 单独归档。

@@ -31,6 +31,39 @@ CARD = PROJECTS / 'experiment_cards/A124_a118_blur_transfer.md'
 REVISION = 'A124R1'
 
 
+def repair_wavelet_failure(root):
+    """Preserve only this interface failure, leaving completed method runs in place."""
+    state = files.read(root/'session.json')
+    files.require(state['status']=='failed', 'Repair requires a stopped failed session')
+    rows = [(path,files.read(path)) for path in (root/'cases').glob('*/*/run.json')]
+    failed = [(path,row) for path,row in rows if row['status']!='complete']
+    files.require(len(failed)==1, 'Expected exactly one failed wavelet attempt')
+    path, row = failed[0]
+    files.require(row['status']=='failed' and row['arm'] in ('A118_DIAGONAL','BOUNDED_DIAGONAL') and
+                  row.get('error')=='''AttributeError("'OrthogonalDWT2D' object has no attribute 'dwt'")''' and
+                  'a118_blur_transfer_runtime.py' in row.get('traceback',''), 'Failure differs from reported wavelet error')
+    files.require(not (root/'wavelet_recovery.json').exists(), 'Wavelet repair already recorded')
+    backup = root/'failures'/'wavelet_001'
+    backup.mkdir(parents=True,exist_ok=False)
+    for name in ('plan.json','session.json','summary.json','load.json','launcher.json','worker.log'):
+        source = root/name
+        if source.exists():
+            shutil.copyfile(source,backup/name)
+            files.require(files.digest(source)==files.digest(backup/name), 'Failure backup differs')
+    destination = backup/path.parent.relative_to(root)
+    destination.parent.mkdir(parents=True,exist_ok=True)
+    path.parent.rename(destination)
+    files.write(root/'wavelet_recovery.json',dict(backup=str(backup),
+        failed_case=row['case'],failed_arm=row['arm'],prior_failed_cost=row.get('counts',{}),
+        prior_model_load=files.read(root/'load.json') if (root/'load.json').exists() else {},
+        completed_runs_retained=sum(r['status']=='complete' for _,r in rows)))
+    plan = files.read(root/'plan.json')
+    plan['sources'] = {name:files.digest(name) for name in plan['sources']}
+    files.write(root/'plan.json',plan)
+    files.write(root/'session.json',dict(status='repaired',backup=str(backup)))
+    print('A124 WAVELET REPAIR',backup,'completed runs reused',len(rows)-1,flush=True)
+
+
 def failed_preflight(host):
     root = OUTPUTS/f'A124_{host}_ffhq'
     session = root/'session.json'
@@ -244,9 +277,13 @@ def summarize(root, plan, status):
     done = sum(r['status']=='complete' for r in rows)
     keys = ('forwards','forward_attempts','input_vjp_attempts','input_jvp_attempts','refinement_H','refinement_Ht',
             'module_dwt_analysis','module_dwt_synthesis')
+    recovery = files.read(root/'wavelet_recovery.json') if (root/'wavelet_recovery.json').exists() else {}
     result = dict(experiment=REVISION,status=status,host=plan['host'],planned_runs=80,completed_runs=done,
                   per_arm_nfe=plan['nfe'],groups=groups,actual_cost={k:sum(r.get('counts',{}).get(k,0) for r in rows) for k in keys},
                   cost_is_lower_bound=any(r['status']!='complete' for r in rows))
+    result['preserved_failed_attempt_cost'] = recovery.get('prior_failed_cost',{})
+    result['cumulative_actual_cost'] = {k:result['actual_cost'][k]+recovery.get('prior_failed_cost',{}).get(k,0)
+                                      for k in keys}
     files.write(root/'summary.json',result)
     return result
 
@@ -373,6 +410,7 @@ def main():
     parser.add_argument('host',choices=('dps','pigdm'))
     parser.add_argument('--parent',type=Path,default=PARENT)
     parser.add_argument('--gpu',default='0')
+    parser.add_argument('--repair-wavelet-failure',action='store_true')
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument('--status',action='store_true')
     modes.add_argument('--archive',action='store_true')
@@ -390,6 +428,15 @@ def main():
                 print('A124 CASE',row['case']['key'],row['arm'],row['status'],row.get('step',0),row.get('error',''))
         return
     root.mkdir(parents=True,exist_ok=True)
+    if args.repair_wavelet_failure:
+        with exclusive(root/'worker.lock'):
+            if not (root/'wavelet_recovery.json').exists():
+                # Validate all scientific settings before allowing a source-only repair.
+                expected = load_plan(args.host,args.parent.resolve())
+                old_plan = files.read(root/'plan.json')
+                files.require({k:v for k,v in old_plan.items() if k!='sources'}==
+                              {k:v for k,v in expected.items() if k!='sources'}, 'Repair would change the experiment protocol')
+                repair_wavelet_failure(root)
     if args.archive:
         with exclusive(root/'worker.lock'):
             archive(args.host,root)
