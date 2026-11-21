@@ -65,15 +65,39 @@ def remote_refs(repo):
             git(repo, 'ls-remote', '--heads', 'origin', 'refs/heads/results/*').decode().splitlines()]
 
 
-def matching_bundles(repo, candidates):
-    """The live tip must be available locally. Missing tips are harmless and skipped."""
+def has_commit(repo, commit):
+    result = subprocess.run(['git', '-C', str(repo), 'cat-file', '-e', commit + '^{commit}'],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return result.returncode == 0
+
+
+def matching_bundles(repo, candidates, scratch=None, fetch_missing=False):
+    """Verify known tips first. Any missing reference objects are written to scratch."""
     verified = {}
-    for commit, ref in remote_refs(repo):
+    verifier = scratch or repo
+    refs = remote_refs(repo) if candidates else []
+    known, missing = [], []
+    for commit, ref in refs:
+        (known if has_commit(verifier,commit) else missing).append((commit,ref))
+    if fetch_missing and missing:
+        remote = git(repo,'remote','get-url','origin').decode().strip()
+        git(verifier,'config','--local','remote.archive-verification.url',remote)
+    if missing:
+        print(f'{len(missing)} uploaded results tips have no local commit metadata',flush=True)
+    for commit, ref in known + (missing if fetch_missing else []):
         pending = [bundle for bundle in candidates if bundle not in verified]
         if not pending:
             break
+        if not has_commit(verifier,commit):
+            fetched = subprocess.run(['git','-C',str(verifier),'fetch','--quiet','--no-tags',
+                                      '--depth=1','--filter=blob:none','archive-verification',ref],capture_output=True)
+            if fetched.returncode or not has_commit(verifier,commit):
+                print(f'SKIP {ref}: could not read the uploaded tip in scratch',flush=True)
+                if fetched.returncode:
+                    print(fetched.stderr.decode(errors='replace').strip(),flush=True)
+                continue
         try:
-            raw = git(repo, 'ls-tree', '-r', '-z', commit, '--',
+            raw = git(verifier, 'ls-tree', '-r', '-z', commit, '--',
                       *(bundle.relative_to(repo).as_posix() for bundle in pending))
         except subprocess.CalledProcessError:
             continue
@@ -92,7 +116,7 @@ def matching_bundles(repo, candidates):
     return verified
 
 
-def prune(repo, limit, apply=False):
+def prune(repo, limit, apply=False, scratch=None, fetch_missing=False):
     repo = Path(git(repo,'rev-parse','--show-toplevel').decode().strip()).resolve()
     root = repo / ARCHIVE_PATH
     if root.resolve() != root or not root.is_dir():
@@ -109,7 +133,11 @@ def prune(repo, limit, apply=False):
             candidates[bundle] = local_files(repo,bundle,algorithm)
         except (ValueError, KeyError, OSError) as error:
             print(f'SKIP {bundle.name}: {error}', flush=True)
-    verified = matching_bundles(repo,candidates)
+    if scratch:
+        scratch = Path(scratch).resolve()
+        if scratch.is_relative_to(repo) or scratch.stat().st_dev == root.stat().st_dev:
+            raise ValueError('Verification scratch must be outside the repository on another filesystem')
+    verified = matching_bundles(repo,candidates,scratch,fetch_missing)
     chosen = sorted(verified, key=lambda path: (-verified[path][2],path.name))[:limit]
     latest = set(remote_refs(repo)) if apply and chosen else set()
     reclaimed = 0
@@ -134,10 +162,14 @@ def main():
     parser.add_argument('--repo', type=Path, required=True)
     parser.add_argument('--limit', type=int, default=10)
     parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--scratch', type=Path, help='Shared no-checkout clone on a separate filesystem')
+    parser.add_argument('--fetch-missing', action='store_true', help='Read missing live results tips into scratch')
     args = parser.parse_args()
     if args.limit < 1:
         parser.error('--limit must be positive')
-    prune(args.repo, args.limit, args.apply)
+    if args.fetch_missing and not args.scratch:
+        parser.error('--fetch-missing requires --scratch on a separate filesystem')
+    prune(args.repo, args.limit, args.apply,args.scratch,args.fetch_missing)
 
 
 if __name__ == '__main__':
