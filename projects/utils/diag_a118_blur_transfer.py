@@ -28,6 +28,22 @@ TASKS = ('gaussian_deblur', 'motion_deblur')
 METRICS = ('psnr', 'ssim', 'lpips')
 OUTPUTS = history.BASE / 'diag_a118_blur_transfer'
 CARD = PROJECTS / 'experiment_cards/A124_a118_blur_transfer.md'
+REVISION = 'A124R1'
+
+
+def failed_preflight(host):
+    root = OUTPUTS/f'A124_{host}_ffhq'
+    session = root/'session.json'
+    if not session.exists():
+        return None
+    state = files.read(session)
+    files.require(state['status'] != 'running' and not any((root/'cases').glob('*/*')),
+                  'A124 has an active session or attempted reconstructions; inspect existing results before rerunning')
+    error = state.get('error','')
+    files.require(state['status']=='resource_limited' or
+                  (state['status']=='failed' and 'CalledProcessError' in error and 'test_a118_blur_transfer' in error),
+                  'A124 failure is unrelated to the repaired CUDA preflight')
+    return dict(path=str(root),session_sha256=files.digest(session))
 
 
 def load_plan(host, parent):
@@ -57,7 +73,8 @@ def load_plan(host, parent):
                   'Host and A118 checkpoints must match')
     dps_configs = ({t:{k:plans[t][k] for k in ('diffusion_config','dps_root')} for t in TASKS}
                    if host=='dps' else {})
-    return dict(experiment='A124',host=host,parent=str(parent),parent_plan_sha256=files.digest(parent/'plan.json'),
+    return dict(experiment=REVISION,host=host,parent=str(parent),parent_plan_sha256=files.digest(parent/'plan.json'),
+                prior_preflight=failed_preflight(host),
                 cases=cases,checkpoint=checkpoint,motion_kernel=str(kernel),motion_kernel_sha256=files.digest(kernel),
                 dps_configs=dps_configs,arms=list(runtime.ARMS),cutoff=runtime.LAST_ACTIVE_T,
                 relative_bound=runtime.RELATIVE_BOUND,nfe=1000 if host=='dps' else 100,
@@ -227,7 +244,7 @@ def summarize(root, plan, status):
     done = sum(r['status']=='complete' for r in rows)
     keys = ('forwards','forward_attempts','input_vjp_attempts','input_jvp_attempts','refinement_H','refinement_Ht',
             'module_dwt_analysis','module_dwt_synthesis')
-    result = dict(experiment='A124',status=status,host=plan['host'],planned_runs=80,completed_runs=done,
+    result = dict(experiment=REVISION,status=status,host=plan['host'],planned_runs=80,completed_runs=done,
                   per_arm_nfe=plan['nfe'],groups=groups,actual_cost={k:sum(r.get('counts',{}).get(k,0) for r in rows) for k in keys},
                   cost_is_lower_bound=any(r['status']!='complete' for r in rows))
     files.write(root/'summary.json',result)
@@ -281,7 +298,7 @@ def archive(host,root):
     from utils import archive_refinement_confirmation as exporter
     result = files.read(root/'summary.json')
     files.require(result['status']=='complete' and result['completed_runs']==80,'Require complete A124 result')
-    branch = f'results/a124-a118-blur-transfer-{host}'
+    branch = f'results/a124r1-a118-blur-transfer-{host}'
     # Keep Git staging and the export copy on the result disk.
     with tempfile.TemporaryDirectory(prefix='A124_export_',dir=root.parent) as stage:
         repo = Path(stage)/'repo'
@@ -361,7 +378,7 @@ def main():
     modes.add_argument('--archive',action='store_true')
     modes.add_argument('--worker',action='store_true',help=argparse.SUPPRESS)
     args = parser.parse_args()
-    root = OUTPUTS/f'A124_{args.host}_ffhq'
+    root = OUTPUTS/f'{REVISION}_{args.host}_ffhq'
     if args.status:
         state = files.read(root/'session.json') if (root/'session.json').exists() else dict(status='not_started')
         print(state)

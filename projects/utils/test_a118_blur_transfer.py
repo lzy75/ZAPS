@@ -22,6 +22,35 @@ class ProtocolTests(unittest.TestCase):
 
 
 class NativeCudaTests(unittest.TestCase):
+    def test_pi_scalar_anchor_when_subtracted_response_rounds_to_zero(self):
+        import torch
+        from utils.noise_signal_shrink import select
+        from utils.transfer_diagonal_runtime import initialize_counts
+        from utils.test_matched_response_transfer import IdentityWavelet
+
+        class IdentityOperator:
+            def H(self,x):
+                return x
+
+            def Ht(self,x):
+                return x
+
+        q = torch.full((1,1,1,2),1e-9,dtype=torch.float32)
+        clean = torch.ones_like(q)
+        residual = torch.tensor([[[[.25,.50]]]])
+        self.assertEqual(torch.count_nonzero((clean+q)-clean).item(),0)
+        r, d = residual.double(), q.double()
+        scalar = select(float((r*d).sum()),float(r.square().sum()),float(d.square().sum()),r.numel(),.05)
+        self.assertGreater(scalar['gamma'],0.)
+        count, trace = {}, []
+        initialize_counts(count)
+        update = runtime.refinement(SimpleNamespace(dwt=IdentityWavelet()),'A118_DIAGONAL',count,trace)
+        result = update(IdentityOperator(),q,residual,1.,scalar,0)
+        self.assertEqual(trace[0]['gamma'],scalar['gamma'])
+        torch.testing.assert_close(result,residual*scalar['weight'])
+        self.assertEqual(count['refinement_H'],2)
+        self.assertEqual(count['refinement_Ht'],1)
+
     def test_no_extra_network_work_and_paired_prefix(self):
         import torch
         from utils import paper_clock_runtime as clock

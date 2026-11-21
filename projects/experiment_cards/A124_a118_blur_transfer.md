@@ -10,4 +10,6 @@ DPS 直接使用 A118 的零边界算子与原 y。ΠGDM 保留自身循环卷�
 
 主对照为两个对角臂分别对末段标量。报告每任务三个质量均值、逐图差、PSNR 胜率、配对区间及同次运行的完整耗时。沿用 A118 质量门槛，平均 PSNR≥+0.1 dB、至少 7/10 胜、SSIM 不降且 LPIPS 不升。额外记录对角完整时间相对标量是否≤1.10 倍。正向支持该宿主和任务上的固定协议，混合结果保留各指标，负向时保留标量并区分目标和幅度问题。当前面板在 ZAPS 上已有结果，因此报告为同面板跨方法验证。测试或数值门控失败时保留记录。
 
-服务器命令 `bash projects/run_a118_blur_transfer.sh dps --gpu 0` 与 `bash projects/run_a118_blur_transfer.sh pigdm --gpu 1`。结果独立写入 `/data0/lzy/ZAPS-results/diag_a118_blur_transfer/A124_{dps,pigdm}_ffhq`，以 `--status` 查询，使用 `--archive` 单独归档。
+A124R1 修复 CUDA 门控中分开计算标量造成的浮点差异。对角直接使用各方法标量组计算的倍率与噪声权重，线性响应直接作用于修正。沿用原二次目标、系数支撑、线搜索及限幅。A124 前置失败记录保留，已开始正式重建的旧会话不会自动重跑。
+
+服务器命令 `bash projects/run_a118_blur_transfer.sh dps --gpu 0` 与 `bash projects/run_a118_blur_transfer.sh pigdm --gpu 1`。修复结果独立写入 `/data0/lzy/ZAPS-results/diag_a118_blur_transfer/A124R1_{dps,pigdm}_ffhq`，以 `--status` 查询，使用 `--archive` 单独归档。
