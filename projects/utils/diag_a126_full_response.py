@@ -10,6 +10,7 @@ import sys
 import time
 import traceback
 from utils import full_coefficient_response as policy
+from utils import a126_resource_admission as admission
 from utils import diagonal_parameter_tuning as proxy
 from utils import diag_a118_blur_transfer as previous
 from utils import paper_clock_alignment as files
@@ -59,7 +60,7 @@ def prepare(host,root):
               cases=cases,target_times=a118['grid'],active_times=active,
               ray_iterations=policy.RAY_ITERATIONS,diagonal_iterations=policy.DIAGONAL_ITERATIONS,
               max_line_trials=policy.MAX_TRIALS,sources={str(p):files.digest(p) for p in
-                  (Path(__file__),Path(policy.__file__),Path(policy.response.__file__),Path(proxy.__file__),CARD)},
+                  (Path(__file__),Path(policy.__file__),Path(policy.response.__file__),Path(proxy.__file__),Path(admission.__file__),CARD)},
               protocol='Six existing FFHQ cases; four independently timed arms; no parameter selection')
     if (root/'plan.json').exists():
         files.require(files.read(root/'plan.json')==plan,'Frozen tuning protocol changed')
@@ -216,6 +217,7 @@ def execute(host,root):
     from modules.wavelet import OrthogonalDWT2D
     from utils.a67_model_freeze import frozen_network
     from utils.current_score_runtime_r2 import input_vjp_parameters
+    admission.check(torch,root)
     plan=prepare(host,root)
     for case in plan['cases']:
         original=files.read(case['baseline'])
@@ -223,9 +225,6 @@ def execute(host,root):
         target=root/'cases'/case['key']/'BASE'/'run.json'
         if not target.exists():
             files.write(target,dict(original,case=case,reused=True,source_record=case['baseline']))
-    files.require(torch.cuda.is_available() and torch.cuda.device_count()==1,'Allocate exactly one visible CUDA GPU')
-    if torch.cuda.mem_get_info()[0]<6*1024**3 or shutil.disk_usage(root).free<1024**3:
-        raise MemoryError('Need 6GiB GPU free and 1GiB output disk space')
     subprocess.run([sys.executable,'-m','unittest','-v','utils.test_full_coefficient_response'],cwd=PROJECTS,check=True)
     started=time.perf_counter()
     model=load_diffusion_model('ffhq','cuda:0')
@@ -251,6 +250,9 @@ def worker(host,root):
         state=dict(status='running',pid=os.getpid()); files.write(root/'session.json',state)
         try:
             report=execute(host,root); state['status']='complete'; print('A126 SUMMARY',report,flush=True)
+        except admission.ResourceShortage as error:
+            state.update(status='resource_limited',resources=error.report,error=str(error))
+            print('A126 RESOURCE LIMITED:',str(error),'-- no reconstruction started; rerun when resources are available.',flush=True)
         except BaseException as error:
             state.update(status='failed',error=repr(error),traceback=traceback.format_exc()); raise
         finally:
@@ -287,9 +289,16 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('host',choices=('dps','pigdm')); parser.add_argument('--gpu',default='0')
     modes=parser.add_mutually_exclusive_group()
-    modes.add_argument('--status',action='store_true'); modes.add_argument('--archive',action='store_true')
+    modes.add_argument('--check-resources',action='store_true'); modes.add_argument('--status',action='store_true'); modes.add_argument('--archive',action='store_true')
     modes.add_argument('--worker',action='store_true',help=argparse.SUPPRESS)
     args=parser.parse_args(); root=ROOT/f'A126_{args.host}_ffhq'
+    if args.check_resources:
+        os.environ['CUDA_VISIBLE_DEVICES']=args.gpu
+        import torch
+        try: admission.check(torch,root)
+        except admission.ResourceShortage as error:
+            print('A126 RESOURCE LIMITED:',str(error),flush=True); raise SystemExit(75)
+        return
     if args.status:
         state=files.read(root/'session.json') if (root/'session.json').exists() else {'status':'not_started'}
         print(state)
@@ -307,6 +316,10 @@ def main():
     if args.worker:
         worker(args.host,root); return
     with exclusive(root/'client.lock'):
+        prior=files.read(root/'session.json') if (root/'session.json').exists() else {}
+        if prior.get('status')=='failed' and prior.get('error')==admission.LEGACY_ERROR:
+            with exclusive(root/'worker.lock'):
+                admission.recover_legacy_preflight(root,Path(__file__))
         old=files.read(root/'session.json') if (root/'session.json').exists() else {}
         if old.get('status')=='complete':
             print('A126 SUMMARY',files.read(root/'summary.json')); return
@@ -328,6 +341,11 @@ def main():
             if data: print(data,end='',flush=True)
         if not active: break
         time.sleep(5)
+    if (root/'session.json').exists() and files.read(root/'session.json')['status']=='resource_limited':
+        state=files.read(root/'session.json')
+        print('A126 RESOURCE LIMITED:',state.get('error',''),
+              '-- no reconstruction started. Free the indicated resource or select another GPU, then rerun the same command.',flush=True)
+        raise SystemExit(75)
     files.require((root/'session.json').exists() and files.read(root/'session.json')['status']=='complete',f'A126 stopped; see {log}')
 
 
