@@ -46,8 +46,7 @@ def trace_audit(zaps_root, pi_root):
         zaps_rows, pi_rows = [], []
         pi_stops = []
         accepted, rejected = 0, 0
-        for entry in pplan['cases']:
-            case = entry['case']
+        for case in pplan['cases']:
             if case['task'] != task:
                 continue
             key = case['key']
@@ -180,7 +179,7 @@ def replay_zaps(root, model, case, y, callback, count):
         return zaps_runtime.run_suffix(model, op, y, case, SCALAR, prefix)[0]
 
 
-def replay_pigdm(plan, model, entry, y, callback, wavelet, kernel, count):
+def replay_pigdm(plan, model, case, y, callback, wavelet, kernel, count):
     from utils import pigdm_noisy_r1_runtime as rt
 
     def at_state(op, origin, clean, q, alpha, row, t, s, diffusion):
@@ -194,7 +193,6 @@ def replay_pigdm(plan, model, entry, y, callback, wavelet, kernel, count):
          "   if t in active_times: at_state(op,origin,m,q,a,row,t,s,diffusion)\n"
          "   x=origin+row['gamma']*q")],
         at_state=at_state, active_times=set(plan['active_times']))
-    case = entry['case']
     op = transfer.make_operator(plan, case, model.device, kernel, count)
     return run('transfer_audit', model, op, y, case, 'SHRINK', count)[0]
 
@@ -237,13 +235,13 @@ def run_probe(zroot, proot, output):
         model.model.load_state_dict(torch.load(checkpoint_path, map_location='cpu', weights_only=True), strict=True)
         model.model.eval()
         wavelet = OrthogonalDWT2D(wave='db4', level=3).to(model.device)
-        selected = [entry for entry in pplan['cases'] if entry['case']['image_id'] == IMAGE_ID]
-        files.require({e['case']['task'] for e in selected} == set(transfer.TASKS) and len(selected) == 2,
+        selected = [case for case in pplan['cases'] if case['image_id'] == IMAGE_ID]
+        files.require({case['task'] for case in selected} == set(transfer.TASKS) and len(selected) == 2,
                       'Expected one matching image per task')
         with precision('LEGACY_IEEE'), frozen_network(model.model):
-            for entry in selected:
+            for case in selected:
                 for host in ('zaps', 'pigdm'):
-                    result = replay_case(zroot, proot, zplan, pplan, model, wavelet, kernel, entry, host)
+                    result = replay_case(zroot, proot, zplan, pplan, model, wavelet, kernel, case, host)
                     report['cases'].append(result)
                     report['actual_nfe'] = sum(r['counts']['forwards'] for r in report['cases'])
                     files.require(report['actual_nfe'] <= PROBE_NFE_LIMIT, 'Diagnostic NFE cap exceeded')
@@ -259,7 +257,7 @@ def run_probe(zroot, proot, output):
     print('TRANSFER PROBE REPORT', report_path, flush=True)
 
 
-def replay_case(zroot, proot, zplan, pplan, model, wavelet, kernel, entry, host):
+def replay_case(zroot, proot, zplan, pplan, model, wavelet, kernel, case, host):
     import torch
     from modules.main_single import load_image_as_tensor
     from utils import diag_shared_prefix_feedback as zaps_driver
@@ -268,7 +266,6 @@ def replay_case(zroot, proot, zplan, pplan, model, wavelet, kernel, entry, host)
     from utils.current_score_runtime_r2 import input_vjp_parameters
     from contextlib import nullcontext
 
-    case = entry['case']
     key = case['key']
     if host == 'zaps':
         folder = zroot/'cases'/key
@@ -310,7 +307,7 @@ def replay_case(zroot, proot, zplan, pplan, model, wavelet, kernel, entry, host)
             if host == 'zaps':
                 out = replay_zaps(zroot, model, case, y, at_position, count)
             else:
-                out = replay_pigdm(pplan, model, entry, y, at_position, wavelet, kernel, count)
+                out = replay_pigdm(pplan, model, case, y, at_position, wavelet, kernel, count)
         final = shared.rng()
     archived = checked_tensor(reference, 'cpu')
     replay_error = float((out.double()-archived.double()).norm()/archived.double().norm().clamp_min(1e-30))
