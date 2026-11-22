@@ -1,0 +1,307 @@
+{
+  "experiment": "A126",
+  "status": "complete",
+  "host": "pigdm",
+  "planned_new_runs": 24,
+  "new_completed": 24,
+  "groups": [
+    {
+      "task": "gaussian_deblur",
+      "arms": {
+        "BASE": {
+          "images": 3,
+          "quality": {
+            "psnr": 27.603546703326902,
+            "ssim": 0.8352105816205343,
+            "lpips": 0.1152572010954221
+          },
+          "seconds": 8.438088165596128,
+          "nfe": [
+            100
+          ],
+          "vjp": [
+            100
+          ],
+          "jvp": [
+            0
+          ],
+          "timing_source": "historical"
+        },
+        "SCALAR": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.7096045534746,
+            "ssim": 0.8634051481882731,
+            "lpips": 0.10271672656138738
+          },
+          "seconds": 8.960230083515247,
+          "nfe": [
+            100
+          ],
+          "vjp": [
+            100
+          ],
+          "jvp": [
+            0
+          ],
+          "timing_source": "same_session"
+        },
+        "PROXY_DIAG": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.558042899214286,
+            "ssim": 0.8592810233434042,
+            "lpips": 0.10419441759586334
+          },
+          "seconds": 9.611957684159279,
+          "nfe": [
+            100
+          ],
+          "vjp": [
+            100
+          ],
+          "jvp": [
+            0
+          ],
+          "timing_source": "same_session"
+        },
+        "RESPONSE_RAY": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.78817405538574,
+            "ssim": 0.8653612732887268,
+            "lpips": 0.102016381919384
+          },
+          "seconds": 20.463557853673894,
+          "nfe": [
+            214,
+            216
+          ],
+          "vjp": [
+            130
+          ],
+          "jvp": [
+            28,
+            29
+          ],
+          "timing_source": "same_session"
+        },
+        "RESPONSE_DIAG": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.733016121045992,
+            "ssim": 0.8638523618380228,
+            "lpips": 0.10296592861413956
+          },
+          "seconds": 42.28701598880192,
+          "nfe": [
+            383,
+            390
+          ],
+          "vjp": [
+            188,
+            189
+          ],
+          "jvp": [
+            84,
+            87
+          ],
+          "timing_source": "same_session"
+        }
+      }
+    },
+    {
+      "task": "motion_deblur",
+      "arms": {
+        "BASE": {
+          "images": 3,
+          "quality": {
+            "psnr": 25.852235960708285,
+            "ssim": 0.7603773474693298,
+            "lpips": 0.18557283282279968
+          },
+          "seconds": 8.520336661487818,
+          "nfe": [
+            100
+          ],
+          "vjp": [
+            100
+          ],
+          "jvp": [
+            0
+          ],
+          "timing_source": "historical"
+        },
+        "SCALAR": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.805633496317355,
+            "ssim": 0.8468571503957113,
+            "lpips": 0.10418327649434407
+          },
+          "seconds": 9.292464947327971,
+          "nfe": [
+            100
+          ],
+          "vjp": [
+            100
+          ],
+          "jvp": [
+            0
+          ],
+          "timing_source": "same_session"
+        },
+        "PROXY_DIAG": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.652613683830147,
+            "ssim": 0.8423550526301066,
+            "lpips": 0.10292010754346848
+          },
+          "seconds": 9.920424308627844,
+          "nfe": [
+            100
+          ],
+          "vjp": [
+            100
+          ],
+          "jvp": [
+            0
+          ],
+          "timing_source": "same_session"
+        },
+        "RESPONSE_RAY": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.861574003385577,
+            "ssim": 0.847993532816569,
+            "lpips": 0.10340940952301025
+          },
+          "seconds": 21.371333906427026,
+          "nfe": [
+            214
+          ],
+          "vjp": [
+            130
+          ],
+          "jvp": [
+            28
+          ],
+          "timing_source": "same_session"
+        },
+        "RESPONSE_DIAG": {
+          "images": 3,
+          "quality": {
+            "psnr": 28.866988866166224,
+            "ssim": 0.8482508659362793,
+            "lpips": 0.10337745646635692
+          },
+          "seconds": 40.752356773242354,
+          "nfe": [
+            383
+          ],
+          "vjp": [
+            188
+          ],
+          "jvp": [
+            84
+          ],
+          "timing_source": "same_session"
+        }
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "task": "gaussian_deblur",
+      "reference": "SCALAR",
+      "images": 3,
+      "delta": {
+        "psnr": 0.02341156757139255,
+        "ssim": 0.00044721364974975586,
+        "lpips": 0.00024920205275217694
+      },
+      "psnr_wins": 3,
+      "clock_ratio": 4.719411844858789,
+      "positive": false
+    },
+    {
+      "task": "gaussian_deblur",
+      "reference": "PROXY_DIAG",
+      "images": 3,
+      "delta": {
+        "psnr": 0.1749732218317052,
+        "ssim": 0.0045713384946187334,
+        "lpips": -0.0012284889817237854
+      },
+      "psnr_wins": 3,
+      "clock_ratio": 4.3994176190030325,
+      "positive": true
+    },
+    {
+      "task": "gaussian_deblur",
+      "reference": "RESPONSE_RAY",
+      "images": 3,
+      "delta": {
+        "psnr": -0.05515793433974636,
+        "ssim": -0.0015089114507039387,
+        "lpips": 0.0009495466947555542
+      },
+      "psnr_wins": 1,
+      "clock_ratio": 2.0664547333937815,
+      "positive": false
+    },
+    {
+      "task": "motion_deblur",
+      "reference": "SCALAR",
+      "images": 3,
+      "delta": {
+        "psnr": 0.06135536984886988,
+        "ssim": 0.001393715540568034,
+        "lpips": -0.0008058200279871622
+      },
+      "psnr_wins": 3,
+      "clock_ratio": 4.385527091491543,
+      "positive": false
+    },
+    {
+      "task": "motion_deblur",
+      "reference": "PROXY_DIAG",
+      "images": 3,
+      "delta": {
+        "psnr": 0.21437518233607614,
+        "ssim": 0.0058958133061726885,
+        "lpips": 0.0004573489228884379
+      },
+      "psnr_wins": 3,
+      "clock_ratio": 4.107924772713584,
+      "positive": false
+    },
+    {
+      "task": "motion_deblur",
+      "reference": "RESPONSE_RAY",
+      "images": 3,
+      "delta": {
+        "psnr": 0.00541486278064814,
+        "ssim": 0.00025733311971028644,
+        "lpips": -3.195305665334066e-05
+      },
+      "psnr_wins": 1,
+      "clock_ratio": 1.9068700602252464,
+      "positive": false
+    }
+  ],
+  "actual_new_cost": {
+    "forwards": 4800,
+    "forward_attempts": 4800,
+    "input_vjp_attempts": 3110,
+    "input_jvp_attempts": 680,
+    "refinement_H": 527,
+    "refinement_Ht": 180,
+    "response_network_forwards": 2400,
+    "terminal_response_vjp": 18,
+    "terminal_response_jvp": 0
+  },
+  "cost_is_lower_bound": false,
+  "limits": "Same three reused FFHQ images/two blurs. Actual NFE/AD differ across arms and are reported; no equal-NFE or final-quality guarantee."
+}
