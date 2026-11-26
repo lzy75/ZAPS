@@ -42,7 +42,8 @@ class TemporalPanelTests(unittest.TestCase):
         geometry.check(x)
         constant = torch.ones_like(x)
         torch.testing.assert_close(geometry.weak(constant),torch.zeros_like(x),atol=1e-6,rtol=0)
-        checker = (torch.arange(64)%2-.5).expand_as(x)
+        # Materialize broadcast dimensions before sending the fixture to MKL FFT.
+        checker = (torch.arange(64)%2-.5).expand_as(x).contiguous()
         self.assertGreater(float(geometry.weak(checker).norm()),.9*float(checker.norm()))
 
     def test_all_sampler_hooks_compile(self):
