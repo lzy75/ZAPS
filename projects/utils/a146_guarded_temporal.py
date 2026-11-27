@@ -39,10 +39,12 @@ def metric_embedding(geom, value):
     return geom.lift(value.double())
 
 
-def controller(geom,wave,arm,sigma,counts,trace):
+def controller(geom,wave,arm,sigma,counts,trace,*,strength=1.):
     import torch
 
     files.require(arm in ARMS,'Unknown A146 arm')
+    files.require(0. <= strength <= 1. and (arm=='GUARDED' or strength==1.),
+                  'Temporal strength must be in [0,1] and applies only to GUARDED')
     memory = deque(maxlen=2)
 
     def remember(clean):
@@ -88,7 +90,7 @@ def controller(geom,wave,arm,sigma,counts,trace):
         base = .5*_dot(error,error)
         slope,curvature = _dot(error,direction),_dot(direction,direction)
         slack = ROUNDING_ULPS*torch.finfo(q.dtype).eps*max(base,1e-12)
-        beta = maximum_fraction(slope,curvature,slack) if arm=='GUARDED' else 1.
+        beta = strength*maximum_fraction(slope,curvature,slack) if arm=='GUARDED' else 1.
         rounded_bound = base+slack
         updated,after = physical,base
         halvings = 0

@@ -40,8 +40,8 @@ def native_sample(entry,model,wave,arm,active,warm,counts,trace):
     return run(model,operator,y,case,'SHRINK',config['diffusion_config'],config['dps_root'],counts)
 
 
-def zaps_suffix(wave,arm,sigma,active,warm,geometry,counts,trace):
-    remember,refine = rules.controller(geometry,wave,arm,sigma,counts,trace)
+def zaps_suffix(wave,arm,sigma,active,warm,geometry,counts,trace,*,strength=1.):
+    remember,refine = rules.controller(geometry,wave,arm,sigma,counts,trace,strength=strength)
     original = ('            delta, detail, module = repaired.exact_diagonal_with_native_straight_through(\n'
                 '                zaps, zaps.A, clean, q, residual, ab[t], rules.SIGMA, module)')
     new = (
@@ -123,7 +123,7 @@ def dps_case(root,entry,model,wave,grid,active,warm,index):
     return dict(case=key,arms=arms,geometry=gate),dict(actual)
 
 
-def zaps_case(root,entry,model,wave,kernel,grid,active,warm,index):
+def zaps_case(root,entry,model,wave,kernel,grid,active,warm,index,*,strengths=None):
     import torch
     from modules.main_single import load_image_as_tensor
     from utils.diag_shared_prefix_feedback import rng_equal
@@ -149,7 +149,8 @@ def zaps_case(root,entry,model,wave,kernel,grid,active,warm,index):
         gate = eval_geometry.check(truth.to(device))
 
     arms,reference_rng = {},None
-    order = [*panel.CONTROLS,*(rules.ARMS if index%2==0 else reversed(rules.ARMS))]
+    candidates = rules.ARMS if strengths is None else tuple(strengths)
+    order = [*panel.CONTROLS,*(candidates if index%2==0 else reversed(candidates))]
     for arm in order:
         trace = []
         with clock.counters(model.model) as counts:
@@ -158,9 +159,12 @@ def zaps_case(root,entry,model,wave,kernel,grid,active,warm,index):
             before_setup = time.perf_counter()
             op = build(counts)
             context = nullcontext()
-            if arm in rules.ARMS:
+            if arm in candidates:
                 geom = panel.method.Geometry(case['task'],op,truth.to(device),counts)
-                suffix = zaps_suffix(wave,arm,case['sigma'],active,warm,geom,counts,trace)
+                mode = arm if strengths is None else 'GUARDED'
+                strength = 1. if strengths is None else strengths[arm]
+                suffix = zaps_suffix(wave,mode,case['sigma'],active,warm,geom,counts,trace,
+                                     strength=strength)
                 context = patch.object(zaps,'_custom_suffix',suffix)
             torch.cuda.synchronize()
             setup_seconds = time.perf_counter()-before_setup
@@ -172,7 +176,7 @@ def zaps_case(root,entry,model,wave,kernel,grid,active,warm,index):
         if reference_rng is None:
             reference_rng = detail['final_rng']
         files.require(rng_equal(reference_rng,detail['final_rng']) and
-                      tuple(p['t'] for p in trace)==(active if arm in rules.ARMS else ()) and
+                      tuple(p['t'] for p in trace)==(active if arm in candidates else ()) and
                       [p['t'] for p in detail['trace']]==grid,'A146 ZAPS RNG or window differs')
         record = dict(status='complete',case=key,arm=arm,counts=counts,method_nfe=300,input_vjp=0,
                       optimizer_backward=10,full_seconds=prefix_seconds+setup_seconds+seconds,inherited=False,
@@ -188,7 +192,8 @@ def zaps_case(root,entry,model,wave,kernel,grid,active,warm,index):
         panel.save_candidate(root,key,arm,out,record,trace)
         arms[arm] = record
         actual.update({k:counts.get(k,0) for k in panel.COSTS})
-        print('A146 COMPLETE zaps',key,arm,record['quality'],record.get('guard'),flush=True)
+        label = 'A146' if strengths is None else 'A148'
+        print(label,'COMPLETE zaps',key,arm,record['quality'],record.get('guard'),flush=True)
     return dict(case=key,arms=arms,geometry=gate),dict(actual)
 
 

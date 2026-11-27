@@ -27,14 +27,14 @@ class GuardTests(unittest.TestCase):
         b = torch.tensor([2.,-.3,-1.,1.,0.])
         torch.testing.assert_close(trial.rules.minmod(a,b),torch.tensor([.2,-.3,0.,0.,0.]))
 
-    def apply(self,op,task,arm):
+    def apply(self,op,task,arm,*,strength=1.):
         counts,trace = dict(graph_builds=0,graph_actions=0),[]
         trial.native.initialize_counts(counts)
         q = torch.ones(1,3,8,8)
         clean = torch.full_like(q,-.1)
         geom = trial.panel.method.Geometry(task,op,q,counts)
         wave = SimpleNamespace(analysis=lambda a:a,synthesis=lambda a:a)
-        remember,refine = trial.rules.controller(geom,wave,arm,.05,counts,trace)
+        remember,refine = trial.rules.controller(geom,wave,arm,.05,counts,trace,strength=strength)
         physical = torch.zeros_like(q)
         remember(physical)
         remember(physical)
@@ -48,6 +48,15 @@ class GuardTests(unittest.TestCase):
         self.assertEqual(row['beta'],1.)
         self.assertEqual(row['objective_applied'],row['objective_physical'])
         self.assertGreater(float(out[...,~op.mask].mean()),0.)
+
+    def test_strength_scales_the_feasible_increment(self):
+        op = Operator('inpainting','cpu',size=8,seed=139)
+        physical,_ = self.apply(op,'inpainting','GUARDED',strength=0.)
+        full,_ = self.apply(op,'inpainting','GUARDED')
+        partial,row = self.apply(op,'inpainting','GUARDED',strength=.25)
+        torch.testing.assert_close(partial,physical+.25*(full-physical))
+        self.assertEqual(row['beta'],.25)
+        self.assertLessEqual(row['objective_applied'],row['objective_physical']+row['tolerance'])
 
     def test_weak_blur_can_reject_bad_observable_change(self):
         op = SimpleNamespace(H=lambda x:.5*x,Ht=lambda x:.5*x,kernel=torch.ones(1))
